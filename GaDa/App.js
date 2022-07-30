@@ -11,7 +11,6 @@ import {StyleSheet, useColorScheme} from 'react-native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {NavigationContainer} from '@react-navigation/native';
 import RootNavigation from './src/navigation/RootNavigation';
-import Toast from 'react-native-toast-message';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 const App = () => {
@@ -21,6 +20,7 @@ const App = () => {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
   const navigationRef = useRef();
+  const routeNameRef = useRef();
 
   return (
     <SafeAreaProvider>
@@ -34,12 +34,6 @@ const App = () => {
           const previousRouteName = routeNameRef.current;
           const currentRouteName = navigationRef.current.getCurrentRoute().name;
 
-          if (previousRouteName !== currentRouteName) {
-            await analytics().logScreenView({
-              screen_name: currentRouteName,
-              screen_class: currentRouteName,
-            });
-          }
           routeNameRef.current = currentRouteName;
         }}>
         {/* <SafeAreaView style={{ flex: 1 }} edges={['bottom']}> */}

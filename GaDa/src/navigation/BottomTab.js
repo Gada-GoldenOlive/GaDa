@@ -8,16 +8,16 @@ import CustomBottomTab from '../components/CustomBottomTab';
 const Tab = createBottomTabNavigator();
 
 const bottomTabScreens = {
-  Home: HomeNavigator,
-  Feed: FeedNavigator,
-  Friends: FriendsNavigator,
-  Record: RecordNavigator,
+  BottomTabHome: HomeNavigator,
+  BottomTabFeed: FeedNavigator,
+  BottomTabFriends: FriendsNavigator,
+  BottomTabRecord: RecordNavigator,
 };
 const BottomTab = () => {
   return (
     <Tab.Navigator
       screenOptions={{tabBarHideOnKeyboard: true, headerShown: false}}
-      initialRouteName="Home"
+      initialRouteName="BottomTabHome"
       tabBar={props => <CustomBottomTab {...props} />}>
       {Object.entries({
         ...bottomTabScreens,

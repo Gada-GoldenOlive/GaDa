@@ -17,8 +17,7 @@ const FriendsNavigator = () => {
         headerShown: true,
         cardStyle: {backgroundColor: 'white'},
         headerTitleStyle: {
-          fontFamily: boldFontFamily,
-          fontSize: boldFontSize,
+          fontSize: 16,
         },
         headerStyle: {
           elevation: 0,

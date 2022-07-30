@@ -5,6 +5,7 @@ import {
   View,
   StyleSheet,
   TouchableOpacity,
+  Text
 } from 'react-native';
 //import {SafeAreaView} from 'react-native-safe-area-context';
 import {
@@ -21,25 +22,25 @@ import CustomImage from './CustomImage';
 
 const getIcon = state => {
   switch (state) {
-    case 'Home':
+    case 'BottomTabHome':
       return HomeIcon;
-    case 'HomeFocused':
+    case 'BottomTabHomeFocused':
       return HomeFocusedIcon;
-    case 'Feed':
+    case 'BottomTabFeed':
       return FeedIcon;
-    case 'FeedFocused':
+    case 'BottomTabFeedFocused':
       return FeedFocusedIcon;
-    case 'Friends':
-      return FriendsFocusedIcon;
-    case 'FriendsFocused':
+    case 'BottomTabFriends':
       return FriendsIcon;
-    case 'Record':
+    case 'BottomTabFriendsFocused':
+      return FriendsFocusedIcon;
+    case 'BottomTabRecord':
       return RecordIcon;
-    case 'RecordFocused':
+    case 'BottomTabRecordFocused':
       return RecordFocusedIcon;
 
     default:
-      return Home;
+      return HomeIcon;
   }
   // return Home;
 };
