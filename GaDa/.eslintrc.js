@@ -26,7 +26,7 @@ module.exports = {
       },
     ],
     'no-console': 0,
-    indent: [1, 2, {SwitchCase: 1}],
+    indent: [1, 2, { SwitchCase: 1 }],
     'linebreak-style': ['error', 'unix'],
     quotes: ['error', 'single'],
     semi: ['error', 'always'],
@@ -47,14 +47,14 @@ module.exports = {
     // 선언 전 변수를 사용하는 것을 제한
     'no-use-before-define': [
       1,
-      {functions: true, classes: true, variables: true},
+      { functions: true, classes: true, variables: true },
     ],
     'no-unused-expressions': [
       'error',
-      {allowTernary: true, allowShortCircuit: true},
+      { allowTernary: true, allowShortCircuit: true },
     ],
     'no-continue': 1,
-    'react/no-unstable-nested-components': ['error', {allowAsProps: true}],
+    'react/no-unstable-nested-components': ['error', { allowAsProps: true }],
   },
   settings: {
     'import/resolver': {

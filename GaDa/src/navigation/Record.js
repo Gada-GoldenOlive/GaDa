@@ -4,13 +4,17 @@ import {
   createStackNavigator,
 } from '@react-navigation/stack';
 import React from 'react';
+import RecordContainer from '../domain/Record/containers/RecordContainer';
 
 const Stack = createStackNavigator();
+const recordScreen = {
+  Record: RecordContainer
+}
 
-const MyPageNavigator = () => {
+const RecordNavigator = () => {
   return (
     <Stack.Navigator
-      initialRouteName="MyPage"
+      initialRouteName="Record"
       screenOptions={{
         headerShown: true,
         cardStyle: {backgroundColor: 'white'},
@@ -28,8 +32,19 @@ const MyPageNavigator = () => {
         title: {},
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         headerTitleAlign: 'center',
-      }}></Stack.Navigator>
+      }}>
+         {Object.entries({ ...recordScreen }).map(([name, component]) => (
+        <Stack.Screen
+          key={name}
+          name={name}
+          component={component}
+          options={{
+            title: '기록',
+          }}
+        />
+      ))}
+      </Stack.Navigator>
   );
 };
 
-export default MyPageNavigator;
+export default RecordNavigator;

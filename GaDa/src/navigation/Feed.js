@@ -4,8 +4,12 @@ import {
   createStackNavigator,
 } from '@react-navigation/stack';
 import React from 'react';
+import FeedContainer from '../domain/Feed/container'
 
 const Stack = createStackNavigator();
+const feedScreen = {
+  Feed: FeedContainer
+}
 
 const FeedNavigator = () => {
   return (
@@ -28,7 +32,18 @@ const FeedNavigator = () => {
         title: {},
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         headerTitleAlign: 'center',
-      }}></Stack.Navigator>
+      }}>
+      {Object.entries({ ...feedScreen }).map(([name, component]) => (
+        <Stack.Screen
+          key={name}
+          name={name}
+          component={component}
+          options={{
+            title: '피드',
+          }}
+        />
+      ))}
+      </Stack.Navigator>
   );
 };
 

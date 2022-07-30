@@ -3,7 +3,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import HomeNavigator from './Home';
 import FeedNavigator from './Feed';
 import FriendsNavigator from './Friends';
-import MyPageNavigator from './MyPage';
+import RecordNavigator from './Record';
 import CustomBottomTab from '../components/CustomBottomTab';
 const Tab = createBottomTabNavigator();
 
@@ -11,7 +11,7 @@ const bottomTabScreens = {
   Home: HomeNavigator,
   Feed: FeedNavigator,
   Friends: FriendsNavigator,
-  Mypage: MyPageNavigator,
+  Record: RecordNavigator,
 };
 const BottomTab = () => {
   return (

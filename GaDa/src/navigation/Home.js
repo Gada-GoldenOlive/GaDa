@@ -4,9 +4,12 @@ import {
   createStackNavigator,
 } from '@react-navigation/stack';
 import React from 'react';
+import HomeContainer from '../domain/Home/container/HomeContainer';
 
 const Stack = createStackNavigator();
-
+const homeScreen = {
+  Home: HomeContainer
+}
 const HomeNavigator = () => {
   return (
     <Stack.Navigator
@@ -28,7 +31,18 @@ const HomeNavigator = () => {
         title: {},
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         headerTitleAlign: 'center',
-      }}></Stack.Navigator>
+      }}>
+        {Object.entries({ ...homeScreen }).map(([name, component]) => (
+        <Stack.Screen
+          key={name}
+          name={name}
+          component={component}
+          options={{
+            title: '홈',
+          }}
+        />
+      ))}
+      </Stack.Navigator>
   );
 };
 

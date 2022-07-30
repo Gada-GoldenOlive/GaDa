@@ -8,10 +8,14 @@ import {
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {
+  FeedFocusedIcon,
   FeedIcon,
+  FriendsFocusedIcon,
   FriendsIcon,
+  HomeFocusedIcon,
   HomeIcon,
-  MyPageIcon,
+  RecordFocusedIcon,
+  RecordIcon,
 } from '../constant/images/BottomTab';
 
 const getIcon = state => {
@@ -19,19 +23,19 @@ const getIcon = state => {
     case 'Home':
       return HomeIcon;
     case 'HomeFocused':
-      return HomeIcon;
+      return HomeFocusedIcon;
     case 'Feed':
       return FeedIcon;
     case 'FeedFocused':
-      return FeedIcon;
+      return FeedFocusedIcon;
     case 'Friends':
-      return FriendsIcon;
+      return FriendsFocusedIcon;
     case 'FriendsFocused':
       return FriendsIcon;
-    case 'Mypage':
-      return MyPageIcon;
-    case 'MypageFocused':
-      return MyPageIcon;
+    case 'Record':
+      return RecordIcon;
+    case 'RecordFocused':
+      return RecordFocusedIcon;
 
     default:
       return Home;
@@ -45,9 +49,9 @@ const changeToKor = name => {
     case 'Feed':
       return '피드';
     case 'Friends':
-      return '친구들';
-    case 'Mypage':
-      return '마이';
+      return '친구';
+    case 'Record':
+      return '기록';
     default:
       return '';
   }
@@ -89,9 +93,6 @@ const BottomTabBar = ({state, handlePress}) => {
 const CustomBottomTab = props => {
   const [visible, setVisible] = useState(true);
   const {state, navigation} = props;
-  const {isAuthenticated} = useSelector(({user}) => ({
-    isAuthenticated: user.isAuthenticated,
-  }));
   useEffect(() => {
     let keyboardEventListeners = [];
     if (Platform.OS === 'android') {

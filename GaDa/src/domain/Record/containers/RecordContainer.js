@@ -1,12 +1,12 @@
 import {View, Text} from 'react-native';
 import React from 'react';
 
-const MyPageContainer = () => {
+const RecordContainer = () => {
   return (
     <View>
-      <Text>MyPageContainer</Text>
+      <Text>RecordContainer</Text>
     </View>
   );
 };
 
-export default MyPageContainer;
+export default RecordContainer;

@@ -6,7 +6,9 @@ import {
 import React from 'react';
 
 const Stack = createStackNavigator();
-
+const friendsScreen = {
+  Friends: FriendsContainer
+}
 const FriendsNavigator = () => {
   return (
     <Stack.Navigator
@@ -28,7 +30,18 @@ const FriendsNavigator = () => {
         title: {},
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         headerTitleAlign: 'center',
-      }}></Stack.Navigator>
+      }}>
+        {Object.entries({ ...friendsScreen }).map(([name, component]) => (
+        <Stack.Screen
+          key={name}
+          name={name}
+          component={component}
+          options={{
+            title: '친구',
+          }}
+        />
+      ))}
+      </Stack.Navigator>
   );
 };
 
