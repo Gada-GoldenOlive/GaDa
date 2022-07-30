@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import HomeNavigator from './Home';
-import FeedNavigator from './Feed';
-import FriendsNavigator from './Friends';
-import RecordNavigator from './Record';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import HomeNavigator from './Home'
+import FeedNavigator from './Feed'
+import FriendsNavigator from './Friends'
+import RecordNavigator from './Record'
 import CustomBottomTab from '../components/CustomBottomTab';
 const Tab = createBottomTabNavigator();
 

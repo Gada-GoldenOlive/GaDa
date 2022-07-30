@@ -1,10 +1,9 @@
-import {useNavigation} from '@react-navigation/core';
 import {
   CardStyleInterpolators,
   createStackNavigator,
 } from '@react-navigation/stack';
 import React from 'react';
-import RecordContainer from '../domain/Record/containers/RecordContainer';
+import RecordContainer from '../domain/Record/container/RecordContainer';
 
 const Stack = createStackNavigator();
 const recordScreen = {

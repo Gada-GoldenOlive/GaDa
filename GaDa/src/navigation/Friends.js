@@ -1,9 +1,9 @@
-import {useNavigation} from '@react-navigation/core';
 import {
   CardStyleInterpolators,
   createStackNavigator,
 } from '@react-navigation/stack';
 import React from 'react';
+import FriendsContainer from '../domain/Friends/container/FriendsContainer'
 
 const Stack = createStackNavigator();
 const friendsScreen = {

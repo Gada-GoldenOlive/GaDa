@@ -1,4 +1,3 @@
-import {useNavigation} from '@react-navigation/core';
 import {
   CardStyleInterpolators,
   createStackNavigator,

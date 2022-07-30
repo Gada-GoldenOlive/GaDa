@@ -1,10 +1,10 @@
-import {useNavigation} from '@react-navigation/core';
 import {
   CardStyleInterpolators,
   createStackNavigator,
 } from '@react-navigation/stack';
 import React from 'react';
-import FeedContainer from '../domain/Feed/container'
+import FeedContainer from '../domain/Feed/container/FeedContainer';
+
 
 const Stack = createStackNavigator();
 const feedScreen = {

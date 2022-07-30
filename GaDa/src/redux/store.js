@@ -1,3 +1,4 @@
+/*
 import {combineReducers, createStore, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
 import user from './modules/user';
@@ -13,3 +14,5 @@ const reducer = combineReducers({
 const store = createStore(reducer, applyMiddleware(thunk));
 
 export default store;
+
+*/

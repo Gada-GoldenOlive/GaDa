@@ -6,7 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
+//import {SafeAreaView} from 'react-native-safe-area-context';
 import {
   FeedFocusedIcon,
   FeedIcon,
@@ -17,6 +17,7 @@ import {
   RecordFocusedIcon,
   RecordIcon,
 } from '../constant/images/BottomTab';
+import CustomImage from './CustomImage';
 
 const getIcon = state => {
   switch (state) {
@@ -58,14 +59,14 @@ const changeToKor = name => {
 };
 const BottomTabBar = ({state, handlePress}) => {
   return (
-    <SafeAreaView edges={['bottom']}>
+    //<SafeAreaView edges={['bottom']}>
       <View style={style.tabContainer}>
         {state.routes.map(({name, key}, index) => {
           const isFocused = state.index === index;
 
           return (
             <TouchableOpacity
-              activeOpacity={defaultTouchableOpacity}
+              activeOpacity={1.0}
               key={key}
               style={{flex: 1}}
               onPress={() => handlePress(key, name)}>
@@ -87,7 +88,7 @@ const BottomTabBar = ({state, handlePress}) => {
           );
         })}
       </View>
-    </SafeAreaView>
+   // </SafeAreaView>
   );
 };
 const CustomBottomTab = props => {
@@ -131,7 +132,6 @@ const CustomBottomTab = props => {
   return (
     <BottomTabBar
       state={state}
-      checkAlarmOpen={checkAlarmOpen}
       handlePress={handlePress}
     />
   );

@@ -45,7 +45,7 @@ const App = () => {
         {/* <SafeAreaView style={{ flex: 1 }} edges={['bottom']}> */}
         <RootNavigation />
         {/* </SafeAreaView> */}
-        <Toast ref={ref => Toast.setRef(ref)} />
+        {/*<Toast ref={ref => Toast.setRef(ref)} /> */}
       </NavigationContainer>
     </SafeAreaProvider>
   );

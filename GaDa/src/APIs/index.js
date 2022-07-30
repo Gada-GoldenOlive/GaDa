@@ -1,5 +1,6 @@
+/*
 import axios from 'axios';
-import {changeIsStylist, removeInLocalStorage} from '../function';
+import {removeInLocalStorage} from '../function';
 import {reloadApp} from '../function/Error';
 import defaultURL, {chatUrl} from './URL';
 
@@ -43,3 +44,4 @@ export const checkServerHealthState = async () => {
 
 export default defaultAxios;
 export {chatAxios};
+*/
