@@ -5,8 +5,8 @@ import {
   View,
   StyleSheet,
   TouchableOpacity,
-  Text
 } from 'react-native';
+import Text from './MyText';
 //import {SafeAreaView} from 'react-native-safe-area-context';
 import {
   FeedFocusedIcon,
@@ -46,13 +46,13 @@ const getIcon = state => {
 };
 const changeToKor = name => {
   switch (name) {
-    case 'Home':
+    case 'BottomTabHome':
       return '홈';
-    case 'Feed':
+    case 'BottomTabFeed':
       return '피드';
-    case 'Friends':
+    case 'BottomTabFriends':
       return '친구';
-    case 'Record':
+    case 'BottomTabRecord':
       return '기록';
     default:
       return '';

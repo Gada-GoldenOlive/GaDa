@@ -1,11 +1,16 @@
 import {View, Text} from 'react-native';
-import React from 'react';
-
-const HomeContainer = () => {
+import React, { useState } from 'react';
+import HomeScreen from '../screen/HomeScreen'
+const HomeContainer = ({route, navigation}) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const openModal = () => {
+    setIsVisible(true)
+  }
+  const closeModal = () => {
+    setIsVisible(false)
+  }
   return (
-    <View>
-      <Text>HomeContainer</Text>
-    </View>
+    <HomeScreen isVisible={isVisible} openModal={openModal} closeModal={closeModal}/>
   );
 };
 
