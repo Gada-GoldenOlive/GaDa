@@ -41,6 +41,10 @@ const App = () => {
         {/* </SafeAreaView> */}
         {/*<Toast ref={ref => Toast.setRef(ref)} /> */}
       </NavigationContainer>
+      {/* <Script
+        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f0257365c07b494e7d10e2420948411b&libraries=services,clusterer&autoload=false"
+        strategy="beforeInteractive"
+      /> */}
     </SafeAreaProvider>
   );
 };
