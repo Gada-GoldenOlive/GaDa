@@ -11,6 +11,7 @@ import { windowHeight, windowWidth } from '../../../constant/styles';
 import CustomImage from '../../../components/CustomImage';
 import {Sample} from '../../../constant/images/Temp';
 import StarIcon from '../../../constant/images/Star';
+import LinearGradient from 'react-native-linear-gradient';
 
 const PinInformation = ({
   mainText = '',
@@ -37,17 +38,19 @@ const PinInformation = ({
         <View style={styles.modalWrapper}>{renderMainBody()}</View>
       ) : (
         <View style={styles.modalWrapper}>
+          <LinearGradient colors={['#ffffff', 'rgba(0,0,0,0.04)']} style={styles.gradient}/>
            <View style={styles.bar} />
            <View style={styles.container}>
            <View style={styles.imageContainer}>
            <CustomImage source={Sample} style={styles.image} />
-           <View style={styles.gradient} />
+           <View style={styles.imageGradient}/>
             <View style={styles.imageWrapper}>
               <CustomImage source={StarIcon} style={styles.starIcon}/>
               <Text style={styles.num}>4.3</Text>
             </View>
            </View>
            <View style={styles.informationContainer}>
+            <View style={styles.textContainer}>
             <Text style={styles.name}>성수동불주먹</Text>
             <Text style={styles.title}>성동구 왕십리로 산책길</Text>
             <Text>
@@ -56,13 +59,14 @@ const PinInformation = ({
               <Text style={styles.description}> / 핀 3개 </Text>
             </Text>
            </View>
-           </View>
            <View style={styles.bottomContainer}>
             <TouchableWithoutFeedback >
               <View style={styles.bottomWrapper}>
                 <Text style={styles.bottomText}>주소복사</Text>
               </View>
             </TouchableWithoutFeedback>
+           </View>
+           </View>
            </View>
         </View>
       )}
@@ -76,7 +80,7 @@ const styles = StyleSheet.create({
   modalContainer: {
     position: 'absolute',
     bottom: 0,
-    alignItems: 'center',
+    ////alignItems: 'center',
     justifyContent: 'flex-end',
   },
   modalWrapper: {
@@ -84,7 +88,6 @@ const styles = StyleSheet.create({
     paddingTop: 12,
     paddingBottom: 25,
     paddingHorizontal: 16,
-    justifyContent: 'center',
   },
   bar: {
     backgroundColor: backgroundColor,
@@ -102,11 +105,19 @@ const styles = StyleSheet.create({
     height: 96,
 
   },
+  imageGradient: {
+    backgroundColor: 'rgba(0,0,0,0.04)',
+    position: 'absolute',
+    bottom: 0,
+    start: 0,
+    width: '100%',
+  height: '100%'  
+},
   gradient: {
     position: 'absolute',
-    width:'100%',
-    height: '100%',
-    backgroundColor: 'rgba(0,0,0,0.4)'
+    width:windowWidth,
+    height: '20%',
+    bottom: 0
   },
   imageWrapper: {
     position: 'absolute',
@@ -129,6 +140,11 @@ const styles = StyleSheet.create({
   informationContainer: {
     flex: 1,
     paddingStart: 16,
+    flexDirection: 'column'
+  },
+  textContainer: {
+    flex: 1,
+    width: '100%',
   },
   name: {
     color: mainColor,
@@ -146,9 +162,10 @@ const styles = StyleSheet.create({
   description: {
     letterSpacing: -0.28,
     color: 'rgb(137,137,137)',
-    letterSpacing: -0.28
   },
   bottomContainer: {
+    height: 30,
+    alignSelf: 'flex-end',
     alignItems: 'flex-end',
     justifyContent: 'flex-end'
   },
@@ -161,8 +178,8 @@ const styles = StyleSheet.create({
 
   },
   starIcon: {
-    width: 9,
-    height: 9,
+    width: 18,
+    height: 18,
     marginRight: 5.7
   }
 
