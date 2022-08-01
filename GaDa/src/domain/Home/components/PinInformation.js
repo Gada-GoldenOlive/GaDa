@@ -1,22 +1,18 @@
 import React from 'react';
 import { Pressable, StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
-import Modal from 'react-native-modal';
-import Text from './MyText';
-import { boldFontFamily, boldFontSize } from '../constant/fonts';
+import Text from '../../../components/MyText';
+import { boldFontFamily, boldFontSize } from '../../../constant/fonts';
 import {
   backgroundColor,
   blackColor,
-  borderColor,
-  descriptionColor,
-  emphasisColor,
   mainColor,
-} from '../constant/colors';
-import { windowHeight, windowWidth } from '../constant/styles';
-import CustomImage from './CustomImage';
-import {Sample} from '../constant/images/Temp';
-import StarIcon from '../constant/images/Star';
+} from '../../../constant/colors';
+import { windowHeight, windowWidth } from '../../../constant/styles';
+import CustomImage from '../../../components/CustomImage';
+import {Sample} from '../../../constant/images/Temp';
+import StarIcon from '../../../constant/images/Star';
 
-const BottomUpModal = ({
+const PinInformation = ({
   mainText = '',
   subText = '',
   isVisible = false,
@@ -26,7 +22,7 @@ const BottomUpModal = ({
   renderMainBody = null,
 }) => {
   return (
-    <Modal
+    <View
       style={styles.modalContainer}
       animationIn="slideInUp"
       isVisible={isVisible}
@@ -70,21 +66,20 @@ const BottomUpModal = ({
            </View>
         </View>
       )}
-    </Modal>
+    </View>
   );
 };
 
-export default BottomUpModal;
+export default PinInformation;
 
 const styles = StyleSheet.create({
   modalContainer: {
-    flex: 1,
+    position: 'absolute',
+    bottom: 0,
     alignItems: 'center',
     justifyContent: 'flex-end',
-    bottom: 44,
   },
   modalWrapper: {
-    backgroundColor: 'white',
     width: windowWidth,
     paddingTop: 12,
     paddingBottom: 25,
@@ -161,7 +156,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingTop: 7,
     paddingBottom: 5,
-    backgroundColor: 'rgb(248,248,248)'
+    backgroundColor: 'rgb(248,248,248)',
+    borderRadius: 3
 
   },
   starIcon: {

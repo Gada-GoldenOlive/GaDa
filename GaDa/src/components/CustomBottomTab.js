@@ -146,7 +146,6 @@ const style = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-around',
     paddingHorizontal: 16,
-    borderTopWidth: 1,
   },
   tab: {
     flex: 1,
