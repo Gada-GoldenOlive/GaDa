@@ -1,5 +1,10 @@
 import React from 'react';
-import { Pressable, StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
+import {
+  Pressable,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 import Text from '../../../components/MyText';
 import { boldFontFamily, boldFontSize } from '../../../constant/fonts';
 import {
@@ -9,7 +14,7 @@ import {
 } from '../../../constant/colors';
 import { windowHeight, windowWidth } from '../../../constant/styles';
 import CustomImage from '../../../components/CustomImage';
-import {Sample} from '../../../constant/images/Temp';
+import { Sample } from '../../../constant/images/Temp';
 import StarIcon from '../../../constant/images/Star';
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -38,36 +43,35 @@ const PinInformation = ({
         <View style={styles.modalWrapper}>{renderMainBody()}</View>
       ) : (
         <View style={styles.modalWrapper}>
-          <LinearGradient colors={['#ffffff', 'rgba(0,0,0,0.04)']} style={styles.gradient}/>
-           <View style={styles.bar} />
-           <View style={styles.container}>
-           <View style={styles.imageContainer}>
-           <CustomImage source={Sample} style={styles.image} />
-           <View style={styles.imageGradient}/>
-            <View style={styles.imageWrapper}>
-              <CustomImage source={StarIcon} style={styles.starIcon}/>
-              <Text style={styles.num}>4.3</Text>
-            </View>
-           </View>
-           <View style={styles.informationContainer}>
-            <View style={styles.textContainer}>
-            <Text style={styles.name}>성수동불주먹</Text>
-            <Text style={styles.title}>성동구 왕십리로 산책길</Text>
-            <Text>
-              <Text style={styles.description}>약 25분 / </Text>
-              <Text style={styles.description}>1.25km</Text>
-              <Text style={styles.description}> / 핀 3개 </Text>
-            </Text>
-           </View>
-           <View style={styles.bottomContainer}>
-            <TouchableWithoutFeedback >
-              <View style={styles.bottomWrapper}>
-                <Text style={styles.bottomText}>주소복사</Text>
+          <View style={styles.bar} />
+          <View style={styles.container}>
+            <View style={styles.imageContainer}>
+              <CustomImage source={Sample} style={styles.image} />
+              <View style={styles.imageGradient} />
+              <View style={styles.imageWrapper}>
+                <CustomImage source={StarIcon} style={styles.starIcon} />
+                <Text style={styles.num}>4.3</Text>
               </View>
-            </TouchableWithoutFeedback>
-           </View>
-           </View>
-           </View>
+            </View>
+            <View style={styles.informationContainer}>
+              <View style={styles.textContainer}>
+                <Text style={styles.name}>성수동불주먹</Text>
+                <Text style={styles.title}>성동구 왕십리로 산책길</Text>
+                <Text>
+                  <Text style={styles.description}>약 25분 / </Text>
+                  <Text style={styles.description}>1.25km</Text>
+                  <Text style={styles.description}> / 핀 3개 </Text>
+                </Text>
+              </View>
+              <View style={styles.bottomContainer}>
+                <TouchableWithoutFeedback>
+                  <View style={styles.bottomWrapper}>
+                    <Text style={styles.bottomText}>주소복사</Text>
+                  </View>
+                </TouchableWithoutFeedback>
+              </View>
+            </View>
+          </View>
         </View>
       )}
     </View>
@@ -94,7 +98,7 @@ const styles = StyleSheet.create({
     borderRadius: 2.5,
     width: 50,
     height: 4,
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   container: {
     flexDirection: 'row',
@@ -103,7 +107,6 @@ const styles = StyleSheet.create({
   imageContainer: {
     width: 96,
     height: 96,
-
   },
   imageGradient: {
     backgroundColor: 'rgba(0,0,0,0.04)',
@@ -111,13 +114,13 @@ const styles = StyleSheet.create({
     bottom: 0,
     start: 0,
     width: '100%',
-  height: '100%'  
-},
+    height: '100%',
+  },
   gradient: {
     position: 'absolute',
-    width:windowWidth,
-    height: '20%',
-    bottom: 0
+    width: windowWidth,
+    height: '100%',
+    bottom: 0,
   },
   imageWrapper: {
     position: 'absolute',
@@ -127,20 +130,20 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingEnd: 9.7,
-    paddingBottom: 8.6
+    paddingBottom: 8.6,
   },
   image: {
     width: 96,
-    height: 96
+    height: 96,
   },
   num: {
     fontFamily: boldFontFamily,
-    color: 'white'
+    color: 'white',
   },
   informationContainer: {
     flex: 1,
     paddingStart: 16,
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
   textContainer: {
     flex: 1,
@@ -167,20 +170,18 @@ const styles = StyleSheet.create({
     height: 30,
     alignSelf: 'flex-end',
     alignItems: 'flex-end',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
   },
   bottomWrapper: {
     paddingHorizontal: 12,
     paddingTop: 7,
     paddingBottom: 5,
     backgroundColor: 'rgb(248,248,248)',
-    borderRadius: 3
-
+    borderRadius: 3,
   },
   starIcon: {
     width: 18,
     height: 18,
-    marginRight: 5.7
-  }
-
+    marginRight: 5.7,
+  },
 });
