@@ -1,12 +1,13 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Platform,
   Keyboard,
   View,
   StyleSheet,
   TouchableOpacity,
-  Text
+  SafeAreaView,
 } from 'react-native';
+import Text from './MyText';
 //import {SafeAreaView} from 'react-native-safe-area-context';
 import {
   FeedFocusedIcon,
@@ -46,55 +47,56 @@ const getIcon = state => {
 };
 const changeToKor = name => {
   switch (name) {
-    case 'Home':
+    case 'BottomTabHome':
       return '홈';
-    case 'Feed':
+    case 'BottomTabFeed':
       return '피드';
-    case 'Friends':
+    case 'BottomTabFriends':
       return '친구';
-    case 'Record':
+    case 'BottomTabRecord':
       return '기록';
     default:
       return '';
   }
 };
-const BottomTabBar = ({state, handlePress}) => {
+const BottomTabBar = ({ state, handlePress }) => {
   return (
     //<SafeAreaView edges={['bottom']}>
-      <View style={style.tabContainer}>
-        {state.routes.map(({name, key}, index) => {
-          const isFocused = state.index === index;
+    <View style={style.tabContainer}>
+      {state.routes.map(({ name, key }, index) => {
+        const isFocused = state.index === index;
 
-          return (
-            <TouchableOpacity
-              activeOpacity={1.0}
-              key={key}
-              style={{flex: 1}}
-              onPress={() => handlePress(key, name)}>
-              <View style={style.tab}>
-                {isFocused ? (
-                  <CustomImage
-                    source={getIcon(`${name}Focused`)}
-                    style={style.icon}
-                  />
-                ) : (
-                  <CustomImage source={getIcon(`${name}`)} style={style.icon} />
-                )}
-                <View style={style.nameWrapper}>
-                  <Text style={[style.name]}>{changeToKor(name)}</Text>
-                </View>
-                {/* {checkAlarmOpen(name) && <View style={style.alarm} />} */}
+        return (
+          <TouchableOpacity
+            activeOpacity={1.0}
+            key={key}
+            style={{ flex: 1 }}
+            onPress={() => handlePress(key, name)}
+          >
+            <View style={style.tab}>
+              {isFocused ? (
+                <CustomImage
+                  source={getIcon(`${name}Focused`)}
+                  style={style.icon}
+                />
+              ) : (
+                <CustomImage source={getIcon(`${name}`)} style={style.icon} />
+              )}
+              <View style={style.nameWrapper}>
+                <Text style={[style.name]}>{changeToKor(name)}</Text>
               </View>
-            </TouchableOpacity>
-          );
-        })}
-      </View>
-   // </SafeAreaView>
+              {/* {checkAlarmOpen(name) && <View style={style.alarm} />} */}
+            </View>
+          </TouchableOpacity>
+        );
+      })}
+    </View>
+    // </SafeAreaView>
   );
 };
 const CustomBottomTab = props => {
   const [visible, setVisible] = useState(true);
-  const {state, navigation} = props;
+  const { state, navigation } = props;
   useEffect(() => {
     let keyboardEventListeners = [];
     if (Platform.OS === 'android') {
@@ -131,10 +133,9 @@ const CustomBottomTab = props => {
   if (!visible) return null;
 
   return (
-    <BottomTabBar
-      state={state}
-      handlePress={handlePress}
-    />
+    <SafeAreaView edges={['bottom']}>
+      <BottomTabBar state={state} handlePress={handlePress} />
+    </SafeAreaView>
   );
 };
 
@@ -146,7 +147,15 @@ const style = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-around',
     paddingHorizontal: 16,
-    borderTopWidth: 1,
+    shadowColor: 'rgba(0,0,0,0.25)',
+    shadowOffset: {
+      width: 0,
+      height: -2,
+    },
+    shadowOpacity: 0.1,
+    //shadowRadius: 2.22,
+
+    elevation: 3,
   },
   tab: {
     flex: 1,
