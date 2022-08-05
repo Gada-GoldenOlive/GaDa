@@ -7,15 +7,15 @@ import HomeContainer from '../domain/Home/container/HomeContainer';
 
 const Stack = createStackNavigator();
 const homeScreen = {
-  Home: HomeContainer
-}
+  Home: HomeContainer,
+};
 const HomeNavigator = () => {
   return (
     <Stack.Navigator
       initialRouteName="Home"
       screenOptions={{
-        headerShown: true,
-        cardStyle: {backgroundColor: 'white'},
+        headerShown: false,
+        cardStyle: { backgroundColor: 'white' },
         headerTitleStyle: {
           fontSize: 16,
         },
@@ -29,8 +29,9 @@ const HomeNavigator = () => {
         title: {},
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         headerTitleAlign: 'center',
-      }}>
-        {Object.entries({ ...homeScreen }).map(([name, component]) => (
+      }}
+    >
+      {Object.entries({ ...homeScreen }).map(([name, component]) => (
         <Stack.Screen
           key={name}
           name={name}
@@ -40,7 +41,7 @@ const HomeNavigator = () => {
           }}
         />
       ))}
-      </Stack.Navigator>
+    </Stack.Navigator>
   );
 };
 

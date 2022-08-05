@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">GaDa</string>
+    <string name="kakao_app_key">f85cc518ba6e13205d36a1ac5153e380</string>
 </resources>

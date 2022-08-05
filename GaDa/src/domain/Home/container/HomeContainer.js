@@ -1,16 +1,15 @@
-import {View, Text} from 'react-native';
-import React, { useState } from 'react';
-import HomeScreen from '../screen/HomeScreen'
-const HomeContainer = ({route, navigation}) => {
-  const [isVisible, setIsVisible] = useState(false);
-  const openModal = () => {
-    setIsVisible(true)
-  }
-  const closeModal = () => {
-    setIsVisible(false)
-  }
+import { View, Text } from 'react-native';
+import React from 'react';
+import WebView from 'react-native-webview';
+
+const HomeContainer = () => {
   return (
-    <HomeScreen isVisible={isVisible} openModal={openModal} closeModal={closeModal}/>
+    <View style={{ flex: 1 }}>
+      <WebView
+        source={{ uri: 'https://a830-221-146-182-190.jp.ngrok.io' }}
+        //injectedJavaScript={runFirst}
+      />
+    </View>
   );
 };
 

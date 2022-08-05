@@ -12,8 +12,8 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		4381D79B289B503E00AECCDC /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4381D79A289B503E00AECCDC /* libsqlite3.0.tbd */; };
 		5FA66C0EFCB245D1AA6D4D99 /* SpoqaHanSansNeo-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 920E29C3F0CD44D7A8030CF4 /* SpoqaHanSansNeo-Thin.ttf */; };
-		43F53CDA2898B3BF008298D6 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 43F53CD92898B3BF008298D6 /* libsqlite3.tbd */; };
 		7699B88040F8A987B510C191 /* libPods-GaDa-GaDaTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-GaDa-GaDaTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		A029E442CD84420CAA21AC83 /* SpoqaHanSansNeo-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B918560CD5874A29A94CBB0F /* SpoqaHanSansNeo-Medium.ttf */; };
@@ -45,7 +45,7 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = GaDa/main.m; sourceTree = "<group>"; };
 		19F6CBCC0A4E27FBF8BF4A61 /* libPods-GaDa-GaDaTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-GaDa-GaDaTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B4392A12AC88292D35C810B /* Pods-GaDa.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GaDa.debug.xcconfig"; path = "Target Support Files/Pods-GaDa/Pods-GaDa.debug.xcconfig"; sourceTree = "<group>"; };
-		43F53CD92898B3BF008298D6 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		4381D79A289B503E00AECCDC /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		5709B34CF0A7D63546082F79 /* Pods-GaDa.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GaDa.release.xcconfig"; path = "Target Support Files/Pods-GaDa/Pods-GaDa.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-GaDa-GaDaTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GaDa-GaDaTests.debug.xcconfig"; path = "Target Support Files/Pods-GaDa-GaDaTests/Pods-GaDa-GaDaTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-GaDa.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-GaDa.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -71,7 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				43F53CDA2898B3BF008298D6 /* libsqlite3.tbd in Frameworks */,
+				4381D79B289B503E00AECCDC /* libsqlite3.0.tbd in Frameworks */,
 				0C80B921A6F3F58F76C31292 /* libPods-GaDa.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -112,7 +112,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				43F53CD92898B3BF008298D6 /* libsqlite3.tbd */,
+				4381D79A289B503E00AECCDC /* libsqlite3.0.tbd */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				5DCACB8F33CDC322A6C60F78 /* libPods-GaDa.a */,
 				19F6CBCC0A4E27FBF8BF4A61 /* libPods-GaDa-GaDaTests.a */,
