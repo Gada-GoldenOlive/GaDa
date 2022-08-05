@@ -1,12 +1,8 @@
-import {View, Text} from 'react-native';
+import { View, Text } from 'react-native';
 import React from 'react';
-
+import FeedScreen from '../screen/FeedScreen';
 const FeedContainer = () => {
-  return (
-    <View>
-      <Text>FeedContainer</Text>
-    </View>
-  );
+  return <FeedScreen />;
 };
 
 export default FeedContainer;

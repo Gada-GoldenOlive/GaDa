@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  Pressable,
-  StyleSheet,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native';
+import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import Text from '../../../components/MyText';
 import { boldFontFamily, boldFontSize } from '../../../constant/fonts';
 import {
@@ -17,28 +12,17 @@ import CustomImage from '../../../components/CustomImage';
 import { Sample } from '../../../constant/images/Temp';
 import StarIcon from '../../../constant/images/Star';
 import LinearGradient from 'react-native-linear-gradient';
-
+import PinTabContainer from '../container/PinTabContainer';
 const PinInformation = ({
   mainText = '',
   subText = '',
   isVisible = false,
   closeModal,
   handleConfirm,
-  version = 1,
   renderMainBody = null,
 }) => {
   return (
-    <View
-      style={styles.modalContainer}
-      animationIn="slideInUp"
-      isVisible={isVisible}
-      onBackdropPress={closeModal}
-      hasBackdrop
-      deviceHeight={windowHeight}
-      deviceWidth={windowWidth}
-      backdropColor="gray"
-      backdropOpacity={0.5}
-    >
+    <View style={styles.modalContainer}>
       {renderMainBody ? (
         <View style={styles.modalWrapper}>{renderMainBody()}</View>
       ) : (
@@ -72,6 +56,21 @@ const PinInformation = ({
               </View>
             </View>
           </View>
+          {/* <PagerTabButtons
+            titles={titles}
+            handlePage={handlePage}
+            initialIndex={0}
+          />
+          <PagerView
+            initialPage={0}
+            scrollEnabled={false}
+            style={styles.pagerView}
+            ref={ref}
+          >
+            <View style={styles.view} />
+            <View style={styles.view} />
+          </PagerView> */}
+          <PinTabContainer />
         </View>
       )}
     </View>
@@ -86,12 +85,14 @@ const styles = StyleSheet.create({
     bottom: 0,
     ////alignItems: 'center',
     justifyContent: 'flex-end',
+    flex: 1,
   },
   modalWrapper: {
     width: windowWidth,
     paddingTop: 12,
     paddingBottom: 25,
     paddingHorizontal: 16,
+    flex: 1,
   },
   bar: {
     backgroundColor: backgroundColor,
