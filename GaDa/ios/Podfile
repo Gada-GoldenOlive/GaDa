@@ -19,6 +19,7 @@ target 'GaDa' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
+
   target 'GaDaTests' do
     inherit! :complete
     # Pods for testing

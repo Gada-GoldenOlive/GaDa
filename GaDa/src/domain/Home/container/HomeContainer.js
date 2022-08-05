@@ -1,12 +1,12 @@
-import {View, Text} from 'react-native';
+import { View, Text } from 'react-native';
 import React from 'react';
 import WebView from 'react-native-webview';
 
 const HomeContainer = () => {
   return (
-    <View style={{flex:1}}>
+    <View style={{ flex: 1 }}>
       <WebView
-        source={{uri:'https://www.naver.com/'}}
+        source={{ uri: 'https://a830-221-146-182-190.jp.ngrok.io' }}
         //injectedJavaScript={runFirst}
       />
     </View>
