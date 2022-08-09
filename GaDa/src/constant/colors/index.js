@@ -6,3 +6,6 @@ export const blackColor = '#000000';
 export const buttonColor = 'rgb(73,212,146)';
 export const backgroundColor = 'rgb(231,231,231)';
 export const borderColor = 'rgb(231,231,231)';
+
+export const starColor = 'rgb(83, 154,113)';
+export const starBackgroundColor = 'rgb(217,217,217)';
