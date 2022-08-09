@@ -6,12 +6,14 @@
  * @flow strict-local
  */
 
-import React, {useRef} from 'react';
-import {StyleSheet, useColorScheme} from 'react-native';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {NavigationContainer} from '@react-navigation/native';
+import React, { useRef } from 'react';
+import { StyleSheet, useColorScheme } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { NavigationContainer } from '@react-navigation/native';
 import RootNavigation from './src/navigation/RootNavigation';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { Provider } from 'react-redux';
+import store from './src/redux/store';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -35,7 +37,8 @@ const App = () => {
           const currentRouteName = navigationRef.current.getCurrentRoute().name;
 
           routeNameRef.current = currentRouteName;
-        }}>
+        }}
+      >
         {/* <SafeAreaView style={{ flex: 1 }} edges={['bottom']}> */}
         <RootNavigation />
         {/* </SafeAreaView> */}
@@ -49,6 +52,13 @@ const App = () => {
   );
 };
 
+const AppWrapper = () => {
+  return (
+    <Provider store={store}>
+      <App />
+    </Provider>
+  );
+};
 const styles = StyleSheet.create({
   sectionContainer: {
     marginTop: 32,
@@ -68,4 +78,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default AppWrapper;

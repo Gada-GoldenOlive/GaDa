@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
-import Modal from 'react-native-modal';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import Text from '../../../components/MyText';
+import Modal from 'react-native-modal';
 import { boldFontFamily, boldFontSize } from '../../../constant/fonts';
 import {
   backgroundColor,
@@ -12,8 +12,13 @@ import { windowHeight, windowWidth } from '../../../constant/styles';
 import CustomImage from '../../../components/CustomImage';
 import { Sample } from '../../../constant/images/Temp';
 import StarIcon from '../../../constant/images/Star';
-import PinTabContainer from '../container/PinTabContainer';
-const PinInformation = ({ walkWay, pinList, closeModal, isVisible }) => {
+import PinInformation from './PinInformation';
+const WalkwayOverview = ({
+  walkWay,
+  handleOverview,
+  isVisible,
+  closeModal,
+}) => {
   const {
     id = 'a',
     title = '성동구 왕십리로 산책길',
@@ -24,7 +29,6 @@ const PinInformation = ({ walkWay, pinList, closeModal, isVisible }) => {
     creator = '성동구 불주먹',
     pinNum = 0,
   } = walkWay;
-
   return (
     <Modal
       style={styles.modalContainer}
@@ -72,28 +76,26 @@ const PinInformation = ({ walkWay, pinList, closeModal, isVisible }) => {
             </View>
           </View>
         </View>
-        <PinTabContainer />
-        <View style={styles.buttonContainer} />
       </View>
     </Modal>
   );
 };
 
-export default PinInformation;
+export default WalkwayOverview;
 
 const styles = StyleSheet.create({
   modalContainer: {
-    position: 'absolute',
-    left: -18,
-    bottom: -20,
-    justifyContent: 'flex-end',
     flex: 1,
-    height: '80%',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    bottom: -20,
   },
   modalWrapper: {
     width: windowWidth,
     paddingTop: 12,
-    flex: 1,
+    paddingBottom: 25,
+    paddingHorizontal: 16,
+    justifyContent: 'center',
     backgroundColor: 'white',
   },
   bar: {
@@ -106,8 +108,6 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     paddingTop: 23,
-
-    paddingHorizontal: 16,
   },
   imageContainer: {
     width: 96,
@@ -188,5 +188,13 @@ const styles = StyleSheet.create({
     width: 18,
     height: 18,
     marginRight: 5.7,
+  },
+  buttonContainer: {
+    width: windowWidth,
+    height: 44,
+    bottom: 0,
+    position: 'absolute',
+    backgroundColor: 'red',
+    zIndex: 999,
   },
 });
