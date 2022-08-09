@@ -5,11 +5,8 @@ import { getUserList } from '../../../APIs/user';
 const FriendsContainer = () => {
   const fetchData = async () => {
     const res = await getUserList();
-    if (res) {
-      console.log(res);
-    }
+    console.log(res);
   };
-
   useEffect(() => {
     fetchData();
   }, []);

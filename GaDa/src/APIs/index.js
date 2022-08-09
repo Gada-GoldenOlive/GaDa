@@ -1,12 +1,12 @@
 import axios from 'axios';
-import { reloadApp } from '../function/Error';
+import { reloadApp } from '../function/error';
 import defaultURL from './URL';
 
 export const handleNetworkError = error => {
   // request was made and the server responded with a status code
   if (error.response) {
     const { status } = error.response;
-    console.log(error.response);
+    // console.log(error.response);
     console.log(error.response.data);
     // 인증관련 에러
     // if (status === 401 || status === 403) {

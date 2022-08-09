@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { reloadApp } from './Error';
+import { reloadApp } from './error';
 
 export const storeInLocalStorage = async (accessToken, refreshToken) => {
   await AsyncStorage.setItem('access_token', accessToken);
