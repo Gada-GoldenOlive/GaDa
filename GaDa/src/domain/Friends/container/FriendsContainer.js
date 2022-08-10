@@ -1,5 +1,5 @@
 import { View } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Text from '../../../components/MyText';
 
 import { getUserList } from '../../../APIs/user';

@@ -7,8 +7,15 @@ import { useNavigation } from '@react-navigation/core';
 import BottomTab from './BottomTab';
 import CreatePinContainer from '../domain/Pin/container/CreatePinContainer';
 import BackButton from '../components/BackButton';
+import DetailImage from '../domain/Image/DetailImage';
+// IMAGE EDIT
+import ImageSubmitButton from '../components/ImageSubmitButton';
+
 const createPinScreen = {
   CreatePin: CreatePinContainer,
+};
+const detailImageScreen = {
+  DetailImage: DetailImage,
 };
 const RootStack = createStackNavigator();
 const RootNavigation = () => {
@@ -47,6 +54,37 @@ const RootNavigation = () => {
             title: '핀 작성하기',
             headerShown: true,
             headerLeft: () => <BackButton />,
+          }}
+        />
+      ))}
+      {Object.entries({ ...detailImageScreen }).map(([name, component]) => (
+        <RootStack.Screen
+          key={name}
+          name={name}
+          component={component}
+          options={({ route }) => {
+            const { params } = route;
+            const { reviewImageList, ver, body } = params;
+            if (ver === 'pin') {
+              return {
+                title: '상세 이미지',
+                headerShown: true,
+                headerLeft: () => <BackButton />,
+                headerRight: () => (
+                  <ImageSubmitButton
+                    imageList={reviewImageList}
+                    body={body}
+                    ver={ver}
+                  />
+                ),
+              };
+            }
+            return {
+              title: '상세 이미지',
+              headerShown: true,
+              headerLeft: null,
+              headerRight: () => <CloseButton />,
+            };
           }}
         />
       ))}
