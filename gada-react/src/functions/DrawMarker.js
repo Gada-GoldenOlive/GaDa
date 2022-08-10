@@ -1,5 +1,6 @@
 import React from "react";
 import { MapMarker } from "react-kakao-maps-sdk";
+import currentPos from "../constant/images/CurrentPos";
 
 const DrawMarker = ({ posX, posY }) => {
   return (
@@ -10,7 +11,7 @@ const DrawMarker = ({ posX, posY }) => {
         lng: posY,
       }}
       image={{
-        src: "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png", // 마커이미지의 주소입니다
+        src: currentPos,
         size: {
           width: 64,
           height: 69,
