@@ -1,3 +1,3 @@
-import Writing from 'Wrting.png';
+import Writing from './Writing.png';
 
 export default Writing;
