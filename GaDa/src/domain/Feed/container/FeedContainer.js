@@ -13,7 +13,6 @@ const FeedContainer = () => {
     setIsOverview(value);
   };
   useEffect(() => {
-    console.log(isOverview);
     dispatch(setBottomTabVisible(isOverview));
   }, [isOverview]);
   return <FeedScreen isOverview={isOverview} handleOverview={handleOverview} />;

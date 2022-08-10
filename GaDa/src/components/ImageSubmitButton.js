@@ -3,10 +3,10 @@ import { useNavigation } from '@react-navigation/native';
 import { View, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import Text from './MyText';
 import { mediumFontFamily } from '../constant/fonts';
-import { emphasisColorVer2 } from '../constant/colors';
+import { blackColor, emphasisColorVer2 } from '../constant/colors';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { setPinImages, setUploadImagesChanged } from '../redux/modules/images';
+import { setPinImage, setUploadImagesChanged } from '../redux/modules/images';
 import { createNewMessage } from '../APIs/Chat';
 
 const HeaderImageSubmitButton = props => {
@@ -25,7 +25,7 @@ const HeaderImageSubmitButton = props => {
       imageList.forEach(async item => {
         const uri = `data:${item.imageData.mime};base64,${item.imageData.data}`;
         const setImages = items => {
-          dispatch(setPinImages(items));
+          dispatch(setPinImage(items));
           dispatch(setUploadImagesChanged(true));
         };
         setImages(uri);
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 16,
     fontFamily: mediumFontFamily,
-    color: emphasisColorVer2,
+    color: blackColor,
   },
 });
 

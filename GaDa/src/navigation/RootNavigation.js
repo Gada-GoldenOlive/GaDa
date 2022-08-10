@@ -10,6 +10,7 @@ import BackButton from '../components/BackButton';
 import DetailImage from '../domain/Image/DetailImage';
 // IMAGE EDIT
 import ImageSubmitButton from '../components/ImageSubmitButton';
+import CloseButton from '../components/CloseButton';
 
 const createPinScreen = {
   CreatePin: CreatePinContainer,
@@ -64,18 +65,14 @@ const RootNavigation = () => {
           component={component}
           options={({ route }) => {
             const { params } = route;
-            const { reviewImageList, ver, body } = params;
+            const { images, ver, body } = params;
             if (ver === 'pin') {
               return {
-                title: '상세 이미지',
+                title: 'pin',
                 headerShown: true,
                 headerLeft: () => <BackButton />,
                 headerRight: () => (
-                  <ImageSubmitButton
-                    imageList={reviewImageList}
-                    body={body}
-                    ver={ver}
-                  />
+                  <ImageSubmitButton imageList={images} body={body} ver={ver} />
                 ),
               };
             }

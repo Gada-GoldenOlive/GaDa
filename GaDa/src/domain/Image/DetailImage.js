@@ -134,7 +134,7 @@ const DetailImage = ({ route }) => {
 
       {ver !== undefined && (
         <TouchableWithoutFeedback
-          onPress={() => handlePressEdit(reviewImageList[currentIdx])}
+          onPress={() => handlePressEdit(images[currentIdx])}
         >
           <View style={styles.editIconContainer}>
             <View style={{ alignItems: 'center', justifyContent: 'center' }}>
