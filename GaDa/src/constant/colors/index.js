@@ -9,3 +9,4 @@ export const borderColor = 'rgb(231,231,231)';
 
 export const starColor = 'rgb(83, 154,113)';
 export const starBackgroundColor = 'rgb(217,217,217)';
+
