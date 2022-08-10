@@ -115,34 +115,46 @@ const PinTabScreen = () => {
         style={styles.pagerView}
         ref={ref}
       >
-        <View style={styles.listContainer}>
-          <FlatList
-            scrollEventThrottle={16}
-            showsVerticalScrollIndicator={false}
-            data={tempPinList}
-            disableVirtualization={false}
-            ItemSeparatorComponent={ItemSeparatorComponent}
-            ListHeaderComponent={pinHeaderComponent}
-            ListFooterComponent={pinFooterComponent}
-            renderItem={({ item, index }) => renderPin({ item, index })}
-            onEndReachedThreshold={0.7}
-            contentContainerStyle={styles.pinListContainer}
-            keyExtractor={(item, index) => `${item.id}-${index}`}
-          />
-        </View>
-        <View style={styles.listContainer}>
-          <FlatList
-            scrollEventThrottle={16}
-            showsVerticalScrollIndicator={false}
-            data={tempReviewlist}
-            disableVirtualization={false}
-            ListHeaderComponent={reviewHeaderComponent}
-            renderItem={({ item, index }) => renderReview({ item, index })}
-            onEndReachedThreshold={0.7}
-            contentContainerStyle={styles.pinListContainer}
-            keyExtractor={(item, index) => `${item.id}-${index}`}
-          />
-        </View>
+        {tempPinList.length > 0 ? (
+          <View style={styles.listContainer}>
+            <FlatList
+              scrollEventThrottle={16}
+              showsVerticalScrollIndicator={false}
+              data={tempPinList}
+              disableVirtualization={false}
+              ItemSeparatorComponent={ItemSeparatorComponent}
+              ListHeaderComponent={pinHeaderComponent}
+              ListFooterComponent={pinFooterComponent}
+              renderItem={({ item, index }) => renderPin({ item, index })}
+              onEndReachedThreshold={0.7}
+              contentContainerStyle={styles.pinListContainer}
+              keyExtractor={(item, index) => `${item.id}-${index}`}
+            />
+          </View>
+        ) : (
+          <View style={styles.nullContainer}>
+            <Text>핀이 없습니다</Text>
+          </View>
+        )}
+        {tempReviewlist.length > 0 ? (
+          <View style={styles.listContainer}>
+            <FlatList
+              scrollEventThrottle={16}
+              showsVerticalScrollIndicator={false}
+              data={tempReviewlist}
+              disableVirtualization={false}
+              ListHeaderComponent={reviewHeaderComponent}
+              renderItem={({ item, index }) => renderReview({ item, index })}
+              onEndReachedThreshold={0.7}
+              contentContainerStyle={styles.pinListContainer}
+              keyExtractor={(item, index) => `${item.id}-${index}`}
+            />
+          </View>
+        ) : (
+          <View style={styles.nullContainer}>
+            <Text>리뷰가 없습니다</Text>
+          </View>
+        )}
       </PagerView>
       <StartButton />
     </View>
@@ -197,5 +209,9 @@ const styles = StyleSheet.create({
     height: 16,
     width: 16,
     marginEnd: 6,
+  },
+  nullContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
