@@ -1,5 +1,10 @@
 import React from 'react';
-import { Pressable, StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
+import {
+  Pressable,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 import Modal from 'react-native-modal';
 import Text from './MyText';
 import { boldFontFamily, boldFontSize } from '../constant/fonts';
@@ -13,7 +18,7 @@ import {
 } from '../constant/colors';
 import { windowHeight, windowWidth } from '../constant/styles';
 import CustomImage from './CustomImage';
-import {Sample} from '../constant/images/Temp';
+import { Sample } from '../constant/images/Temp';
 import StarIcon from '../constant/images/Star';
 
 const BottomUpModal = ({
@@ -41,33 +46,33 @@ const BottomUpModal = ({
         <View style={styles.modalWrapper}>{renderMainBody()}</View>
       ) : (
         <View style={styles.modalWrapper}>
-           <View style={styles.bar} />
-           <View style={styles.container}>
-           <View style={styles.imageContainer}>
-           <CustomImage source={Sample} style={styles.image} />
-           <View style={styles.gradient} />
-            <View style={styles.imageWrapper}>
-              <CustomImage source={StarIcon} style={styles.starIcon}/>
-              <Text style={styles.num}>4.3</Text>
+          <View style={styles.bar} />
+          <View style={styles.container}>
+            <View style={styles.imageContainer}>
+              <CustomImage source={Sample} style={styles.image} />
+              <View style={styles.gradient} />
+              <View style={styles.imageWrapper}>
+                <CustomImage source={StarIcon} style={styles.starIcon} />
+                <Text style={styles.num}>4.3</Text>
+              </View>
             </View>
-           </View>
-           <View style={styles.informationContainer}>
-            <Text style={styles.name}>성수동불주먹</Text>
-            <Text style={styles.title}>성동구 왕십리로 산책길</Text>
-            <Text>
-              <Text style={styles.description}>약 25분 / </Text>
-              <Text style={styles.description}>1.25km</Text>
-              <Text style={styles.description}> / 핀 3개 </Text>
-            </Text>
-           </View>
-           </View>
-           <View style={styles.bottomContainer}>
-            <TouchableWithoutFeedback >
+            <View style={styles.informationContainer}>
+              <Text style={styles.name}>성수동불주먹</Text>
+              <Text style={styles.title}>성동구 왕십리로 산책길</Text>
+              <Text>
+                <Text style={styles.description}>약 25분 / </Text>
+                <Text style={styles.description}>1.25km</Text>
+                <Text style={styles.description}> / 핀 3개 </Text>
+              </Text>
+            </View>
+          </View>
+          <View style={styles.bottomContainer}>
+            <TouchableWithoutFeedback>
               <View style={styles.bottomWrapper}>
                 <Text style={styles.bottomText}>주소복사</Text>
               </View>
             </TouchableWithoutFeedback>
-           </View>
+          </View>
         </View>
       )}
     </Modal>
@@ -96,7 +101,7 @@ const styles = StyleSheet.create({
     borderRadius: 2.5,
     width: 50,
     height: 4,
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   container: {
     flexDirection: 'row',
@@ -105,13 +110,12 @@ const styles = StyleSheet.create({
   imageContainer: {
     width: 96,
     height: 96,
-
   },
   gradient: {
     position: 'absolute',
-    width:'100%',
+    width: '100%',
     height: '100%',
-    backgroundColor: 'rgba(0,0,0,0.4)'
+    backgroundColor: 'rgba(0,0,0,0.4)',
   },
   imageWrapper: {
     position: 'absolute',
@@ -121,15 +125,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingEnd: 9.7,
-    paddingBottom: 8.6
+    paddingBottom: 8.6,
   },
   image: {
     width: 96,
-    height: 96
+    height: 96,
   },
   num: {
     fontFamily: boldFontFamily,
-    color: 'white'
+    color: 'white',
   },
   informationContainer: {
     flex: 1,
@@ -151,23 +155,21 @@ const styles = StyleSheet.create({
   description: {
     letterSpacing: -0.28,
     color: 'rgb(137,137,137)',
-    letterSpacing: -0.28
+    letterSpacing: -0.28,
   },
   bottomContainer: {
     alignItems: 'flex-end',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
   },
   bottomWrapper: {
     paddingHorizontal: 12,
     paddingTop: 7,
     paddingBottom: 5,
-    backgroundColor: 'rgb(248,248,248)'
-
+    backgroundColor: 'rgb(248,248,248)',
   },
   starIcon: {
     width: 9,
     height: 9,
-    marginRight: 5.7
-  }
-
+    marginRight: 5.7,
+  },
 });

@@ -2,7 +2,7 @@ import React from 'react';
 import { TouchableWithoutFeedback, StyleSheet, View } from 'react-native';
 import Text from './MyText';
 import { borderColor } from '../constant/colors';
-import { MediumFontFamily } from '../constant/fonts';
+import { mediumFontFamily } from '../constant/fonts';
 
 const CustomButton = ({
   title = '',
@@ -25,10 +25,7 @@ const CustomButton = ({
         ]}
       >
         <Text
-          style={[
-            textStyle && textStyle,
-            fontColor && { color: fontColor },
-          ]}
+          style={[textStyle && textStyle, fontColor && { color: fontColor }]}
         >
           {title}
         </Text>
@@ -54,7 +51,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   subTitle: {
-    fontFamily: MediumFontFamily,
+    fontFamily: mediumFontFamily,
     fontSize: 12,
     color: 'white',
   },

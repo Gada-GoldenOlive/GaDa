@@ -5,11 +5,10 @@ import {
 import React from 'react';
 import FeedContainer from '../domain/Feed/container/FeedContainer';
 
-
 const Stack = createStackNavigator();
 const feedScreen = {
-  Feed: FeedContainer
-}
+  Feed: FeedContainer,
+};
 
 const FeedNavigator = () => {
   return (
@@ -17,7 +16,7 @@ const FeedNavigator = () => {
       initialRouteName="Feed"
       screenOptions={{
         headerShown: true,
-        cardStyle: {backgroundColor: 'white'},
+        cardStyle: { backgroundColor: 'white' },
         headerTitleStyle: {
           fontSize: 16,
         },
@@ -31,7 +30,8 @@ const FeedNavigator = () => {
         title: {},
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         headerTitleAlign: 'center',
-      }}>
+      }}
+    >
       {Object.entries({ ...feedScreen }).map(([name, component]) => (
         <Stack.Screen
           key={name}
@@ -42,7 +42,7 @@ const FeedNavigator = () => {
           }}
         />
       ))}
-      </Stack.Navigator>
+    </Stack.Navigator>
   );
 };
 

@@ -5,6 +5,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import RootNavigation from './src/navigation/RootNavigation';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
+import { Provider } from 'react-redux';
+import store from './src/redux/store';
+
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
@@ -42,6 +45,13 @@ const App = () => {
   );
 };
 
+const AppWrapper = () => {
+  return (
+    <Provider store={store}>
+      <App />
+    </Provider>
+  );
+};
 const styles = StyleSheet.create({
   sectionContainer: {
     marginTop: 32,
@@ -61,4 +71,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default AppWrapper;

@@ -1,5 +1,7 @@
-import { View, Text } from 'react-native';
-import React, { useEffect } from 'react';
+import { View } from 'react-native';
+import React from 'react';
+import Text from '../../../components/MyText';
+
 import { getUserList } from '../../../APIs/user';
 
 const FriendsContainer = () => {
