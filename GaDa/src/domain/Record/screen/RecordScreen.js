@@ -7,7 +7,13 @@ import { MapImage } from '../../../constant/images/Temp';
 import { windowHeight, windowWidth } from '../../../constant/styles';
 import CustomButton from '../../../components/CustomButton';
 
-const RecordScreen = ({ isVisible, setIsVisible, handleConfirm, walkEnd }) => {
+const RecordScreen = ({
+  isVisible,
+  setIsVisible,
+  setWalkEnd,
+  handleConfirm,
+  walkEnd,
+}) => {
   return (
     <View style={styles.container}>
       <TouchableWithoutFeedback onPress={() => setIsVisible(true)}>
@@ -22,14 +28,7 @@ const RecordScreen = ({ isVisible, setIsVisible, handleConfirm, walkEnd }) => {
         closeModal={() => setIsVisible(false)}
         handleConfirm={handleConfirm}
       />
-      {<WalkEnd isVisible={walkEnd} />}
-      {walkEnd && <CustomButton title="다음" />}
-
-      {/* <PinInformation
-        walkWay={[]}
-        closeModal={() => setWalkEnd(false)}
-        isVisible={walkEnd}
-      /> */}
+      {<WalkEnd isVisible={walkEnd} onPress={() => setWalkEnd(false)} />}
     </View>
   );
 };

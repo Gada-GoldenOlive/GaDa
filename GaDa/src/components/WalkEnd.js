@@ -13,6 +13,7 @@ const WalkEnd = ({
   time: secs = moment().startOf('second'),
   pinNum = 1,
   isVisible = false,
+  onPress,
 }) => {
   const hour = secs.hours();
   const min = secs.minute();
@@ -42,7 +43,7 @@ const WalkEnd = ({
             </View>
           </View>
         </View>
-        <CustomButton title="다음" />
+        <CustomButton title="다음" handlePress={onPress} />
       </View>
     )
   );

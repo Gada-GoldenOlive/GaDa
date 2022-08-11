@@ -19,6 +19,7 @@ const RecordContainer = () => {
     <RecordScreen
       isVisible={isVisible}
       setIsVisible={setIsVisible}
+      setWalkEnd={setWalkEnd}
       handleConfirm={handleConfirm}
       walkEnd={walkEnd}
     />
