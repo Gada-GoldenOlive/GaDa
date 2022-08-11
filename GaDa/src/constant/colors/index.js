@@ -10,3 +10,5 @@ export const borderColor = 'rgb(231,231,231)';
 export const starColor = 'rgb(83, 154,113)';
 export const starBackgroundColor = 'rgb(217,217,217)';
 
+export const dotColor = 'rgb(228,228,228)';
+export const activeDotColor = 'rgb(64,209,126)';
