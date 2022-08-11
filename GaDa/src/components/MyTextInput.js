@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react';
 import { Platform, StyleSheet, TextInput } from 'react-native';
-import { descriptionColor } from '../constant/colors';
+import { defaultColor, descriptionColor } from '../constant/colors';
 
 const MyTextInput = forwardRef((props, ref) => {
   const {
@@ -26,8 +26,7 @@ const styles = StyleSheet.create({
   textInput: {
     paddingTop: 19.5,
     paddingBottom: 17.5,
-    color: 'rgb(158,158,158)',
-    letterSpacing: -0.32,
+    color: defaultColor,
     fontSize: 16,
     borderBottomColor: 'rgb(232,232,232)',
     borderBottomWidth: 1,
