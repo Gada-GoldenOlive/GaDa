@@ -13,7 +13,7 @@ import StartButton from '../components/StartButton';
 import CustomImage from '../../../components/CustomImage';
 import StarIcon from '../../../constant/images/Star';
 import { boldFontFamily } from '../../../constant/fonts';
-import CustomButton from '../../../components/CutomButton';
+import CustomButton from '../../../components/CustomButton';
 const ItemSeparatorComponent = () => {
   return <View style={styles.separatorContainer} />;
 };

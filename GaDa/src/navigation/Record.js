@@ -7,8 +7,8 @@ import RecordContainer from '../domain/Record/container/RecordContainer';
 
 const Stack = createStackNavigator();
 const recordScreen = {
-  Record: RecordContainer
-}
+  Record: RecordContainer,
+};
 
 const RecordNavigator = () => {
   return (
@@ -16,7 +16,7 @@ const RecordNavigator = () => {
       initialRouteName="Record"
       screenOptions={{
         headerShown: true,
-        cardStyle: {backgroundColor: 'white'},
+        cardStyle: { backgroundColor: 'white' },
         headerTitleStyle: {
           fontSize: 16,
         },
@@ -30,8 +30,9 @@ const RecordNavigator = () => {
         title: {},
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         headerTitleAlign: 'center',
-      }}>
-         {Object.entries({ ...recordScreen }).map(([name, component]) => (
+      }}
+    >
+      {Object.entries({ ...recordScreen }).map(([name, component]) => (
         <Stack.Screen
           key={name}
           name={name}
@@ -41,7 +42,7 @@ const RecordNavigator = () => {
           }}
         />
       ))}
-      </Stack.Navigator>
+    </Stack.Navigator>
   );
 };
 
