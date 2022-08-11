@@ -1,6 +1,6 @@
 import { View } from 'react-native';
 import React, { useEffect } from 'react';
-import Text from '../../../components/MyText';
+import FriendsScreen from '../screen/FriendsScreen';
 
 import { getUserList } from '../../../APIs/user';
 
@@ -11,11 +11,7 @@ const FriendsContainer = () => {
   useEffect(() => {
     fetchData();
   }, []);
-  return (
-    <View>
-      <Text>FriendsContainer</Text>
-    </View>
-  );
+  return <FriendsScreen />;
 };
 
 export default FriendsContainer;
