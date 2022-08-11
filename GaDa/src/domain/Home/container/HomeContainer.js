@@ -4,11 +4,14 @@ import React, { useRef, useState } from 'react';
 import Geolocation from '@react-native-community/geolocation';
 import HomeScreen from '../screen/HomeScreen';
 
+// * 현재위치
+// 일정 시간 후 주기적으로 반복해서 geoLocation 해주기!
+// 가능하면 거리 계산해서 일정 거리 이상 이동했을 때만 전송하도록 하기
+//
+
 const HomeContainer = () => {
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLogitude] = useState(null);
-
-  const wsTmp = new WebSocket(`wss://4e45-110-8-134-126.jp.ngrok.io:3000/ws`);
 
   const geoLocation = ref => {
     Geolocation.getCurrentPosition(
@@ -28,18 +31,6 @@ const HomeContainer = () => {
   };
 
   const handleConnection = ref => {
-    //console.log(ref.current.postMessage('hi'));
-    //console.log(wsTmp);
-    //wsTmp.postMessage('메시지 입니다');
-    // ref.current.postMessage('This Message from RN');
-    // ref.current.injectJavaScript(
-    //   `window.ReactNativeWebView.postMessage(
-    //     {
-    //       reply: 'reply'
-    //     }
-    //   );`,
-    // );
-
     const generateOnMessageFunction = data =>
       `(function() {
     window.dispatchEvent(new MessageEvent('message', {data: ${JSON.stringify(
@@ -47,9 +38,7 @@ const HomeContainer = () => {
     )}}));
   })()`;
 
-    ref.current.injectJavaScript(
-      generateOnMessageFunction(latitude + ',' + longitude * -1),
-    );
+    ref.current.injectJavaScript(generateOnMessageFunction('currentPos'));
   };
 
   return <HomeScreen geoLocation={geoLocation} />;
