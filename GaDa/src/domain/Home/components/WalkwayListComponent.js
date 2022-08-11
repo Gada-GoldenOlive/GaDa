@@ -13,29 +13,28 @@ import { useSelector } from 'react-redux';
 import Text from '../../../components/MyText';
 import {
   activeDotColor,
+  borderColor,
   buttonColor,
   dotColor,
 } from '../../../constant/colors';
 import { windowWidth } from '../../../constant/styles';
 import ExpandingDots from '.././../../components/ExpandingDots';
+import { boldFontFamily, mediumFontFamily } from '../../../constant/fonts';
 const WIDTH = 204;
 const HEIGHT = 116;
 const EMPTY_ITEM_SIZE = (windowWidth - WIDTH) / 2;
-const SPACING = 12;
+const SPACING = 10;
 
-const WalkwayListComponent = ({ list }) => {
+const WalkwayListComponent = ({ list: prevList }) => {
   const [focusedIndex, setFocusedIndex] = useState(1);
-
   const scrollX = React.useRef(new Animated.Value(0)).current;
-  const bottomScroll = useRef(null);
   const topScroll = useRef(null);
+
+  const list = [{ key: 'empty-left' }, ...prevList, { key: 'empty-right' }];
+
   const goRight = () => {
     if (focusedIndex >= 1 && focusedIndex < list.length - 2) {
       setFocusedIndex(focusedIndex + 1);
-      bottomScroll.current.scrollToOffset({
-        animated: true,
-        offset: windowWidth * focusedIndex,
-      });
       topScroll.current.scrollToOffset({
         animated: true,
         offset: WIDTH * focusedIndex,
@@ -44,26 +43,104 @@ const WalkwayListComponent = ({ list }) => {
   };
 
   const goLeft = () => {
-    if (focusedIndex >= 2 && focusedIndex < list.length) {
+    if (focusedIndex >= 2 && focusedIndex <= list.length) {
       setFocusedIndex(focusedIndex - 1);
-      bottomScroll.current.scrollToOffset({
-        animated: true,
-        offset: windowWidth * (focusedIndex - 2),
-      });
       topScroll.current.scrollToOffset({
         animated: true,
         offset: WIDTH * (focusedIndex - 2),
       });
     }
   };
-  const renderItem = props => {
-    const { item } = props;
-    console.log(item);
+  const renderItem = ({ item, index }) => {
+    if (!item.title) return <View style={{ width: EMPTY_ITEM_SIZE }} />;
 
+    const { id, address, title, pinCount } = item;
+    const inputRange = [
+      (index - 2) * WIDTH,
+      (index - 1) * WIDTH,
+      index * WIDTH,
+    ];
+    const containerWidth = scrollX.interpolate({
+      inputRange,
+      outputRange: ['100%', '100%', '100%'],
+      extrapolate: 'clamp',
+    });
+    const rightPosition = scrollX.interpolate({
+      inputRange,
+      outputRange: [-10, 0, 10],
+      extrapolate: 'clamp',
+    });
+    const opacity = scrollX.interpolate({
+      inputRange,
+      outputRange: [0.75, 1, 0.75],
+      extrapolate: 'clamp',
+    });
+    const pinWrapper = scrollX.interpolate({
+      inputRange,
+      outputRange: ['rgb(181,181,181)', 'rgb(56,176,119)', 'rgb(181,181,181)'],
+      extrapolate: 'clamp',
+    });
+    const titleColor = scrollX.interpolate({
+      inputRange,
+      outputRange: ['rgb(181,181,181)', 'white', 'rgb(181,181,181)'],
+      extrapolate: 'clamp',
+    });
+    console.log(focusedIndex, index);
     return (
-      <View style={styles.itemContainer}>
-        <Text>hi</Text>
-      </View>
+      <Animated.View
+        style={[
+          {
+            width: WIDTH,
+            height: HEIGHT,
+            right: rightPosition,
+            backgroundColor: 'rgb(224,224,224)',
+            shadowColor: 'rgba(0, 0, 0, 0.25)',
+            shadowOffset: {
+              width: 0,
+              height: 4,
+            },
+            shadowOpacity: 0.14,
+            elevation: 4,
+          },
+          focusedIndex === index && {
+            backgroundColor: 'rgb(73,212,146)',
+            zIndex: 100,
+          },
+          focusedIndex !== index && {
+            zIndex: -1,
+          },
+        ]}
+      >
+        <TouchableWithoutFeedback
+        // onPress={() => handleNavigateDetailProduct(item)}
+        >
+          <Animated.View
+            style={{
+              paddingHorizontal: 15,
+              borderRadius: 3,
+              width: containerWidth,
+              height: containerWidth,
+              position: 'absolute',
+              paddingTop: 12,
+              opacity,
+            }}
+          >
+            <Animated.Text style={[styles.itemTitle, { color: titleColor }]}>
+              {title}
+            </Animated.Text>
+            <Animated.View style={styles.pinContainer}>
+              <Animated.View
+                style={[styles.pinWrapper, { backgroundColor: pinWrapper }]}
+              >
+                <Animated.Text style={styles.pin}>
+                  핀 {pinCount}개
+                </Animated.Text>
+              </Animated.View>
+              <Animated.View />
+            </Animated.View>
+          </Animated.View>
+        </TouchableWithoutFeedback>
+      </Animated.View>
     );
   };
   const renderList = () => {
@@ -72,19 +149,20 @@ const WalkwayListComponent = ({ list }) => {
         <Animated.FlatList
           data={list}
           showsHorizontalScrollIndicator={false}
+          horizontal
           bounces={false}
           removeClippedSubviews={false}
           pagingEnabled
           decelerationRate={Platform.OS === 'ios' ? 0.3 : 0.95}
+          // decelerationRate={'fast'}
           renderToHardwareTextureAndroid
           contentContainerStyle={{
             alignItems: 'center',
             paddingVertical: 10,
             justifyContent: 'center',
-            backgroundColor: 'blue',
           }}
           keyExtractor={(item, index) => index}
-          scrollEnabled={false}
+          scrollEnabled={true}
           ref={topScroll}
           viewabilityConfig={{ itemVisiblePercentThreshold: 50 }}
           snapToInterval={WIDTH}
@@ -98,18 +176,20 @@ const WalkwayListComponent = ({ list }) => {
           scrollEventThrottle={16}
           renderItem={renderItem}
         />
-        {/* <TouchableWithoutFeedback>
-          <View style={styles.focusedProductContainer}>
-            <Text style={styles.focusedProductTypeText}>hy</Text>
-          </View>
-        </TouchableWithoutFeedback> */}
         <ExpandingDots
-          data={list}
+          data={prevList}
           expandingDotWidth={23}
           scrollX={scrollX}
           inActiveDotOpacity={0.9}
           width={WIDTH}
-          dotStyle={styles.dotStyle}
+          dotStyle={{
+            width: 7,
+            height: 4,
+            borderRadius: 2,
+            marginRight: 5,
+          }}
+          inActiveDotColor={dotColor}
+          activeDotColor={activeDotColor}
           containerStyle={{
             position: 'relative',
             marginTop: 25,
@@ -118,32 +198,29 @@ const WalkwayListComponent = ({ list }) => {
         />
         <TouchableWithoutFeedback onPress={goLeft}>
           <View
-            style={[
-              {
-                width: windowWidth / 2 - WIDTH / 2,
-                height: '100%',
-                // backgroundColor: 'gray',
-                position: 'absolute',
-                zIndex: 10,
-              },
-              Platform.OS === 'android' && styles.goLeft,
-            ]}
-          ></View>
+            style={{
+              width: windowWidth / 2 - WIDTH / 2,
+              height: '50%',
+              // backgroundColor: 'red',
+              position: 'absolute',
+              bottom: 16,
+              left: 0,
+              zIndex: 10,
+            }}
+          />
         </TouchableWithoutFeedback>
         <TouchableWithoutFeedback onPress={goRight}>
           <View
-            style={[
-              {
-                width: windowWidth / 2 - WIDTH / 2,
-                height: '50%',
-                // backgroundColor: 'pink',
-                position: 'absolute',
-                right: 0,
-                zIndex: 10,
-              },
-              Platform.OS === 'android' && styles.goRight,
-            ]}
-          ></View>
+            style={{
+              width: windowWidth / 2 - WIDTH / 2,
+              height: '100%',
+              // backgroundColor: 'red',
+              position: 'absolute',
+              bottom: 16,
+              right: 0,
+              zIndex: 10,
+            }}
+          />
         </TouchableWithoutFeedback>
       </View>
     );
@@ -170,40 +247,11 @@ const WalkwayListComponent = ({ list }) => {
 export default WalkwayListComponent;
 
 const styles = StyleSheet.create({
-  container: { backgroundColor: 'pink' },
-  listContainer: { paddingTop: 17 },
-  focusedProductTypeContainer: {
-    alignSelf: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
-
-    marginBottom: 7,
-
-    flexDirection: 'row',
-
-    zIndex: 9999,
-
-    paddingVertical: 5,
+  container: {
+    flex: 1,
   },
-  goLeft: {
-    width: windowWidth / 2 - WIDTH / 2,
-    backgroundColor: 'blue',
-    height: '100%',
-    position: 'absolute',
-    zIndex: 10,
-    paddingHorizontal: 15.5,
-    justifyContent: 'center',
-  },
-  goRight: {
-    width: windowWidth / 2 - WIDTH / 2,
-    height: '100%',
-    backgroundColor: 'blue',
-    position: 'absolute',
-    right: 0,
-    zIndex: 10,
-    justifyContent: 'center',
-    alignItems: 'flex-end',
-    paddingHorizontal: 15.5,
+  listContainer: {
+    paddingTop: 17,
   },
   dotStyle: {
     width: 7,
@@ -212,15 +260,21 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     backgroundColor: dotColor,
   },
-  itemContainer: {
-    backgroundColor: 'red',
-    width: WIDTH,
+  itemTitle: {
+    fontFamily: boldFontFamily,
+    fontSize: 16,
   },
-  focusedProductContainer: {
-    backgroundColor: 'blue',
-    marginBottom: 28,
-    width: windowWidth,
-    paddingStart: 15,
-    paddingEnd: 17,
+  pinContainer: {
+    flexDirection: 'row',
+  },
+  pinWrapper: {
+    // width: 48,
+    marginTop: 4,
+    paddingVertical: 3,
+    paddingHorizontal: 5.1,
+  },
+  pin: {
+    fontFamily: mediumFontFamily,
+    color: 'rgb(248,248,248)',
   },
 });
