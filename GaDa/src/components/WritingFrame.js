@@ -6,7 +6,7 @@ import Upload from '../constant/images/Upload';
 import { windowHeight, windowWidth } from '../constant/styles';
 import { defaultColor } from '../constant/colors';
 import MyTextInput from './MyTextInput';
-import CustomButton from './CutomButton';
+import CustomButton from './CustomButton';
 import { boldFontFamily } from '../constant/fonts';
 import Text from './MyText';
 import CameraSelectModal from './CameraSelectModal';

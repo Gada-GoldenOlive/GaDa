@@ -1,14 +1,48 @@
-import {StyleSheet, Text, View} from 'react-native';
+import { StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
 import React from 'react';
+import BottomUpModal from '../../../components/BottomUpModal';
+import WalkEnd from '../../../components/WalkEnd';
+import CustomImage from '../../../components/CustomImage';
+import { MapImage } from '../../../constant/images/Temp';
+import { windowHeight, windowWidth } from '../../../constant/styles';
+import CustomButton from '../../../components/CustomButton';
 
-const RecordScreen = () => {
+const RecordScreen = ({ isVisible, setIsVisible, handleConfirm, walkEnd }) => {
   return (
-    <View>
-      <Text>RecordScreen</Text>
+    <View style={styles.container}>
+      <TouchableWithoutFeedback onPress={() => setIsVisible(true)}>
+        <CustomImage
+          source={MapImage}
+          style={styles.map}
+          resizeMode="contain"
+        />
+      </TouchableWithoutFeedback>
+      <BottomUpModal
+        isVisible={isVisible}
+        closeModal={() => setIsVisible(false)}
+        handleConfirm={handleConfirm}
+      />
+      {<WalkEnd isVisible={walkEnd} />}
+      {walkEnd && <CustomButton title="다음" />}
+
+      {/* <PinInformation
+        walkWay={[]}
+        closeModal={() => setWalkEnd(false)}
+        isVisible={walkEnd}
+      /> */}
     </View>
   );
 };
 
 export default RecordScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  map: {
+    width: windowWidth,
+    height: windowHeight,
+    // backgroundColor: 'red',
+  },
+});

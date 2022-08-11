@@ -18,12 +18,12 @@ import {
 } from '../constant/colors';
 import { windowHeight, windowWidth } from '../constant/styles';
 import CustomImage from './CustomImage';
-import { Sample } from '../constant/images/Temp';
-import StarIcon from '../constant/images/Star';
+import CloseIcon from '../constant/images/Close';
+import CustomButton from './CustomButton';
 
 const BottomUpModal = ({
-  mainText = '',
-  subText = '',
+  mainText = '젠오님의 산책을\n기록할게요',
+  content = '동선기록을 시작합니다.\n즐거운 산책경험을 만드세요!',
   isVisible = false,
   closeModal,
   handleConfirm,
@@ -46,33 +46,20 @@ const BottomUpModal = ({
         <View style={styles.modalWrapper}>{renderMainBody()}</View>
       ) : (
         <View style={styles.modalWrapper}>
-          <View style={styles.bar} />
-          <View style={styles.container}>
-            <View style={styles.imageContainer}>
-              <CustomImage source={Sample} style={styles.image} />
-              <View style={styles.gradient} />
-              <View style={styles.imageWrapper}>
-                <CustomImage source={StarIcon} style={styles.starIcon} />
-                <Text style={styles.num}>4.3</Text>
-              </View>
-            </View>
-            <View style={styles.informationContainer}>
-              <Text style={styles.name}>성수동불주먹</Text>
-              <Text style={styles.title}>성동구 왕십리로 산책길</Text>
-              <Text>
-                <Text style={styles.description}>약 25분 / </Text>
-                <Text style={styles.description}>1.25km</Text>
-                <Text style={styles.description}> / 핀 3개 </Text>
-              </Text>
-            </View>
-          </View>
-          <View style={styles.bottomContainer}>
-            <TouchableWithoutFeedback>
-              <View style={styles.bottomWrapper}>
-                <Text style={styles.bottomText}>주소복사</Text>
-              </View>
+          <View style={styles.topContainer}>
+            <Text style={styles.titleText}>{mainText}</Text>
+            <TouchableWithoutFeedback onPress={closeModal}>
+              <CustomImage source={CloseIcon} style={styles.close} />
             </TouchableWithoutFeedback>
           </View>
+          <View style={styles.middleContainer}>
+            <Text style={styles.content}>{content}</Text>
+          </View>
+          <CustomButton
+            title="기록 시작"
+            style={styles.button}
+            handlePress={handleConfirm}
+          />
         </View>
       )}
     </Modal>
@@ -85,91 +72,53 @@ const styles = StyleSheet.create({
   modalContainer: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'flex-end',
-    bottom: 44,
+    justifyContent: 'center',
+    marginHorizontal: 41,
   },
   modalWrapper: {
     backgroundColor: 'white',
-    width: windowWidth,
-    paddingTop: 12,
-    paddingBottom: 25,
-    paddingHorizontal: 16,
+    width: '100%',
+    paddingTop: 30,
+    paddingBottom: 24,
+    paddingHorizontal: 18,
+    borderRadius: 15,
     justifyContent: 'center',
   },
-  bar: {
-    backgroundColor: backgroundColor,
-    borderRadius: 2.5,
-    width: 50,
-    height: 4,
-    alignSelf: 'center',
-  },
-  container: {
+  topContainer: {
     flexDirection: 'row',
-    paddingTop: 23,
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
   },
-  imageContainer: {
-    width: 96,
-    height: 96,
+  titleText: {
+    fontFamily: boldFontFamily,
+    fontSize: 20,
+    color: 'black',
+    lineHeight: 31,
   },
-  gradient: {
-    position: 'absolute',
+  close: {
+    width: 24,
+    height: 24,
+  },
+  middleContainer: {
+    marginTop: 10,
+    marginBottom: 60,
+  },
+  content: {
+    lineHeight: 20,
+    color: descriptionColor,
+  },
+  button: {
+    position: 'relative',
     width: '100%',
-    height: '100%',
-    backgroundColor: 'rgba(0,0,0,0.4)',
-  },
-  imageWrapper: {
-    position: 'absolute',
-    bottom: 0,
-    width: '100%',
-    justifyContent: 'flex-end',
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingEnd: 9.7,
-    paddingBottom: 8.6,
-  },
-  image: {
-    width: 96,
-    height: 96,
-  },
-  num: {
-    fontFamily: boldFontFamily,
-    color: 'white',
-  },
-  informationContainer: {
-    flex: 1,
-    paddingStart: 16,
-  },
-  name: {
-    color: mainColor,
-    fontFamily: boldFontFamily,
-    fontSize: 13,
-    letterSpacing: -0.26,
-    marginBottom: 4,
-  },
-  title: {
-    fontFamily: boldFontFamily,
-    letterSpacing: -0.28,
-    color: blackColor,
-    marginBottom: 5,
-  },
-  description: {
-    letterSpacing: -0.28,
-    color: 'rgb(137,137,137)',
-    letterSpacing: -0.28,
-  },
-  bottomContainer: {
-    alignItems: 'flex-end',
-    justifyContent: 'flex-end',
-  },
-  bottomWrapper: {
-    paddingHorizontal: 12,
-    paddingTop: 7,
-    paddingBottom: 5,
-    backgroundColor: 'rgb(248,248,248)',
-  },
-  starIcon: {
-    width: 9,
-    height: 9,
-    marginRight: 5.7,
+    paddingBottom: 0,
+    paddingTop: 0,
+    paddingHorizontal: 0,
+    justifyContent: 'flex-start',
+    shadowColor: 'rgba(0,0,0,0)',
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 0,
   },
 });

@@ -99,6 +99,7 @@ const CustomBottomTab = props => {
   const [visible, setVisible] = useState(true);
   const { state, navigation } = props;
   const { bottomTabVisible } = useSelector(state => state.status);
+  console.log(bottomTabVisible);
   useEffect(() => {
     let keyboardEventListeners = [];
     if (Platform.OS === 'android') {
