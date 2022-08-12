@@ -3,7 +3,7 @@ import React from 'react';
 import PinInformation from '../../Home/components/PinInformation';
 import WalkwayOverview from '../../Home/components/WalkwayOverview';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
-import BottomUpModal from '../../../components/BottomUpModal';
+
 import WalkEnd from '../../../components/WalkEnd';
 
 const FeedScreen = ({ isOverview, handleOverview }) => {

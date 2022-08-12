@@ -1,6 +1,6 @@
 import { StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
 import React from 'react';
-import BottomUpModal from '../../../components/BottomUpModal';
+import CenterModal from '../../../components/CenterModal';
 import WalkEnd from '../../../components/WalkEnd';
 import CustomImage from '../../../components/CustomImage';
 import { MapImage } from '../../../constant/images/Temp';
@@ -23,7 +23,7 @@ const RecordScreen = ({
           resizeMode="contain"
         />
       </TouchableWithoutFeedback>
-      <BottomUpModal
+      <CenterModal
         isVisible={isVisible}
         closeModal={() => setIsVisible(false)}
         handleConfirm={handleConfirm}

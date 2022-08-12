@@ -11,28 +11,28 @@ import { boldFontFamily, boldFontSize } from '../constant/fonts';
 import {
   backgroundColor,
   blackColor,
-  borderColor,
+  buttonColor,
   descriptionColor,
-  emphasisColor,
   mainColor,
 } from '../constant/colors';
 import { windowHeight, windowWidth } from '../constant/styles';
 import CustomImage from './CustomImage';
 import CloseIcon from '../constant/images/Close';
-import CustomButton from './CustomButton';
 
 const BottomUpModal = ({
-  mainText = '젠오님의 산책을\n기록할게요',
-  content = '동선기록을 시작합니다.\n즐거운 산책경험을 만드세요!',
+  mainText = '',
+  subText = '',
   isVisible = false,
   closeModal,
   handleConfirm,
-  version = 1,
   renderMainBody = null,
+  modalContainerStyle = {},
 }) => {
   return (
     <Modal
-      style={styles.modalContainer}
+      style={[
+        modalContainerStyle ? modalContainerStyle : styles.modalContainer,
+      ]}
       animationIn="slideInUp"
       isVisible={isVisible}
       onBackdropPress={closeModal}
@@ -46,20 +46,41 @@ const BottomUpModal = ({
         <View style={styles.modalWrapper}>{renderMainBody()}</View>
       ) : (
         <View style={styles.modalWrapper}>
-          <View style={styles.topContainer}>
-            <Text style={styles.titleText}>{mainText}</Text>
-            <TouchableWithoutFeedback onPress={closeModal}>
-              <CustomImage source={CloseIcon} style={styles.close} />
-            </TouchableWithoutFeedback>
+          <View style={styles.bar} />
+          <View style={styles.container}>
+            <View style={styles.imageContainer}>
+              <CustomImage source={Sample} style={styles.image} />
+              <View style={styles.imageGradient} />
+              <View style={styles.imageWrapper}>
+                <CustomImage source={StarIcon} style={styles.starIcon} />
+                <Text style={styles.num}>4.3</Text>
+              </View>
+            </View>
+            <View style={styles.informationContainer}>
+              <View style={styles.textContainer}>
+                <Text style={styles.name}>{creator}</Text>
+                <Text style={styles.title}>{title}</Text>
+                <Text>
+                  {time !== 0 && (
+                    <Text style={styles.description}>약 {time}분 / </Text>
+                  )}
+                  {distance !== 0 && (
+                    <Text style={styles.description}>1.25km / </Text>
+                  )}
+                  <Text style={styles.description}>핀 {pinNum}개 </Text>
+                </Text>
+              </View>
+              <View style={styles.bottomContainer}>
+                <TouchableWithoutFeedback>
+                  <View style={styles.bottomWrapper}>
+                    <Text style={styles.bottomText}>주소복사</Text>
+                  </View>
+                </TouchableWithoutFeedback>
+              </View>
+            </View>
           </View>
-          <View style={styles.middleContainer}>
-            <Text style={styles.content}>{content}</Text>
-          </View>
-          <CustomButton
-            title="기록 시작"
-            style={styles.button}
-            handlePress={handleConfirm}
-          />
+          <PinTabContainer />
+          <View style={styles.buttonContainer} />
         </View>
       )}
     </Modal>
@@ -70,55 +91,118 @@ export default BottomUpModal;
 
 const styles = StyleSheet.create({
   modalContainer: {
+    position: 'absolute',
+    left: 0,
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
-    marginHorizontal: 41,
+    justifyContent: 'flex-end',
+    bottom: -20,
   },
   modalWrapper: {
-    backgroundColor: 'white',
-    width: '100%',
-    paddingTop: 30,
-    paddingBottom: 24,
-    paddingHorizontal: 18,
-    borderRadius: 15,
+    width: windowWidth,
+    paddingTop: 12,
+    paddingBottom: 25,
+    paddingHorizontal: 16,
     justifyContent: 'center',
+    backgroundColor: 'white',
   },
-  topContainer: {
+  bar: {
+    backgroundColor: backgroundColor,
+    borderRadius: 2.5,
+    width: 50,
+    height: 4,
+    alignSelf: 'center',
+  },
+  container: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
-    justifyContent: 'space-between',
+    paddingTop: 23,
   },
-  titleText: {
-    fontFamily: boldFontFamily,
-    fontSize: 20,
-    color: 'black',
-    lineHeight: 31,
+  imageContainer: {
+    width: 96,
+    height: 96,
   },
-  close: {
-    width: 24,
-    height: 24,
-  },
-  middleContainer: {
-    marginTop: 10,
-    marginBottom: 60,
-  },
-  content: {
-    lineHeight: 20,
-    color: descriptionColor,
-  },
-  button: {
-    position: 'relative',
+  imageGradient: {
+    backgroundColor: 'rgba(0,0,0,0.04)',
+    position: 'absolute',
+    bottom: 0,
+    start: 0,
     width: '100%',
-    paddingBottom: 0,
-    paddingTop: 0,
-    paddingHorizontal: 0,
-    justifyContent: 'flex-start',
-    shadowColor: 'rgba(0,0,0,0)',
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    shadowOpacity: 0,
+    height: '100%',
+  },
+  gradient: {
+    position: 'absolute',
+    width: windowWidth,
+    height: '100%',
+    bottom: 0,
+  },
+  imageWrapper: {
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+    justifyContent: 'flex-end',
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingEnd: 9.7,
+    paddingBottom: 8.6,
+  },
+  image: {
+    width: 96,
+    height: 96,
+  },
+  num: {
+    fontFamily: boldFontFamily,
+    color: 'white',
+  },
+  informationContainer: {
+    flex: 1,
+    paddingStart: 16,
+    flexDirection: 'column',
+  },
+  textContainer: {
+    flex: 1,
+    width: '100%',
+  },
+  name: {
+    color: mainColor,
+    fontFamily: boldFontFamily,
+    fontSize: 13,
+    letterSpacing: -0.26,
+    marginBottom: 4,
+  },
+  title: {
+    fontFamily: boldFontFamily,
+    letterSpacing: -0.28,
+    color: blackColor,
+    marginBottom: 5,
+  },
+  description: {
+    letterSpacing: -0.28,
+    color: 'rgb(137,137,137)',
+  },
+  bottomContainer: {
+    height: 30,
+    alignSelf: 'flex-end',
+    alignItems: 'flex-end',
+    justifyContent: 'flex-end',
+  },
+  bottomWrapper: {
+    paddingHorizontal: 12,
+    paddingTop: 7,
+    paddingBottom: 5,
+    backgroundColor: 'rgb(248,248,248)',
+    borderRadius: 3,
+  },
+  starIcon: {
+    width: 18,
+    height: 18,
+    marginRight: 5.7,
+  },
+  buttonContainer: {
+    width: windowWidth,
+    height: 44,
+    bottom: 0,
+    position: 'absolute',
+    backgroundColor: 'red',
+    zIndex: 999,
   },
 });
