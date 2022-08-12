@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 import AddMarker from "../functions/AddMarker";
+import DrawCurrentPos from "../functions/DrawCurrentPos";
 import DrawMarker from "../functions/DrawMarker";
 import DrawPolyline from "../functions/DrawPolyline";
 import GeoLocationMarker from "../functions/GeolocationMarker";
+import './css/MapScreen.css';
 
 const MapScreen = ({
   currentPosition,
@@ -12,38 +14,106 @@ const MapScreen = ({
   setPosition,
 }) => {
   const [line, setLine] = useState();
-  const [center, setCenter] = useState(currentPosition);
+  const [isGeolocation, setIsGeolocation] = useState(false);
+  const [isCurrentPosClicked, setIsCurrentPosClicked] = useState(false);
   //console.log(line.getLength());
+
+  
+  const [state, setState] = useState({
+    center: {
+      lat: 37.54699,
+      lng: 127.09598,
+    },
+    errMsg: null,
+    isLoading: true,
+  });
+  const [currentState, setCurrentState] = useState(state)
+  
+  const geoLocation = () => {
+    if (navigator.geolocation) {
+      // GeoLocation을 이용해서 접속 위치를 얻어옵니다
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          // setCenter({
+          //   lat: position.coords.latitude, // 위도
+          //   lng: position.coords.longitude, // 경도
+          // });
+          //alert('set하는뎅')
+          setState((prev) => ({
+            ...prev,
+            center: {
+              lat: position.coords.latitude, // 위도
+              lng: position.coords.longitude, // 경도
+            },
+            isLoading: false,
+          }));
+          setIsGeolocation(true);
+        },
+        (err) => {
+          setState((prev) => ({
+            ...prev,
+            errMsg: err.message,
+            isLoading: false,
+          }));
+        }
+      );
+    } else {
+      // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
+      setState((prev) => ({
+        ...prev,
+        errMsg: "geolocation을 사용할수 없어요..",
+        isLoading: false,
+      }));
+    }
+  }
+  useEffect(() => {
+    geoLocation();   
+  }, []);
+
+  useEffect(() => {
+    if(isGeolocation){
+      setCurrentState(state);
+      setIsGeolocation(false)
+    }
+  }, [isGeolocation])
+
   const handleReceiveMessage = async () => {
     await window.addEventListener("message", (event) => {
       if (event.data === "currentPos") {
-        alert("message received: " + event.data);
+        setIsCurrentPosClicked(true);
+        // alert("message received: " + event.data);
       }
-      // if (event.data[0] === "3") {
-      //   setCurrentPosition({
-      //     lat: Number(event.data.split(",")[0]),
-      //     lng: Number(event.data.split(",")[1]),
-      //   });
-      // }
-      // }
-      //alert("message received: " + event.data[0]);
+      else if (event.data === "createPin") {
+        //setIsCurrentPosClicked(true);
+        // alert("message received: " + event.data);
+      }
     });
   };
 
   useEffect(() => {
-    handleReceiveMessage();
-  }, []);
+    if(isCurrentPosClicked===true){   
+      //alert('클릭됨');
+      setIsCurrentPosClicked(false);
+      {/* 현재 위치 */}
+      geoLocation();
+      //setCurrentState(state);
+      // <GeoLocationMarker setCenter={setCenter}/>
+    }
+  },[isCurrentPosClicked])
 
-  {
-    /* TODO 지도 중심 바뀌면 바꿔주기!*/
-  }
+  useEffect(() => {
+    handleReceiveMessage();
+    // <GeoLocationMarker setCenter={setCenter} />
+  });
+  
   return (
+    <div className='preventDrag'>
     <Map // 지도를 표시할 Container
-      center={{
+      center={
         // 지도의 중심좌표
-        lat: center.lat,
-        lng: center.lng,
-      }}
+        state.center
+      }
+      isPanto={true}
       style={{
         // 지도의 크기
         width: Screen.width,
@@ -57,16 +127,21 @@ const MapScreen = ({
         });
         handleSubmit(position);
       }}
-      onCenterChanged={(map) =>
-        setCenter({
-          lat: map.getCenter().getLat(),
-          lng: map.getCenter().getLng(),
-        })
-      }
+      onCenterChanged={(map) =>      
+        setState((prev) => ({
+          ...prev,
+            center: {
+              lat: map.getCenter().getLat(), // 위도
+              lng: map.getCenter().getLng(), // 경도
+            },
+            isLoading: false,
+        }))}
     >
-      <GeoLocationMarker setCenter={setCenter} />
+      {/* 현재 위치 */}
+      {/* <GeoLocationMarker setCenter={setCenter} /> */}
       <AddMarker position={position} />
       {/* current position */}
+      <DrawCurrentPos state={currentState} />
       {/* <DrawMarker posX={currentPosition.lat} posY={currentPosition.lng} /> */}
       <DrawPolyline
         path={[
@@ -91,6 +166,7 @@ const MapScreen = ({
       />
       {/* [126.90382463198507,37.53766771249391],[126.90378684196669,37.53779371044991],[126.90360747959478,37.537930260324906],[126.90336570256882,37.538086774921744],[126.90318023041736,37.53827962752207],[126.90293311544221,37.53839555357543],[126.90266002935026,37.538574442097], */}
     </Map>
+    </div>  
   );
 };
 

@@ -14,7 +14,7 @@ const DrawMarker = ({ posX, posY }) => {
         src: currentPos,
         size: {
           width: 64,
-          height: 69,
+          height: 64,
         }, // 마커이미지의 크기입니다
         options: {
           offset: {

@@ -60,8 +60,7 @@ const HomeScreen = ({ geoLocation }) => {
   return (
     <View style={{ flex: 1 }}>
       <WebView
-        //source={{ uri: 'https://a830-221-146-182-190.jp.ngrok.io' }}
-        source={{ uri: 'https://4e45-110-8-134-126.jp.ngrok.io/' }}
+        source={{uri:'https://53fb-110-8-134-126.jp.ngrok.io'}}
         injectedJavaScript={INJECTED_JAVASCRIPT}
         //injectJavaScript
         ref={ref}

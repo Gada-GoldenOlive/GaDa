@@ -11,6 +11,7 @@ const MapContainer = () => {
     lng: 127.09598,
   });
   const [position, setPosition] = useState();
+  const [isCurrentPosClicked, setIsCurrentPosClicked] = useState(false);
   //const [center, setCenter] = useState();
 
   //const wsTmp = new WebSocket(`wss://4e45-110-8-134-126.jp.ngrok.io:3000/ws`);
@@ -19,6 +20,7 @@ const MapContainer = () => {
   const handleReceiveMessage = async () => {
     await window.addEventListener("message", (event) => {
       if (event.data === "currentPos") {
+        setIsCurrentPosClicked(true);
         alert("message received: " + event.data);
       }
       // if (event.data[0] === "3") {
@@ -65,13 +67,14 @@ const MapContainer = () => {
     }
   };
 
-  alert("현재 위치: " + currentPosition.lat + currentPosition.lng);
+  //alert("현재 위치: " + currentPosition.lat + currentPosition.lng);
   return (
     <MapScreen
       currentPosition={currentPosition}
       position={position}
       handleSubmit={handleSubmit}
       setPosition={setPosition}
+      //isCurrentPosClicked={isCurrentPosClicked}
       // center={center}
       // setCenter={setCenter}
     />

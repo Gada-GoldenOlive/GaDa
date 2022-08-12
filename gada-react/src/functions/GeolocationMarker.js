@@ -12,7 +12,7 @@ const GeoLocationMarker = ({ setCenter }) => {
     errMsg: null,
     isLoading: true,
   });
-
+  
   useEffect(() => {
     if (navigator.geolocation) {
       // GeoLocation을 이용해서 접속 위치를 얻어옵니다
