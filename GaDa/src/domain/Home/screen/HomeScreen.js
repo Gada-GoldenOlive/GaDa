@@ -39,8 +39,6 @@ const HomeScreen = ({ geoLocation }) => {
       var lngEndIdx = data.indexOf('}');
       var lng = Number(data.slice(lngStartIdx, lngEndIdx));
 
-      //setMarkerPos({data.slice(6, 25), data.slice(31, -1)});
-      //console.log(lat, lng);
       setMarkerPos({ lat: lat, lng: lng });
     }
   };
