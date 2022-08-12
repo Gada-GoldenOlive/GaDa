@@ -102,11 +102,7 @@ const WritingFrame = ({
         <TouchableWithoutFeedback onPress={openModal}>
           <View style={styles.imageContainer}>
             {/* <View style={styles.graient} /> */}
-            <CustomImage
-              source={{ uri: image }}
-              style={styles.image}
-              resizeMode="contain"
-            />
+            <CustomImage source={{ uri: image }} style={styles.image} />
           </View>
         </TouchableWithoutFeedback>
         <View style={styles.writingContainer}>
