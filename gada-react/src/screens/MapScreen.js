@@ -18,6 +18,7 @@ const MapScreen = ({
   const [line, setLine] = useState();
   const [isGeolocation, setIsGeolocation] = useState(false);
   const [isCurrentPosClicked, setIsCurrentPosClicked] = useState(false);
+  const [isAddPinClicked, setIsAddPinClicked] = useState(false);
   //console.log(line.getLength());
 
   const [state, setState] = useState({
@@ -84,24 +85,24 @@ const MapScreen = ({
         setIsCurrentPosClicked(true);
         // alert("message received: " + event.data);
       } else if (event.data === "addPin") {
-        //setIsCurrentPosClicked(true);
+        setIsAddPinClicked(true);
         // alert("message received: " + event.data);
       }
     });
   };
 
+  // 각 버튼 클릭시 실행할 것들
   useEffect(() => {
     if (isCurrentPosClicked === true) {
-      //alert('클릭됨');
       setIsCurrentPosClicked(false);
-      {
-        /* 현재 위치 */
-      }
       geoLocation();
-      //setCurrentState(state);
-      // <GeoLocationMarker setCenter={setCenter}/>
     }
   }, [isCurrentPosClicked]);
+  // useEffect(() => {
+  //   if (isAddPinClicked === true) {
+  //     setPosition(state.center);
+  //   }
+  // }, [isAddPinClicked]);
 
   useEffect(() => {
     handleReceiveMessage();
@@ -123,11 +124,13 @@ const MapScreen = ({
         }}
         level={4} // 지도의 확대 레벨
         onClick={(_t, mouseEvent) => {
-          setPosition({
-            lat: mouseEvent.latLng.getLat(),
-            lng: mouseEvent.latLng.getLng(),
-          });
-          handleSubmit(position);
+          if (isAddPinClicked) {
+            setPosition({
+              lat: mouseEvent.latLng.getLat(),
+              lng: mouseEvent.latLng.getLng(),
+            });
+            handleSubmit(position);
+          }
         }}
         onCenterChanged={(map) =>
           setState((prev) => ({
@@ -144,11 +147,7 @@ const MapScreen = ({
         {/* <GeoLocationMarker setCenter={setCenter} /> */}
 
         {/* 핀 추가 */}
-        <div>
-          hi
-          <MovePinText />
-          <AddMarker position={position} />
-        </div>
+        {isAddPinClicked && <AddMarker position={state.center} />}
 
         {/* current position */}
         <DrawCurrentPos state={currentState} />

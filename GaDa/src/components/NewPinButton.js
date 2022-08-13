@@ -14,10 +14,6 @@ const NewPinButton = ({ handleConnection, ref }) => {
     navigation.navigate('CreatePin');
   };
 
-  useEffect(() => {
-    console.log('set');
-  }, [ref]);
-  console.log(ref);
   return (
     <View style={styles.container}>
       <TouchableWithoutFeedback onPress={() => console.log('클릭')}>
