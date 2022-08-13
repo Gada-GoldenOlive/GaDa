@@ -13,6 +13,7 @@ import WebView from 'react-native-webview';
 import CustomImage from '../../../components/CustomImage';
 import CurrentPosition from '../../../constant/images/CurrentPosition';
 import NewPinButton from '../../../components/NewPinButton';
+import PinPosSubmitButton from '../components/PinPosSubmitButton';
 
 const HomeScreen = ({ geoLocation }) => {
   const ref = useRef();
@@ -59,7 +60,7 @@ const HomeScreen = ({ geoLocation }) => {
   return (
     <View style={{ flex: 1 }}>
       <WebView
-        source={{uri:'https://53fb-110-8-134-126.jp.ngrok.io'}}
+        source={{ uri: 'https://53fb-110-8-134-126.jp.ngrok.io' }}
         injectedJavaScript={INJECTED_JAVASCRIPT}
         //injectJavaScript
         ref={ref}
@@ -68,7 +69,8 @@ const HomeScreen = ({ geoLocation }) => {
         //onLoad={geoLocation(ref)}
         //postMessage={geoLocation(ref)}
       />
-        <NewPinButton />
+      <NewPinButton />
+      <PinPosSubmitButton />
       <TouchableWithoutFeedback onPress={() => geoLocation(ref)}>
         <View style={styles.currentPosIconWrapper}>
           <CustomImage style={styles.currentPosIcon} source={CurrentPosition} />
