@@ -6,7 +6,7 @@ import { bottomShadowStyle, windowWidth } from '../constant/styles';
 import Text from './MyText';
 
 const CustomButton = ({
-  title = '',
+  title = '다음',
   handlePress,
   backgroundColor,
   fontColor,

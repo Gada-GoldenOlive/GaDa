@@ -7,7 +7,6 @@ import {
 } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import CenterModal from '../../../components/CenterModal';
-import BottomUpModal from '../../../components/BottomUpModal';
 import PinInformation from '../components/PinInformation';
 import WebView from 'react-native-webview';
 import CustomImage from '../../../components/CustomImage';
@@ -59,7 +58,7 @@ const HomeScreen = ({ geoLocation }) => {
   return (
     <View style={{ flex: 1 }}>
       <WebView
-        source={{uri:'https://53fb-110-8-134-126.jp.ngrok.io'}}
+        source={{ uri: 'https://53fb-110-8-134-126.jp.ngrok.io' }}
         injectedJavaScript={INJECTED_JAVASCRIPT}
         //injectJavaScript
         ref={ref}
@@ -68,7 +67,7 @@ const HomeScreen = ({ geoLocation }) => {
         //onLoad={geoLocation(ref)}
         //postMessage={geoLocation(ref)}
       />
-        <NewPinButton />
+      <NewPinButton />
       <TouchableWithoutFeedback onPress={() => geoLocation(ref)}>
         <View style={styles.currentPosIconWrapper}>
           <CustomImage style={styles.currentPosIcon} source={CurrentPosition} />
