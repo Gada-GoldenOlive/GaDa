@@ -17,6 +17,7 @@ import PinPosSubmitButton from '../components/PinPosSubmitButton';
 import { mediumFontFamily } from '../../../constant/fonts';
 import LinearGradient from 'react-native-linear-gradient';
 import Pin from '../../../constant/images/Pin';
+import { bottomShadowStyle } from '../../../constant/styles';
 
 const HomeScreen = ({ geoLocation, handleConnection }) => {
   const ref = useRef();
@@ -73,10 +74,9 @@ const HomeScreen = ({ geoLocation, handleConnection }) => {
         //postMessage={geoLocation(ref)}
       />
       {/* <NewPinButton handleConnection={handleConnection} ref={ref} /> */}
-      <View style={styles.container}>
-        <TouchableWithoutFeedback
-          onPress={() => handleConnection(ref, 'addPin')}
-        >
+
+      <TouchableWithoutFeedback onPress={() => handleConnection(ref, 'addPin')}>
+        <View style={styles.btnContainer1}>
           <View style={styles.wrapper}>
             <LinearGradient
               colors={['rgb(64,209,126)', 'rgb(130,251,181)']}
@@ -85,9 +85,15 @@ const HomeScreen = ({ geoLocation, handleConnection }) => {
             <CustomImage source={Pin} style={styles.image} />
             <Text style={styles.text}>추가</Text>
           </View>
-        </TouchableWithoutFeedback>
-      </View>
-      <PinPosSubmitButton />
+        </View>
+      </TouchableWithoutFeedback>
+      <TouchableWithoutFeedback
+        onPress={() => handleConnection(ref, 'submitPinPos')}
+      >
+        <View style={styles.buttonWrapper}>
+          <Text style={styles.buttonText}>확인</Text>
+        </View>
+      </TouchableWithoutFeedback>
       <TouchableWithoutFeedback onPress={() => geoLocation(ref)}>
         <View style={styles.currentPosIconWrapper}>
           <CustomImage style={styles.currentPosIcon} source={CurrentPosition} />
@@ -123,7 +129,7 @@ const styles = StyleSheet.create({
     color: 'black',
   },
 
-  container: {
+  btnContainer1: {
     flex: 1,
     position: 'absolute',
     right: 18,
@@ -157,6 +163,25 @@ const styles = StyleSheet.create({
     fontFamily: mediumFontFamily,
     fontSize: 11,
     letterSpacing: -0.22,
+    color: 'white',
+  },
+  buttonWrapper: {
+    position: 'absolute',
+    top: 61,
+    right: 16,
+    //zIndex: 100,
+
+    paddingVertical: 7,
+    paddingHorizontal: 23,
+    borderRadius: 17,
+
+    backgroundColor: '#49d492',
+
+    ...bottomShadowStyle,
+  },
+  buttonText: {
+    fontFamily: mediumFontFamily,
+    fontSize: 16,
     color: 'white',
   },
 });

@@ -87,6 +87,9 @@ const MapScreen = ({
       } else if (event.data === "addPin") {
         setIsAddPinClicked(true);
         // alert("message received: " + event.data);
+      } else if (event.data === "submitPinPos") {
+        //setIsAddPinClicked(true);
+        alert("message received: " + event.data);
       }
     });
   };

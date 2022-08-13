@@ -8,24 +8,20 @@ import { MediumFontFamily } from '../constant/fonts';
 import { useNavigation } from '@react-navigation/core';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
-const NewPinButton = ({ handleConnection, ref }) => {
+const NewPinButton = () => {
   const navigation = useNavigation();
   const handleNavigate = () => {
     navigation.navigate('CreatePin');
   };
 
   return (
-    <View style={styles.container}>
-      <TouchableWithoutFeedback onPress={() => console.log('클릭')}>
-        <View style={styles.wrapper}>
-          <LinearGradient
-            colors={['rgb(64,209,126)', 'rgb(130,251,181)']}
-            style={styles.linear}
-          />
-          <CustomImage source={Pin} style={styles.image} />
-          <Text style={styles.text}>추가</Text>
-        </View>
-      </TouchableWithoutFeedback>
+    <View style={styles.wrapper}>
+      <LinearGradient
+        colors={['rgb(64,209,126)', 'rgb(130,251,181)']}
+        style={styles.linear}
+      />
+      <CustomImage source={Pin} style={styles.image} />
+      <Text style={styles.text}>추가</Text>
     </View>
   );
 };
