@@ -9,6 +9,8 @@ import HomeScreen from '../screen/HomeScreen';
 // 가능하면 거리 계산해서 일정 거리 이상 이동했을 때만 전송하도록 하기
 //
 
+const CURRENTPOS = 'currentPos';
+
 const HomeContainer = () => {
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLogitude] = useState(null);
@@ -21,7 +23,7 @@ const HomeContainer = () => {
         console.log(latitude, longitude);
         setLatitude(latitude);
         setLogitude(longitude);
-        handleConnection(ref); // 웹에 현재 위치 보내기
+        handleConnection(ref, CURRENTPOS); // 웹에 현재 위치 보내기
       },
       error => {
         console.log(error.code, error.message);
@@ -30,7 +32,7 @@ const HomeContainer = () => {
     );
   };
 
-  const handleConnection = ref => {
+  const handleConnection = (ref, ver) => {
     const generateOnMessageFunction = data =>
       `(function() {
     window.dispatchEvent(new MessageEvent('message', {data: ${JSON.stringify(
@@ -38,10 +40,12 @@ const HomeContainer = () => {
     )}}));
   })()`;
 
-    ref.current.injectJavaScript(generateOnMessageFunction('currentPos'));
+    ref.current.injectJavaScript(generateOnMessageFunction(ver));
   };
 
-  return <HomeScreen geoLocation={geoLocation} />;
+  return (
+    <HomeScreen geoLocation={geoLocation} handleConnection={handleConnection} />
+  );
 };
 
 export default HomeContainer;

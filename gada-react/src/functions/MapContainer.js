@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import MovePinText from "../screens/components/MovePinText";
 import MapScreen from "../screens/MapScreen";
 import GeoLocationMarker from "./GeolocationMarker";
 
@@ -78,6 +79,7 @@ const MapContainer = () => {
       // center={center}
       // setCenter={setCenter}
     />
+    // <MovePinText />
   );
 };
 
