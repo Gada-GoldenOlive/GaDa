@@ -1,15 +1,10 @@
-import logo from './logo.svg';
-import './App.css';
-import React, { useEffect } from 'react';
-import MapContainer from './MapContainer';
-const { kakao } = window;
+//import logo from "./logo.svg";
+import "./App.css";
+import React from "react";
+import MapContainer from "./functions/MapContainer";
 
 function App() {
-  
-
-  return (
-    <MapContainer/>
-  );
+  return <MapContainer />;
 }
 
 export default App;

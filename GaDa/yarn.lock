@@ -1698,6 +1698,20 @@
     plist "^3.0.2"
     xcode "^3.0.0"
 
+"@react-native-community/cli-platform-ios@^8.0.6":
+  version "8.0.6"
+  resolved "https://registry.yarnpkg.com/@react-native-community/cli-platform-ios/-/cli-platform-ios-8.0.6.tgz#ab80cd4eb3014b8fcfc9bd1b53ec0a9f8e5d1430"
+  integrity sha512-CMR6mu/LVx6JVfQRDL9uULsMirJT633bODn+IrYmrwSz250pnhON16We8eLPzxOZHyDjm7JPuSgHG3a/BPiRuQ==
+  dependencies:
+    "@react-native-community/cli-tools" "^8.0.4"
+    chalk "^4.1.2"
+    execa "^1.0.0"
+    glob "^7.1.3"
+    js-yaml "^3.13.1"
+    lodash "^4.17.15"
+    ora "^5.4.1"
+    plist "^3.0.2"
+
 "@react-native-community/cli-plugin-metro@^7.0.4":
   version "7.0.4"
   resolved "https://registry.yarnpkg.com/@react-native-community/cli-plugin-metro/-/cli-plugin-metro-7.0.4.tgz#cd3010f6b9f955df2630ceea9fc8816a12843dde"
@@ -1841,6 +1855,11 @@
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@react-native-community/eslint-plugin/-/eslint-plugin-1.2.0.tgz#7d6d789ae8edf73dc9bed1246cd48277edea8066"
   integrity sha512-o6aam+0Ug1xGK3ABYmBm0B1YuEKfM/5kaoZO0eHbZwSpw9UzDX4G5y4Nx/K20FHqUmJHkZmLvOUFYwN4N+HqKA==
+
+"@react-native-community/geolocation@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@react-native-community/geolocation/-/geolocation-2.1.0.tgz#3ed15a4a357104a53c0bb824f47b59cb2a65b6ba"
+  integrity sha512-xDAl5S85cRVGeUxpjX/+5lyVFNHHArXN18NQnfzCLxxiVxtC2sKENuLE4J0kjAlD5lEp+IXVqfd3iGQfo99tkA==
 
 "@react-native/assets@1.0.0":
   version "1.0.0"
