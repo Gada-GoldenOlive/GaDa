@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from 'react-native';
+import { useSelector } from 'react-redux';
 import Text from './MyText';
 //import {SafeAreaView} from 'react-native-safe-area-context';
 import {
@@ -97,6 +98,8 @@ const BottomTabBar = ({ state, handlePress }) => {
 const CustomBottomTab = props => {
   const [visible, setVisible] = useState(true);
   const { state, navigation } = props;
+  const { bottomTabVisible } = useSelector(state => state.status);
+  console.log(bottomTabVisible);
   useEffect(() => {
     let keyboardEventListeners = [];
     if (Platform.OS === 'android') {
@@ -131,12 +134,11 @@ const CustomBottomTab = props => {
     navigation.navigate(name);
   };
   if (!visible) return null;
-
-  return (
+  return bottomTabVisible ? (
     <SafeAreaView edges={['bottom']}>
       <BottomTabBar state={state} handlePress={handlePress} />
     </SafeAreaView>
-  );
+  ) : null;
 };
 
 const style = StyleSheet.create({
@@ -152,7 +154,7 @@ const style = StyleSheet.create({
       width: 0,
       height: -2,
     },
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.4,
     //shadowRadius: 2.22,
 
     elevation: 3,

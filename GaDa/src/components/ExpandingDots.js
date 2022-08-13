@@ -1,5 +1,6 @@
 import React from 'react';
 import { Animated, StyleSheet, View } from 'react-native';
+import { dotColor, activeDotColor } from '../constant/colors';
 
 const ExpandingDot = ({
   scrollX,
@@ -9,15 +10,15 @@ const ExpandingDot = ({
   inActiveDotOpacity,
   inActiveDotColor,
   expandingDotWidth,
-  activeDotColor,
+  activeDotColor: activeColor,
   width,
 }) => {
   const defaultProps = {
-    inActiveDotColor: inActiveDotColor || '#000',
+    inActiveDotColor: inActiveDotColor || dotColor,
     inActiveDotOpacity: inActiveDotOpacity || 0.5,
     expandingDotWidth: expandingDotWidth || 20,
     dotWidth: dotStyle.width || 10,
-    activeDotColor: activeDotColor || '#347af0',
+    activeDotColor: activeColor || activeDotColor,
   };
 
   return (

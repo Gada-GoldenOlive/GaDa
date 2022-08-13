@@ -1,10 +1,6 @@
-import React from 'react';
-import {
-  Pressable,
-  StyleSheet,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native';
+import React, { useEffect } from 'react';
+import Modal from 'react-native-modal';
+import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import Text from '../../../components/MyText';
 import { boldFontFamily, boldFontSize } from '../../../constant/fonts';
 import {
@@ -16,19 +12,21 @@ import { windowHeight, windowWidth } from '../../../constant/styles';
 import CustomImage from '../../../components/CustomImage';
 import { Sample } from '../../../constant/images/Temp';
 import StarIcon from '../../../constant/images/Star';
-import LinearGradient from 'react-native-linear-gradient';
+import PinTabContainer from '../container/PinTabContainer';
+const PinInformation = ({ walkWay, pinList, closeModal, isVisible }) => {
+  const {
+    id = 'a',
+    title = '성동구 왕십리로 산책길',
+    address = '서울특별시 어쩌구',
+    distance = 0,
+    time = 0,
+    path = {},
+    creator = '성동구 불주먹',
+    pinNum = 0,
+  } = walkWay;
 
-const PinInformation = ({
-  mainText = '',
-  subText = '',
-  isVisible = false,
-  closeModal,
-  handleConfirm,
-  version = 1,
-  renderMainBody = null,
-}) => {
   return (
-    <View
+    <Modal
       style={styles.modalContainer}
       animationIn="slideInUp"
       isVisible={isVisible}
@@ -38,43 +36,46 @@ const PinInformation = ({
       deviceWidth={windowWidth}
       backdropColor="gray"
       backdropOpacity={0.5}
+      coverScreen={false}
     >
-      {renderMainBody ? (
-        <View style={styles.modalWrapper}>{renderMainBody()}</View>
-      ) : (
-        <View style={styles.modalWrapper}>
-          <View style={styles.bar} />
-          <View style={styles.container}>
-            <View style={styles.imageContainer}>
-              <CustomImage source={Sample} style={styles.image} />
-              <View style={styles.imageGradient} />
-              <View style={styles.imageWrapper}>
-                <CustomImage source={StarIcon} style={styles.starIcon} />
-                <Text style={styles.num}>4.3</Text>
-              </View>
+      <View style={styles.modalWrapper}>
+        <View style={styles.bar} />
+        <View style={styles.container}>
+          <View style={styles.imageContainer}>
+            <CustomImage source={Sample} style={styles.image} />
+            <View style={styles.imageGradient} />
+            <View style={styles.imageWrapper}>
+              <CustomImage source={StarIcon} style={styles.starIcon} />
+              <Text style={styles.num}>4.3</Text>
             </View>
-            <View style={styles.informationContainer}>
-              <View style={styles.textContainer}>
-                <Text style={styles.name}>성수동불주먹</Text>
-                <Text style={styles.title}>성동구 왕십리로 산책길</Text>
-                <Text>
-                  <Text style={styles.description}>약 25분 / </Text>
-                  <Text style={styles.description}>1.25km</Text>
-                  <Text style={styles.description}> / 핀 3개 </Text>
-                </Text>
-              </View>
-              <View style={styles.bottomContainer}>
-                <TouchableWithoutFeedback>
-                  <View style={styles.bottomWrapper}>
-                    <Text style={styles.bottomText}>주소복사</Text>
-                  </View>
-                </TouchableWithoutFeedback>
-              </View>
+          </View>
+          <View style={styles.informationContainer}>
+            <View style={styles.textContainer}>
+              <Text style={styles.name}>{creator}</Text>
+              <Text style={styles.title}>{title}</Text>
+              <Text>
+                {time !== 0 && (
+                  <Text style={styles.description}>약 {time}분 / </Text>
+                )}
+                {distance !== 0 && (
+                  <Text style={styles.description}>1.25km / </Text>
+                )}
+                <Text style={styles.description}>핀 {pinNum}개 </Text>
+              </Text>
+            </View>
+            <View style={styles.bottomContainer}>
+              <TouchableWithoutFeedback>
+                <View style={styles.bottomWrapper}>
+                  <Text style={styles.bottomText}>주소복사</Text>
+                </View>
+              </TouchableWithoutFeedback>
             </View>
           </View>
         </View>
-      )}
-    </View>
+        <PinTabContainer />
+        <View style={styles.buttonContainer} />
+      </View>
+    </Modal>
   );
 };
 
@@ -83,15 +84,17 @@ export default PinInformation;
 const styles = StyleSheet.create({
   modalContainer: {
     position: 'absolute',
-    bottom: 0,
-    ////alignItems: 'center',
+    left: -18,
+    bottom: -20,
     justifyContent: 'flex-end',
+    flex: 1,
+    height: '80%',
   },
   modalWrapper: {
     width: windowWidth,
     paddingTop: 12,
-    paddingBottom: 25,
-    paddingHorizontal: 16,
+    flex: 1,
+    backgroundColor: 'white',
   },
   bar: {
     backgroundColor: backgroundColor,
@@ -103,6 +106,8 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     paddingTop: 23,
+
+    paddingHorizontal: 16,
   },
   imageContainer: {
     width: 96,

@@ -1,9 +1,5 @@
-// const url = '';
-const url = '';
-// const url = '';
+const url = 'http://52.79.125.253:3000';
 
-const chatUrl = '';
 const defaultURL = url;
 
 export default defaultURL;
-export {chatUrl};

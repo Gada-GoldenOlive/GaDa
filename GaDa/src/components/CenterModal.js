@@ -1,23 +1,33 @@
 import React from 'react';
-import { Pressable, StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
+import {
+  Pressable,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 import Modal from 'react-native-modal';
 import Text from './MyText';
 import { boldFontFamily, boldFontSize } from '../constant/fonts';
 import {
-    blackColor,
-  buttonColor,
+  backgroundColor,
+  blackColor,
+  borderColor,
   descriptionColor,
+  emphasisColor,
+  mainColor,
 } from '../constant/colors';
 import { windowHeight, windowWidth } from '../constant/styles';
 import CustomImage from './CustomImage';
-import CloseIcon from '../constant/images/Close'
+import CloseIcon from '../constant/images/Close';
+import CustomButton from './CustomButton';
 
 const CenterModal = ({
-  mainText = '',
-  subText = '',
+  mainText = '젠오님의 산책을\n기록할게요',
+  content = '동선기록을 시작합니다.\n즐거운 산책경험을 만드세요!',
   isVisible = false,
   closeModal,
   handleConfirm,
+  version = 1,
   renderMainBody = null,
 }) => {
   return (
@@ -36,22 +46,21 @@ const CenterModal = ({
         <View style={styles.modalWrapper}>{renderMainBody()}</View>
       ) : (
         <View style={styles.modalWrapper}>
-            <View style={styles.topContainer}>
-                <Text style={styles.title}>{mainText}</Text>
-                <TouchableWithoutFeedback onPress={closeModal}>
-                    <CustomImage style={styles.close} source={CloseIcon}/>
-                </TouchableWithoutFeedback>
-            </View>
-            <View style={styles.subContainer}>
-                    <Text style={styles.subText}>{subText}</Text>
-                </View>
-            <TouchableWithoutFeedback onPress={handleConfirm}>
-                <View style={styles.buttonContainer}>
-                    <Text style={styles.buttonText}>기록시작</Text>
-                </View>
+          <View style={styles.topContainer}>
+            <Text style={styles.titleText}>{mainText}</Text>
+            <TouchableWithoutFeedback onPress={closeModal}>
+              <CustomImage source={CloseIcon} style={styles.close} />
             </TouchableWithoutFeedback>
+          </View>
+          <View style={styles.middleContainer}>
+            <Text style={styles.content}>{content}</Text>
+          </View>
+          <CustomButton
+            title="기록 시작"
+            style={styles.button}
+            handlePress={handleConfirm}
+          />
         </View>
-        
       )}
     </Modal>
   );
@@ -64,56 +73,52 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    zIndex: 999,
-    paddingHorizontal: 23
+    marginHorizontal: 41,
   },
   modalWrapper: {
-    width: '100%',
     backgroundColor: 'white',
+    width: '100%',
     paddingTop: 30,
     paddingBottom: 24,
     paddingHorizontal: 18,
     borderRadius: 15,
+    justifyContent: 'center',
   },
   topContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
   },
-  title: {
-    fontSize: 20,
+  titleText: {
     fontFamily: boldFontFamily,
+    fontSize: 20,
+    color: 'black',
     lineHeight: 31,
-    letterSpacing: -0.4,
-    color: blackColor
-
   },
   close: {
     width: 24,
-    height: 24
+    height: 24,
   },
-  subContainer: {
+  middleContainer: {
     marginTop: 10,
     marginBottom: 60,
   },
-  subText: {
+  content: {
     lineHeight: 20,
-    letterSpacing: -0.28,
-    color: descriptionColor
+    color: descriptionColor,
   },
-  buttonContainer: {
+  button: {
+    position: 'relative',
     width: '100%',
-    backgroundColor: buttonColor,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingTop: 13,
-    borderRadius: 9,
-    paddingBottom: 14,
+    paddingBottom: 0,
+    paddingTop: 0,
+    paddingHorizontal: 0,
+    justifyContent: 'flex-start',
+    shadowColor: 'rgba(0,0,0,0)',
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 0,
   },
-  buttonText: {
-    fontFamily: boldFontFamily,
-    fontSize: boldFontSize,
-    lineHeight: 31,
-    letterSpacing: -0.32,
-    color: 'white'
-  }
 });

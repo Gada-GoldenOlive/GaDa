@@ -12,6 +12,7 @@ import PinInformation from '../components/PinInformation';
 import WebView from 'react-native-webview';
 import CustomImage from '../../../components/CustomImage';
 import CurrentPosition from '../../../constant/images/CurrentPosition';
+import NewPinButton from '../../../components/NewPinButton';
 
 const HomeScreen = ({ geoLocation }) => {
   const ref = useRef();
@@ -67,6 +68,7 @@ const HomeScreen = ({ geoLocation }) => {
         //onLoad={geoLocation(ref)}
         //postMessage={geoLocation(ref)}
       />
+        <NewPinButton />
       <TouchableWithoutFeedback onPress={() => geoLocation(ref)}>
         <View style={styles.currentPosIconWrapper}>
           <CustomImage style={styles.currentPosIcon} source={CurrentPosition} />
@@ -74,22 +76,6 @@ const HomeScreen = ({ geoLocation }) => {
         </View>
       </TouchableWithoutFeedback>
     </View>
-    // <TouchableWithoutFeedback onPress={closeModal}>
-    //   <View style={styles.container}>
-    //     <TouchableWithoutFeedback onPress={openModal}>
-    //       {/* <Text>HomeScreen</Text> */}
-    //     </TouchableWithoutFeedback>
-    //     {/*<BottomUpModal mainText={`젠오님의 산책을\n기록할게요`} subText = {`동선기록을 시작합니다.\n즐거운 산책경험을 만드세요!`} isVisible={isVisible} closeModal={closeModal} />*/}
-    //     {isVisible && (
-    //       <PinInformation
-    //         mainText={`젠오님의 산책을\n기록할게요`}
-    //         subText={`동선기록을 시작합니다.\n즐거운 산책경험을 만드세요!`}
-    //         isVisible={isVisible}
-    //         closeModal={closeModal}
-    //       />
-    //     )}
-    //   </View>
-    // </TouchableWithoutFeedback>
   );
 };
 

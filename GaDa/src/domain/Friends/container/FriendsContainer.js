@@ -1,12 +1,17 @@
-import {View, Text} from 'react-native';
-import React from 'react';
+import { View } from 'react-native';
+import React, { useEffect } from 'react';
+import FriendsScreen from '../screen/FriendsScreen';
+
+import { getUserList } from '../../../APIs/user';
 
 const FriendsContainer = () => {
-  return (
-    <View>
-      <Text>FriendsContainer</Text>
-    </View>
-  );
+  const fetchData = async () => {
+    const res = await getUserList();
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
+  return <FriendsScreen />;
 };
 
 export default FriendsContainer;
