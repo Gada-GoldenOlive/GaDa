@@ -21,20 +21,20 @@ export const bottomShadowStyle = {
   shadowColor: 'rgba(0,0,0,0.25)',
   shadowOffset: {
     width: 0,
-    height: -2,
+    height: 2,
   },
-  shadowOpacity: 0.14,
-
+  shadowOpacity: 1,
+  shadowRadius: 7,
   elevation: 3,
 };
 export const topShadowStyle = {
   shadowColor: 'rgba(0,0,0,0.25)',
   shadowOffset: {
     width: 0,
-    height: 2,
+    height: -7,
   },
-  shadowOpacity: 0.14,
-
+  shadowOpacity: 1,
+  shadowRadius: 7,
   elevation: 3,
 };
 export const tagStyle = {

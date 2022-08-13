@@ -29,9 +29,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#49d492',
 
     ...bottomShadowStyle,
-    ...topShadowStyle,
-
-    shadowOpacity: 1,
   },
   buttonText: {
     fontFamily: mediumFontFamily,

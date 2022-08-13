@@ -83,7 +83,7 @@ const MapScreen = ({
       if (event.data === "currentPos") {
         setIsCurrentPosClicked(true);
         // alert("message received: " + event.data);
-      } else if (event.data === "createPin") {
+      } else if (event.data === "addPin") {
         //setIsCurrentPosClicked(true);
         // alert("message received: " + event.data);
       }

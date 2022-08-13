@@ -1,5 +1,5 @@
 import { StyleSheet, View } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Pin from '../constant/images/Pin';
 import CustomImage from './CustomImage';
 import Text from './MyText';
@@ -7,16 +7,20 @@ import LinearGradient from 'react-native-linear-gradient';
 import { MediumFontFamily } from '../constant/fonts';
 import { useNavigation } from '@react-navigation/core';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
-import { bottomShadowStyle } from '../constant/styles';
 
-const NewPinButton = () => {
+const NewPinButton = ({ handleConnection, ref }) => {
   const navigation = useNavigation();
   const handleNavigate = () => {
     navigation.navigate('CreatePin');
   };
+
+  useEffect(() => {
+    console.log('set');
+  }, [ref]);
+  console.log(ref);
   return (
     <View style={styles.container}>
-      <TouchableWithoutFeedback onPress={handleNavigate}>
+      <TouchableWithoutFeedback onPress={() => console.log('클릭')}>
         <View style={styles.wrapper}>
           <LinearGradient
             colors={['rgb(64,209,126)', 'rgb(130,251,181)']}
@@ -39,7 +43,12 @@ const styles = StyleSheet.create({
     right: 18,
     bottom: 110,
     borderRadius: 100,
-    ...bottomShadowStyle,
+    shadowColor: 'rgba(0,0,0,0.25)',
+    shadowOffset: {
+      width: 0,
+      height: -1,
+    },
+    shadowOpacity: 0.14,
   },
   wrapper: {
     width: 62,

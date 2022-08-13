@@ -12,12 +12,15 @@ const AddMarker = ({ position }) => {
     <>
       {position && (
         <div>
-          <CustomOverlayMap position={position}>
+          <CustomOverlayMap position={position} yAnchor={3.8} xAnchor={0.5}>
             <div
-              style={{
-                position: "absolute",
-                bottom: 60,
-              }}
+              style={
+                {
+                  // position: "absolute",
+                  // bottom: 60,
+                  // justifyContent: "center",
+                }
+              }
             >
               <MovePinText />
             </div>
