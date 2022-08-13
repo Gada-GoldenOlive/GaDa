@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
-import { windowWidth } from '../../../constant/styles';
+import { bottomShadowStyle, windowWidth } from '../../../constant/styles';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { buttonColor } from '../../../constant/colors';
 import { boldFontFamily } from '../../../constant/fonts';
@@ -27,12 +27,7 @@ const styles = StyleSheet.create({
     paddingTop: 14.5,
     paddingHorizontal: 16,
     justifyContent: 'flex-start',
-    shadowColor: 'rgba(0,0,0,0.25)',
-    shadowOffset: {
-      width: 0,
-      height: -2,
-    },
-    shadowOpacity: 0.4,
+    ...bottomShadowStyle,
   },
   wrapper: {
     backgroundColor: buttonColor,

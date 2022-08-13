@@ -7,6 +7,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { MediumFontFamily } from '../constant/fonts';
 import { useNavigation } from '@react-navigation/core';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { bottomShadowStyle } from '../constant/styles';
 
 const NewPinButton = () => {
   const navigation = useNavigation();
@@ -38,12 +39,7 @@ const styles = StyleSheet.create({
     right: 18,
     bottom: 110,
     borderRadius: 100,
-    shadowColor: 'rgba(0,0,0,0.25)',
-    shadowOffset: {
-      width: 0,
-      height: -1,
-    },
-    shadowOpacity: 0.14,
+    ...bottomShadowStyle,
   },
   wrapper: {
     width: 62,

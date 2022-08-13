@@ -94,13 +94,8 @@ const WalkwayListComponent = ({ list: prevList }) => {
             height: HEIGHT,
             right: rightPosition,
             backgroundColor: 'rgb(224,224,224)',
-            shadowColor: 'rgba(0, 0, 0, 0.25)',
-            shadowOffset: {
-              width: 0,
-              height: 4,
-            },
-            shadowOpacity: 0.14,
             elevation: 4,
+            shadowOffset: { y: -4 },
           },
           focusedIndex === index && {
             backgroundColor: 'rgb(73,212,146)',

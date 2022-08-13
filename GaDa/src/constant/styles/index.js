@@ -17,18 +17,26 @@ export const buttonStyle = {
   justifyContent: 'center',
 };
 
-export const shadowStyle = {
-  shadowColor: '#000',
+export const bottomShadowStyle = {
+  shadowColor: 'rgba(0,0,0,0.25)',
   shadowOffset: {
     width: 0,
-    height: 1,
+    height: -2,
   },
-  shadowOpacity: 0.22,
-  shadowRadius: 2.22,
+  shadowOpacity: 0.14,
 
   elevation: 3,
 };
+export const topShadowStyle = {
+  shadowColor: 'rgba(0,0,0,0.25)',
+  shadowOffset: {
+    width: 0,
+    height: 2,
+  },
+  shadowOpacity: 0.14,
 
+  elevation: 3,
+};
 export const tagStyle = {
   borderRadius: 3,
   backgroundColor: 'rgb(244,244,244)',

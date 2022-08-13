@@ -7,6 +7,7 @@ import {
   defaultColor,
 } from '../../../constant/colors';
 import { boldFontFamily } from '../../../constant/fonts';
+import { bottomShadowStyle } from '../../../constant/styles';
 
 const FirstPin = ({ isVisible = true }) => {
   return (
@@ -41,13 +42,8 @@ const styles = StyleSheet.create({
     borderColor: buttonColor,
     borderWidth: 2,
     borderRadius: 100,
-    shadowColor: 'rgba(0,0,0,1)',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.4,
     marginEnd: 10,
+    ...bottomShadowStyle,
   },
   text: {
     fontFamily: boldFontFamily,
