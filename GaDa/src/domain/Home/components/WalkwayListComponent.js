@@ -40,7 +40,6 @@ const WalkwayListComponent = ({
   const list = [{ key: 'empty-left' }, ...prevList, { key: 'empty-right' }];
 
   const goRight = () => {
-    console.log('righ');
     if (focusedIndex >= 1 && focusedIndex < list.length - 2) {
       setFocusedIndex(focusedIndex + 1);
       topScroll.current.scrollToOffset({
