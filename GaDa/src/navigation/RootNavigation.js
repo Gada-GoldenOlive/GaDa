@@ -11,6 +11,10 @@ import DetailImage from '../domain/Image/DetailImage';
 // IMAGE EDIT
 import ImageSubmitButton from '../components/ImageSubmitButton';
 import CloseButton from '../components/CloseButton';
+// LOGIN
+import IDContainer from '../domain/Auth/container/IDContainer';
+import PWContainer from '../domain/Auth/container/PWContainer';
+import NicknameContainer from '../domain/Auth/container/NicknameContainer';
 
 const createPinScreen = {
   CreatePin: CreatePinContainer,
@@ -18,6 +22,20 @@ const createPinScreen = {
 const detailImageScreen = {
   DetailImage: DetailImage,
 };
+const authScreens = [
+  {
+    name: 'ID',
+    screen: IDContainer,
+  },
+  {
+    name: 'PW',
+    screen: PWContainer,
+  },
+  {
+    name: 'Nickname',
+    screen: NicknameContainer,
+  },
+];
 const RootStack = createStackNavigator();
 const RootNavigation = () => {
   const navigation = useNavigation();
@@ -85,6 +103,20 @@ const RootNavigation = () => {
           }}
         />
       ))}
+      {authScreens.map(({ name, screen }) => {
+        return (
+          <RootStack.Screen
+            key={name}
+            name={name}
+            component={screen}
+            options={{
+              headerTitle: '',
+              headerShown: true,
+              headerLeft: () => <BackButton />,
+            }}
+          />
+        );
+      })}
       <RootStack.Screen name="BottomTab" component={BottomTab} />
     </RootStack.Navigator>
   );

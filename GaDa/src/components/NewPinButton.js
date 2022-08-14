@@ -15,7 +15,7 @@ const NewPinButton = () => {
     navigation.navigate('CreatePin');
   };
   return (
-    <View style={styles.container}>
+    <View style={styles.container} blurRadius={30}>
       <TouchableWithoutFeedback onPress={handleNavigate}>
         <View style={styles.wrapper}>
           <LinearGradient
