@@ -20,7 +20,6 @@ const App = () => {
   // permission 관리
   useEffect(() => {
     if (Platform.OS === 'android') {
-      console.log('hey');
       requestCameraPermission();
     }
   }, []);

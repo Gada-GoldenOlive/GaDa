@@ -70,9 +70,6 @@ const HomeContainer = () => {
   useEffect(() => {
     dispatch(setBottomTabVisible(!isInformationVisible));
   }, [isInformationVisible]);
-  useEffect(() => {
-    console.log(selectedItem.path);
-  });
   return (
     <HomeScreen
       geoLocation={geoLocation}
