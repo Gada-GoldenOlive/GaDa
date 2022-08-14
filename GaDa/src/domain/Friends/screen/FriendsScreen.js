@@ -74,7 +74,7 @@ const FriendsScreen = () => {
     <View style={styles.container}>
       {/* <WalkwayListComponent list={tempWalkwaylist} /> */}
       <RefreshButton />
-      {/* <PinListModal isVisible={isVisible} closeModal={closeModal} /> */}
+      <PinListModal isVisible={isVisible} closeModal={closeModal} />
     </View>
   );
 };

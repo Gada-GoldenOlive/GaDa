@@ -56,6 +56,7 @@ const PinListModal = ({
       image: 'image',
     },
   ],
+  selectedIndex = 0,
 }) => {
   const renderItem = ({ item, index }) => {
     const { address, title, content, image } = item;
@@ -105,6 +106,7 @@ const PinListModal = ({
               showsVerticalScrollIndicator={false}
               data={dataList}
               bounces={false}
+              initialScrollIndex={selectedIndex}
               disableVirtualization={false}
               ItemSeparatorComponent={ItemSeparatorComponent}
               renderItem={({ item, index }) => renderItem({ item, index })}

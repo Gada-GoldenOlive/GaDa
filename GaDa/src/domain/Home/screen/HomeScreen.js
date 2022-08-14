@@ -25,6 +25,7 @@ import SubmitButton from '../../../components/SubmitButton';
 import Stop from '../../../constant/images/Stop';
 import { useSelector } from 'react-redux';
 import WalkEnd from '../../../components/WalkEnd';
+import PinListModal from '../../../components/PinListModal';
 
 const HomeScreen = ({
   geoLocation,
@@ -62,9 +63,12 @@ const HomeScreen = ({
   const [submitPosPinIsVisible, setSubmitPinPosIsVisible] = useState();
   const [walkwayList, setWalkwayList] = useState([]);
   const [pinIndex, setPinIndex] = useState();
-
+  const [pinModalIsVisible, setPinModalIsVisible] = useState(false);
   const navigation = useNavigation();
   const { isWalking } = useSelector(state => state.status);
+  const closePinModal = () => {
+    setPinModalIsVisible(false);
+  };
   const INJECTED_JAVASCRIPT = `(function() {
     window.postMessage(JSON.stringify({key : "value"}));true;
 })();`;
@@ -209,6 +213,12 @@ const HomeScreen = ({
           pinNum={pinNum}
         />
       )}
+      <PinListModal
+        dataList={nowPins}
+        isVisible={pinModalIsVisible}
+        closeModal={closePinModal}
+        selectedIndex={pinIndex}
+      />
     </View>
   );
 };
