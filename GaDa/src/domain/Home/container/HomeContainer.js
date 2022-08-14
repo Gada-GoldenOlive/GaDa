@@ -3,12 +3,13 @@ import React, { useRef, useState } from 'react';
 import { getDistance } from 'geolib';
 import Geolocation from '@react-native-community/geolocation';
 import HomeScreen from '../screen/HomeScreen';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   setBottomTabVisible,
   setCurrentPosition,
   setEndTime,
   setIsWalking,
+  setPinNum,
 } from '../../../redux/modules/status';
 import { useEffect } from 'react';
 import { getCurrentTime, getDuringTime } from '../../../function';
@@ -49,15 +50,16 @@ const HomeContainer = () => {
   // walk data
   const [walkData, setWalkData] = useState({});
   // 생성한 핀 개수
-  const [pinNum, setPinNum] = useState(0);
+  const { pinNum } = useSelector(state => state.status);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   LogBox.ignoreLogs(['new NativeEventEmitter']); // Ignore log notification by message
   LogBox.ignoreAllLogs(); //Ignore all log notifications
 
   const geoLocation = ref => {
+    console.log('hey');
     Geolocation.getCurrentPosition(
       position => {
-        console.log(position);
         const latitude = JSON.stringify(position.coords.latitude);
         const longitude = JSON.stringify(position.coords.longitude);
         console.log(latitude, longitude);
@@ -68,7 +70,7 @@ const HomeContainer = () => {
       error => {
         console.log(error.code, error.message);
       },
-      { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 },
+      { enableHighAccuracy: false, timeout: 15000, maximumAge: 10000 },
     );
   };
 
@@ -217,7 +219,7 @@ const HomeContainer = () => {
     setEndModalVisible(false);
     setWalkEnd(false);
     setWalkData({});
-    setPinNum(0);
+    dispatch(setPinNum(0));
     dispatch(setIsWalking(false));
   };
   useEffect(() => {
@@ -228,7 +230,7 @@ const HomeContainer = () => {
   }, [walkEnd, isInformationVisible]);
 
   useEffect(() => {
-    if (recording) {
+    if (recording && !loading) {
       recordPosition();
     }
   }, [recording]);

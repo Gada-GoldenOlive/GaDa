@@ -4,6 +4,7 @@ const SET_START_TIME = 'status/START_TIME';
 const SET_END_TIME = 'status/END_TIME';
 const SET_IS_WALKING = 'status/IS_WALKING';
 const SET_CURRNET_POSITION = 'status/SET_CURRNET_POSITION';
+const SET_PIN_NUM = 'status/SET_PIN_NUM';
 // action 생성 함수
 export const setBottomTabVisible = boolean => ({
   type: SET_BOTTOMTAB_VISIBLE,
@@ -30,6 +31,10 @@ export const setCurrentPosition = value => ({
   value,
 });
 
+export const setPinNum = value => ({
+  type: SET_PIN_NUM,
+  value,
+});
 // reducer initial state
 const initialState = {
   bottomTabVisible: true,
@@ -37,6 +42,7 @@ const initialState = {
   endTime: '',
   isWalking: false,
   currentPosition: {},
+  pinNum: 0,
 };
 
 // reducer
@@ -66,6 +72,11 @@ export default function status(state = initialState, action) {
       return {
         ...state,
         currentPosition: action.value,
+      };
+    case SET_PIN_NUM:
+      return {
+        ...state,
+        pinNum: action.value,
       };
     default:
       return state;

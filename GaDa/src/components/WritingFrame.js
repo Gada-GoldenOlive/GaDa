@@ -1,5 +1,5 @@
 import { ScrollView, StyleSheet, View } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import CustomImage from './CustomImage';
 import Upload from '../constant/images/Upload';
@@ -13,7 +13,8 @@ import CameraSelectModal from './CameraSelectModal';
 import { setPinImage } from '../redux/modules/images';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import { useNavigation } from '@react-navigation/core';
-
+import Writing from '../constant/images/Writing';
+import Locate from '../constant/images/Locate';
 const WritingFrame = ({
   title = '',
   content = '',
@@ -24,6 +25,7 @@ const WritingFrame = ({
   contentTextChange = {},
   buttonTitle = '',
   image = '',
+  createPinInfo,
 }) => {
   const navigation = useNavigation();
 
@@ -106,15 +108,29 @@ const WritingFrame = ({
           </View>
         </TouchableWithoutFeedback>
         <View style={styles.writingContainer}>
-          <MyTextInput placeholder={titlePlaceHolder} style={styles.title} />
+          <View style={styles.titleWrapper}>
+            <MyTextInput
+              placeholder={titlePlaceHolder}
+              style={styles.title}
+              onChangeText={titleTextChange}
+              value={title}
+            />
+          </View>
+          <CustomImage source={Writing} style={styles.writing} />
           <MyTextInput
             placeholder={contentPlaceholder}
             style={styles.multiLine}
             multiline
+            onChangeText={contentTextChange}
+            value={content}
           />
+          <View style={styles.bottomContainer}>
+            <CustomImage source={Locate} style={styles.locate} />
+            <Text style={styles.location}>{address}</Text>
+          </View>
         </View>
       </ScrollView>
-      <CustomButton title={buttonTitle} />
+      <CustomButton title={buttonTitle} handlePress={createPinInfo} />
       <CameraSelectModal
         isVisible={isVisible}
         openCamera={openCamera}
@@ -147,8 +163,21 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   writingContainer: {
-    paddingtop: 9.5,
+    marginTop: 9.5,
     paddingHorizontal: 16,
+  },
+
+  titleWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  writing: {
+    position: 'absolute',
+    right: 16,
+    top: 19.5,
+    width: 24,
+    height: 24,
   },
   title: {
     fontFamily: boldFontFamily,
@@ -157,4 +186,15 @@ const styles = StyleSheet.create({
     minHeight: 200,
     color: defaultColor,
   },
+  bottomContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  locate: {
+    width: 24,
+    height: 24,
+    marginRight: 6,
+  },
+  location: {},
 });

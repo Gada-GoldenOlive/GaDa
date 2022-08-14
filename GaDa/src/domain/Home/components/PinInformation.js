@@ -27,9 +27,10 @@ const PinInformation = ({
     distance = 0,
     time = 0,
     creator = '성동구 불주먹',
-    pinNum = 0,
+    pinCount = 0,
     id = -1,
     averageStar = 0,
+    image = '',
   } = walkWay;
 
   return (
@@ -67,7 +68,7 @@ const PinInformation = ({
                 {distance !== 0 && (
                   <Text style={styles.description}>1.25km / </Text>
                 )}
-                <Text style={styles.description}>핀 {pinNum}개 </Text>
+                <Text style={styles.description}>핀 {pinCount}개 </Text>
               </Text>
             </View>
             <View style={styles.bottomContainer}>

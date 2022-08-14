@@ -94,7 +94,7 @@ const HomeScreen = ({
     if (markerPos.lat !== 0 && markerPos.lng !== 0) {
       console.log(markerPos.lat, markerPos.lng);
       navigation.navigate('CreatePin', {
-        address: selectedItem.address,
+        selectedItem: selectedItem,
         markerPos,
       });
     }

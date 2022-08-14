@@ -7,15 +7,22 @@ import { boldFontFamily, mediumFontFamily } from '../constant/fonts';
 import { blackColor, buttonColor, defaultColor } from '../constant/colors';
 import LinearGradient from 'react-native-linear-gradient';
 import { windowHeight, windowWidth } from '../constant/styles';
+import { useSelector } from 'react-redux';
 
-const WalkEnd = ({ pinNum = 0, isVisible = false, onPress, walkData }) => {
+const WalkEnd = ({
+  pinNum: prevNum = 0,
+  isVisible = false,
+  onPress,
+  walkData,
+}) => {
   const { time, distance, finishStatus, walkwayId, userId } = walkData;
   const km = distance / 1000;
   const hour = Math.floor(time / 3600);
   const min = Math.floor((time - hour * 3600) / 60);
   const sec = Math.floor(time - hour * 3600 - min * 60);
   console.log(hour, min, sec);
-
+  console.log(pinNum);
+  const { pinNum } = useSelector(state => state.status);
   const timeString = `${hour}:${min}:${sec}`;
   return (
     isVisible && (
