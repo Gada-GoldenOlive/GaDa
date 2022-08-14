@@ -169,6 +169,8 @@ const HomeContainer = () => {
 
   const stopWalk = () => {
     endWalk('UNFINISHED');
+    console.log('stopWalk');
+    setWalkEnd(true);
     closeEndModal();
   };
 
@@ -182,20 +184,25 @@ const HomeContainer = () => {
 
   const finishRecord = () => {
     setRecording(false);
-    return getDistance(
-      locationList[0],
-      locationList[locationList.length - 1],
-      0.1,
-    );
+    console.log(locationList);
+    if (locationList.length >= 1) {
+      return getDistance(
+        locationList[0],
+        locationList[locationList.length - 1],
+        0.1,
+      );
+    }
+    return 0;
   };
 
   const endWalk = async status => {
+    console.log('endWalk');
     const res = getCurrentTime();
     dispatch(setEndTime(res));
     dispatch(setIsWalking(false));
     const time = getDuringTime();
     const dis = finishRecord();
-
+    console.log({ res, dis });
     const nowWalk = {
       time: time,
       distance: dis,
@@ -204,11 +211,12 @@ const HomeContainer = () => {
       userId: '1',
     };
     setWalkData(nowWalk);
+
     const res2 = await createWalk(nowWalk);
-    setWalkEnd(true);
   };
 
   const resetData = () => {
+    console.log('reset');
     setLocationList([]);
     setCoords({ latitude: null, longitude: null });
     setRecording(false);
