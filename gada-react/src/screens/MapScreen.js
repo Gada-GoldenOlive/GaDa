@@ -4,6 +4,7 @@ import AddMarker from "../functions/AddMarker";
 import DrawCurrentPos from "../functions/DrawCurrentPos";
 import DrawMarker from "../functions/DrawMarker";
 import DrawPolyline from "../functions/DrawPolyline";
+import DrawStartPoint from "../functions/DrawStartPoint";
 import GeoLocationMarker from "../functions/GeolocationMarker";
 import MovePinText from "./components/MovePinText";
 import PinPosSubmitButton from "./components/PinPosSubmitButton";
@@ -33,6 +34,7 @@ const MapScreen = ({
   });
   const [currentState, setCurrentState] = useState(state);
   const [walkwayPath, setWalkwayPath] = useState("null");
+  const [pathStartPoint, setPathStartPoint] = useState("null");
 
   const geoLocation = () => {
     if (navigator.geolocation) {
@@ -87,7 +89,6 @@ const MapScreen = ({
     await window.addEventListener("message", (event) => {
       if (event.data.type === "currentPos") {
         setIsCurrentPosClicked(true);
-        setWalkwayPath(event.data.path);
 
         //alert(JSON.stringify(event.data.path));
         // alert("message received: " + event.data);
@@ -96,6 +97,9 @@ const MapScreen = ({
         // alert("message received: " + event.data);
       } else if (event.data.type === "submitPinPos") {
         setIsSubmitPinPosClicked(true);
+        //alert("message received: " + event.data);
+      } else if (event.data.type === "selectWalkway") {
+        setWalkwayPath(event.data.path);
         //alert("message received: " + event.data);
       }
     });
@@ -124,8 +128,8 @@ const MapScreen = ({
   }, [isSubmitPinPosClicked]);
   useEffect(() => {
     if (walkwayPath !== "null") {
-      alert(JSON.stringify(walkwayPath));
       setState({ center: walkwayPath[0] });
+      setPathStartPoint(walkwayPath[0]);
     }
   }, [walkwayPath]);
 
@@ -183,6 +187,9 @@ const MapScreen = ({
           path={[walkwayPath !== "null" && walkwayPath]}
           setLine={setLine}
         />
+        {pathStartPoint !== "null" && (
+          <DrawStartPoint position={pathStartPoint} />
+        )}
         {/* [126.90382463198507,37.53766771249391],[126.90378684196669,37.53779371044991],[126.90360747959478,37.537930260324906],[126.90336570256882,37.538086774921744],[126.90318023041736,37.53827962752207],[126.90293311544221,37.53839555357543],[126.90266002935026,37.538574442097], */}
       </Map>
     </div>

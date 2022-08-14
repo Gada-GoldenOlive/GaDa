@@ -32,6 +32,9 @@ const HomeScreen = ({
   isInformationVisible,
   closeInformation,
   handleClickWalkway,
+  setNowPath,
+  nowPath,
+  setIsWalkwayFocused,
 }) => {
   const ref = useRef();
   const [markerPos, setMarkerPos] = useState({
@@ -41,7 +44,6 @@ const HomeScreen = ({
   const [currentPos, setCurrentPos] = useState({});
   const [submitPosPinIsVisible, setSubmitPinPosIsVisible] = useState();
   const [walkwayList, setWalkwayList] = useState([]);
-  const [nowPath, setNowPath] = useState([]);
 
   const navigation = useNavigation();
 
@@ -71,10 +73,10 @@ const HomeScreen = ({
     }
   };
 
-  const getWalkway = async () => {
+  const getWalkway = async ({ currentPos }) => {
     const res = await getWalkwayList({
-      lng: 127.09598,
       lat: 37.54699,
+      lng: 127.09598,
     });
 
     const { walkways } = res;
@@ -85,10 +87,14 @@ const HomeScreen = ({
       console.log(markerPos.lat, markerPos.lng);
     }
   }, [markerPos]);
+  useEffect(() => {
+    handleConnection(ref, 'selectWalkway');
+  }, [nowPath]);
 
   useEffect(() => {
     if (currentPos.lat !== 0 && currentPos.lng !== 0) {
-      getWalkway();
+      console.log(currentPos);
+      getWalkway(currentPos);
     }
   }, [currentPos]);
 
@@ -145,6 +151,7 @@ const HomeScreen = ({
           handleClickItem={handleClickItem}
           isVisible={isVisible}
           setNowPath={setNowPath}
+          setIsWalkwayFocused={setIsWalkwayFocused}
         />
       )}
       <WalkwayOverview

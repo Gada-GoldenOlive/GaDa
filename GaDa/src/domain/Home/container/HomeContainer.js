@@ -23,6 +23,9 @@ const HomeContainer = () => {
   const [isInformationVisible, setIsInformationVisible] = useState(false);
   const dispatch = useDispatch();
 
+  const [nowPath, setNowPath] = useState([]);
+  const [isWalkwayFocused, setIsWalkwayFocused] = useState(false);
+
   const geoLocation = ref => {
     Geolocation.getCurrentPosition(
       position => {
@@ -41,22 +44,10 @@ const HomeContainer = () => {
   };
 
   const handleConnection = (ref, ver) => {
-    const path = [
-      { lat: 37.5351787566412, lng: 126.90313420225422 },
-      { lat: 37.5367288255216, lng: 126.90442351809145 },
-      { lat: 37.53686544779613, lng: 126.904258307496 },
-
-      { lat: 37.53710837379388, lng: 126.90417148286825 },
-      { lat: 37.53732658502673, lng: 126.9040990030548 },
-
-      { lat: 37.53738716655828, lng: 126.90404758556996 },
-      { lat: 37.53745509339161, lng: 126.90411212912906 },
-      { lat: 37.53746494883995, lng: 126.90427900574636 },
-      { lat: 37.537608987470044, lng: 126.90424390281818 },
-      { lat: 37.537703211212765, lng: 126.90416109026054 },
-      { lat: 37.53775902917459, lng: 126.90405877483371 },
-      { lat: 37.53779011809602, lng: 126.90396797513036 },
-    ];
+    var path = [];
+    if (ver === 'selectWalkway') {
+      path = nowPath;
+    }
     const generateOnMessageFunction = data =>
       `(function() {
     window.dispatchEvent(new MessageEvent('message', {data: ${JSON.stringify(
@@ -99,6 +90,9 @@ const HomeContainer = () => {
       isInformationVisible={isInformationVisible}
       closeInformation={closeInformation}
       handleClickWalkway={handleClickWalkway}
+      nowPath={nowPath}
+      setNowPath={setNowPath}
+      setIsWalkwayFocused={setIsWalkwayFocused}
     />
   );
 };
