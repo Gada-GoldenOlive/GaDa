@@ -4,9 +4,13 @@ import React, { useRef, useState } from 'react';
 import Geolocation from '@react-native-community/geolocation';
 import HomeScreen from '../screen/HomeScreen';
 import { useDispatch } from 'react-redux';
-import { setBottomTabVisible } from '../../../redux/modules/status';
+import {
+  setBottomTabVisible,
+  setEndTime,
+  setIsWalking,
+} from '../../../redux/modules/status';
 import { useEffect } from 'react';
-import { getCurrentTime } from '../../../function';
+import { getCurrentTime, getDuringTime } from '../../../function';
 import { setStartTime } from '../../../redux/modules/status';
 
 // * 현재위치
@@ -24,7 +28,7 @@ const HomeContainer = () => {
   const [selectedItem, setSelectedItem] = useState({});
   const [isInformationVisible, setIsInformationVisible] = useState(false);
   const [listIsVisible, setListIsVisible] = useState(true);
-
+  const [endModalVisible, setEndModalVisible] = useState(false);
   const dispatch = useDispatch();
 
   const geoLocation = ref => {
@@ -98,8 +102,27 @@ const HomeContainer = () => {
     setIsVisible(false);
     setListIsVisible(false);
     setIsInformationVisible(false);
+    dispatch(setIsWalking(true));
   };
 
+  const stopWalk = async () => {
+    const res = getCurrentTime();
+    dispatch(setEndTime(res));
+    dispatch(setIsWalking(false));
+    const time = getDuringTime();
+    closeEndModal();
+  };
+
+  const openEndModal = () => {
+    setEndModalVisible(true);
+  };
+  const closeEndModal = () => {
+    setEndModalVisible(false);
+  };
+
+  const currentLocation = () => {
+    navigator.geolocation.getCurrentPosition(position);
+  };
   useEffect(() => {
     dispatch(setBottomTabVisible(!isInformationVisible));
   }, [isInformationVisible]);
@@ -117,6 +140,10 @@ const HomeContainer = () => {
       handleClickWalkway={handleClickWalkway}
       startWalk={startWalk}
       listIsVisible={listIsVisible}
+      stopWalk={stopWalk}
+      endModalVisible={endModalVisible}
+      closeEndModal={closeEndModal}
+      openEndModal={openEndModal}
     />
   );
 };

@@ -23,6 +23,7 @@ import WalkwayListComponent from '../components/WalkwayListComponent';
 import WalkwayOverview from '../components/WalkwayOverview';
 import SubmitButton from '../../../components/SubmitButton';
 import Stop from '../../../constant/images/Stop';
+import { useSelector } from 'react-redux';
 
 const HomeScreen = ({
   geoLocation,
@@ -36,6 +37,10 @@ const HomeScreen = ({
   handleClickWalkway,
   startWalk,
   listIsVisible,
+  stopWalk,
+  endModalVisible,
+  closeEndModal,
+  openEndModal,
 }) => {
   const ref = useRef();
   const [markerPos, setMarkerPos] = useState({
@@ -47,6 +52,7 @@ const HomeScreen = ({
   const [walkwayList, setWalkwayList] = useState([]);
   const [nowPath, setNowPath] = useState([]);
   const navigation = useNavigation();
+  const { isWalking } = useSelector(state => state.status);
 
   const INJECTED_JAVASCRIPT = `(function() {
     window.postMessage(JSON.stringify({key : "value"}));true;
@@ -162,12 +168,21 @@ const HomeScreen = ({
         isVisible={isInformationVisible}
         startWalk={startWalk}
       />
-      <SubmitButton
-        text="중지"
-        version={2}
-        image={Stop}
-        style={styles.button}
-        textStyle={styles.text}
+      {isWalking && (
+        <SubmitButton
+          text="중지"
+          version={2}
+          image={Stop}
+          handlePress={openEndModal}
+        />
+      )}
+      <CenterModal
+        isVisible={endModalVisible}
+        closeModal={closeEndModal}
+        handleConfirm={stopWalk}
+        mainText="산책을 중지하시겠어요?"
+        content={`산책을 멈춥니다!\n해당 산책로는 이후 다시\n진행할 수 있습니다.`}
+        buttonText="산책 종료"
       />
     </View>
   );
@@ -252,11 +267,5 @@ const styles = StyleSheet.create({
     fontFamily: mediumFontFamily,
     fontSize: 16,
     color: 'white',
-  },
-  button: {
-    backgroundColor: 'white',
-  },
-  text: {
-    color: 'black',
   },
 });

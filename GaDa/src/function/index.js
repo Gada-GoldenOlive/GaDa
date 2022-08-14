@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import moment from 'moment';
+import store from '../redux/store';
 import { reloadApp } from './error';
 
 export const storeInLocalStorage = async (accessToken, refreshToken) => {
@@ -36,4 +37,14 @@ export const getIdInLocalStorage = async () => {
 export const getCurrentTime = () => {
   const current = moment().startOf('second');
   return current;
+};
+
+export const getDuringTime = () => {
+  const { startTime, endTime } = store.getState().status;
+  const start = moment(startTime, 'YYYY-MM-DD[T]HH:mm:ss');
+  const end = moment(endTime, 'YYYY-MM-DD[T]HH:mm:ss');
+
+  const dueSeconds = Math.floor(moment.duration(end.diff(start)).asSeconds());
+
+  return dueSeconds;
 };
