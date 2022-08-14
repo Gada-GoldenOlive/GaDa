@@ -1,6 +1,6 @@
 import { View, Text, TouchableWithoutFeedback } from 'react-native';
 import React, { useRef, useState } from 'react';
-
+import { getDistance } from 'geolib';
 import Geolocation from '@react-native-community/geolocation';
 import HomeScreen from '../screen/HomeScreen';
 import { useDispatch } from 'react-redux';
@@ -12,6 +12,7 @@ import {
 import { useEffect } from 'react';
 import { getCurrentTime, getDuringTime } from '../../../function';
 import { setStartTime } from '../../../redux/modules/status';
+import { get } from 'react-native/Libraries/Utilities/PixelRatio';
 
 // * 현재위치
 // 일정 시간 후 주기적으로 반복해서 geoLocation 해주기!
@@ -22,8 +23,11 @@ const CURRENTPOS = 'currentPos';
 
 const HomeContainer = () => {
   const [latitude, setLatitude] = useState(null);
-  const [longitude, setLogitude] = useState(null);
-
+  const [longitude, setLongitude] = useState(null);
+  const [coords, setCoords] = useState({ latitude: null, longitude: null });
+  const [locationList, setLocationList] = useState([]);
+  const [recording, setRecording] = useState(true);
+  const [beforeRecord, setBeforeRecord] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState({});
   const [isInformationVisible, setIsInformationVisible] = useState(false);
@@ -38,7 +42,7 @@ const HomeContainer = () => {
         const longitude = JSON.stringify(position.coords.longitude);
         console.log(latitude, longitude);
         setLatitude(latitude);
-        setLogitude(longitude);
+        setLongitude(longitude);
         handleConnection(ref, CURRENTPOS); // 웹에 현재 위치 보내기
       },
       error => {
@@ -102,6 +106,7 @@ const HomeContainer = () => {
     setIsVisible(false);
     setListIsVisible(false);
     setIsInformationVisible(false);
+    setRecording(true);
     dispatch(setIsWalking(true));
   };
 
@@ -110,6 +115,8 @@ const HomeContainer = () => {
     dispatch(setEndTime(res));
     dispatch(setIsWalking(false));
     const time = getDuringTime();
+    const dis = finishRecord();
+    console.log(time, dis);
     closeEndModal();
   };
 
@@ -119,11 +126,42 @@ const HomeContainer = () => {
   const closeEndModal = () => {
     setEndModalVisible(false);
   };
+  const recordPosition = () => {
+    const newId = Geolocation.getCurrentPosition(
+      position => {
+        if (position) {
+          let updateFlag = true;
+          const newRecord = {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          };
+          // 시작
+          if (beforeRecord !== null) {
+            // console.log(beforeRecord, newRecord);
+            const dist = getDistance(beforeRecord, newRecord);
+            if (dist < 0.05) {
+              updateFlag = false;
+            }
+          }
+          if (updateFlag) {
+            setCoords(newRecord);
+            setBeforeRecord(newRecord);
+            setLocationList(locationList => [...locationList, newRecord]);
+          }
+        }
+      },
+      err => {
+        console.log(err.message);
+      },
+      { enableHighAccuracy: false },
+    );
 
-  const currentLocation = () => {
-    navigator.geolocation.getCurrentPosition(position => {
-      setLatitude(position.coords.latitude), setLogitude;
-    });
+    setRecording(true);
+  };
+
+  const finishRecord = () => {
+    setRecording(false);
+    return getDistance(locationList[0], locationList[locationList.length - 1]);
   };
   useEffect(() => {
     dispatch(setBottomTabVisible(!isInformationVisible));

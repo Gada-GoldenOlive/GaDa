@@ -86,7 +86,7 @@ const HomeScreen = ({
       lat: 37.54699,
     });
 
-    const { walkways } = res;
+    const { walkways = [] } = res ? res : {};
     setWalkwayList(walkways);
   };
   useEffect(() => {
