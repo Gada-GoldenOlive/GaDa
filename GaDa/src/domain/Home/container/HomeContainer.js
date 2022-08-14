@@ -121,7 +121,9 @@ const HomeContainer = () => {
   };
 
   const currentLocation = () => {
-    navigator.geolocation.getCurrentPosition(position);
+    navigator.geolocation.getCurrentPosition(position => {
+      setLatitude(position.coords.latitude), setLogitude;
+    });
   };
   useEffect(() => {
     dispatch(setBottomTabVisible(!isInformationVisible));
