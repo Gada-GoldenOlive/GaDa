@@ -63,7 +63,6 @@ const MapContainer = () => {
   const handleSubmit = (position) => {
     //console.log(position);
     if (window.ReactNativeWebView) {
-      console.log("클릭");
       window.ReactNativeWebView.postMessage(JSON.stringify(position));
     }
   };

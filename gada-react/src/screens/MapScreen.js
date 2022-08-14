@@ -6,6 +6,7 @@ import DrawMarker from "../functions/DrawMarker";
 import DrawPolyline from "../functions/DrawPolyline";
 import GeoLocationMarker from "../functions/GeolocationMarker";
 import MovePinText from "./components/MovePinText";
+import PinPosSubmitButton from "./components/PinPosSubmitButton";
 
 import "./css/MapScreen.css";
 
@@ -19,6 +20,7 @@ const MapScreen = ({
   const [isGeolocation, setIsGeolocation] = useState(false);
   const [isCurrentPosClicked, setIsCurrentPosClicked] = useState(false);
   const [isAddPinClicked, setIsAddPinClicked] = useState(false);
+  const [isSubmitPinPosClicked, setIsSubmitPinPosClicked] = useState(false);
   //console.log(line.getLength());
 
   const [state, setState] = useState({
@@ -88,8 +90,8 @@ const MapScreen = ({
         setIsAddPinClicked(true);
         // alert("message received: " + event.data);
       } else if (event.data === "submitPinPos") {
-        //setIsAddPinClicked(true);
-        alert("message received: " + event.data);
+        setIsSubmitPinPosClicked(true);
+        //alert("message received: " + event.data);
       }
     });
   };
@@ -101,11 +103,13 @@ const MapScreen = ({
       geoLocation();
     }
   }, [isCurrentPosClicked]);
-  // useEffect(() => {
-  //   if (isAddPinClicked === true) {
-  //     setPosition(state.center);
-  //   }
-  // }, [isAddPinClicked]);
+  useEffect(() => {
+    if (isSubmitPinPosClicked && isAddPinClicked) {
+      handleSubmit(state.center);
+      setIsSubmitPinPosClicked(false);
+      setIsAddPinClicked(false);
+    }
+  }, [isSubmitPinPosClicked]);
 
   useEffect(() => {
     handleReceiveMessage();
@@ -132,7 +136,6 @@ const MapScreen = ({
               lat: mouseEvent.latLng.getLat(),
               lng: mouseEvent.latLng.getLng(),
             });
-            handleSubmit(position);
           }
         }}
         onCenterChanged={(map) =>
@@ -150,7 +153,9 @@ const MapScreen = ({
         {/* <GeoLocationMarker setCenter={setCenter} /> */}
 
         {/* 핀 추가 */}
-        {isAddPinClicked && <AddMarker position={state.center} />}
+        {isAddPinClicked && !isSubmitPinPosClicked && (
+          <AddMarker position={state.center} />
+        )}
 
         {/* current position */}
         <DrawCurrentPos state={currentState} />

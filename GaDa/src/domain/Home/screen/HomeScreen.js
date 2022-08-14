@@ -18,6 +18,7 @@ import { mediumFontFamily } from '../../../constant/fonts';
 import LinearGradient from 'react-native-linear-gradient';
 import Pin from '../../../constant/images/Pin';
 import { bottomShadowStyle } from '../../../constant/styles';
+import { useNavigation } from '@react-navigation/core';
 
 const HomeScreen = ({ geoLocation, handleConnection }) => {
   const ref = useRef();
@@ -25,6 +26,9 @@ const HomeScreen = ({ geoLocation, handleConnection }) => {
     lat: 0,
     lng: 0,
   });
+  const [submitPosPinIsVisible, setSubmitPinPosIsVisible] = useState();
+
+  const navigation = useNavigation();
 
   const INJECTED_JAVASCRIPT = `(function() {
     window.postMessage(JSON.stringify({key : "value"}));true;
@@ -55,7 +59,7 @@ const HomeScreen = ({ geoLocation, handleConnection }) => {
 
     //Alert.alert(markerPos.lat);
   }, [markerPos]);
-  //JSON.stringify({ type: 'currentposition', data: 'hi' }),
+
   const runFirst = `
       window.isNativeApp = true;
       true;
@@ -66,38 +70,45 @@ const HomeScreen = ({ geoLocation, handleConnection }) => {
       <WebView
         source={{ uri: 'https://53fb-110-8-134-126.jp.ngrok.io' }}
         injectedJavaScript={INJECTED_JAVASCRIPT}
-        //injectJavaScript
         ref={ref}
         javaScriptEnabled
         onMessage={handleReceive}
-        //onLoad={geoLocation(ref)}
-        //postMessage={geoLocation(ref)}
       />
       {/* <NewPinButton handleConnection={handleConnection} ref={ref} /> */}
 
-      <TouchableWithoutFeedback onPress={() => handleConnection(ref, 'addPin')}>
-        <View style={styles.btnContainer1}>
-          <View style={styles.wrapper}>
+      <TouchableWithoutFeedback
+        onPress={() => {
+          handleConnection(ref, 'addPin');
+          setSubmitPinPosIsVisible(true);
+        }}
+      >
+        <View style={styles.addPinContainer}>
+          <View style={styles.addPinWrapper}>
             <LinearGradient
               colors={['rgb(64,209,126)', 'rgb(130,251,181)']}
               style={styles.linear}
             />
-            <CustomImage source={Pin} style={styles.image} />
-            <Text style={styles.text}>추가</Text>
+            <CustomImage source={Pin} style={styles.addPinIcon} />
+            <Text style={styles.addPinText}>추가</Text>
           </View>
         </View>
       </TouchableWithoutFeedback>
-      <TouchableWithoutFeedback
-        onPress={() => handleConnection(ref, 'submitPinPos')}
-      >
-        <View style={styles.buttonWrapper}>
-          <Text style={styles.buttonText}>확인</Text>
-        </View>
-      </TouchableWithoutFeedback>
+      {submitPosPinIsVisible && (
+        <TouchableWithoutFeedback
+          onPress={() => {
+            handleConnection(ref, 'submitPinPos');
+            setSubmitPinPosIsVisible(false);
+            navigation.navigate('CreatePin');
+          }}
+        >
+          <View style={styles.submitPinPosWrapper}>
+            <Text style={styles.submitPinPosText}>확인</Text>
+          </View>
+        </TouchableWithoutFeedback>
+      )}
       <TouchableWithoutFeedback onPress={() => geoLocation(ref)}>
         <View style={styles.currentPosIconWrapper}>
           <CustomImage style={styles.currentPosIcon} source={CurrentPosition} />
-          {/* <Text style={styles.currentPosIconText}>위치</Text> */}
         </View>
       </TouchableWithoutFeedback>
     </View>
@@ -129,7 +140,7 @@ const styles = StyleSheet.create({
     color: 'black',
   },
 
-  btnContainer1: {
+  addPinContainer: {
     flex: 1,
     position: 'absolute',
     right: 18,
@@ -142,7 +153,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.14,
   },
-  wrapper: {
+  addPinWrapper: {
     width: 62,
     height: 62,
     alignItems: 'center',
@@ -154,18 +165,18 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     position: 'absolute',
   },
-  image: {
+  addPinIcon: {
     width: 32,
     height: 32,
     zIndex: 999,
   },
-  text: {
+  addPinText: {
     fontFamily: mediumFontFamily,
     fontSize: 11,
     letterSpacing: -0.22,
     color: 'white',
   },
-  buttonWrapper: {
+  submitPinPosWrapper: {
     position: 'absolute',
     top: 61,
     right: 16,
@@ -179,7 +190,7 @@ const styles = StyleSheet.create({
 
     ...bottomShadowStyle,
   },
-  buttonText: {
+  submitPinPosText: {
     fontFamily: mediumFontFamily,
     fontSize: 16,
     color: 'white',
