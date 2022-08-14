@@ -3,6 +3,9 @@ import React, { useRef, useState } from 'react';
 
 import Geolocation from '@react-native-community/geolocation';
 import HomeScreen from '../screen/HomeScreen';
+import { useDispatch } from 'react-redux';
+import { setBottomTabVisible } from '../../../redux/modules/status';
+import { useEffect } from 'react';
 
 // * 현재위치
 // 일정 시간 후 주기적으로 반복해서 geoLocation 해주기!
@@ -14,6 +17,11 @@ const CURRENTPOS = 'currentPos';
 const HomeContainer = () => {
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLogitude] = useState(null);
+
+  const [isVisible, setIsVisible] = useState(false);
+  const [selectedItem, setSelectedItem] = useState({});
+  const [isInformationVisible, setIsInformationVisible] = useState(false);
+  const dispatch = useDispatch();
 
   const geoLocation = ref => {
     Geolocation.getCurrentPosition(
@@ -43,8 +51,37 @@ const HomeContainer = () => {
     ref.current.injectJavaScript(generateOnMessageFunction(ver));
   };
 
+  const closeModal = () => {
+    setIsVisible(false);
+  };
+  const handleClickItem = item => {
+    setIsVisible(true);
+    setSelectedItem(item);
+  };
+
+  const closeInformation = () => {
+    setIsInformationVisible(false);
+  };
+  const handleClickWalkway = () => {
+    setIsInformationVisible(true);
+    setIsVisible(false);
+    // dispatch(setBottomTabVisible(isInformationVisible));
+  };
+  useEffect(() => {
+    dispatch(setBottomTabVisible(!isInformationVisible));
+  }, [isInformationVisible]);
   return (
-    <HomeScreen geoLocation={geoLocation} handleConnection={handleConnection} />
+    <HomeScreen
+      geoLocation={geoLocation}
+      handleConnection={handleConnection}
+      isVisible={isVisible}
+      selectedItem={selectedItem}
+      closeModal={closeModal}
+      handleClickItem={handleClickItem}
+      isInformationVisible={isInformationVisible}
+      closeInformation={closeInformation}
+      handleClickWalkway={handleClickWalkway}
+    />
   );
 };
 

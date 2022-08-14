@@ -20,15 +20,18 @@ const WalkwayOverview = ({
   closeModal,
 }) => {
   const {
-    id = 'a',
-    title = '성동구 왕십리로 산책길',
-    address = '서울특별시 어쩌구',
+    address = {},
+    averageStar = 0,
+    creator = '',
+    creatorId = '',
     distance = 0,
+    id = '',
+    path = [],
+    pinCount = 0,
     time = 0,
-    path = {},
-    creator = '성동구 불주먹',
-    pinNum = 0,
+    title = '',
   } = walkWay;
+
   return (
     <Modal
       style={styles.modalContainer}
@@ -42,41 +45,45 @@ const WalkwayOverview = ({
       backdropOpacity={0.5}
       coverScreen={false}
     >
-      <View style={styles.modalWrapper}>
-        <View style={styles.bar} />
-        <View style={styles.container}>
-          <View style={styles.imageContainer}>
-            <CustomImage source={Sample} style={styles.image} />
-            <View style={styles.imageGradient} />
-            <View style={styles.imageWrapper}>
-              <CustomImage source={StarIcon} style={styles.starIcon} />
-              <Text style={styles.num}>4.3</Text>
+      <TouchableWithoutFeedback onPress={handleOverview}>
+        <View style={styles.modalWrapper}>
+          <View style={styles.bar} />
+          <View style={styles.container}>
+            <View style={styles.imageContainer}>
+              <CustomImage source={Sample} style={styles.image} />
+              <View style={styles.imageGradient} />
+              <View style={styles.imageWrapper}>
+                <CustomImage source={StarIcon} style={styles.starIcon} />
+                <Text style={styles.num}>{averageStar}</Text>
+              </View>
             </View>
-          </View>
-          <View style={styles.informationContainer}>
-            <View style={styles.textContainer}>
-              <Text style={styles.name}>{creator}</Text>
-              <Text style={styles.title}>{title}</Text>
-              <Text>
-                {time !== 0 && (
-                  <Text style={styles.description}>약 {time}분 / </Text>
-                )}
-                {distance !== 0 && (
-                  <Text style={styles.description}>1.25km / </Text>
-                )}
-                <Text style={styles.description}>핀 {pinNum}개 </Text>
-              </Text>
-            </View>
-            <View style={styles.bottomContainer}>
-              <TouchableWithoutFeedback>
-                <View style={styles.bottomWrapper}>
-                  <Text style={styles.bottomText}>주소복사</Text>
-                </View>
-              </TouchableWithoutFeedback>
+            <View style={styles.informationContainer}>
+              <View style={styles.textContainer}>
+                <Text style={styles.name}>{creator}</Text>
+                <Text style={styles.title}>{title}</Text>
+                <Text>
+                  {time !== 0 && (
+                    <Text style={styles.description}>약 {time}분 / </Text>
+                  )}
+                  {distance !== 0 && (
+                    <Text style={styles.description}>
+                      {distance.toFixed(2)}km /{' '}
+                    </Text>
+                  )}
+                  <Text style={styles.description}>핀 {pinCount}개 </Text>
+                </Text>
+              </View>
+              <View style={styles.bottomContainer}>
+                <TouchableWithoutFeedback>
+                  <View style={styles.bottomWrapper}>
+                    <Text style={styles.bottomText}>주소복사</Text>
+                  </View>
+                </TouchableWithoutFeedback>
+              </View>
             </View>
           </View>
         </View>
-      </View>
+      </TouchableWithoutFeedback>
     </Modal>
   );
 };

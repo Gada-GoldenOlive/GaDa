@@ -20,12 +20,18 @@ import {
 import { bottomShadowStyle, windowWidth } from '../../../constant/styles';
 import ExpandingDots from '.././../../components/ExpandingDots';
 import { boldFontFamily, mediumFontFamily } from '../../../constant/fonts';
+import { useEffect } from 'react';
+
 const WIDTH = 204;
 const HEIGHT = 116;
 const EMPTY_ITEM_SIZE = (windowWidth - WIDTH) / 2;
 const SPACING = 10;
 
-const WalkwayListComponent = ({ list: prevList }) => {
+const WalkwayListComponent = ({
+  list: prevList,
+  handleClickItem,
+  setNowPath,
+}) => {
   const [focusedIndex, setFocusedIndex] = useState(1);
   const scrollX = React.useRef(new Animated.Value(0)).current;
   const topScroll = useRef(null);
@@ -85,7 +91,7 @@ const WalkwayListComponent = ({ list: prevList }) => {
       outputRange: ['rgb(181,181,181)', 'white', 'rgb(181,181,181)'],
       extrapolate: 'clamp',
     });
-    console.log(focusedIndex, index);
+
     return (
       <Animated.View
         style={[
@@ -112,9 +118,7 @@ const WalkwayListComponent = ({ list: prevList }) => {
           },
         ]}
       >
-        <TouchableWithoutFeedback
-        // onPress={() => handleNavigateDetailProduct(item)}
-        >
+        <TouchableWithoutFeedback onPress={() => handleClickItem(item)}>
           <Animated.View
             style={{
               paddingHorizontal: 15,
@@ -160,6 +164,7 @@ const WalkwayListComponent = ({ list: prevList }) => {
           contentContainerStyle={{
             alignItems: 'center',
             paddingVertical: 10,
+            backgroundColor: 'rgba(0,0,0,0)',
             justifyContent: 'center',
           }}
           keyExtractor={(item, index) => index}
@@ -201,8 +206,7 @@ const WalkwayListComponent = ({ list: prevList }) => {
           <View
             style={{
               width: windowWidth / 2 - WIDTH / 2,
-              height: '50%',
-              // backgroundColor: 'red',
+              height: '100%',
               position: 'absolute',
               bottom: 16,
               left: 0,
@@ -215,7 +219,6 @@ const WalkwayListComponent = ({ list: prevList }) => {
             style={{
               width: windowWidth / 2 - WIDTH / 2,
               height: '100%',
-              // backgroundColor: 'red',
               position: 'absolute',
               bottom: 16,
               right: 0,
@@ -232,6 +235,9 @@ const WalkwayListComponent = ({ list: prevList }) => {
     gestureIsClickThreshold: Platform.OS === 'ios' ? 20 : 9999,
   };
 
+  useEffect(() => {
+    setNowPath(list[focusedIndex].path);
+  }, [focusedIndex, list]);
   return (
     <View style={styles.container}>
       <GestureRecognizer
@@ -249,10 +255,13 @@ export default WalkwayListComponent;
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
+    position: 'absolute',
+    bottom: 0,
+    // backgroundColor: 'pink',
   },
   listContainer: {
-    paddingTop: 17,
+    // backgroundColor: 'pink',
+    // backfaceVisibility: false,
   },
   dotStyle: {
     width: 7,

@@ -8,7 +8,7 @@ import { buttonColor, defaultColor } from '../../../constant/colors';
 import Text from '../../../components/MyText';
 
 const Review = ({ review }) => {
-  const { title, star, content, userName } = review;
+  const { content, id, image, star, title, userId, userName, vehicle } = review;
   return (
     <View style={styles.container}>
       <View style={styles.userContainer}>

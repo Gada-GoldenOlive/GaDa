@@ -17,32 +17,28 @@ import CustomButton from '../../../components/CustomButton';
 const ItemSeparatorComponent = () => {
   return <View style={styles.separatorContainer} />;
 };
+const ListFooterComponent = () => {
+  return <View style={styles.footer} />;
+};
 
-const PinTabScreen = () => {
+const PinTabScreen = ({ pinList, reviewList, average }) => {
   const titles = ['핀', '후기'];
   const ref = React.useRef(PagerView);
   const handlePage = p => {
     ref.current.setPage(p);
   };
-  // pin
-  const tempPinList = [
-    { id: 'a', title: 'pin1', content: 'hey', image: 'hey' },
-    { id: 'b', title: 'pin2', content: 'hey', image: 'hey' },
-    { id: 'c', title: 'pin3', content: 'hey', image: 'hey' },
-    { id: 'd', title: 'pin4', content: 'hey', image: 'hey' },
-    { id: 'e', title: 'pin5', content: 'hey', image: 'hey' },
-    { id: 'f', title: 'pin6', content: 'hey', image: 'hey' },
-    { id: 'g', title: 'pin7', content: 'hey', image: 'hey' },
-  ];
-
   const pinHeaderComponent = () => {
     return <FirstPin />;
   };
   const pinFooterComponent = () => {
-    return <LastPin />;
+    return (
+      <View style={styles.footer}>
+        <LastPin />
+      </View>
+    );
   };
   const renderPin = ({ item, index }) => {
-    const { title } = item;
+    const { content, id, image, location, title, userId, walkwayId } = item;
     return (
       <View>
         <PinItem item={item} index={index} />
@@ -50,40 +46,7 @@ const PinTabScreen = () => {
     );
   };
 
-  // review
-  const tempReviewlist = [
-    {
-      id: 'a',
-      title: 'review1',
-      vehicle: 'AUTO',
-      star: 3,
-      content:
-        "이제 우리가 다시 다시 써 불붙으면 Non Stop 보이는 대로 I'm just having fun 가볍게 난 Game start 갈아치운 Rank huh 심길 건드리는 말들도 씹어 먹고 퉤 해 뱉어 껌처럼 Chess판 위에도 Checkmate",
-      image: 'image',
-      userId: 'aa',
-      userName: 'SUMMER',
-    },
-    {
-      id: 'ab',
-      title: 'review2',
-      vehicle: 'AUTO',
-      star: 4.2,
-      content: '좋아요',
-      image: 'image',
-      userId: 'aa',
-      userName: 'SUMMER',
-    },
-    {
-      id: 'bb',
-      title: 'review3',
-      vehicle: 'AUTO',
-      star: 5,
-      content: '좋아요',
-      image: 'image',
-      userId: 'aa',
-      userName: 'SUMMER',
-    },
-  ];
+  //review
   const reviewHeaderComponent = () => {
     return (
       <View style={styles.headerContainer}>
@@ -94,7 +57,7 @@ const PinTabScreen = () => {
             style={styles.starIcon}
             tintColor={buttonColor}
           />
-          <Text style={styles.num}>4.3</Text>
+          <Text style={styles.num}>{average}</Text>
         </View>
       </View>
     );
@@ -116,12 +79,13 @@ const PinTabScreen = () => {
         style={styles.pagerView}
         ref={ref}
       >
-        {tempPinList.length > 0 ? (
+        {pinList.length > 0 ? (
           <View style={styles.listContainer}>
             <FlatList
               scrollEventThrottle={16}
               showsVerticalScrollIndicator={false}
-              data={tempPinList}
+              data={pinList}
+              bounces={false}
               disableVirtualization={false}
               ItemSeparatorComponent={ItemSeparatorComponent}
               ListHeaderComponent={pinHeaderComponent}
@@ -137,14 +101,16 @@ const PinTabScreen = () => {
             <Text>핀이 없습니다</Text>
           </View>
         )}
-        {tempReviewlist.length > 0 ? (
+        {reviewList.length > 0 ? (
           <View style={styles.listContainer}>
             <FlatList
               scrollEventThrottle={16}
               showsVerticalScrollIndicator={false}
-              data={tempReviewlist}
+              data={reviewList}
+              bounces={false}
               disableVirtualization={false}
               ListHeaderComponent={reviewHeaderComponent}
+              ListFooterComponent={ListFooterComponent}
               renderItem={({ item, index }) => renderReview({ item, index })}
               onEndReachedThreshold={0.7}
               contentContainerStyle={styles.pinListContainer}
@@ -214,5 +180,8 @@ const styles = StyleSheet.create({
   nullContainer: {
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  footer: {
+    paddingBottom: 100,
   },
 });
