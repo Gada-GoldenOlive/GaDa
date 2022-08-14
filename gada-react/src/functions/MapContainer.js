@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import MovePinText from "../screens/components/MovePinText";
 import MapScreen from "../screens/MapScreen";
 import GeoLocationMarker from "./GeolocationMarker";
 
@@ -59,11 +60,12 @@ const MapContainer = () => {
   //   // setCurrentPosition(data);
   // });
 
-  const handleSubmit = (position) => {
+  const handleSubmit = (ver, position) => {
     //console.log(position);
     if (window.ReactNativeWebView) {
-      console.log("클릭");
-      window.ReactNativeWebView.postMessage(JSON.stringify(position));
+      window.ReactNativeWebView.postMessage(
+        ver + "@" + JSON.stringify(position)
+      );
     }
   };
 
@@ -78,6 +80,7 @@ const MapContainer = () => {
       // center={center}
       // setCenter={setCenter}
     />
+    // <MovePinText />
   );
 };
 
