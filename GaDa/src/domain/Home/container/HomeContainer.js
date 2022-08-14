@@ -24,6 +24,7 @@ const HomeContainer = () => {
   const dispatch = useDispatch();
 
   const [nowPath, setNowPath] = useState([]);
+  const [nowPins, setNowPins] = useState([]);
   const [isWalkwayFocused, setIsWalkwayFocused] = useState(false);
 
   const geoLocation = ref => {
@@ -79,6 +80,7 @@ const HomeContainer = () => {
   useEffect(() => {
     dispatch(setBottomTabVisible(!isInformationVisible));
   }, [isInformationVisible]);
+
   return (
     <HomeScreen
       geoLocation={geoLocation}
@@ -92,6 +94,8 @@ const HomeContainer = () => {
       handleClickWalkway={handleClickWalkway}
       nowPath={nowPath}
       setNowPath={setNowPath}
+      nowPins={nowPins}
+      setNowPins={setNowPins}
       setIsWalkwayFocused={setIsWalkwayFocused}
     />
   );

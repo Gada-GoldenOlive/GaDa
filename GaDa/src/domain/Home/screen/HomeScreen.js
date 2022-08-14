@@ -34,6 +34,8 @@ const HomeScreen = ({
   handleClickWalkway,
   setNowPath,
   nowPath,
+  nowPins,
+  setNowPins,
   setIsWalkwayFocused,
 }) => {
   const ref = useRef();
@@ -151,6 +153,7 @@ const HomeScreen = ({
           handleClickItem={handleClickItem}
           isVisible={isVisible}
           setNowPath={setNowPath}
+          setNowPins={setNowPins}
           setIsWalkwayFocused={setIsWalkwayFocused}
         />
       )}
