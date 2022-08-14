@@ -9,7 +9,6 @@ const FriendsContainer = ({ navigation, route }) => {
   const getId = async () => {
     const res = await getIdInLocalStorage();
     setId(res);
-    console.log(res);
   };
   useEffect(() => {
     getId();

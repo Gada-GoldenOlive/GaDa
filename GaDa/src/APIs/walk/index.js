@@ -1,8 +1,8 @@
 import axios, { handleNetworkError } from '../index';
 
-export const createReview = async reviewData => {
+export const createWalk = async walkData => {
   const res = await axios
-    .post(`/review`, { ...reviewData })
+    .post(`/walks`, { ...walkData })
     .then(({ data }) => {
       return data;
     })
@@ -10,9 +10,9 @@ export const createReview = async reviewData => {
   return res;
 };
 
-export const getReviewList = async ({ walkwayId }) => {
+export const getWalkList = async () => {
   const res = await axios
-    .get(`/review/${walkwayId}`)
+    .get(`/walks`)
     .then(({ data }) => {
       return data;
     })
@@ -20,17 +20,17 @@ export const getReviewList = async ({ walkwayId }) => {
   return res;
 };
 
-export const updateReview = async (id, reviewData) => {
+export const updateWalk = async (id, walkData) => {
   const res = await axios
-    .patch(`/review/${id}`, { ...reviewData })
+    .patch(`/walks/${id}`, { ...walkData })
     .then(({ data }) => data)
     .catch(handleNetworkError);
   return res;
 };
 
-export const deleteReview = async id => {
+export const deleteWalk = async id => {
   const res = await axios
-    .delete(`/review/${id}`)
+    .delete(`/walks/${id}`)
     .then(({ data }) => data)
     .catch(handleNetworkError);
   return res;

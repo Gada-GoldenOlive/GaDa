@@ -15,16 +15,14 @@ import StarIcon from '../../../constant/images/Star';
 import PinTabContainer from '../container/PinTabContainer';
 const PinInformation = ({ walkWay, pinList, closeModal, isVisible }) => {
   const {
-    id = 'a',
     title = '성동구 왕십리로 산책길',
-    address = '서울특별시 어쩌구',
     distance = 0,
     time = 0,
-    path = {},
     creator = '성동구 불주먹',
     pinNum = 0,
+    id = -1,
+    averageStar = 0,
   } = walkWay;
-
   return (
     <Modal
       style={styles.modalContainer}
@@ -46,7 +44,7 @@ const PinInformation = ({ walkWay, pinList, closeModal, isVisible }) => {
             <View style={styles.imageGradient} />
             <View style={styles.imageWrapper}>
               <CustomImage source={StarIcon} style={styles.starIcon} />
-              <Text style={styles.num}>4.3</Text>
+              <Text style={styles.num}>{averageStar}</Text>
             </View>
           </View>
           <View style={styles.informationContainer}>
@@ -72,7 +70,7 @@ const PinInformation = ({ walkWay, pinList, closeModal, isVisible }) => {
             </View>
           </View>
         </View>
-        <PinTabContainer />
+        <PinTabContainer id={id} />
         <View style={styles.buttonContainer} />
       </View>
     </Modal>

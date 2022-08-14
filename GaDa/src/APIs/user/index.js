@@ -2,7 +2,7 @@ import axios, { handleNetworkError } from '../index';
 
 export const createUser = async userData => {
   const res = await axios
-    .post(`/user`, { ...userData })
+    .post(`/users`, { ...userData })
     .then(({ data }) => {
       return data;
     })
@@ -12,7 +12,7 @@ export const createUser = async userData => {
 
 export const getUserList = async () => {
   const res = await axios
-    .get(`/user`)
+    .get(`/users`)
     .then(({ data }) => {
       return data;
     })
@@ -22,7 +22,7 @@ export const getUserList = async () => {
 
 export const updateUserInfo = async (id, userData) => {
   const res = await axios
-    .patch(`/user/${id}`, { ...userData })
+    .patch(`/users/${id}`, { ...userData })
     .then(({ data }) => data)
     .catch(handleNetworkError);
   return res;
@@ -30,7 +30,7 @@ export const updateUserInfo = async (id, userData) => {
 
 export const deleteUser = async id => {
   const res = await axios
-    .delete(`/user/${id}`)
+    .delete(`/users/${id}`)
     .then(({ data }) => data)
     .catch(handleNetworkError);
   return res;

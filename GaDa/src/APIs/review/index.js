@@ -10,9 +10,19 @@ export const createReview = async reviewData => {
   return res;
 };
 
-export const getReviewList = async ({ walkwayId }) => {
+export const getWalkwayReviewList = async id => {
   const res = await axios
-    .get(`/review/${walkwayId}`)
+    .get(`/reviews?walkwayId=${id}`)
+    .then(({ data }) => {
+      return data;
+    })
+    .catch(handleNetworkError);
+  return res;
+};
+
+export const getUserList = async id => {
+  const res = await axios
+    .get(`/reviews?userId=${id}`)
     .then(({ data }) => {
       return data;
     })
@@ -22,7 +32,7 @@ export const getReviewList = async ({ walkwayId }) => {
 
 export const updateReview = async (id, reviewData) => {
   const res = await axios
-    .patch(`/review/${id}`, { ...reviewData })
+    .patch(`/reviews/${id}`, { ...reviewData })
     .then(({ data }) => data)
     .catch(handleNetworkError);
   return res;
@@ -30,7 +40,7 @@ export const updateReview = async (id, reviewData) => {
 
 export const deleteReview = async id => {
   const res = await axios
-    .delete(`/review/${id}`)
+    .delete(`/reviews/${id}`)
     .then(({ data }) => data)
     .catch(handleNetworkError);
   return res;

@@ -18,8 +18,21 @@ import LinearGradient from 'react-native-linear-gradient';
 import Pin from '../../../constant/images/Pin';
 import { bottomShadowStyle } from '../../../constant/styles';
 import { useNavigation } from '@react-navigation/core';
+import { getWalkwayList } from '../../../APIs/walkway';
+import WalkwayListComponent from '../components/WalkwayListComponent';
+import WalkwayOverview from '../components/WalkwayOverview';
 
-const HomeScreen = ({ geoLocation, handleConnection }) => {
+const HomeScreen = ({
+  geoLocation,
+  handleConnection,
+  selectedItem,
+  closeModal,
+  handleClickItem,
+  isVisible,
+  isInformationVisible,
+  closeInformation,
+  handleClickWalkway,
+}) => {
   const ref = useRef();
   const [markerPos, setMarkerPos] = useState({
     lat: 0,
@@ -27,6 +40,8 @@ const HomeScreen = ({ geoLocation, handleConnection }) => {
   });
   const [currentPos, setCurrentPos] = useState({});
   const [submitPosPinIsVisible, setSubmitPinPosIsVisible] = useState();
+  const [walkwayList, setWalkwayList] = useState([]);
+  const [nowPath, setNowPath] = useState([]);
 
   const navigation = useNavigation();
 
@@ -55,14 +70,30 @@ const HomeScreen = ({ geoLocation, handleConnection }) => {
       if (type === 'pinPos') setMarkerPos({ lat: lat, lng: lng });
     }
   };
+
+  const getWalkway = async () => {
+    const res = await getWalkwayList({
+      lng: 127.09598,
+      lat: 37.54699,
+    });
+
+    const { walkways } = res;
+    setWalkwayList(walkways);
+  };
   useEffect(() => {
     if (markerPos.lat !== 0 && markerPos.lng !== 0) {
       console.log(markerPos.lat, markerPos.lng);
     }
   }, [markerPos]);
 
+  useEffect(() => {
+    if (currentPos.lat !== 0 && currentPos.lng !== 0) {
+      getWalkway();
+    }
+  }, [currentPos]);
+
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: 'red' }}>
       <WebView
         source={{ uri: 'https://53fb-110-8-134-126.jp.ngrok.io' }}
         injectedJavaScript={INJECTED_JAVASCRIPT}
@@ -71,7 +102,6 @@ const HomeScreen = ({ geoLocation, handleConnection }) => {
         onMessage={handleReceive}
       />
       {/* <NewPinButton handleConnection={handleConnection} ref={ref} /> */}
-
       <TouchableWithoutFeedback
         onPress={() => {
           handleConnection(ref, 'addPin');
@@ -107,6 +137,27 @@ const HomeScreen = ({ geoLocation, handleConnection }) => {
           <CustomImage style={styles.currentPosIcon} source={CurrentPosition} />
         </View>
       </TouchableWithoutFeedback>
+      {!isVisible && (
+        <WalkwayListComponent
+          list={walkwayList}
+          selectedItem={selectedItem}
+          closeModal={closeModal}
+          handleClickItem={handleClickItem}
+          isVisible={isVisible}
+          setNowPath={setNowPath}
+        />
+      )}
+      <WalkwayOverview
+        walkWay={selectedItem}
+        isVisible={isVisible}
+        closeModal={closeModal}
+        handleOverview={handleClickWalkway}
+      />
+      <PinInformation
+        walkWay={selectedItem}
+        closeModal={closeInformation}
+        isVisible={isInformationVisible}
+      />
     </View>
   );
 };
