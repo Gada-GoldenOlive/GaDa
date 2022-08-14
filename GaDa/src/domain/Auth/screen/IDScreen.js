@@ -6,7 +6,7 @@ import CustomButton from '../../../components/CustomButton';
 import Text from '../../../components/MyText';
 import { thinFontFamily } from '../../../constant/fonts';
 
-const IDScreen = ({ isWrong, handleNavigate }) => {
+const IDScreen = ({ isWrong, userId, handleNavigate, handleIdChange }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>아이디를 입력하세요</Text>
@@ -15,6 +15,8 @@ const IDScreen = ({ isWrong, handleNavigate }) => {
           <MyTextInPut
             style={styles.textInput}
             placeholder="아이디를 입력하세요"
+            value={userId}
+            onChangeText={handleIdChange}
           />
           <TouchableWithoutFeedback>
             <View style={styles.buttonWrapper}>

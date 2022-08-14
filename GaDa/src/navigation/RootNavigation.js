@@ -12,6 +12,7 @@ import DetailImage from '../domain/Image/DetailImage';
 import ImageSubmitButton from '../components/ImageSubmitButton';
 import CloseButton from '../components/CloseButton';
 // LOGIN
+import SignInContainer from '../domain/Auth/container/SignInContainer';
 import IDContainer from '../domain/Auth/container/IDContainer';
 import PWContainer from '../domain/Auth/container/PWContainer';
 import NicknameContainer from '../domain/Auth/container/NicknameContainer';
@@ -36,6 +37,10 @@ const authScreens = [
     screen: NicknameContainer,
   },
 ];
+const signInScreen = {
+  SignIn: SignInContainer,
+};
+
 const RootStack = createStackNavigator();
 const RootNavigation = () => {
   const navigation = useNavigation();
@@ -117,6 +122,19 @@ const RootNavigation = () => {
           />
         );
       })}
+      {Object.entries({ ...signInScreen }).map(([name, component]) => (
+        <RootStack.Screen
+          key={name}
+          name={name}
+          component={component}
+          options={({ route }) => {
+            return {
+              headerShown: false,
+              headerLeft: null,
+            };
+          }}
+        />
+      ))}
       <RootStack.Screen name="BottomTab" component={BottomTab} />
     </RootStack.Navigator>
   );

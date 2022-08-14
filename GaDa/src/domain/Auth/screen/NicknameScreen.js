@@ -6,17 +6,19 @@ import CustomButton from '../../../components/CustomButton';
 import Text from '../../../components/MyText';
 import { thinFontFamily } from '../../../constant/fonts';
 
-const NicknameScreen = ({ handleNavigate }) => {
+const NicknameScreen = ({ nickname, handleNavigate, handleNicknameChange }) => {
   return (
     <View style={styles.container}>
       <View style={styles.topContainer}>
-        <Text style={styles.title}>비밀번호를 입력하세요</Text>
+        <Text style={styles.title}>닉네임을 설정하세요</Text>
       </View>
       <View style={styles.contentContainer}>
         <View style={styles.contentWrapper}>
           <MyTextInPut
             style={styles.textInput}
-            placeholder="비밀번호를 입력하세요"
+            placeholder="닉네임을 입력하세요"
+            value={nickname}
+            onChangeText={handleNicknameChange}
           />
         </View>
       </View>

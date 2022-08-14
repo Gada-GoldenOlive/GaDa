@@ -1,14 +1,16 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { PermissionsAndroid, StyleSheet, useColorScheme } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import RootNavigation from './src/navigation/RootNavigation';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
-import { Provider } from 'react-redux';
+import { Provider, useDispatch, useSelector } from 'react-redux';
 import store from './src/redux/store';
 // SplashScreen 추가
 import SplashScreen from 'react-native-splash-screen';
+import { setIsAuthenticated } from './src/redux/modules/user';
+import { getIdInLocalStorage } from './src/function';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -18,6 +20,9 @@ const App = () => {
   };
   const navigationRef = useRef();
   const routeNameRef = useRef();
+
+  const dispatch = useDispatch();
+  const { isAuthenticated } = useSelector(state => state.user);
 
   // permission 관리
   useEffect(() => {
@@ -55,6 +60,21 @@ const App = () => {
       console.warn(e);
     }
   });
+
+  // 로그인
+  const [id, setId] = useState('');
+  const getId = async () => {
+    const res = await getIdInLocalStorage();
+    setId(res);
+  };
+  useEffect(() => {
+    getId();
+    if (id == null && id !== '') {
+      dispatch(setIsAuthenticated(false));
+    } else {
+      dispatch(setIsAuthenticated(true));
+    }
+  }, [id]);
 
   return (
     <SafeAreaProvider>

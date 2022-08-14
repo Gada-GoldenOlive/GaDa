@@ -5,6 +5,7 @@ const SET_END_TIME = 'status/END_TIME';
 const SET_IS_WALKING = 'status/IS_WALKING';
 const SET_CURRNET_POSITION = 'status/SET_CURRNET_POSITION';
 const SET_PIN_NUM = 'status/SET_PIN_NUM';
+
 // action 생성 함수
 export const setBottomTabVisible = boolean => ({
   type: SET_BOTTOMTAB_VISIBLE,
