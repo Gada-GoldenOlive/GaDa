@@ -30,8 +30,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   circle: {
-    marginStart: -9,
-    width: 16,
+    marginStart: -10,
+    width: 18,
     height: 18,
     backgroundColor: 'white',
     borderColor: buttonColor,
@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     marginEnd: 10,
     ...bottomShadowStyle,
+    bottom: -5,
   },
   text: {
     fontFamily: boldFontFamily,

@@ -13,7 +13,6 @@ import StartButton from '../components/StartButton';
 import CustomImage from '../../../components/CustomImage';
 import StarIcon from '../../../constant/images/Star';
 import { boldFontFamily } from '../../../constant/fonts';
-import CustomButton from '../../../components/CustomButton';
 const ItemSeparatorComponent = () => {
   return <View style={styles.separatorContainer} />;
 };
@@ -38,7 +37,6 @@ const PinTabScreen = ({ pinList, reviewList, average }) => {
     );
   };
   const renderPin = ({ item, index }) => {
-    const { content, id, image, location, title, userId, walkwayId } = item;
     return (
       <View>
         <PinItem item={item} index={index} />
@@ -123,7 +121,6 @@ const PinTabScreen = ({ pinList, reviewList, average }) => {
           </View>
         )}
       </PagerView>
-      <CustomButton title="경로 시작" />
     </View>
   );
 };

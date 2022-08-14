@@ -33,6 +33,7 @@ const WalkwayListComponent = ({
   list: prevList,
   handleClickItem,
   setNowPath,
+  isVisible,
   setStartPoint,
   setNowPins,
   nowPath,
@@ -259,11 +260,12 @@ const WalkwayListComponent = ({
     setNowPath(list[focusedIndex].path);
     setStartPoint(list[focusedIndex].startPoint);
   }, [focusedIndex, list]);
+
   useEffect(() => {
     getPinList(list[focusedIndex].id);
   }, [nowPath]);
 
-  return (
+ return isVisible ? (
     <View style={styles.container}>
       <GestureRecognizer
         onSwipeRight={goLeft}
@@ -273,7 +275,7 @@ const WalkwayListComponent = ({
         {renderList()}
       </GestureRecognizer>
     </View>
-  );
+  ) : null;
 };
 
 export default WalkwayListComponent;

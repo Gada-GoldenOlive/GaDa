@@ -13,16 +13,27 @@ import CustomImage from '../../../components/CustomImage';
 import { Sample } from '../../../constant/images/Temp';
 import StarIcon from '../../../constant/images/Star';
 import PinTabContainer from '../container/PinTabContainer';
-const PinInformation = ({ walkWay, pinList, closeModal, isVisible }) => {
+import CustomButton from '../../../components/CustomButton';
+
+const PinInformation = ({
+  walkWay,
+  pinList,
+  closeModal,
+  isVisible,
+  startWalk,
+}) => {
   const {
     title = '성동구 왕십리로 산책길',
     distance = 0,
     time = 0,
     creator = '성동구 불주먹',
-    pinNum = 0,
+    pinCount = 0,
     id = -1,
     averageStar = 0,
+    image = '',
   } = walkWay;
+  const min = Math.floor(time / 60);
+  const km = distance / 1000;
   return (
     <Modal
       style={styles.modalContainer}
@@ -53,12 +64,12 @@ const PinInformation = ({ walkWay, pinList, closeModal, isVisible }) => {
               <Text style={styles.title}>{title}</Text>
               <Text>
                 {time !== 0 && (
-                  <Text style={styles.description}>약 {time}분 / </Text>
+                  <Text style={styles.description}>약 {min}분 / </Text>
                 )}
                 {distance !== 0 && (
-                  <Text style={styles.description}>1.25km / </Text>
+                  <Text style={styles.description}>{km.toFixed(1)}km / </Text>
                 )}
-                <Text style={styles.description}>핀 {pinNum}개 </Text>
+                <Text style={styles.description}>핀 {pinCount}개 </Text>
               </Text>
             </View>
             <View style={styles.bottomContainer}>
@@ -70,8 +81,9 @@ const PinInformation = ({ walkWay, pinList, closeModal, isVisible }) => {
             </View>
           </View>
         </View>
-        <PinTabContainer id={id} />
+        <PinTabContainer walkWay={walkWay} />
         <View style={styles.buttonContainer} />
+        <CustomButton title="경로 시작" handlePress={startWalk} />
       </View>
     </Modal>
   );

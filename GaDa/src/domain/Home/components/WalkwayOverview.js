@@ -31,7 +31,8 @@ const WalkwayOverview = ({
     time = 0,
     title = '',
   } = walkWay;
-
+  const min = Math.floor(time / 60);
+  const km = distance / 1000;
   return (
     <Modal
       style={styles.modalContainer}
@@ -59,16 +60,14 @@ const WalkwayOverview = ({
             </View>
             <View style={styles.informationContainer}>
               <View style={styles.textContainer}>
-                <Text style={styles.name}>{creator}</Text>
+                {creator !== '' && <Text style={styles.name}>{creator}</Text>}
                 <Text style={styles.title}>{title}</Text>
                 <Text>
                   {time !== 0 && (
-                    <Text style={styles.description}>약 {time}분 / </Text>
+                    <Text style={styles.description}>약 {min}분 / </Text>
                   )}
                   {distance !== 0 && (
-                    <Text style={styles.description}>
-                      {distance.toFixed(2)}km /{' '}
-                    </Text>
+                    <Text style={styles.description}>{km.toFixed(1)}km / </Text>
                   )}
                   <Text style={styles.description}>핀 {pinCount}개 </Text>
                 </Text>
@@ -155,13 +154,14 @@ const styles = StyleSheet.create({
   informationContainer: {
     flex: 1,
     paddingStart: 16,
-    flexDirection: 'column',
+    justifyContent: 'flex-start',
   },
   textContainer: {
-    flex: 1,
     width: '100%',
+    justifyContent: 'flex-start',
   },
   name: {
+    backgroundColor: 'blue',
     color: mainColor,
     fontFamily: boldFontFamily,
     fontSize: 13,

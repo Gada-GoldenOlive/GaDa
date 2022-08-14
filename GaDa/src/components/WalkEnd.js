@@ -7,18 +7,21 @@ import { boldFontFamily, mediumFontFamily } from '../constant/fonts';
 import { blackColor, buttonColor, defaultColor } from '../constant/colors';
 import LinearGradient from 'react-native-linear-gradient';
 import { windowHeight, windowWidth } from '../constant/styles';
+import { useSelector } from 'react-redux';
 
 const WalkEnd = ({
-  km = 103,
-  time: secs = moment().startOf('second'),
-  pinNum = 1,
+  pinNum: prevNum = 0,
   isVisible = false,
   onPress,
+  walkData,
 }) => {
-  const hour = secs.hours();
-  const min = secs.minute();
-  const sec = secs.second();
-  const time = `${hour}:${min}:${sec}`;
+  const { time, distance, finishStatus, walkwayId, userId } = walkData;
+  const km = distance / 1000;
+  const hour = Math.floor(time / 3600);
+  const min = Math.floor((time - hour * 3600) / 60);
+  const sec = Math.floor(time - hour * 3600 - min * 60);
+  const { pinNum } = useSelector(state => state.status);
+  const timeString = `${hour}:${min}:${sec}`;
   return (
     isVisible && (
       <View style={styles.container}>
@@ -35,7 +38,7 @@ const WalkEnd = ({
           <View style={styles.bottomContainer}>
             <View style={styles.bottomWrapper}>
               <Text style={styles.description}>시간</Text>
-              <Text style={styles.value}>{time}</Text>
+              <Text style={styles.value}>{timeString}</Text>
             </View>
             <View style={styles.bottomWrapper}>
               <Text style={styles.description}>제작 핀</Text>

@@ -10,7 +10,7 @@ import CustomImage from '../../../components/CustomImage';
 import { Sample } from '../../../constant/images/Temp';
 
 const PinItem = ({ item, index }) => {
-  const { id, title, content, image } = item;
+  const { id, title, content, image, location, userId } = item;
   return (
     <View style={styles.container}>
       <View style={styles.wrapper}>
@@ -40,8 +40,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   circle: {
-    marginStart: -9,
-    width: 16,
+    marginStart: -10,
+    width: 18,
     height: 18,
     backgroundColor: 'white',
     borderColor: buttonColor,

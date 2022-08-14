@@ -29,6 +29,7 @@ const CenterModal = ({
   handleConfirm,
   version = 1,
   renderMainBody = null,
+  buttonText = '기록 시작',
 }) => {
   return (
     <Modal
@@ -56,7 +57,7 @@ const CenterModal = ({
             <Text style={styles.content}>{content}</Text>
           </View>
           <CustomButton
-            title="기록 시작"
+            title={buttonText}
             style={styles.button}
             handlePress={handleConfirm}
           />
