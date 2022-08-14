@@ -1,4 +1,4 @@
-import { View, Text, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, TouchableWithoutFeedback, LogBox } from 'react-native';
 import React, { useRef, useState } from 'react';
 import { getDistance } from 'geolib';
 import Geolocation from '@react-native-community/geolocation';
@@ -6,6 +6,7 @@ import HomeScreen from '../screen/HomeScreen';
 import { useDispatch } from 'react-redux';
 import {
   setBottomTabVisible,
+  setCurrentPosition,
   setEndTime,
   setIsWalking,
 } from '../../../redux/modules/status';
@@ -13,6 +14,7 @@ import { useEffect } from 'react';
 import { getCurrentTime, getDuringTime } from '../../../function';
 import { setStartTime } from '../../../redux/modules/status';
 import { get } from 'react-native/Libraries/Utilities/PixelRatio';
+import { createWalk } from '../../../APIs/walk';
 
 // * 현재위치
 // 일정 시간 후 주기적으로 반복해서 geoLocation 해주기!
@@ -24,17 +26,33 @@ const CURRENTPOS = 'currentPos';
 const HomeContainer = () => {
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
+  // 현재위치
   const [coords, setCoords] = useState({ latitude: null, longitude: null });
+  // 내위치 리스트
   const [locationList, setLocationList] = useState([]);
-  const [recording, setRecording] = useState(true);
+  // 기록 시작
+  const [recording, setRecording] = useState(false);
+  // 이전 기록
   const [beforeRecord, setBeforeRecord] = useState(null);
+  // overview visible
   const [isVisible, setIsVisible] = useState(false);
+  // 현재 선택된 산책로
   const [selectedItem, setSelectedItem] = useState({});
+  // 자세한 정보 visible
   const [isInformationVisible, setIsInformationVisible] = useState(false);
+  // 산책로 리스트 component visible
   const [listIsVisible, setListIsVisible] = useState(true);
+  // 끝내겠습니까? 모달 visible
   const [endModalVisible, setEndModalVisible] = useState(false);
+  // 산책 종료 모달 visible
+  const [walkEnd, setWalkEnd] = useState(false);
+  // walk data
+  const [walkData, setWalkData] = useState({});
+  // 생성한 핀 개수
+  const [pinNum, setPinNum] = useState(0);
   const dispatch = useDispatch();
-
+  LogBox.ignoreLogs(['new NativeEventEmitter']); // Ignore log notification by message
+  LogBox.ignoreAllLogs(); //Ignore all log notifications
   const geoLocation = ref => {
     Geolocation.getCurrentPosition(
       position => {
@@ -50,6 +68,40 @@ const HomeContainer = () => {
       },
       { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 },
     );
+  };
+
+  const recordPosition = () => {
+    const newId = Geolocation.watchPosition(
+      position => {
+        if (position) {
+          let updateFlag = true;
+          const newRecord = {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          };
+          // 시작
+          if (beforeRecord !== null) {
+            // console.log(beforeRecord, newRecord);
+            const dist = getDistance(beforeRecord, newRecord, 0.1);
+            if (dist < 50) {
+              updateFlag = false;
+            }
+          }
+          if (updateFlag) {
+            setCoords(newRecord);
+            setBeforeRecord(newRecord);
+            setLocationList(locationList => [...locationList, newRecord]);
+            dispatch(setCurrentPosition(newRecord));
+          }
+        }
+      },
+      err => {
+        console.log(err.message);
+      },
+      { enableHighAccuracy: false },
+    );
+
+    setRecording(true);
   };
 
   const handleConnection = (ref, ver) => {
@@ -110,13 +162,8 @@ const HomeContainer = () => {
     dispatch(setIsWalking(true));
   };
 
-  const stopWalk = async () => {
-    const res = getCurrentTime();
-    dispatch(setEndTime(res));
-    dispatch(setIsWalking(false));
-    const time = getDuringTime();
-    const dis = finishRecord();
-    console.log(time, dis);
+  const stopWalk = () => {
+    endWalk('UNFINISHED');
     closeEndModal();
   };
 
@@ -125,48 +172,68 @@ const HomeContainer = () => {
   };
   const closeEndModal = () => {
     setEndModalVisible(false);
-  };
-  const recordPosition = () => {
-    const newId = Geolocation.getCurrentPosition(
-      position => {
-        if (position) {
-          let updateFlag = true;
-          const newRecord = {
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-          };
-          // 시작
-          if (beforeRecord !== null) {
-            // console.log(beforeRecord, newRecord);
-            const dist = getDistance(beforeRecord, newRecord);
-            if (dist < 0.05) {
-              updateFlag = false;
-            }
-          }
-          if (updateFlag) {
-            setCoords(newRecord);
-            setBeforeRecord(newRecord);
-            setLocationList(locationList => [...locationList, newRecord]);
-          }
-        }
-      },
-      err => {
-        console.log(err.message);
-      },
-      { enableHighAccuracy: false },
-    );
-
-    setRecording(true);
+    setIsVisible(false);
   };
 
   const finishRecord = () => {
     setRecording(false);
-    return getDistance(locationList[0], locationList[locationList.length - 1]);
+    return getDistance(
+      locationList[0],
+      locationList[locationList.length - 1],
+      0.1,
+    );
+  };
+
+  const endWalk = async status => {
+    const res = getCurrentTime();
+    dispatch(setEndTime(res));
+    dispatch(setIsWalking(false));
+    const time = getDuringTime();
+    const dis = finishRecord();
+
+    const nowWalk = {
+      time: time,
+      distance: dis,
+      finishStatus: status,
+      walkwayId: selectedItem.id,
+      userId: '1',
+    };
+    setWalkData(nowWalk);
+    const res2 = await createWalk(nowWalk);
+    setWalkEnd(true);
+  };
+
+  const resetData = () => {
+    setLocationList([]);
+    setCoords({ latitude: null, longitude: null });
+    setRecording(false);
+    setBeforeRecord(null);
+    setIsVisible(false);
+    setSelectedItem({});
+    setIsInformationVisible(false);
+    setListIsVisible(true);
+    setEndModalVisible(false);
+    setWalkEnd(false);
+    setWalkData({});
+    setPinNum(0);
+    dispatch(setIsWalking(false));
   };
   useEffect(() => {
-    dispatch(setBottomTabVisible(!isInformationVisible));
-  }, [isInformationVisible]);
+    // walkEnd일때 안보여야하고 information visible일때 안보여야한다
+    const tabVisible = !walkEnd && !isInformationVisible;
 
+    dispatch(setBottomTabVisible(tabVisible));
+  }, [walkEnd, isInformationVisible]);
+
+  useEffect(() => {
+    if (recording) {
+      recordPosition();
+    }
+  }, [recording]);
+
+  useEffect(() => {
+    resetData();
+  }, []);
   return (
     <HomeScreen
       geoLocation={geoLocation}
@@ -184,6 +251,10 @@ const HomeContainer = () => {
       endModalVisible={endModalVisible}
       closeEndModal={closeEndModal}
       openEndModal={openEndModal}
+      walkEnd={walkEnd}
+      resetData={resetData}
+      walkData={walkData}
+      pinNum={pinNum}
     />
   );
 };

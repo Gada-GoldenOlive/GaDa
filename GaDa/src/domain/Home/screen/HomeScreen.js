@@ -24,6 +24,7 @@ import WalkwayOverview from '../components/WalkwayOverview';
 import SubmitButton from '../../../components/SubmitButton';
 import Stop from '../../../constant/images/Stop';
 import { useSelector } from 'react-redux';
+import WalkEnd from '../../../components/WalkEnd';
 
 const HomeScreen = ({
   geoLocation,
@@ -41,6 +42,10 @@ const HomeScreen = ({
   endModalVisible,
   closeEndModal,
   openEndModal,
+  walkEnd,
+  resetData,
+  walkData,
+  pinNum,
 }) => {
   const ref = useRef();
   const [markerPos, setMarkerPos] = useState({
@@ -53,18 +58,15 @@ const HomeScreen = ({
   const [nowPath, setNowPath] = useState([]);
   const navigation = useNavigation();
   const { isWalking } = useSelector(state => state.status);
-
   const INJECTED_JAVASCRIPT = `(function() {
     window.postMessage(JSON.stringify({key : "value"}));true;
 })();`;
-
   const handleReceive = event => {
     const {
       nativeEvent: { data },
     } = event;
 
     if (data !== 'undefined') {
-      //console.log(data);
       var latStartIdx = data.indexOf(':') + 1;
       var latEndIdx = data.indexOf(',');
       var lat = Number(data.slice(latStartIdx, latEndIdx));
@@ -85,13 +87,16 @@ const HomeScreen = ({
       lng: 127.09598,
       lat: 37.54699,
     });
-
     const { walkways = [] } = res ? res : {};
     setWalkwayList(walkways);
   };
   useEffect(() => {
     if (markerPos.lat !== 0 && markerPos.lng !== 0) {
       console.log(markerPos.lat, markerPos.lng);
+      navigation.navigate('CreatePin', {
+        address: selectedItem.address,
+        markerPos,
+      });
     }
   }, [markerPos]);
 
@@ -111,29 +116,30 @@ const HomeScreen = ({
         onMessage={handleReceive}
       />
       {/* <NewPinButton handleConnection={handleConnection} ref={ref} /> */}
-      <TouchableWithoutFeedback
-        onPress={() => {
-          handleConnection(ref, 'addPin');
-          setSubmitPinPosIsVisible(true);
-        }}
-      >
-        <View style={styles.addPinContainer}>
-          <View style={styles.addPinWrapper}>
-            <LinearGradient
-              colors={['rgb(64,209,126)', 'rgb(130,251,181)']}
-              style={styles.linear}
-            />
-            <CustomImage source={Pin} style={styles.addPinIcon} />
-            <Text style={styles.addPinText}>추가</Text>
+      {isWalking && (
+        <TouchableWithoutFeedback
+          onPress={() => {
+            handleConnection(ref, 'addPin');
+            setSubmitPinPosIsVisible(true);
+          }}
+        >
+          <View style={styles.addPinContainer}>
+            <View style={styles.addPinWrapper}>
+              <LinearGradient
+                colors={['rgb(64,209,126)', 'rgb(130,251,181)']}
+                style={styles.linear}
+              />
+              <CustomImage source={Pin} style={styles.addPinIcon} />
+              <Text style={styles.addPinText}>추가</Text>
+            </View>
           </View>
-        </View>
-      </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback>
+      )}
       {submitPosPinIsVisible && (
         <TouchableWithoutFeedback
           onPress={() => {
             handleConnection(ref, 'submitPinPos');
             setSubmitPinPosIsVisible(false);
-            navigation.navigate('CreatePin');
           }}
         >
           <View style={styles.submitPinPosWrapper}>
@@ -141,21 +147,24 @@ const HomeScreen = ({
           </View>
         </TouchableWithoutFeedback>
       )}
-      <TouchableWithoutFeedback onPress={() => geoLocation(ref)}>
-        <View style={styles.currentPosIconWrapper}>
-          <CustomImage style={styles.currentPosIcon} source={CurrentPosition} />
-        </View>
-      </TouchableWithoutFeedback>
-      {listIsVisible && (
-        <WalkwayListComponent
-          list={walkwayList}
-          selectedItem={selectedItem}
-          closeModal={closeModal}
-          handleClickItem={handleClickItem}
-          isVisible={isVisible}
-          setNowPath={setNowPath}
-        />
+      {isWalking && (
+        <TouchableWithoutFeedback onPress={() => geoLocation(ref)}>
+          <View style={styles.currentPosIconWrapper}>
+            <CustomImage
+              style={styles.currentPosIcon}
+              source={CurrentPosition}
+            />
+          </View>
+        </TouchableWithoutFeedback>
       )}
+      <WalkwayListComponent
+        list={walkwayList}
+        selectedItem={selectedItem}
+        closeModal={closeModal}
+        handleClickItem={handleClickItem}
+        isVisible={listIsVisible}
+        setNowPath={setNowPath}
+      />
       <WalkwayOverview
         walkWay={selectedItem}
         isVisible={isVisible}
@@ -184,6 +193,14 @@ const HomeScreen = ({
         content={`산책을 멈춥니다!\n해당 산책로는 이후 다시\n진행할 수 있습니다.`}
         buttonText="산책 종료"
       />
+      {walkEnd && (
+        <WalkEnd
+          isVisible={walkEnd}
+          onPress={resetData}
+          walkData={walkData}
+          pinNum={pinNum}
+        />
+      )}
     </View>
   );
 };
@@ -262,6 +279,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#49d492',
 
     ...bottomShadowStyle,
+    zIndex: 999,
   },
   submitPinPosText: {
     fontFamily: mediumFontFamily,

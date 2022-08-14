@@ -20,9 +20,9 @@ export const getWalkwayList = async ({ lng, lat }) => {
   return res;
 };
 
-export const getWalkwayInfo = async id => {
+export const getWalkwayInfo = async ({ id, lat, lng }) => {
   const res = await axios
-    .get(`/walkways/${id}`)
+    .get(`/walkways/${id}?lat=${lat}&lng=${lng}`)
     .then(({ data }) => {
       return data;
     })

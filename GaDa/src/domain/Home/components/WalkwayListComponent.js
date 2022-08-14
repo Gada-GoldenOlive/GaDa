@@ -31,6 +31,7 @@ const WalkwayListComponent = ({
   list: prevList,
   handleClickItem,
   setNowPath,
+  isVisible,
 }) => {
   const [focusedIndex, setFocusedIndex] = useState(1);
   const scrollX = React.useRef(new Animated.Value(0)).current;
@@ -39,6 +40,7 @@ const WalkwayListComponent = ({
   const list = [{ key: 'empty-left' }, ...prevList, { key: 'empty-right' }];
 
   const goRight = () => {
+    console.log('righ');
     if (focusedIndex >= 1 && focusedIndex < list.length - 2) {
       setFocusedIndex(focusedIndex + 1);
       topScroll.current.scrollToOffset({
@@ -238,7 +240,7 @@ const WalkwayListComponent = ({
   useEffect(() => {
     setNowPath(list[focusedIndex].path);
   }, [focusedIndex, list]);
-  return (
+  return isVisible ? (
     <View style={styles.container}>
       <GestureRecognizer
         onSwipeRight={goLeft}
@@ -248,7 +250,7 @@ const WalkwayListComponent = ({
         {renderList()}
       </GestureRecognizer>
     </View>
-  );
+  ) : null;
 };
 
 export default WalkwayListComponent;

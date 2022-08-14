@@ -3,7 +3,10 @@ import React from 'react';
 import CreatePinScreen from '../screen/CreatePinScreen';
 import { useSelector } from 'react-redux';
 
-const CreatePinContainer = () => {
+const CreatePinContainer = ({ navigation, route }) => {
+  const { params } = route;
+  const { address, markerPos } = params;
+
   const { pinImage } = useSelector(state => state.images);
   return <CreatePinScreen pinImage={pinImage} />;
 };
