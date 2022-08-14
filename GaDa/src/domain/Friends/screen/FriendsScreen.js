@@ -4,7 +4,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import Swiper from 'react-native-swiper';
 import Animated from 'react-native-reanimated';
 import Text from '../../../components/MyText';
@@ -16,6 +16,8 @@ import {
   descriptionColor,
   dotColor,
 } from '../../../constant/colors';
+import RefreshButton from '../../../components/RefreshButton';
+import PinListModal from '../../../components/PinListModal';
 const FriendsScreen = () => {
   const tempWalkwaylist = [
     {
@@ -63,9 +65,16 @@ const FriendsScreen = () => {
       creatorId: 'string',
     },
   ];
+
+  const [isVisible, setIsVisible] = useState(true);
+  const closeModal = () => {
+    setIsVisible(false);
+  };
   return (
     <View style={styles.container}>
       <WalkwayListComponent list={tempWalkwaylist} />
+      <RefreshButton />
+      {/* <PinListModal isVisible={isVisible} closeModal={closeModal} /> */}
     </View>
   );
 };
@@ -75,6 +84,7 @@ export default FriendsScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: 'rgba(255, 0, 0, 0.2)',
   },
   swiperContainer: {
     width: windowWidth,

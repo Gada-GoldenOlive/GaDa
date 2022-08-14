@@ -7,7 +7,6 @@ import {
 } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import CenterModal from '../../../components/CenterModal';
-import BottomUpModal from '../../../components/BottomUpModal';
 import PinInformation from '../components/PinInformation';
 import WebView from 'react-native-webview';
 import CustomImage from '../../../components/CustomImage';

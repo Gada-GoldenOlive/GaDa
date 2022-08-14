@@ -21,7 +21,7 @@ import {
   RecordIcon,
 } from '../constant/images/BottomTab';
 import CustomImage from './CustomImage';
-import { bottomShadowStyle } from '../constant/styles';
+import { bottomShadowStyle, topShadowStyle } from '../constant/styles';
 
 const getIcon = state => {
   switch (state) {
@@ -150,7 +150,7 @@ const style = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-around',
     paddingHorizontal: 16,
-    ...bottomShadowStyle,
+    ...topShadowStyle,
   },
   tab: {
     flex: 1,

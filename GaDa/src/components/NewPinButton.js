@@ -15,13 +15,17 @@ const NewPinButton = () => {
   };
 
   return (
-    <View style={styles.wrapper}>
-      <LinearGradient
-        colors={['rgb(64,209,126)', 'rgb(130,251,181)']}
-        style={styles.linear}
-      />
-      <CustomImage source={Pin} style={styles.image} />
-      <Text style={styles.text}>추가</Text>
+    <View style={styles.container} blurRadius={30}>
+      <TouchableWithoutFeedback onPress={handleNavigate}>
+        <View style={styles.wrapper}>
+          <LinearGradient
+            colors={['rgb(64,209,126)', 'rgb(130,251,181)']}
+            style={styles.linear}
+          />
+          <CustomImage source={Pin} style={styles.image} />
+          <Text style={styles.text}>추가</Text>
+        </View>
+      </TouchableWithoutFeedback>
     </View>
   );
 };
