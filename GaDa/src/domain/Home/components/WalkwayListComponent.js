@@ -34,6 +34,7 @@ const WalkwayListComponent = ({
   handleClickItem,
   setNowPath,
   setNowPins,
+  nowPath,
 }) => {
   const [focusedIndex, setFocusedIndex] = useState(1);
   const scrollX = React.useRef(new Animated.Value(0)).current;
@@ -159,10 +160,17 @@ const WalkwayListComponent = ({
       </Animated.View>
     );
   };
+
+  const getItemLayout = (data, index) => ({
+    length: WIDTH + 10,
+    offset: (WIDTH + 10) * index,
+    index,
+  });
   const renderList = () => {
     return (
       <View style={styles.listContainer}>
         <Animated.FlatList
+          getItemLayout={getItemLayout}
           data={list}
           showsHorizontalScrollIndicator={false}
           horizontal
@@ -248,8 +256,11 @@ const WalkwayListComponent = ({
 
   useEffect(() => {
     setNowPath(list[focusedIndex].path);
-    getPinList(list[focusedIndex].id);
+    //getPinList(list[focusedIndex].id);
   }, [focusedIndex, list]);
+  useEffect(() => {
+    getPinList(list[focusedIndex].id);
+  }, [nowPath]);
 
   return (
     <View style={styles.container}>

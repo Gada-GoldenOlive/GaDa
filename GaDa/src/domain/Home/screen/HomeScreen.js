@@ -72,14 +72,23 @@ const HomeScreen = ({
 
       if (type === 'currentPos') setCurrentPos({ lat: lat, lng: lng });
       if (type === 'pinPos') setMarkerPos({ lat: lat, lng: lng });
+      // setCurrentPos({
+      //   lat: 37.52832494327389,
+      //   lng: 126.98199142432702,
+      // });
     }
   };
 
-  const getWalkway = async ({ currentPos }) => {
-    const res = await getWalkwayList({
-      lat: 37.54699,
-      lng: 127.09598,
-    });
+  const getWalkway = async currentPos => {
+    console.log('current ' + currentPos);
+    const res = await getWalkwayList(
+      //   {
+      //   lat: 37.52832494327389,
+      //   lng: 126.98199142432702,
+
+      // }
+      currentPos,
+    );
 
     const { walkways } = res;
     setWalkwayList(walkways);
@@ -155,6 +164,7 @@ const HomeScreen = ({
           setNowPath={setNowPath}
           setNowPins={setNowPins}
           setIsWalkwayFocused={setIsWalkwayFocused}
+          nowPath={nowPath}
         />
       )}
       <WalkwayOverview

@@ -46,8 +46,10 @@ const HomeContainer = () => {
 
   const handleConnection = (ref, ver) => {
     var path = [];
+    var pins = [];
     if (ver === 'selectWalkway') {
       path = nowPath;
+      pins = nowPins;
     }
     const generateOnMessageFunction = data =>
       `(function() {
@@ -57,7 +59,7 @@ const HomeContainer = () => {
   })()`;
 
     ref.current.injectJavaScript(
-      generateOnMessageFunction({ type: ver, path: path }),
+      generateOnMessageFunction({ type: ver, path: path, pins: pins }),
     );
   };
 

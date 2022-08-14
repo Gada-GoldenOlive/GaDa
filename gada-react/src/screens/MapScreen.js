@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 import AddMarker from "../functions/AddMarker";
 import DrawCurrentPos from "../functions/DrawCurrentPos";
-import DrawMarker from "../functions/DrawMarker";
+import DrawMarkers from "../functions/DrawMarkers";
+import DrawMarker from "../functions/DrawMarkers";
 import DrawPolyline from "../functions/DrawPolyline";
 import DrawStartPoint from "../functions/DrawStartPoint";
 import GeoLocationMarker from "../functions/GeolocationMarker";
@@ -34,7 +35,90 @@ const MapScreen = ({
   });
   const [currentState, setCurrentState] = useState(state);
   const [walkwayPath, setWalkwayPath] = useState("null");
+  const [walkwayPins, setWalkwayPins] = useState("null");
   const [pathStartPoint, setPathStartPoint] = useState("null");
+
+  const [movingCurrentList, setMovingCurrentList] = useState();
+
+  const list = [
+    { lat: 37.5351787566412, lng: 126.90313420225422 },
+
+    { lat: 37.53710837379388, lng: 126.90417148286825 },
+    { lat: 37.53732658502673, lng: 126.9040990030548 },
+
+    { lat: 37.53738716655828, lng: 126.90404758556996 },
+
+    { lat: 37.537608987470044, lng: 126.90424390281818 },
+    { lat: 37.537703211212765, lng: 126.90416109026054 },
+
+    { lat: 37.53779011809602, lng: 126.90396797513036 },
+  ];
+
+  const getDistance = (lat1, lat2, lng1, lng2) => {
+    var X = ((Math.cos(lat1) * 6400 * 2 * 3.14) / 360) * Math.abs(lat1 - lat2);
+
+    var Y = 111 * Math.abs(lng1 - lng2);
+
+    var D = Math.sqrt(X * X + Y * Y);
+
+    return D;
+  };
+  const autoGeoLocation = () => {
+    if (navigator.geolocation) {
+      let before_record = null;
+      navigator.geolocation.watchPosition(
+        (position) => {
+          let updateFlag = true;
+          const now = new Date();
+          const new_record = {
+            err: 0,
+            time: now.toLocaleTimeString(),
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          };
+          //시작
+          if (before_record !== null) {
+            const dist = getDistance({
+              lat1: before_record.latitude,
+              lng1: before_record.longitude,
+
+              lat2: new_record.latitude,
+              lng2: new_record.longitude,
+            });
+
+            alert(dist);
+            if (dist < 0.05) {
+              updateFlag = false;
+            }
+          }
+          if (updateFlag) {
+            setCurrentState((prev) => ({
+              ...prev,
+              center: {
+                lat: new_record.latitude,
+                lng: new_record.longitude,
+              },
+              isLoading: false,
+            }));
+
+            before_record = new_record;
+            setMovingCurrentList((locationList) => [
+              ...locationList,
+              new_record,
+            ]);
+          }
+          //setIsGeolocation(true);
+        },
+        (err) => {
+          console.log(err.message);
+        },
+        { enableHighAccuracy: true, maximumAge: 10000, timeout: 5000 }
+      );
+      //handleSubmit("currentPos", currentState.center);
+      // setRecording(true);
+      // setWatchId(newId)
+    }
+  };
 
   const geoLocation = () => {
     if (navigator.geolocation) {
@@ -76,6 +160,7 @@ const MapScreen = ({
   };
   useEffect(() => {
     geoLocation();
+    //autoGeoLocation();
   }, []);
 
   useEffect(() => {
@@ -90,7 +175,7 @@ const MapScreen = ({
       if (event.data.type === "currentPos") {
         setIsCurrentPosClicked(true);
 
-        //alert(JSON.stringify(event.data.path));
+        // alert(JSON.stringify(event.data));
         // alert("message received: " + event.data);
       } else if (event.data.type === "addPin") {
         setIsAddPinClicked(true);
@@ -100,6 +185,8 @@ const MapScreen = ({
         //alert("message received: " + event.data);
       } else if (event.data.type === "selectWalkway") {
         setWalkwayPath(event.data.path);
+        // alert(JSON.stringify(event.data.pins));
+        setWalkwayPins(event.data.pins);
         //alert("message received: " + event.data);
       }
     });
@@ -132,6 +219,11 @@ const MapScreen = ({
       setPathStartPoint(walkwayPath[0]);
     }
   }, [walkwayPath]);
+  useEffect(() => {
+    if (walkwayPins !== "null") {
+      //alert(JSON.stringify(walkwayPins[0].location));
+    }
+  }, [walkwayPins]);
 
   // websocket 계속 받기
   useEffect(() => {
@@ -182,11 +274,16 @@ const MapScreen = ({
 
         {/* current position */}
         <DrawCurrentPos state={currentState} />
+
         {/* <DrawMarker posX={currentPosition.lat} posY={currentPosition.lng} /> */}
-        <DrawPolyline
-          path={[walkwayPath !== "null" && walkwayPath]}
-          setLine={setLine}
-        />
+        <div className="preventMove">
+          <DrawPolyline
+            path={[walkwayPath !== "null" && walkwayPath]}
+            setLine={setLine}
+          />
+        </div>
+        {walkwayPins !== "null" && <DrawMarkers pins={walkwayPins} />}
+        {/* <DrawMarkers pins={list} /> */}
         {pathStartPoint !== "null" && (
           <DrawStartPoint position={pathStartPoint} />
         )}
