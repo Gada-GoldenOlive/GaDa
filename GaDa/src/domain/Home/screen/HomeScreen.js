@@ -33,6 +33,7 @@ const HomeScreen = ({
   closeInformation,
   handleClickWalkway,
   setNowPath,
+  setStartPoint,
   nowPath,
   nowPins,
   setNowPins,
@@ -46,6 +47,7 @@ const HomeScreen = ({
   const [currentPos, setCurrentPos] = useState({});
   const [submitPosPinIsVisible, setSubmitPinPosIsVisible] = useState();
   const [walkwayList, setWalkwayList] = useState([]);
+
   const [pinIndex, setPinIndex] = useState();
 
   const navigation = useNavigation();
@@ -144,6 +146,7 @@ const HomeScreen = ({
           handleClickItem={handleClickItem}
           isVisible={isVisible}
           setNowPath={setNowPath}
+          setStartPoint={setStartPoint}
           setNowPins={setNowPins}
           setIsWalkwayFocused={setIsWalkwayFocused}
           nowPath={nowPath}

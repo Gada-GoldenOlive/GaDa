@@ -40,20 +40,6 @@ const MapScreen = ({
 
   const [movingCurrentList, setMovingCurrentList] = useState();
 
-  const list = [
-    { lat: 37.5351787566412, lng: 126.90313420225422 },
-
-    { lat: 37.53710837379388, lng: 126.90417148286825 },
-    { lat: 37.53732658502673, lng: 126.9040990030548 },
-
-    { lat: 37.53738716655828, lng: 126.90404758556996 },
-
-    { lat: 37.537608987470044, lng: 126.90424390281818 },
-    { lat: 37.537703211212765, lng: 126.90416109026054 },
-
-    { lat: 37.53779011809602, lng: 126.90396797513036 },
-  ];
-
   const getDistance = (lat1, lat2, lng1, lng2) => {
     var X = ((Math.cos(lat1) * 6400 * 2 * 3.14) / 360) * Math.abs(lat1 - lat2);
 
@@ -190,6 +176,7 @@ const MapScreen = ({
         setWalkwayPath(event.data.path);
         // alert(JSON.stringify(event.data.pins));
         setWalkwayPins(event.data.pins);
+        setPathStartPoint(event.data.startPoint);
         //alert("message received: " + event.data);
       }
     });
@@ -219,7 +206,7 @@ const MapScreen = ({
   useEffect(() => {
     if (walkwayPath !== "null") {
       setState({ center: walkwayPath[0] });
-      setPathStartPoint(walkwayPath[0]);
+      //setPathStartPoint(walkwayPath[0]);
     }
   }, [walkwayPath]);
   useEffect(() => {

@@ -24,6 +24,7 @@ const HomeContainer = () => {
   const dispatch = useDispatch();
 
   const [nowPath, setNowPath] = useState([]);
+  const [startPoint, setStartPoint] = useState({});
   const [nowPins, setNowPins] = useState([]);
   const [isWalkwayFocused, setIsWalkwayFocused] = useState(false);
 
@@ -47,9 +48,11 @@ const HomeContainer = () => {
   const handleConnection = (ref, ver) => {
     var path = [];
     var pins = [];
+    var start = {};
     if (ver === 'selectWalkway') {
       path = nowPath;
       pins = nowPins;
+      start = startPoint;
     }
     const generateOnMessageFunction = data =>
       `(function() {
@@ -59,7 +62,12 @@ const HomeContainer = () => {
   })()`;
 
     ref.current.injectJavaScript(
-      generateOnMessageFunction({ type: ver, path: path, pins: pins }),
+      generateOnMessageFunction({
+        type: ver,
+        path: path,
+        pins: pins,
+        startPoint: start,
+      }),
     );
   };
 
@@ -96,6 +104,7 @@ const HomeContainer = () => {
       handleClickWalkway={handleClickWalkway}
       nowPath={nowPath}
       setNowPath={setNowPath}
+      setStartPoint={setStartPoint}
       nowPins={nowPins}
       setNowPins={setNowPins}
       setIsWalkwayFocused={setIsWalkwayFocused}

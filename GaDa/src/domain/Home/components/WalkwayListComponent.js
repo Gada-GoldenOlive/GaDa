@@ -33,6 +33,7 @@ const WalkwayListComponent = ({
   list: prevList,
   handleClickItem,
   setNowPath,
+  setStartPoint,
   setNowPins,
   nowPath,
 }) => {
@@ -256,7 +257,7 @@ const WalkwayListComponent = ({
 
   useEffect(() => {
     setNowPath(list[focusedIndex].path);
-    //getPinList(list[focusedIndex].id);
+    setStartPoint(list[focusedIndex].startPoint);
   }, [focusedIndex, list]);
   useEffect(() => {
     getPinList(list[focusedIndex].id);
