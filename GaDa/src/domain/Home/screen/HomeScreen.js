@@ -32,6 +32,12 @@ const HomeScreen = ({
   isInformationVisible,
   closeInformation,
   handleClickWalkway,
+  setNowPath,
+  setStartPoint,
+  nowPath,
+  nowPins,
+  setNowPins,
+  setIsWalkwayFocused,
 }) => {
   const ref = useRef();
   const [markerPos, setMarkerPos] = useState({
@@ -41,7 +47,8 @@ const HomeScreen = ({
   const [currentPos, setCurrentPos] = useState({});
   const [submitPosPinIsVisible, setSubmitPinPosIsVisible] = useState();
   const [walkwayList, setWalkwayList] = useState([]);
-  const [nowPath, setNowPath] = useState([]);
+
+  const [pinIndex, setPinIndex] = useState();
 
   const navigation = useNavigation();
 
@@ -55,40 +62,32 @@ const HomeScreen = ({
     } = event;
 
     if (data !== 'undefined') {
-      //console.log(data);
-      var latStartIdx = data.indexOf(':') + 1;
-      var latEndIdx = data.indexOf(',');
-      var lat = Number(data.slice(latStartIdx, latEndIdx));
-
-      var lngStartIdx = data.indexOf('g') + 3;
-      var lngEndIdx = data.indexOf('}');
-      var lng = Number(data.slice(lngStartIdx, lngEndIdx));
-
-      var type = data.slice(0, data.indexOf('@'));
-
-      if (type === 'currentPos') setCurrentPos({ lat: lat, lng: lng });
-      if (type === 'pinPos') setMarkerPos({ lat: lat, lng: lng });
+      const msg = JSON.parse(data);
+      if (msg.type === 'currentPos') setCurrentPos(msg.position);
+      if (msg.type === 'pinPos') setMarkerPos(msg.position);
+      if (msg.type === 'clickPin') {
+        setPinIndex(msg.index);
+      }
     }
   };
 
-  const getWalkway = async () => {
-    const res = await getWalkwayList({
-      lng: 127.09598,
-      lat: 37.54699,
-    });
+  const getWalkway = async currentPos => {
+    const res = await getWalkwayList(currentPos);
 
     const { walkways } = res;
     setWalkwayList(walkways);
   };
   useEffect(() => {
     if (markerPos.lat !== 0 && markerPos.lng !== 0) {
-      console.log(markerPos.lat, markerPos.lng);
     }
   }, [markerPos]);
+  useEffect(() => {
+    handleConnection(ref, 'selectWalkway');
+  }, [nowPins]);
 
   useEffect(() => {
     if (currentPos.lat !== 0 && currentPos.lng !== 0) {
-      getWalkway();
+      getWalkway(currentPos);
     }
   }, [currentPos]);
 
@@ -132,7 +131,9 @@ const HomeScreen = ({
           </View>
         </TouchableWithoutFeedback>
       )}
-      <TouchableWithoutFeedback onPress={() => geoLocation(ref)}>
+      <TouchableWithoutFeedback
+        onPress={() => handleConnection(ref, 'currentPos')}
+      >
         <View style={styles.currentPosIconWrapper}>
           <CustomImage style={styles.currentPosIcon} source={CurrentPosition} />
         </View>
@@ -145,6 +146,10 @@ const HomeScreen = ({
           handleClickItem={handleClickItem}
           isVisible={isVisible}
           setNowPath={setNowPath}
+          setStartPoint={setStartPoint}
+          setNowPins={setNowPins}
+          setIsWalkwayFocused={setIsWalkwayFocused}
+          nowPath={nowPath}
         />
       )}
       <WalkwayOverview

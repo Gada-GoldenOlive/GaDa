@@ -21,6 +21,8 @@ import { bottomShadowStyle, windowWidth } from '../../../constant/styles';
 import ExpandingDots from '.././../../components/ExpandingDots';
 import { boldFontFamily, mediumFontFamily } from '../../../constant/fonts';
 import { useEffect } from 'react';
+import { getWalkwayPinList } from '../../../APIs/pin';
+import { compose } from 'redux';
 
 const WIDTH = 204;
 const HEIGHT = 116;
@@ -31,6 +33,9 @@ const WalkwayListComponent = ({
   list: prevList,
   handleClickItem,
   setNowPath,
+  setStartPoint,
+  setNowPins,
+  nowPath,
 }) => {
   const [focusedIndex, setFocusedIndex] = useState(1);
   const scrollX = React.useRef(new Animated.Value(0)).current;
@@ -38,6 +43,14 @@ const WalkwayListComponent = ({
 
   const list = [{ key: 'empty-left' }, ...prevList, { key: 'empty-right' }];
 
+  const getPinList = async id => {
+    const pin = await getWalkwayPinList(id);
+
+    if (pin) {
+      const { pins = [] } = pin;
+      setNowPins(pins);
+    }
+  };
   const goRight = () => {
     if (focusedIndex >= 1 && focusedIndex < list.length - 2) {
       setFocusedIndex(focusedIndex + 1);
@@ -148,10 +161,17 @@ const WalkwayListComponent = ({
       </Animated.View>
     );
   };
+
+  const getItemLayout = (data, index) => ({
+    length: WIDTH + 10,
+    offset: (WIDTH + 10) * index,
+    index,
+  });
   const renderList = () => {
     return (
       <View style={styles.listContainer}>
         <Animated.FlatList
+          getItemLayout={getItemLayout}
           data={list}
           showsHorizontalScrollIndicator={false}
           horizontal
@@ -237,7 +257,12 @@ const WalkwayListComponent = ({
 
   useEffect(() => {
     setNowPath(list[focusedIndex].path);
+    setStartPoint(list[focusedIndex].startPoint);
   }, [focusedIndex, list]);
+  useEffect(() => {
+    getPinList(list[focusedIndex].id);
+  }, [nowPath]);
+
   return (
     <View style={styles.container}>
       <GestureRecognizer

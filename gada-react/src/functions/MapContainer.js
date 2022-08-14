@@ -62,13 +62,14 @@ const MapContainer = () => {
 
   const handleSubmit = (ver, position) => {
     //console.log(position);
+    const msg = {
+      type: ver,
+      position: position,
+    };
     if (window.ReactNativeWebView) {
-      window.ReactNativeWebView.postMessage(
-        ver + "@" + JSON.stringify(position)
-      );
+      window.ReactNativeWebView.postMessage(JSON.stringify(msg));
     }
   };
-
   //alert("현재 위치: " + currentPosition.lat + currentPosition.lng);
   return (
     <MapScreen
