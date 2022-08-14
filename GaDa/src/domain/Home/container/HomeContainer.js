@@ -32,7 +32,7 @@ const HomeContainer = () => {
       position => {
         const latitude = JSON.stringify(position.coords.latitude);
         const longitude = JSON.stringify(position.coords.longitude);
-        console.log(latitude, longitude);
+
         setLatitude(latitude);
         setLogitude(longitude);
         handleConnection(ref, CURRENTPOS); // 웹에 현재 위치 보내기

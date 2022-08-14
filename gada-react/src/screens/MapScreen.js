@@ -139,6 +139,10 @@ const MapScreen = ({
             isLoading: false,
           }));
           setIsGeolocation(true);
+          handleSubmit("currentPos", {
+            lat: position.coords.latitude, // 위도
+            lng: position.coords.longitude, // 경도
+          });
         },
         (err) => {
           setState((prev) => ({
@@ -148,7 +152,6 @@ const MapScreen = ({
           }));
         }
       );
-      handleSubmit("currentPos", state.center);
     } else {
       // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
       setState((prev) => ({
