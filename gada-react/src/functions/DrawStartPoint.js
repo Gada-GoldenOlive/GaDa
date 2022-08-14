@@ -1,25 +1,21 @@
 import React from "react";
 import { MapMarker } from "react-kakao-maps-sdk";
-import currentPos from "../constant/images/CurrentPos";
+import StartPoint from "../constant/images/StartPoint";
 
-const DrawMarker = ({ posX, posY }) => {
+const DrawStartPoint = ({ position }) => {
   return (
     <MapMarker // 마커를 생성합니다
-      position={{
-        // 마커가 표시될 위치입니다
-        lat: posX,
-        lng: posY,
-      }}
+      position={position}
       image={{
-        src: currentPos,
+        src: StartPoint,
         size: {
-          width: 64,
-          height: 64,
+          width: 46,
+          height: 55,
         }, // 마커이미지의 크기입니다
         options: {
           offset: {
-            x: 27,
-            y: 69,
+            x: 23,
+            y: 55 - 11,
           }, // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
         },
       }}
@@ -27,4 +23,4 @@ const DrawMarker = ({ posX, posY }) => {
   );
 };
 
-export default DrawMarker;
+export default DrawStartPoint;
