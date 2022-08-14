@@ -180,6 +180,7 @@ const WalkwayListComponent = ({
           removeClippedSubviews={false}
           pagingEnabled
           decelerationRate={Platform.OS === 'ios' ? 0.3 : 0.95}
+          initialScrollIndex={focusedIndex - 1}
           // decelerationRate={'fast'}
           renderToHardwareTextureAndroid
           contentContainerStyle={{
@@ -231,7 +232,7 @@ const WalkwayListComponent = ({
               position: 'absolute',
               bottom: 16,
               left: 0,
-              zIndex: 10,
+              // zIndex: 10,
             }}
           />
         </TouchableWithoutFeedback>
@@ -243,7 +244,7 @@ const WalkwayListComponent = ({
               position: 'absolute',
               bottom: 16,
               right: 0,
-              zIndex: 10,
+              // zIndex: 10,
             }}
           />
         </TouchableWithoutFeedback>
@@ -265,7 +266,7 @@ const WalkwayListComponent = ({
     getPinList(list[focusedIndex].id);
   }, [nowPath]);
 
- return isVisible ? (
+  return isVisible ? (
     <View style={styles.container}>
       <GestureRecognizer
         onSwipeRight={goLeft}

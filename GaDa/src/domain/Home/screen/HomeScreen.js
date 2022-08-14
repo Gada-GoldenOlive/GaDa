@@ -61,7 +61,6 @@ const HomeScreen = ({
   const [currentPos, setCurrentPos] = useState({});
   const [submitPosPinIsVisible, setSubmitPinPosIsVisible] = useState();
   const [walkwayList, setWalkwayList] = useState([]);
-  const [nowPath, setNowPath] = useState([]);
   const [pinIndex, setPinIndex] = useState();
 
   const navigation = useNavigation();
@@ -75,6 +74,7 @@ const HomeScreen = ({
     } = event;
 
     if (data !== 'undefined') {
+      console.log(data);
       const msg = JSON.parse(data);
       if (msg.type === 'currentPos') setCurrentPos(msg.position);
       if (msg.type === 'pinPos') setMarkerPos(msg.position);
@@ -86,7 +86,7 @@ const HomeScreen = ({
 
   const getWalkway = async currentPos => {
     const res = await getWalkwayList(currentPos);
-     const { walkways = [] } = res ? res : {};
+    const { walkways = [] } = res ? res : {};
     setWalkwayList(walkways);
   };
   useEffect(() => {
@@ -149,25 +149,30 @@ const HomeScreen = ({
           </View>
         </TouchableWithoutFeedback>
       )}
-      <TouchableWithoutFeedback
-        onPress={() => handleConnection(ref, 'currentPos')}
-      >
-        <View style={styles.currentPosIconWrapper}>
-          <CustomImage style={styles.currentPosIcon} source={CurrentPosition} />
-        </View>
-      </TouchableWithoutFeedback>
-        <WalkwayListComponent
-          list={walkwayList}
-          selectedItem={selectedItem}
-          closeModal={closeModal}
-          handleClickItem={handleClickItem}
-          isVisible={listIsVisible}
-          setNowPath={setNowPath}
-          setStartPoint={setStartPoint}
-          setNowPins={setNowPins}
-          setIsWalkwayFocused={setIsWalkwayFocused}
-          nowPath={nowPath}
-        />
+      {isWalking && (
+        <TouchableWithoutFeedback
+          onPress={() => handleConnection(ref, 'currentPos')}
+        >
+          <View style={styles.currentPosIconWrapper}>
+            <CustomImage
+              style={styles.currentPosIcon}
+              source={CurrentPosition}
+            />
+          </View>
+        </TouchableWithoutFeedback>
+      )}
+      <WalkwayListComponent
+        list={walkwayList}
+        selectedItem={selectedItem}
+        closeModal={closeModal}
+        handleClickItem={handleClickItem}
+        isVisible={listIsVisible}
+        setNowPath={setNowPath}
+        setStartPoint={setStartPoint}
+        setNowPins={setNowPins}
+        setIsWalkwayFocused={setIsWalkwayFocused}
+        nowPath={nowPath}
+      />
       <WalkwayOverview
         walkWay={selectedItem}
         isVisible={isVisible}
