@@ -46,6 +46,7 @@ const HomeScreen = ({
   const [currentPos, setCurrentPos] = useState({});
   const [submitPosPinIsVisible, setSubmitPinPosIsVisible] = useState();
   const [walkwayList, setWalkwayList] = useState([]);
+  const [pinIndex, setPinIndex] = useState();
 
   const navigation = useNavigation();
 
@@ -60,33 +61,41 @@ const HomeScreen = ({
 
     if (data !== 'undefined') {
       //console.log(data);
-      var latStartIdx = data.indexOf(':') + 1;
-      var latEndIdx = data.indexOf(',');
-      var lat = Number(data.slice(latStartIdx, latEndIdx));
+      // var latStartIdx = data.indexOf(':') + 1;
+      // var latEndIdx = data.indexOf(',');
+      // var lat = Number(data.slice(latStartIdx, latEndIdx));
 
-      var lngStartIdx = data.indexOf('g') + 3;
-      var lngEndIdx = data.indexOf('}');
-      var lng = Number(data.slice(lngStartIdx, lngEndIdx));
+      // var lngStartIdx = data.indexOf('g') + 3;
+      // var lngEndIdx = data.indexOf('}');
+      // var lng = Number(data.slice(lngStartIdx, lngEndIdx));
 
-      var type = data.slice(0, data.indexOf('@'));
+      // var type = data.slice(0, data.indexOf('@'));
 
-      if (type === 'currentPos') setCurrentPos({ lat: lat, lng: lng });
-      if (type === 'pinPos') setMarkerPos({ lat: lat, lng: lng });
+      // if (type === 'currentPos') setCurrentPos({ lat: lat, lng: lng });
+      // if (type === 'pinPos') setMarkerPos({ lat: lat, lng: lng });
+      // if (type === 'clickPin') console.log('핀!!');
       // setCurrentPos({
       //   lat: 37.52832494327389,
       //   lng: 126.98199142432702,
       // });
+
+      const msg = JSON.parse(data);
+      if (msg.type === 'currentPos') setCurrentPos(msg.position);
+      if (msg.type === 'pinPos') setMarkerPos(msg.position);
+      if (msg.type === 'clickPin') {
+        setPinIndex(msg.index);
+      }
     }
   };
 
   const getWalkway = async currentPos => {
     console.log('current ' + currentPos);
     const res = await getWalkwayList(
-      {
-        lat: 37.52832494327389,
-        lng: 126.98199142432702,
-      },
-      // currentPos,
+      // {
+      //   lat: 37.52832494327389,
+      //   lng: 126.98199142432702,
+      // },
+      currentPos,
     );
 
     const { walkways } = res;

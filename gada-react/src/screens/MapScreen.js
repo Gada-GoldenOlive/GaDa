@@ -282,7 +282,9 @@ const MapScreen = ({
             setLine={setLine}
           />
         </div>
-        {walkwayPins !== "null" && <DrawMarkers pins={walkwayPins} />}
+        {walkwayPins !== "null" && (
+          <DrawMarkers pins={walkwayPins} handleSubmit={handleSubmit} />
+        )}
         {/* <DrawMarkers pins={list} /> */}
         {pathStartPoint !== "null" && (
           <DrawStartPoint position={pathStartPoint} />

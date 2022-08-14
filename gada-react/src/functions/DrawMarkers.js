@@ -4,12 +4,23 @@ import currentPos from "../constant/images/CurrentPos";
 import DefaultPin from "../constant/images/Pins";
 
 const DrawMarkers = ({ pins }) => {
+  const handleSubmit = (ver, data) => {
+    //console.log(position);
+    const msg = {
+      type: ver,
+      index: data,
+    };
+    if (window.ReactNativeWebView) {
+      window.ReactNativeWebView.postMessage(JSON.stringify(msg));
+    }
+  };
+
   return (
     <div>
       {pins.map((item, index) => (
         <div>
           <MapMarker
-            onClick={() => alert(index)}
+            onClick={() => handleSubmit("clickPin", index)}
             key={`${item.id}`}
             position={item.location} // 마커를 표시할 위치
             image={{
