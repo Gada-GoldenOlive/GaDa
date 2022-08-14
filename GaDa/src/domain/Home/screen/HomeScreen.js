@@ -147,16 +147,13 @@ const HomeScreen = ({
           </View>
         </TouchableWithoutFeedback>
       )}
-      {isWalking && (
-        <TouchableWithoutFeedback onPress={() => geoLocation(ref)}>
-          <View style={styles.currentPosIconWrapper}>
-            <CustomImage
-              style={styles.currentPosIcon}
-              source={CurrentPosition}
-            />
-          </View>
-        </TouchableWithoutFeedback>
-      )}
+
+      <TouchableWithoutFeedback onPress={() => geoLocation(ref)}>
+        <View style={styles.currentPosIconWrapper}>
+          <CustomImage style={styles.currentPosIcon} source={CurrentPosition} />
+        </View>
+      </TouchableWithoutFeedback>
+
       <WalkwayListComponent
         list={walkwayList}
         selectedItem={selectedItem}

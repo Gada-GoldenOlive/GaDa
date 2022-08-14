@@ -53,9 +53,11 @@ const HomeContainer = () => {
   const dispatch = useDispatch();
   LogBox.ignoreLogs(['new NativeEventEmitter']); // Ignore log notification by message
   LogBox.ignoreAllLogs(); //Ignore all log notifications
+
   const geoLocation = ref => {
     Geolocation.getCurrentPosition(
       position => {
+        console.log(position);
         const latitude = JSON.stringify(position.coords.latitude);
         const longitude = JSON.stringify(position.coords.longitude);
         console.log(latitude, longitude);
