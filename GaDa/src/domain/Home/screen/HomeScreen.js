@@ -26,6 +26,7 @@ const HomeScreen = ({ geoLocation, handleConnection }) => {
     lat: 0,
     lng: 0,
   });
+  const [currentPos, setCurrentPos] = useState({});
   const [submitPosPinIsVisible, setSubmitPinPosIsVisible] = useState();
 
   const navigation = useNavigation();
@@ -40,7 +41,7 @@ const HomeScreen = ({ geoLocation, handleConnection }) => {
     } = event;
 
     if (data !== 'undefined') {
-      //console.log(typeof data);
+      //console.log(data);
       var latStartIdx = data.indexOf(':') + 1;
       var latEndIdx = data.indexOf(',');
       var lat = Number(data.slice(latStartIdx, latEndIdx));
@@ -49,21 +50,17 @@ const HomeScreen = ({ geoLocation, handleConnection }) => {
       var lngEndIdx = data.indexOf('}');
       var lng = Number(data.slice(lngStartIdx, lngEndIdx));
 
-      setMarkerPos({ lat: lat, lng: lng });
+      var type = data.slice(0, data.indexOf('@'));
+
+      if (type === 'currentPos') setCurrentPos({ lat: lat, lng: lng });
+      if (type === 'pinPos') setMarkerPos({ lat: lat, lng: lng });
     }
   };
   useEffect(() => {
     if (markerPos.lat !== 0 && markerPos.lng !== 0) {
       console.log(markerPos.lat, markerPos.lng);
     }
-
-    //Alert.alert(markerPos.lat);
   }, [markerPos]);
-
-  const runFirst = `
-      window.isNativeApp = true;
-      true;
-    `;
 
   return (
     <View style={{ flex: 1 }}>

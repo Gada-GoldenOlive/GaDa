@@ -60,10 +60,12 @@ const MapContainer = () => {
   //   // setCurrentPosition(data);
   // });
 
-  const handleSubmit = (position) => {
+  const handleSubmit = (ver, position) => {
     //console.log(position);
     if (window.ReactNativeWebView) {
-      window.ReactNativeWebView.postMessage(JSON.stringify(position));
+      window.ReactNativeWebView.postMessage(
+        ver + "@" + JSON.stringify(position)
+      );
     }
   };
 

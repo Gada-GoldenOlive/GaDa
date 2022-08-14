@@ -61,6 +61,7 @@ const MapScreen = ({
           }));
         }
       );
+      handleSubmit("currentPos", state.center);
     } else {
       // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
       setState((prev) => ({
@@ -105,7 +106,7 @@ const MapScreen = ({
   }, [isCurrentPosClicked]);
   useEffect(() => {
     if (isSubmitPinPosClicked && isAddPinClicked) {
-      handleSubmit(state.center);
+      handleSubmit("pinPos", state.center);
       setIsSubmitPinPosClicked(false);
       setIsAddPinClicked(false);
     }
