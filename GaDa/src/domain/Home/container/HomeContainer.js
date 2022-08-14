@@ -57,7 +57,6 @@ const HomeContainer = () => {
   LogBox.ignoreAllLogs(); //Ignore all log notifications
 
   const geoLocation = ref => {
-    console.log('hey');
     Geolocation.getCurrentPosition(
       position => {
         const latitude = JSON.stringify(position.coords.latitude);

@@ -149,7 +149,12 @@ const HomeScreen = ({
       )}
 
       <TouchableWithoutFeedback onPress={() => geoLocation(ref)}>
-        <View style={styles.currentPosIconWrapper}>
+        <View
+          style={[
+            styles.currentPosIconWrapper,
+            listIsVisible && { bottom: 200 },
+          ]}
+        >
           <CustomImage style={styles.currentPosIcon} source={CurrentPosition} />
         </View>
       </TouchableWithoutFeedback>

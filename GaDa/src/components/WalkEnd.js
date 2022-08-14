@@ -20,8 +20,6 @@ const WalkEnd = ({
   const hour = Math.floor(time / 3600);
   const min = Math.floor((time - hour * 3600) / 60);
   const sec = Math.floor(time - hour * 3600 - min * 60);
-  console.log(hour, min, sec);
-  console.log(pinNum);
   const { pinNum } = useSelector(state => state.status);
   const timeString = `${hour}:${min}:${sec}`;
   return (

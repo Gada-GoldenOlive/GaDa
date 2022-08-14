@@ -19,8 +19,8 @@ const CreatePinContainer = ({ navigation, route }) => {
   const dispatch = useDispatch();
   const createPinInfo = async () => {
     const pinData = {
-      title: (title = ''),
-      content: (content = ''),
+      title: title,
+      content: content,
       image: `${pinimage}`,
       location: {
         lat: lat,

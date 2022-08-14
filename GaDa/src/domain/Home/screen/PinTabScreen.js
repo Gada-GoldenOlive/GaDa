@@ -37,7 +37,6 @@ const PinTabScreen = ({ pinList, reviewList, average }) => {
     );
   };
   const renderPin = ({ item, index }) => {
-    console.log(item);
     return (
       <View>
         <PinItem item={item} index={index} />
