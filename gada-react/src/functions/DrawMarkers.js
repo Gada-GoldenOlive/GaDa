@@ -7,20 +7,21 @@ const DrawMarkers = ({ pins }) => {
   return (
     <div>
       {pins.map((item, index) => (
-        <div style={{ backgroundColor: "red" }}>
+        <div>
           <MapMarker
+            onClick={() => alert(index)}
             key={`${item.id}`}
             position={item.location} // 마커를 표시할 위치
             image={{
               src: DefaultPin, // 마커이미지의 주소입니다
               size: {
-                width: 15,
-                height: 15,
+                width: 20,
+                height: 20,
               }, // 마커이미지의 크기입니다
               options: {
                 offset: {
-                  x: 5,
-                  y: 5,
+                  x: 8,
+                  y: 8,
                 }, // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
               },
             }}

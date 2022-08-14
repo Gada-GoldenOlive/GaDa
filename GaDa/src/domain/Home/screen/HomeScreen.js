@@ -82,12 +82,11 @@ const HomeScreen = ({
   const getWalkway = async currentPos => {
     console.log('current ' + currentPos);
     const res = await getWalkwayList(
-      //   {
-      //   lat: 37.52832494327389,
-      //   lng: 126.98199142432702,
-
-      // }
-      currentPos,
+      {
+        lat: 37.52832494327389,
+        lng: 126.98199142432702,
+      },
+      // currentPos,
     );
 
     const { walkways } = res;
@@ -100,7 +99,7 @@ const HomeScreen = ({
   }, [markerPos]);
   useEffect(() => {
     handleConnection(ref, 'selectWalkway');
-  }, [nowPath]);
+  }, [nowPins]);
 
   useEffect(() => {
     if (currentPos.lat !== 0 && currentPos.lng !== 0) {
