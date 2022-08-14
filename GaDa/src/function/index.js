@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import moment from 'moment';
 import { reloadApp } from './error';
 
 export const storeInLocalStorage = async (accessToken, refreshToken) => {
@@ -30,4 +31,9 @@ export const setNicknameInLocalStorage = async nickname => {
 export const getIdInLocalStorage = async () => {
   const res = await AsyncStorage.getItem('id');
   return res;
+};
+
+export const getCurrentTime = () => {
+  const current = moment().startOf('second');
+  return current;
 };

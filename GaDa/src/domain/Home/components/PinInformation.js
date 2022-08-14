@@ -13,7 +13,15 @@ import CustomImage from '../../../components/CustomImage';
 import { Sample } from '../../../constant/images/Temp';
 import StarIcon from '../../../constant/images/Star';
 import PinTabContainer from '../container/PinTabContainer';
-const PinInformation = ({ walkWay, pinList, closeModal, isVisible }) => {
+import CustomButton from '../../../components/CustomButton';
+
+const PinInformation = ({
+  walkWay,
+  pinList,
+  closeModal,
+  isVisible,
+  startWalk,
+}) => {
   const {
     title = '성동구 왕십리로 산책길',
     distance = 0,
@@ -23,6 +31,7 @@ const PinInformation = ({ walkWay, pinList, closeModal, isVisible }) => {
     id = -1,
     averageStar = 0,
   } = walkWay;
+
   return (
     <Modal
       style={styles.modalContainer}
@@ -70,8 +79,9 @@ const PinInformation = ({ walkWay, pinList, closeModal, isVisible }) => {
             </View>
           </View>
         </View>
-        <PinTabContainer id={id} />
+        <PinTabContainer walkWay={walkWay} />
         <View style={styles.buttonContainer} />
+        <CustomButton title="경로 시작" handlePress={startWalk} />
       </View>
     </Modal>
   );

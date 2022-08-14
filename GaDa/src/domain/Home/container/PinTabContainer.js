@@ -5,10 +5,12 @@ import { useEffect } from 'react';
 import { getWalkwayPinList } from '../../../APIs/pin';
 import { getWalkwayReviewList } from '../../../APIs/review';
 import { useState } from 'react';
-const PinTabContainer = ({ id = 0, avg }) => {
+const PinTabContainer = ({ walkWay, avg }) => {
   const [pinList, setPinList] = useState([]);
   const [reviewList, setReviewList] = useState([]);
   const [average, setAverage] = useState(avg);
+  console.log(walkWay);
+  const id = walkWay?.id ? walkWay.id : 0;
   const fetchData = async () => {
     const pin = await getWalkwayPinList(id);
     const review = await getWalkwayReviewList(id);

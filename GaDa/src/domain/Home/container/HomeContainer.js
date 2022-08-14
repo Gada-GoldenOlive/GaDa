@@ -6,6 +6,8 @@ import HomeScreen from '../screen/HomeScreen';
 import { useDispatch } from 'react-redux';
 import { setBottomTabVisible } from '../../../redux/modules/status';
 import { useEffect } from 'react';
+import { getCurrentTime } from '../../../function';
+import { setStartTime } from '../../../redux/modules/status';
 
 // * 현재위치
 // 일정 시간 후 주기적으로 반복해서 geoLocation 해주기!
@@ -21,6 +23,8 @@ const HomeContainer = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState({});
   const [isInformationVisible, setIsInformationVisible] = useState(false);
+  const [listIsVisible, setListIsVisible] = useState(true);
+
   const dispatch = useDispatch();
 
   const geoLocation = ref => {
@@ -71,9 +75,12 @@ const HomeContainer = () => {
 
   const closeModal = () => {
     setIsVisible(false);
+    setListIsVisible(true);
   };
+
   const handleClickItem = item => {
     setIsVisible(true);
+    setListIsVisible(false);
     setSelectedItem(item);
   };
 
@@ -82,12 +89,21 @@ const HomeContainer = () => {
   };
   const handleClickWalkway = () => {
     setIsInformationVisible(true);
-    setIsVisible(false);
-    // dispatch(setBottomTabVisible(isInformationVisible));
+    closeModal();
   };
+
+  const startWalk = () => {
+    const res = getCurrentTime();
+    dispatch(setStartTime(res));
+    setIsVisible(false);
+    setListIsVisible(false);
+    setIsInformationVisible(false);
+  };
+
   useEffect(() => {
     dispatch(setBottomTabVisible(!isInformationVisible));
   }, [isInformationVisible]);
+
   return (
     <HomeScreen
       geoLocation={geoLocation}
@@ -99,6 +115,8 @@ const HomeContainer = () => {
       isInformationVisible={isInformationVisible}
       closeInformation={closeInformation}
       handleClickWalkway={handleClickWalkway}
+      startWalk={startWalk}
+      listIsVisible={listIsVisible}
     />
   );
 };

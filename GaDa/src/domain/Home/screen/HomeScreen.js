@@ -21,6 +21,8 @@ import { useNavigation } from '@react-navigation/core';
 import { getWalkwayList } from '../../../APIs/walkway';
 import WalkwayListComponent from '../components/WalkwayListComponent';
 import WalkwayOverview from '../components/WalkwayOverview';
+import SubmitButton from '../../../components/SubmitButton';
+import Stop from '../../../constant/images/Stop';
 
 const HomeScreen = ({
   geoLocation,
@@ -32,6 +34,8 @@ const HomeScreen = ({
   isInformationVisible,
   closeInformation,
   handleClickWalkway,
+  startWalk,
+  listIsVisible,
 }) => {
   const ref = useRef();
   const [markerPos, setMarkerPos] = useState({
@@ -42,7 +46,6 @@ const HomeScreen = ({
   const [submitPosPinIsVisible, setSubmitPinPosIsVisible] = useState();
   const [walkwayList, setWalkwayList] = useState([]);
   const [nowPath, setNowPath] = useState([]);
-
   const navigation = useNavigation();
 
   const INJECTED_JAVASCRIPT = `(function() {
@@ -137,7 +140,7 @@ const HomeScreen = ({
           <CustomImage style={styles.currentPosIcon} source={CurrentPosition} />
         </View>
       </TouchableWithoutFeedback>
-      {!isVisible && (
+      {listIsVisible && (
         <WalkwayListComponent
           list={walkwayList}
           selectedItem={selectedItem}
@@ -157,6 +160,14 @@ const HomeScreen = ({
         walkWay={selectedItem}
         closeModal={closeInformation}
         isVisible={isInformationVisible}
+        startWalk={startWalk}
+      />
+      <SubmitButton
+        text="중지"
+        version={2}
+        image={Stop}
+        style={styles.button}
+        textStyle={styles.text}
       />
     </View>
   );
@@ -241,5 +252,11 @@ const styles = StyleSheet.create({
     fontFamily: mediumFontFamily,
     fontSize: 16,
     color: 'white',
+  },
+  button: {
+    backgroundColor: 'white',
+  },
+  text: {
+    color: 'black',
   },
 });
