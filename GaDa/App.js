@@ -7,6 +7,8 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 import { Provider } from 'react-redux';
 import store from './src/redux/store';
+// SplashScreen 추가
+import SplashScreen from 'react-native-splash-screen';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -43,6 +45,16 @@ const App = () => {
       console.warn(err);
     }
   };
+  useEffect(() => {
+    try {
+      setTimeout(() => {
+        SplashScreen.hide();
+      }, 2000);
+    } catch (e) {
+      console.warn('Error Occured');
+      console.warn(e);
+    }
+  });
 
   return (
     <SafeAreaProvider>
