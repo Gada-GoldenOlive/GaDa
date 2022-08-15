@@ -33,7 +33,6 @@ const CreatePinContainer = ({ navigation, route }) => {
     };
 
     const res = await createPin(pinData);
-    console.log(res);
     dispatch(setPinNum(pinNum + 1));
     dispatch(refreshImages())
     navigation.pop();

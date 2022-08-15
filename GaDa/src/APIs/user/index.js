@@ -1,12 +1,13 @@
 import axios, { handleNetworkError } from '../index';
 
 export const createUser = async userData => {
+  console.log(userData)
   const res = await axios
     .post(`/users`, { ...userData })
     .then(({ data }) => {
       return data;
     })
-    .catch(err => console.log(err.response));
+    .catch(err => err.response.data.statusCode);
   return res;
 };
 

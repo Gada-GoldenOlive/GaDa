@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import React from 'react';
 import {
   blackColor,
@@ -8,7 +8,7 @@ import {
 import { boldFontFamily } from '../../../constant/fonts';
 import CustomImage from '../../../components/CustomImage';
 import { Sample } from '../../../constant/images/Temp';
-
+import Text from '../../../components/MyText';
 const PinItem = ({ item, index }) => {
   const { id, title, content, image, location, userId } = item;
   console.log({image});

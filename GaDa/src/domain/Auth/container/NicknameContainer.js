@@ -16,18 +16,22 @@ const NicknameContainer = ({ navigation }) => {
   console.log(nickname, userId, pw);
 
   const login = async () => {
-    const userBody = {
-      userId: userId,
-      password: pw,
-      name: nickname,
-      image: '',
-    };
-    const res = createUser(userBody);
-    const { id } = res;
-    console.log(id)
-    if(id !== null){
-      setIdInLocalStorage(id)
-      dispatch(setIsAuthenticated(true))
+    if(nickname.length>=1){
+      const userBody = {
+        userId: userId,
+        password: pw,
+        name: nickname,
+        image: '',
+      };
+      const res = await createUser(userBody);
+      console.log(res)
+      const id = res?.id ? res?.id : null
+      if(id !== null){
+        setIdInLocalStorage(id)
+        dispatch(setIsAuthenticated(true))
+        handleNavigate()
+      }
+    
     }
    
   };

@@ -1,9 +1,9 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import React from 'react';
 import { blackColor, buttonColor } from '../../../constant/colors';
 import { boldFontFamily } from '../../../constant/fonts';
 import { bottomShadowStyle } from '../../../constant/styles';
-
+import Text from '../../../components/MyText';
 const LastPin = ({ isVisible = true }) => {
   return (
     isVisible && (

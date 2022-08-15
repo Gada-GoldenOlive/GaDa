@@ -1,4 +1,4 @@
-import { View, Text, TouchableWithoutFeedback, LogBox } from 'react-native';
+import { View, TouchableWithoutFeedback, LogBox } from 'react-native';
 import React, { useRef, useState } from 'react';
 import { getDistance } from 'geolib';
 import Geolocation from '@react-native-community/geolocation';
@@ -61,7 +61,7 @@ const HomeContainer = ({ navigation, route }) => {
   const [startPoint, setStartPoint] = useState({});
   const [nowPins, setNowPins] = useState([]);
   const [isWalkwayFocused, setIsWalkwayFocused] = useState(false);
-
+const {userId} = useSelector(state => state.user)
   const geoLocation = ref => {
     Geolocation.getCurrentPosition(
       position => {
@@ -209,7 +209,7 @@ const HomeContainer = ({ navigation, route }) => {
       distance: dis,
       finishStatus: status,
       walkwayId: selectedItem.id,
-      userId: '2af75a44-f64d-44bf-8b9a-86b911f8d8ec',
+      userId: userId,
     };
     setWalkData(nowWalk);
 
