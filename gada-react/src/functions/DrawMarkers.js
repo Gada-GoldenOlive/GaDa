@@ -1,9 +1,9 @@
 import React from "react";
-import { MapMarker } from "react-kakao-maps-sdk";
+import { CustomOverlayMap, MapMarker } from "react-kakao-maps-sdk";
 import currentPos from "../constant/images/CurrentPos";
 import DefaultPin from "../constant/images/Pins";
 
-const DrawMarkers = ({ pins, setState }) => {
+const DrawMarkers = ({ pins, setState, isWalking }) => {
   const handleSubmit = (ver, data) => {
     //console.log(position);
     const msg = {
@@ -19,13 +19,26 @@ const DrawMarkers = ({ pins, setState }) => {
     <div>
       {pins.map((item, index) => (
         <div>
+          <CustomOverlayMap position={item.location} yAnchor={0} xAnchor={0}>
+            <div
+              style={
+                {
+                  // position: "absolute",
+                  // bottom: 60,
+                  // justifyContent: "center",
+                }
+              }
+            >
+              <p>{index + 1}</p>
+            </div>
+          </CustomOverlayMap>
           <MapMarker
             onClick={() => {
               handleSubmit("clickPin", index);
               setState((prev) => ({
                 ...prev,
                 center: {
-                  lat: item.location.lat - 0.0005,
+                  lat: item.location.lat - 0.004,
                   lng: item.location.lng,
                 },
               }));
