@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   FlatList,
   Pressable,
@@ -33,10 +33,15 @@ const PinListModal = ({
   isVisible = false,
   closeModal,
   dataList = [],
-  selectedIndex = 0,
+  selectedIndex,
   address,
 }) => {
   const [selectIndex, setSelectIndex] = useState(selectedIndex);
+
+  useEffect(() => {
+    setSelectIndex(selectedIndex)
+  }, [selectedIndex])
+
   const renderItem = ({ item, index }) => {
     const { title, content, image } = item;
     console.log(image)
@@ -78,7 +83,7 @@ const PinListModal = ({
             <Text style={styles.content}>{content}</Text>
           </View>
           {image !== "undefined" && image !== null  ? (
-                <CustomImage source={{ uri: image }} style={styles.image} resizeMode="contain" />
+                <CustomImage source={{ uri: image }} style={styles.image}  />
               ) : (
                 <CustomImage source={sampleImage} style={styles.image} />
               )}

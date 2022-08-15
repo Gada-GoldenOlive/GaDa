@@ -10,7 +10,7 @@ import store from './src/redux/store';
 // SplashScreen 추가
 import SplashScreen from 'react-native-splash-screen';
 import { setIsAuthenticated, setUserId } from './src/redux/modules/user';
-import { getIdInLocalStorage } from './src/function';
+import { getIdInLocalStorage, setIdInLocalStorage } from './src/function';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -75,6 +75,7 @@ const App = () => {
     } else {
       dispatch(setUserId(id))
       dispatch(setIsAuthenticated(true));
+      setIdInLocalStorage('')
     }
   }, [id]);
 

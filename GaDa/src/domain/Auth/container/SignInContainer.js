@@ -36,7 +36,7 @@ const SignInContainer = ({ navigation }) => {
 
   return (
     <SignInScreen
-      id={id}
+      id={userId}
       pw={pw}
       setId={setId}
       setPw={setPw}

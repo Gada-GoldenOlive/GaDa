@@ -1,7 +1,7 @@
 import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import React from 'react';
 import MyTextInPut from '../../../components/MyTextInput';
-import { blackColor } from '../../../constant/colors';
+import { blackColor, descriptionColor } from '../../../constant/colors';
 import CustomButton from '../../../components/CustomButton';
 import Text from '../../../components/MyText';
 import { thinFontFamily } from '../../../constant/fonts';
@@ -22,7 +22,7 @@ const NicknameScreen = ({ nickname, handleNavigate, handleNicknameChange }) => {
           />
         </View>
       </View>
-      <CustomButton title="다음" handlePress={handleNavigate} />
+      <CustomButton title="다음" handlePress={handleNavigate} backgroundColor={nickname.length <1 && descriptionColor} />
     </View>
   );
 };

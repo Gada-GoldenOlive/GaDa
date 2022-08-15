@@ -12,7 +12,10 @@ const PWContainer = ({ navigation }) => {
   };
 
   const handleNavigate = () => {
-    navigation.navigate('Nickname');
+    if(pw.length >= 1){
+      navigation.navigate('Nickname');
+    }
+    
   };
   useEffect(() => {
     dispatch(setPW(''));
