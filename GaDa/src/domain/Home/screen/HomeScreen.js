@@ -119,6 +119,11 @@ const HomeScreen = ({
       getWalkway(currentPos);
     }
   }, [currentPos]);
+  useEffect(() => {
+    if (isWalking) {
+      handleConnection(ref, 'startWalk');
+    }
+  }, [isWalking]);
 
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>

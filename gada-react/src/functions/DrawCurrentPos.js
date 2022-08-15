@@ -22,9 +22,9 @@ export default function DrawCurrentPos({ state }) {
             },
           }}
         >
-          <div style={{ padding: "5px", color: "#000" }}>
+          {/* <div style={{ padding: "5px", color: "#000" }}>
             {state.errMsg ? state.errMsg : "여기에 계신가요?!"}
-          </div>
+          </div> */}
         </MapMarker>
       )}
     </>
