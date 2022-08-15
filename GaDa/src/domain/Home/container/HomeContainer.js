@@ -232,15 +232,15 @@ const HomeContainer = ({ navigation, route }) => {
     dispatch(setPinNum(0));
     dispatch(setIsWalking(false));
   };
-  // useEffect(() => {
-  //   console.log({ isAuthenticated });
-  //   if (!isAuthenticated) {
-  //     navigation.reset({
-  //       index: 0,
-  //       routes: [{ name: 'SignIn' }],
-  //     });
-  //   }
-  // }, [isAuthenticated]);
+  useEffect(() => {
+    console.log({ isAuthenticated });
+    if (!isAuthenticated) {
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'SignIn' }],
+      });
+    }
+  }, [isAuthenticated]);
   useEffect(() => {
     // walkEnd일때 안보여야하고 information visible일때 안보여야한다
     const tabVisible = !walkEnd && !isInformationVisible;

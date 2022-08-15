@@ -18,6 +18,7 @@ const PWScreen = ({ pw, handlePwChange, handleNavigate }) => {
             placeholder="비밀번호를 입력하세요"
             value={pw}
             onChangeText={handlePwChange}
+            secureTextEntry={true}
           />
         </View>
       </View>

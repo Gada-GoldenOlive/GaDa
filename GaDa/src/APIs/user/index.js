@@ -6,7 +6,7 @@ export const createUser = async userData => {
     .then(({ data }) => {
       return data;
     })
-    .catch(handleNetworkError);
+    .catch(err => console.log(err.response));
   return res;
 };
 
