@@ -1,21 +1,14 @@
-import { View, Text } from 'react-native';
+import { View, Text, Image } from 'react-native';
 
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import FeedScreen from '../screen/FeedScreen';
 import { useEffect } from 'react';
 import { setBottomTabVisible } from '../../../redux/modules/status';
+import { FeedS } from '../../../constant/images/Sample';
 
 const FeedContainer = () => {
-  const [isOverview, setIsOverview] = useState(true);
-  const dispatch = useDispatch();
-  const handleOverview = value => {
-    setIsOverview(value);
-  };
-  useEffect(() => {
-    dispatch(setBottomTabVisible(isOverview));
-  }, [isOverview]);
-  return <FeedScreen isOverview={isOverview} handleOverview={handleOverview} />;
+  return <FeedScreen />;
 };
 
 export default FeedContainer;
