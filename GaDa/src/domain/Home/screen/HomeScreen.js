@@ -118,8 +118,13 @@ const HomeScreen = ({
     if (currentPos.lat !== 0 && currentPos.lng !== 0) {
       getWalkway(currentPos);
     }
-  }, [currentPos, walkEnd]);
-
+  }, [currentPos]);
+  useEffect(() => {
+    if (isWalking) {
+      handleConnection(ref, 'startWalk');
+    }
+  }, [isWalking]);
+  
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       <WebView

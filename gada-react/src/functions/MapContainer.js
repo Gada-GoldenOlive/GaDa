@@ -77,11 +77,12 @@ const MapContainer = () => {
       position={position}
       handleSubmit={handleSubmit}
       setPosition={setPosition}
-      //isCurrentPosClicked={isCurrentPosClicked}
-      // center={center}
-      // setCenter={setCenter}
+      //   //isCurrentPosClicked={isCurrentPosClicked}
+      //   // center={center}
+      //   // setCenter={setCenter}
     />
-    // <MovePinText />
+    // // <MovePinText />
+    //<DrawPolyline path={path} />
   );
 };
 
