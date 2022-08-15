@@ -5,6 +5,7 @@ import DrawCurrentPos from "../functions/DrawCurrentPos";
 import DrawMarkers from "../functions/DrawMarkers";
 import DrawMarker from "../functions/DrawMarkers";
 import DrawPolyline from "../functions/DrawPolyline";
+import DrawPolylineFromKakao from "../functions/DrawPolylineFromKakao";
 import DrawStartPoint from "../functions/DrawStartPoint";
 import GeoLocationMarker from "../functions/GeolocationMarker";
 import MovePinText from "./components/MovePinText";
@@ -196,13 +197,13 @@ const MapScreen = ({
       setIsAddPinClicked(false);
     }
   }, [isSubmitPinPosClicked]);
-  useEffect(() => {
-    if (isSubmitPinPosClicked && isAddPinClicked) {
-      handleSubmit("pinPos", state.center);
-      setIsSubmitPinPosClicked(false);
-      setIsAddPinClicked(false);
-    }
-  }, [isSubmitPinPosClicked]);
+  // useEffect(() => {
+  //   if (isSubmitPinPosClicked && isAddPinClicked) {
+  //     handleSubmit("pinPos", state.center);
+  //     setIsSubmitPinPosClicked(false);
+  //     setIsAddPinClicked(false);
+  //   }
+  // }, [isSubmitPinPosClicked]);
   useEffect(() => {
     if (walkwayPath !== "null") {
       setState({ center: walkwayPath[0] });
@@ -222,7 +223,7 @@ const MapScreen = ({
   });
 
   return (
-    <div className="preventDrag">
+    <div id="map" className="preventDrag">
       <Map // 지도를 표시할 Container
         center={
           // 지도의 중심좌표
@@ -253,6 +254,7 @@ const MapScreen = ({
             isLoading: false,
           }))
         }
+        // onRightClick={(map) => <DrawPolylineFromKakao map={map} />}
       >
         {/* 현재 위치 */}
         {/* <GeoLocationMarker setCenter={setCenter} /> */}
@@ -280,6 +282,7 @@ const MapScreen = ({
           <DrawStartPoint position={pathStartPoint} />
         )}
         {/* [126.90382463198507,37.53766771249391],[126.90378684196669,37.53779371044991],[126.90360747959478,37.537930260324906],[126.90336570256882,37.538086774921744],[126.90318023041736,37.53827962752207],[126.90293311544221,37.53839555357543],[126.90266002935026,37.538574442097], */}
+        {/* <DrawPolyline path={pathl} /> */}
       </Map>
     </div>
   );
