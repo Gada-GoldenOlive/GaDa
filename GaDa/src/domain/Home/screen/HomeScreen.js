@@ -25,6 +25,7 @@ import SubmitButton from '../../../components/SubmitButton';
 import Stop from '../../../constant/images/Stop';
 import { useSelector } from 'react-redux';
 import WalkEnd from '../../../components/WalkEnd';
+import PinListModal from '../../../components/PinListModal';
 
 const HomeScreen = ({
   geoLocation,
@@ -61,10 +62,15 @@ const HomeScreen = ({
   const [currentPos, setCurrentPos] = useState({});
   const [submitPosPinIsVisible, setSubmitPinPosIsVisible] = useState();
   const [walkwayList, setWalkwayList] = useState([]);
-  const [pinIndex, setPinIndex] = useState();
-
+  const [pinIndex, setPinIndex] = useState(0);
+  const [pinModalIsVisible, setPinModalIsVisible] = useState(false);
+  const [checkPin, setCheckPin] = useState(-1);
   const navigation = useNavigation();
   const { isWalking } = useSelector(state => state.status);
+  const [checkFirst, setCheckFirst] = useState(true);
+  const closePinModal = () => {
+    setPinModalIsVisible(false);
+  };
   const INJECTED_JAVASCRIPT = `(function() {
     window.postMessage(JSON.stringify({key : "value"}));true;
 })();`;
@@ -74,12 +80,12 @@ const HomeScreen = ({
     } = event;
 
     if (data !== 'undefined') {
-      console.log(data);
       const msg = JSON.parse(data);
       if (msg.type === 'currentPos') setCurrentPos(msg.position);
       if (msg.type === 'pinPos') setMarkerPos(msg.position);
       if (msg.type === 'clickPin') {
         setPinIndex(msg.index);
+        setCheckPin(checkPin * -1);
       }
     }
   };
@@ -98,6 +104,12 @@ const HomeScreen = ({
       });
     }
   }, [markerPos]);
+
+  useEffect(() => {
+    if (pinIndex !== -1 && !checkFirst) setPinModalIsVisible(true);
+    setCheckFirst(false);
+  }, [pinIndex, checkPin]);
+
   useEffect(() => {
     handleConnection(ref, 'selectWalkway');
   }, [nowPins]);
@@ -209,6 +221,13 @@ const HomeScreen = ({
           pinNum={pinNum}
         />
       )}
+      <PinListModal
+        dataList={nowPins}
+        isVisible={pinModalIsVisible}
+        closeModal={closePinModal}
+        selectedIndex={pinIndex}
+        address={selectedItem.address}
+      />
     </View>
   );
 };

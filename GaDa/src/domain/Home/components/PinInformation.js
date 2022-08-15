@@ -33,7 +33,6 @@ const PinInformation = ({
     image = '',
   } = walkWay;
   const min = Math.floor(time / 60);
-  const km = distance / 1000;
   return (
     <Modal
       style={styles.modalContainer}
@@ -67,7 +66,9 @@ const PinInformation = ({
                   <Text style={styles.description}>약 {min}분 / </Text>
                 )}
                 {distance !== 0 && (
-                  <Text style={styles.description}>{km.toFixed(1)}km / </Text>
+                  <Text style={styles.description}>
+                    {distance.toFixed(1)}m /{' '}
+                  </Text>
                 )}
                 <Text style={styles.description}>핀 {pinCount}개 </Text>
               </Text>
