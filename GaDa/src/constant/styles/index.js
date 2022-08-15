@@ -33,8 +33,7 @@ export const topShadowStyle = {
     width: 0,
     height: -7,
   },
-  shadowOpacity: 1,
-  shadowRadius: 7,
+  shadowOpacity: 0.14,
   elevation: 3,
 };
 export const tagStyle = {
