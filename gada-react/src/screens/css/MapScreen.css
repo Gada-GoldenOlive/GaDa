@@ -8,3 +8,7 @@
 .preventMove {
   pointer-events: none;
 }
+@font-face {
+  font-family: "SpoqaHanSansNeo-Bold";
+  src: url(../../assets/fonts/SpoqaHanSansNeo-Bold.ttf);
+}

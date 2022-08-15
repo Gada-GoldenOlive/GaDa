@@ -1,9 +1,10 @@
 import React from "react";
 import { CustomOverlayMap, MapMarker } from "react-kakao-maps-sdk";
+import { boldFontFamily } from "../assets/fonts";
 import currentPos from "../constant/images/CurrentPos";
 import DefaultPin from "../constant/images/Pins";
 
-const DrawMarkers = ({ pins, setState, isWalking }) => {
+const DrawMarkers = ({ pins, setState, isStartWalkClicked }) => {
   const handleSubmit = (ver, data) => {
     //console.log(position);
     const msg = {
@@ -19,19 +20,26 @@ const DrawMarkers = ({ pins, setState, isWalking }) => {
     <div>
       {pins.map((item, index) => (
         <div>
-          <CustomOverlayMap position={item.location} yAnchor={0} xAnchor={0}>
-            <div
-              style={
-                {
-                  // position: "absolute",
-                  // bottom: 60,
-                  // justifyContent: "center",
-                }
-              }
+          {isStartWalkClicked && (
+            <CustomOverlayMap
+              position={item.location}
+              yAnchor={0.35}
+              xAnchor={-0.7}
             >
-              <p>{index + 1}</p>
-            </div>
-          </CustomOverlayMap>
+              <div>
+                <p
+                  style={{
+                    color: "white",
+                    fontFamily: "SpoqaHanSansNeo-Bold",
+                    fontSize: 14,
+                    pointerEvents: "none",
+                  }}
+                >
+                  {index + 1}
+                </p>
+              </div>
+            </CustomOverlayMap>
+          )}
           <MapMarker
             onClick={() => {
               handleSubmit("clickPin", index);
@@ -48,8 +56,8 @@ const DrawMarkers = ({ pins, setState, isWalking }) => {
             image={{
               src: DefaultPin, // 마커이미지의 주소입니다
               size: {
-                width: 20,
-                height: 20,
+                width: isStartWalkClicked ? 35 : 20,
+                height: isStartWalkClicked ? 35 : 20,
               }, // 마커이미지의 크기입니다
               options: {
                 offset: {
