@@ -208,7 +208,7 @@ const HomeContainer = () => {
       distance: dis,
       finishStatus: status,
       walkwayId: selectedItem.id,
-      userId: '1',
+      userId: '2af75a44-f64d-44bf-8b9a-86b911f8d8ec',
     };
     setWalkData(nowWalk);
 

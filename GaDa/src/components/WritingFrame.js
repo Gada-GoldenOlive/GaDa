@@ -15,6 +15,7 @@ import ImageCropPicker from 'react-native-image-crop-picker';
 import { useNavigation } from '@react-navigation/core';
 import Writing from '../constant/images/Writing';
 import Locate from '../constant/images/Locate';
+import { useDispatch } from 'react-redux';
 const WritingFrame = ({
   title = '',
   content = '',
@@ -28,6 +29,7 @@ const WritingFrame = ({
   createPinInfo,
 }) => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   const baseCameraOption = {
     mediaType: 'photo',
@@ -60,6 +62,9 @@ const WritingFrame = ({
         : baseCameraOption,
     ).then(images => {
       const uri = `data:${images.mime};base64,${images.data}`;
+      // console.log(images.assets[0]);
+      //
+      // console.log({ uri });
       setImages(uri);
       cancelModal();
     });
@@ -95,6 +100,7 @@ const WritingFrame = ({
   };
 
   const setImages = items => {
+    console.log(items);
     dispatch(setPinImage(items));
   };
 
@@ -105,6 +111,7 @@ const WritingFrame = ({
           <View style={styles.imageContainer}>
             {/* <View style={styles.graient} /> */}
             <CustomImage source={{ uri: image }} style={styles.image} />
+            <CustomImage source={Upload} style={styles.upload} />
           </View>
         </TouchableWithoutFeedback>
         <View style={styles.writingContainer}>
@@ -197,4 +204,9 @@ const styles = StyleSheet.create({
     marginRight: 6,
   },
   location: {},
+  upload: {
+    position: 'absolute',
+    width: 32,
+    height: 37,
+  },
 });
