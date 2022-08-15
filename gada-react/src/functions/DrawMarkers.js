@@ -3,7 +3,7 @@ import { MapMarker } from "react-kakao-maps-sdk";
 import currentPos from "../constant/images/CurrentPos";
 import DefaultPin from "../constant/images/Pins";
 
-const DrawMarkers = ({ pins }) => {
+const DrawMarkers = ({ pins, setState }) => {
   const handleSubmit = (ver, data) => {
     //console.log(position);
     const msg = {
@@ -20,7 +20,16 @@ const DrawMarkers = ({ pins }) => {
       {pins.map((item, index) => (
         <div>
           <MapMarker
-            onClick={() => handleSubmit("clickPin", index)}
+            onClick={() => {
+              handleSubmit("clickPin", index);
+              setState((prev) => ({
+                ...prev,
+                center: {
+                  lat: item.location.lat - 0.0005,
+                  lng: item.location.lng,
+                },
+              }));
+            }}
             key={`${item.id}`}
             position={item.location} // 마커를 표시할 위치
             image={{
