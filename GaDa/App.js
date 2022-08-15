@@ -69,13 +69,14 @@ const App = () => {
   };
   useEffect(() => {
     getId();
-    console.log(id)
     if (id == null && id !== '') {
       dispatch(setIsAuthenticated(false));
+      console.log('hey')
     } else {
+      console.log({id})
       dispatch(setUserId(id))
       dispatch(setIsAuthenticated(true));
-      setIdInLocalStorage('')
+      //setIdInLocalStorage('')
     }
   }, [id]);
 
