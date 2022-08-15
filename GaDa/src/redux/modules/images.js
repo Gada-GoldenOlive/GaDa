@@ -22,7 +22,6 @@ const initialState = {
   uploadImagesChanged: false,
 };
 
-// reducer
 export default function images(state = initialState, action) {
   switch (action.type) {
     case SET_PIN_IMAGE:
