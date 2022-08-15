@@ -23,6 +23,7 @@ import Writing from '../constant/images/Writing';
 import Delete from '../constant/images/Delete';
 import { Sample } from '../constant/images/Temp';
 import { getRandomImage } from '../function';
+import { PinSampel2, PinSample1 } from '../constant/images/PinSample';
 
 const ItemSeparatorComponent = () => {
   return <View style={styles.separator} />;
@@ -41,7 +42,7 @@ const PinListModal = ({
     console.log(image)
     console.log('hh', image === "undefined")
     const isFocused = selectIndex === index;
-    //const randomImage = getRandomImage(170, 80);
+    const sampleImage = index % 2 === 0 ? PinSample1 : PinSampel2
     return (
       <TouchableWithoutFeedback onPress={() => setSelectIndex(index)}>
         <View style={[styles.itemContainer, !isFocused && { opacity: 0.5 }, index === dataList.length - 1 && {paddingBottom: 25}]}>
@@ -79,7 +80,7 @@ const PinListModal = ({
           {image !== "undefined" && image !== null  ? (
                 <CustomImage source={{ uri: image }} style={styles.image} resizeMode="contain" />
               ) : (
-                <CustomImage source={Sample} style={styles.image} />
+                <CustomImage source={sampleImage} style={styles.image} />
               )}
         </View>
       </TouchableWithoutFeedback>
