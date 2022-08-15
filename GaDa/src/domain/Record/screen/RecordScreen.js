@@ -1,35 +1,24 @@
-import { StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 import React from 'react';
 import CenterModal from '../../../components/CenterModal';
 import WalkEnd from '../../../components/WalkEnd';
 import CustomImage from '../../../components/CustomImage';
-import { MapImage } from '../../../constant/images/Temp';
+import { MapImage, Sample } from '../../../constant/images/Temp';
 import { windowHeight, windowWidth } from '../../../constant/styles';
 import CustomButton from '../../../components/CustomButton';
+import { MyS } from '../../../constant/images/Sample';
 
-const RecordScreen = ({
-  isVisible,
-  setIsVisible,
-  setWalkEnd,
-  handleConfirm,
-  walkEnd,
-}) => {
+const RecordScreen = ({}) => {
   return (
-    <View style={styles.container}>
-      <TouchableWithoutFeedback onPress={() => setIsVisible(true)}>
-        <CustomImage
-          source={MapImage}
-          style={styles.map}
-          resizeMode="contain"
-        />
-      </TouchableWithoutFeedback>
-      <CenterModal
-        isVisible={isVisible}
-        closeModal={() => setIsVisible(false)}
-        handleConfirm={handleConfirm}
-      />
-      {<WalkEnd isVisible={walkEnd} onPress={() => setWalkEnd(false)} />}
-    </View>
+    <ScrollView style={styles.container}>
+      <CustomImage source={MyS} style={styles.image} />
+    </ScrollView>
   );
 };
 
@@ -38,10 +27,10 @@ export default RecordScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginTop: -50,
   },
-  map: {
+  image: {
     width: windowWidth,
-    height: windowHeight,
-    // backgroundColor: 'red',
+    height: (windowWidth * 2606) / 780,
   },
 });
