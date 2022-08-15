@@ -12,25 +12,26 @@ const SignInContainer = ({ navigation }) => {
   const [userId, setId] = useState('');
   const [pw, setPw] = useState('');
 
-  const [isWrong, setIsWrong] = useState(false)
-  const dispatch = useDispatch()
+  const [isWrong, setIsWrong] = useState(false);
+  const dispatch = useDispatch();
   const handleNavigateSignUp = () => {
     navigation.navigate('ID');
   };
 
   const handleNavigate = () => {
-    console.log('hey');
-    navigation.navigate('BottomTab');
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'BottomTab' }],
+    });
+    navigation.navigate('BottomTabHome');
   };
   const checkLogin = async () => {
-  
     const res = await getUserLogin({ id: userId, pw: pw });
-    const {id} = res;
-    console.log(id)
-    if(id !== null){
-      setIdInLocalStorage(id)
-      dispatch(setIsAuthenticated(true))
-      handleNavigate()
+    const { id } = res;
+    if (id !== null) {
+      setIdInLocalStorage(id);
+      dispatch(setIsAuthenticated(true));
+      handleNavigate();
     }
   };
 

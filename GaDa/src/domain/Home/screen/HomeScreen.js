@@ -53,6 +53,9 @@ const HomeScreen = ({
   nowPins,
   setNowPins,
   setIsWalkwayFocused,
+  startModalVisible,
+  openStartModal,
+  closeStartModal,
 }) => {
   const ref = useRef();
   const [markerPos, setMarkerPos] = useState({
@@ -201,7 +204,7 @@ const HomeScreen = ({
         walkWay={selectedItem}
         closeModal={closeInformation}
         isVisible={isInformationVisible}
-        startWalk={startWalk}
+        startWalk={openStartModal}
       />
       {isWalking && (
         <SubmitButton
@@ -218,6 +221,11 @@ const HomeScreen = ({
         mainText="산책을 중지하시겠어요?"
         content={`산책을 멈춥니다!\n해당 산책로는 이후 다시\n진행할 수 있습니다.`}
         buttonText="산책 종료"
+      />
+      <CenterModal
+        isVisible={startModalVisible}
+        closeModal={closeStartModal}
+        handleConfirm={startWalk}
       />
       {walkEnd && (
         <WalkEnd

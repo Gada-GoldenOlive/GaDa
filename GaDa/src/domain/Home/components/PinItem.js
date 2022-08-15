@@ -11,7 +11,6 @@ import { Sample } from '../../../constant/images/Temp';
 import Text from '../../../components/MyText';
 const PinItem = ({ item, index }) => {
   const { id, title, content, image, location, userId } = item;
-  console.log({image});
   return (
     <View style={styles.container}>
       <View style={styles.wrapper}>
@@ -20,11 +19,11 @@ const PinItem = ({ item, index }) => {
           <Text style={styles.index}>{index + 1}번째 핀</Text>
           <Text style={styles.text}>: {title}</Text>
         </View>
-        {image !== "undefined" ? (
-                <CustomImage source={{ uri: image }} style={styles.image} />
-              ) : (
-                <CustomImage source={Sample} style={styles.image} />
-              )}
+        {image !== 'undefined' ? (
+          <CustomImage source={{ uri: image }} style={styles.image} />
+        ) : (
+          <CustomImage source={Sample} style={styles.image} />
+        )}
       </View>
     </View>
   );

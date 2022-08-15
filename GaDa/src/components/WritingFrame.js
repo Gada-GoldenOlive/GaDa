@@ -111,7 +111,9 @@ const WritingFrame = ({
           <View style={styles.imageContainer}>
             {/* <View style={styles.graient} /> */}
             <CustomImage source={{ uri: image }} style={styles.image} />
-       {image === ''&& <CustomImage source={Upload} style={styles.upload} />}
+            {image === '' && (
+              <CustomImage source={Upload} style={styles.upload} />
+            )}
           </View>
         </TouchableWithoutFeedback>
         <View style={styles.writingContainer}>
@@ -197,7 +199,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    marginTop: 8
+    marginTop: 8,
   },
   locate: {
     width: 24,

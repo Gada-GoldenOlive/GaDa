@@ -71,10 +71,8 @@ const App = () => {
     getId();
     if (id == null && id !== '') {
       dispatch(setIsAuthenticated(false));
-      console.log('hey')
     } else {
-      console.log({id})
-      dispatch(setUserId(id))
+      dispatch(setUserId(id));
       dispatch(setIsAuthenticated(true));
       //setIdInLocalStorage('')
     }

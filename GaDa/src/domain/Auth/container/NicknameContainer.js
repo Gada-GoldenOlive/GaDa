@@ -13,10 +13,8 @@ const NicknameContainer = ({ navigation }) => {
     dispatch(setNickname(text));
   };
 
-  console.log(nickname, userId, pw);
-
   const login = async () => {
-    if(nickname.length>=1){
+    if (nickname.length >= 1) {
       const userBody = {
         userId: userId,
         password: pw,
@@ -24,16 +22,13 @@ const NicknameContainer = ({ navigation }) => {
         image: '',
       };
       const res = await createUser(userBody);
-      console.log(res)
-      const id = res?.id ? res?.id : null
-      if(id !== null){
-        setIdInLocalStorage(id)
-        dispatch(setIsAuthenticated(true))
-        handleNavigate()
+      const id = res?.id ? res?.id : null;
+      if (id !== null) {
+        setIdInLocalStorage(id);
+        dispatch(setIsAuthenticated(true));
+        handleNavigate();
       }
-    
     }
-   
   };
   const handleNavigate = () => {
     dispatch(setIsAuthenticated(true));

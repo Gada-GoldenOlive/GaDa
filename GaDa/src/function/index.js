@@ -51,7 +51,6 @@ export const getDuringTime = () => {
 
 export const getRandomImage = (width = 150, height = 150) => {
   const num = Math.floor(Math.random() * 1000);
-  const randomImage =  `https://picsum.photos/${width}/${height}/?image=${num}`
-  console.log(randomImage)
-  return randomImage
-}
+  const randomImage = `https://picsum.photos/${width}/${height}/?image=${num}`;
+  return randomImage;
+};

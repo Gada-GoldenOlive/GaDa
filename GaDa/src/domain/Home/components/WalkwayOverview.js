@@ -33,7 +33,6 @@ const WalkwayOverview = ({
     image = '',
   } = walkWay;
   const min = Math.floor(time / 60);
-  console.log(image);
   return (
     <Modal
       style={styles.modalContainer}
@@ -52,7 +51,7 @@ const WalkwayOverview = ({
           <View style={styles.bar} />
           <View style={styles.container}>
             <View style={styles.imageContainer}>
-              {image !== "undefined" ? (
+              {image !== 'undefined' ? (
                 <CustomImage source={{ uri: image }} style={styles.image} />
               ) : (
                 <CustomImage source={Sample} style={styles.image} />

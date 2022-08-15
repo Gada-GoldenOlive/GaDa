@@ -12,7 +12,11 @@ import {
   setPinNum,
 } from '../../../redux/modules/status';
 import { useEffect } from 'react';
-import { getCurrentTime, getDuringTime, getIdInLocalStorage } from '../../../function';
+import {
+  getCurrentTime,
+  getDuringTime,
+  getIdInLocalStorage,
+} from '../../../function';
 import { setStartTime } from '../../../redux/modules/status';
 import { get } from 'react-native/Libraries/Utilities/PixelRatio';
 import { createWalk } from '../../../APIs/walk';
@@ -50,6 +54,8 @@ const HomeContainer = ({ navigation, route }) => {
   const [walkEnd, setWalkEnd] = useState(false);
   // walk data
   const [walkData, setWalkData] = useState({});
+  // start modal
+  const [startModalVisible, setStartModalVisible] = useState(false);
   // 생성한 핀 개수
   const { pinNum } = useSelector(state => state.status);
   const [loading, setLoading] = useState(false);
@@ -62,7 +68,7 @@ const HomeContainer = ({ navigation, route }) => {
   const [startPoint, setStartPoint] = useState({});
   const [nowPins, setNowPins] = useState([]);
   const [isWalkwayFocused, setIsWalkwayFocused] = useState(false);
-const {userId} = useSelector(state => state.user)
+  const { userId } = useSelector(state => state.user);
   const geoLocation = ref => {
     Geolocation.getCurrentPosition(
       position => {
@@ -81,7 +87,7 @@ const {userId} = useSelector(state => state.user)
   };
 
   const recordPosition = () => {
-    const newId = Geolocation.watchPosition(
+    const newId = Geolocation.getCurrentPosition(
       position => {
         if (position) {
           let updateFlag = true;
@@ -93,9 +99,9 @@ const {userId} = useSelector(state => state.user)
           if (beforeRecord !== null) {
             // console.log(beforeRecord, newRecord);
             const dist = getDistance(beforeRecord, newRecord, 0.1);
-            if (dist < 50) {
-              updateFlag = false;
-            }
+            // if (dist < 50) {
+            //   updateFlag = false;
+            // }
           }
           if (updateFlag) {
             setCoords(newRecord);
@@ -167,6 +173,7 @@ const {userId} = useSelector(state => state.user)
     setIsInformationVisible(false);
     setRecording(true);
     dispatch(setIsWalking(true));
+    setStartModalVisible(false);
   };
 
   const stopWalk = () => {
@@ -186,7 +193,7 @@ const {userId} = useSelector(state => state.user)
 
   const finishRecord = () => {
     setRecording(false);
-    console.log(locationList);
+    console.log({ locationList });
     if (locationList.length >= 1) {
       return getDistance(
         locationList[0],
@@ -203,11 +210,11 @@ const {userId} = useSelector(state => state.user)
     dispatch(setEndTime(res));
     dispatch(setIsWalking(false));
     const time = getDuringTime();
-    const dis = finishRecord();
+    const dis = finishRecord().toFixed(2);
     console.log({ res, dis });
     const nowWalk = {
       time: time,
-      distance: dis,
+      distance: dis / 10,
       finishStatus: status,
       walkwayId: selectedItem.id,
       userId: userId,
@@ -233,15 +240,27 @@ const {userId} = useSelector(state => state.user)
     dispatch(setPinNum(0));
     dispatch(setIsWalking(false));
   };
-   useEffect(() => {
-     console.log({ isAuthenticated });
-     if (!isAuthenticated) {
-       navigation.reset({
-         index: 0,
-         routes: [{ name: 'SignIn' }],
-       });
-     }
-   }, [isAuthenticated]);
+
+  const openStartModal = () => {
+    setIsVisible(false);
+    setListIsVisible(false);
+    setIsInformationVisible(false);
+    setStartModalVisible(true);
+  };
+
+  const closeStartModal = () => {
+    setStartModalVisible(false);
+    setListIsVisible(true);
+  };
+  useEffect(() => {
+    console.log({ isAuthenticated });
+    if (!isAuthenticated) {
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'SignIn' }],
+      });
+    }
+  }, [isAuthenticated]);
   useEffect(() => {
     // walkEnd일때 안보여야하고 information visible일때 안보여야한다
     const tabVisible = !walkEnd && !isInformationVisible;
@@ -250,22 +269,24 @@ const {userId} = useSelector(state => state.user)
   }, [walkEnd, isInformationVisible]);
 
   useEffect(() => {
-    if (recording && !loading) {
-      recordPosition();
-    }
+    setInterval(() => {
+      if (recording && !loading) {
+        recordPosition();
+      }
+    }, 1000);
   }, [recording]);
 
   useEffect(() => {
     resetData();
   }, []);
-  const reset = async() => {
+  const reset = async () => {
     const res = await getIdInLocalStorage();
-    console.log(res)
-    dispatch(setUserId(res))
-  }
+
+    dispatch(setUserId(res));
+  };
   useEffect(() => {
-    reset()
-  }, [])
+    reset();
+  }, []);
 
   return (
     <HomeScreen
@@ -294,6 +315,9 @@ const {userId} = useSelector(state => state.user)
       nowPins={nowPins}
       setNowPins={setNowPins}
       setIsWalkwayFocused={setIsWalkwayFocused}
+      startModalVisible={startModalVisible}
+      openStartModal={openStartModal}
+      closeStartModal={closeStartModal}
     />
   );
 };

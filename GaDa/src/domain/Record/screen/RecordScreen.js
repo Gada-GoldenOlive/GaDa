@@ -14,10 +14,12 @@ import { windowHeight, windowWidth } from '../../../constant/styles';
 import CustomButton from '../../../components/CustomButton';
 import { MyS } from '../../../constant/images/Sample';
 
-const RecordScreen = ({}) => {
+const RecordScreen = ({ handleNavigate }) => {
   return (
     <ScrollView style={styles.container}>
-      <CustomImage source={MyS} style={styles.image} />
+      <TouchableWithoutFeedback onPress={handleNavigate}>
+        <CustomImage source={MyS} style={styles.image} />
+      </TouchableWithoutFeedback>
     </ScrollView>
   );
 };

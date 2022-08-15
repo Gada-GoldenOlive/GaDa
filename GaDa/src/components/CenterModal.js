@@ -22,7 +22,7 @@ import CloseIcon from '../constant/images/Close';
 import CustomButton from './CustomButton';
 
 const CenterModal = ({
-  mainText = '젠오님의 산책을\n기록할게요',
+  mainText = '사용자님의 산책을\n기록할게요',
   content = '동선기록을 시작합니다.\n즐거운 산책경험을 만드세요!',
   isVisible = false,
   closeModal,

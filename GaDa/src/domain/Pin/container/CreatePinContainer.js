@@ -15,26 +15,26 @@ const CreatePinContainer = ({ navigation, route }) => {
   const [pinTitle, setPinTitle] = useState(title);
   const [content, setContent] = useState('');
   const { pinNum } = useSelector(state => state.status);
-  const {userId} = useSelector(state => state.user)
+  const { userId } = useSelector(state => state.user);
   const dispatch = useDispatch();
 
   const createPinInfo = async () => {
-    console.log({userId})
     const pinData = {
-      title: title,
+      title: pinTitle,
       content: content,
-      image: `${pinImage}`,
+      image: '',
       location: {
         lat: lat,
         lng: lng,
       },
       walkwayId: id,
-      userId: userId
+      userId: userId,
     };
-
+    console.log({ userId, pinData });
     const res = await createPin(pinData);
+    console.log(res);
     dispatch(setPinNum(pinNum + 1));
-    dispatch(refreshImages())
+    dispatch(refreshImages());
     navigation.pop();
   };
 
