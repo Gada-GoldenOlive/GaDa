@@ -10,11 +10,12 @@ const IDContainer = ({ navigation }) => {
   const [isWrong, setIsWrong] = useState(true);
   const { userId } = useSelector(state => state.user);
   const [first, setFirst] = useState(true);
+  const [changed, setChanged] = useState(false)
 
   const dispatch = useDispatch();
   const handleIdChange = idText => {
     dispatch(setUserId(idText));
-    setIsWrong(true);
+    setChanged(true)
   };
   const handleNavigate = () => {
     if (!isWrong) {
@@ -28,7 +29,10 @@ const IDContainer = ({ navigation }) => {
     const { isValid } = res;
     if (isValid) {
       setIsWrong(false);
+    } else if(!isValid){
+      setIsWrong(true)
     }
+    setChanged(false)
     setFirst(false);
   };
   useEffect(() => {
@@ -41,6 +45,7 @@ const IDContainer = ({ navigation }) => {
       userId={userId}
       first={first}
       checkId={checkId}
+      changed={changed}
       handleNavigate={handleNavigate}
       handleIdChange={handleIdChange}
     />

@@ -9,7 +9,7 @@ import { Provider, useDispatch, useSelector } from 'react-redux';
 import store from './src/redux/store';
 // SplashScreen 추가
 import SplashScreen from 'react-native-splash-screen';
-import { setIsAuthenticated } from './src/redux/modules/user';
+import { setIsAuthenticated, setUserId } from './src/redux/modules/user';
 import { getIdInLocalStorage } from './src/function';
 
 const App = () => {
@@ -69,9 +69,11 @@ const App = () => {
   };
   useEffect(() => {
     getId();
+    console.log(id)
     if (id == null && id !== '') {
       dispatch(setIsAuthenticated(false));
     } else {
+      dispatch(setUserId(id))
       dispatch(setIsAuthenticated(true));
     }
   }, [id]);

@@ -1,7 +1,7 @@
 import axios, { handleNetworkError } from '../index';
 
 export const createPin = async pinData => {
-  // console.log(pinData);
+  //console.log(pinData);
   const res = await axios
     .post(`/pins`, { ...pinData })
     .then(({ data }) => {

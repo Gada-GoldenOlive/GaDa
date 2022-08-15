@@ -15,10 +15,11 @@ const IDScreen = ({
   userId,
   checkId,
   first,
+  changed,
   handleNavigate,
   handleIdChange,
 }) => {
-  console.log(first);
+  console.log(isWrong);
   const back = !isWrong ? buttonColor : descriptionColor;
   return (
     <View style={styles.container}>
@@ -37,7 +38,7 @@ const IDScreen = ({
             </View>
           </TouchableWithoutFeedback>
         </View>
-        {isWrong && !first && (
+        {isWrong && !first && !changed&& (
           <Text style={styles.errorText}>*중복된 아이디입니다</Text>
         )}
       </View>

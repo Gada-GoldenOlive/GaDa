@@ -45,6 +45,7 @@ export const getUsersCheckedId = async id => {
 };
 
 export const getUserLogin = async ({ id, pw }) => {
+  console.log(id, pw)
   const res = await axios
     .get(`/users/login/?userId=${id}&password=${pw}`)
     .then(({ data }) => data)

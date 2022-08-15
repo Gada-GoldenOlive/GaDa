@@ -118,7 +118,7 @@ const HomeScreen = ({
     if (currentPos.lat !== 0 && currentPos.lng !== 0) {
       getWalkway(currentPos);
     }
-  }, [currentPos]);
+  }, [currentPos, walkEnd]);
 
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
