@@ -124,7 +124,6 @@ const HomeScreen = ({
       handleConnection(ref, 'startWalk');
     }
   }, [isWalking]);
-  console.log(pinIndex)
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       <WebView
