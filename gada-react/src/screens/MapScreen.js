@@ -110,7 +110,7 @@ const MapScreen = ({
     }
   };
 
-  const geoLocation = () => {
+  const geoLocation = (ver = "null") => {
     if (navigator.geolocation) {
       // GeoLocation을 이용해서 접속 위치를 얻어옵니다
       navigator.geolocation.getCurrentPosition(
@@ -120,26 +120,44 @@ const MapScreen = ({
           //   lng: position.coords.longitude, // 경도
           // });
           //alert('set하는뎅')
-          setState((prev) => ({
-            ...prev,
-            center: {
+          if (ver === "watch") {
+            setCurrentState((prev) => ({
+              ...prev,
+              center: {
+                lat: position.coords.latitude, // 위도
+                lng: position.coords.longitude, // 경도
+              },
+            }));
+          } else {
+            setState((prev) => ({
+              ...prev,
+              center: {
+                lat: position.coords.latitude, // 위도
+                lng: position.coords.longitude, // 경도
+              },
+              isLoading: false,
+            }));
+            setIsGeolocation(true);
+            handleSubmit("currentPos", {
               lat: position.coords.latitude, // 위도
               lng: position.coords.longitude, // 경도
-            },
-            isLoading: false,
-          }));
-          setIsGeolocation(true);
-          handleSubmit("currentPos", {
-            lat: position.coords.latitude, // 위도
-            lng: position.coords.longitude, // 경도
-          });
+            });
+          }
         },
         (err) => {
-          setState((prev) => ({
-            ...prev,
-            errMsg: err.message,
-            isLoading: false,
-          }));
+          if (ver === "watch") {
+            setCurrentState((prev) => ({
+              ...prev,
+              errMsg: err.message,
+              isLoading: false,
+            }));
+          } else {
+            setState((prev) => ({
+              ...prev,
+              errMsg: err.message,
+              isLoading: false,
+            }));
+          }
         }
       );
     } else {
@@ -162,6 +180,12 @@ const MapScreen = ({
       setIsGeolocation(false);
     }
   }, [isGeolocation]);
+
+  useEffect(() => {
+    setInterval(() => {
+      geoLocation("watch");
+    }, 5000);
+  });
 
   const handleReceiveMessage = async () => {
     await window.addEventListener("message", (event) => {
@@ -215,11 +239,11 @@ const MapScreen = ({
       //setPathStartPoint(walkwayPath[0]);
     }
   }, [walkwayPath]);
-  useEffect(() => {
-    if (walkwayPins !== "null") {
-      //alert(JSON.stringify(walkwayPins[0].location));
-    }
-  }, [walkwayPins]);
+  // useEffect(() => {
+  //   if (walkwayPins !== "null") {
+  //     //alert(JSON.stringify(walkwayPins[0].location));
+  //   }
+  // }, [walkwayPins]);
 
   // websocket 계속 받기
   useEffect(() => {
