@@ -1,4 +1,4 @@
-import { StyleSheet, View } from 'react-native';
+import { Platform, SafeAreaView, StyleSheet, View } from 'react-native';
 import React from 'react';
 import Text from '../components/MyText';
 import moment from 'moment';
@@ -16,7 +16,6 @@ const WalkEnd = ({
   walkData,
 }) => {
   const { time, distance, finishStatus, walkwayId, userId } = walkData;
-  const km = distance / 1000;
   const hour = Math.floor(time / 3600);
   const min = Math.floor((time - hour * 3600) / 60);
   const sec = Math.floor(time - hour * 3600 - min * 60);
@@ -32,8 +31,8 @@ const WalkEnd = ({
         <View style={styles.informationContainer}>
           <Text style={styles.closeText}>산책이 종료되었습니다</Text>
           <View style={styles.kmContainer}>
-            <Text style={styles.kmNum}>{km}</Text>
-            <Text style={styles.km}>km</Text>
+            <Text style={styles.kmNum}>{distance}</Text>
+            <Text style={styles.km}>distance</Text>
           </View>
           <View style={styles.bottomContainer}>
             <View style={styles.bottomWrapper}>
@@ -62,7 +61,7 @@ const styles = StyleSheet.create({
     height: '100%',
     width: windowWidth,
     paddingStart: 24,
-    paddingTop: 33,
+    paddingTop: Platform.OS === 'android' ? 33 : 133,
   },
   informationContainer: {},
   closeText: {

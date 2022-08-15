@@ -11,6 +11,7 @@ import { Sample } from '../../../constant/images/Temp';
 
 const PinItem = ({ item, index }) => {
   const { id, title, content, image, location, userId } = item;
+  console.log(image);
   return (
     <View style={styles.container}>
       <View style={styles.wrapper}>

@@ -30,9 +30,10 @@ const WalkwayOverview = ({
     pinCount = 0,
     time = 0,
     title = '',
+    image = '',
   } = walkWay;
   const min = Math.floor(time / 60);
-  const km = distance / 1000;
+  console.log(image);
   return (
     <Modal
       style={styles.modalContainer}
@@ -51,7 +52,11 @@ const WalkwayOverview = ({
           <View style={styles.bar} />
           <View style={styles.container}>
             <View style={styles.imageContainer}>
-              <CustomImage source={Sample} style={styles.image} />
+              {image !== undefined ? (
+                <CustomImage source={{ uri: image }} style={image} />
+              ) : (
+                <CustomImage source={Sample} style={image} />
+              )}
               <View style={styles.imageGradient} />
               <View style={styles.imageWrapper}>
                 <CustomImage source={StarIcon} style={styles.starIcon} />
@@ -67,7 +72,9 @@ const WalkwayOverview = ({
                     <Text style={styles.description}>약 {min}분 / </Text>
                   )}
                   {distance !== 0 && (
-                    <Text style={styles.description}>{km.toFixed(1)}km / </Text>
+                    <Text style={styles.description}>
+                      {distance.toFixed(1)}m /{' '}
+                    </Text>
                   )}
                   <Text style={styles.description}>핀 {pinCount}개 </Text>
                 </Text>
@@ -201,7 +208,6 @@ const styles = StyleSheet.create({
     height: 44,
     bottom: 0,
     position: 'absolute',
-    backgroundColor: 'red',
     zIndex: 999,
   },
 });

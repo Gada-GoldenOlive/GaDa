@@ -1,42 +1,19 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import React from 'react';
 import PinInformation from '../../Home/components/PinInformation';
 import WalkwayOverview from '../../Home/components/WalkwayOverview';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 import WalkEnd from '../../../components/WalkEnd';
+import CustomImage from '../../../components/CustomImage';
+import { FeedS, MyS } from '../../../constant/images/Sample';
+import { windowHeight, windowWidth } from '../../../constant/styles';
 
-const FeedScreen = ({ isOverview, handleOverview }) => {
-  const tempWalkway = {
-    id: 'a',
-    title: '성동구 왕십리로 산책길',
-    address: '서울특별시 어쩌구',
-    distance: 0,
-    time: 0,
-    path: {},
-    creator: '성동구 불주먹',
-    pinNum: 3,
-  };
+const FeedScreen = ({}) => {
   return (
-    <View style={styles.container}>
-      {isOverview ? (
-        <WalkwayOverview
-          walkWay={tempWalkway}
-          isVisible={isOverview}
-          closeModal={() => handleOverview(false)}
-        />
-      ) : (
-        <PinInformation
-          walkWay={tempWalkway}
-          closeModal={() => handleOverview(true)}
-          isVisible={!isOverview}
-        />
-        // <WalkEnd
-        //   isVisible={!isOverview}
-        //   closeModal={() => handleOverview(true)}
-        // />
-      )}
-    </View>
+    <ScrollView style={styles.container}>
+      <CustomImage source={FeedS} style={styles.image} />
+    </ScrollView>
   );
 };
 
@@ -44,7 +21,11 @@ export default FeedScreen;
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: -50,
     flex: 1,
-    backgroundColor: 'white',
+  },
+  image: {
+    width: windowWidth,
+    height: (windowWidth * 955) / 390,
   },
 });

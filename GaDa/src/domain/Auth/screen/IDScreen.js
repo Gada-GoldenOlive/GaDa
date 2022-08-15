@@ -1,12 +1,25 @@
 import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import React from 'react';
 import MyTextInPut from '../../../components/MyTextInput';
-import { blackColor } from '../../../constant/colors';
+import {
+  blackColor,
+  buttonColor,
+  descriptionColor,
+} from '../../../constant/colors';
 import CustomButton from '../../../components/CustomButton';
 import Text from '../../../components/MyText';
 import { thinFontFamily } from '../../../constant/fonts';
 
-const IDScreen = ({ isWrong, handleNavigate }) => {
+const IDScreen = ({
+  isWrong,
+  userId,
+  checkId,
+  first,
+  handleNavigate,
+  handleIdChange,
+}) => {
+  console.log(first);
+  const back = !isWrong ? buttonColor : descriptionColor;
   return (
     <View style={styles.container}>
       <Text style={styles.title}>아이디를 입력하세요</Text>
@@ -15,16 +28,24 @@ const IDScreen = ({ isWrong, handleNavigate }) => {
           <MyTextInPut
             style={styles.textInput}
             placeholder="아이디를 입력하세요"
+            value={userId}
+            onChangeText={handleIdChange}
           />
-          <TouchableWithoutFeedback>
+          <TouchableWithoutFeedback onPress={checkId}>
             <View style={styles.buttonWrapper}>
               <Text style={styles.buttonText}>중복확인</Text>
             </View>
           </TouchableWithoutFeedback>
         </View>
-        {isWrong && <Text style={styles.errorText}>*중복된 아이디입니다</Text>}
+        {isWrong && !first && (
+          <Text style={styles.errorText}>*중복된 아이디입니다</Text>
+        )}
       </View>
-      <CustomButton title="다음" handlePress={handleNavigate} />
+      <CustomButton
+        title="다음"
+        handlePress={handleNavigate}
+        backgroundColor={back}
+      />
     </View>
   );
 };

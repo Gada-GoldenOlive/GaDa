@@ -5,7 +5,7 @@ import { blackColor } from '../../../constant/colors';
 import CustomButton from '../../../components/CustomButton';
 import Text from '../../../components/MyText';
 import { thinFontFamily } from '../../../constant/fonts';
-const PWScreen = ({ handleNavigate }) => {
+const PWScreen = ({ pw, handlePwChange, handleNavigate }) => {
   return (
     <View style={styles.container}>
       <View style={styles.topContainer}>
@@ -16,6 +16,9 @@ const PWScreen = ({ handleNavigate }) => {
           <MyTextInPut
             style={styles.textInput}
             placeholder="비밀번호를 입력하세요"
+            value={pw}
+            onChangeText={handlePwChange}
+            secureTextEntry={true}
           />
         </View>
       </View>
