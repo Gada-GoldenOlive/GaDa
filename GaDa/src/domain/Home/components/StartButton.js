@@ -1,10 +1,10 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import React from 'react';
 import { bottomShadowStyle, windowWidth } from '../../../constant/styles';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { buttonColor } from '../../../constant/colors';
 import { boldFontFamily } from '../../../constant/fonts';
-
+import Text from '../../../components/MyText';
 const StartButton = () => {
   return (
     <View style={styles.container}>

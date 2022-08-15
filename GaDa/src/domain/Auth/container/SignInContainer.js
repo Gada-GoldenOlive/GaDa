@@ -1,4 +1,4 @@
-import { View, Text, Alert } from 'react-native';
+import { View, Alert } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import SignInScreen from '../screen/SignInScreen';
 import { set } from 'react-native-reanimated';

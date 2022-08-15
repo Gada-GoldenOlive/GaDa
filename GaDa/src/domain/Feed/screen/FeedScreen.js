@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, View, ScrollView } from 'react-native';
 import React from 'react';
 import PinInformation from '../../Home/components/PinInformation';
 import WalkwayOverview from '../../Home/components/WalkwayOverview';
