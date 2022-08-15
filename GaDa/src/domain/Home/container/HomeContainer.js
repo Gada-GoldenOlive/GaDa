@@ -12,10 +12,11 @@ import {
   setPinNum,
 } from '../../../redux/modules/status';
 import { useEffect } from 'react';
-import { getCurrentTime, getDuringTime } from '../../../function';
+import { getCurrentTime, getDuringTime, getIdInLocalStorage } from '../../../function';
 import { setStartTime } from '../../../redux/modules/status';
 import { get } from 'react-native/Libraries/Utilities/PixelRatio';
 import { createWalk } from '../../../APIs/walk';
+import { setUserId } from '../../../redux/modules/user';
 
 // * 현재위치
 // 일정 시간 후 주기적으로 반복해서 geoLocation 해주기!
@@ -232,15 +233,15 @@ const {userId} = useSelector(state => state.user)
     dispatch(setPinNum(0));
     dispatch(setIsWalking(false));
   };
-  // useEffect(() => {
-  //   console.log({ isAuthenticated });
-  //   if (!isAuthenticated) {
-  //     navigation.reset({
-  //       index: 0,
-  //       routes: [{ name: 'SignIn' }],
-  //     });
-  //   }
-  // }, [isAuthenticated]);
+   useEffect(() => {
+     console.log({ isAuthenticated });
+     if (!isAuthenticated) {
+       navigation.reset({
+         index: 0,
+         routes: [{ name: 'SignIn' }],
+       });
+     }
+   }, [isAuthenticated]);
   useEffect(() => {
     // walkEnd일때 안보여야하고 information visible일때 안보여야한다
     const tabVisible = !walkEnd && !isInformationVisible;
@@ -257,6 +258,14 @@ const {userId} = useSelector(state => state.user)
   useEffect(() => {
     resetData();
   }, []);
+  const reset = async() => {
+    const res = await getIdInLocalStorage();
+    console.log(res)
+    dispatch(setUserId(res))
+  }
+  useEffect(() => {
+    reset()
+  }, [])
 
   return (
     <HomeScreen

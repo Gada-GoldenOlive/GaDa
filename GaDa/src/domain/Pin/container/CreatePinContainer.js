@@ -19,7 +19,7 @@ const CreatePinContainer = ({ navigation, route }) => {
   const dispatch = useDispatch();
 
   const createPinInfo = async () => {
-    
+    console.log({userId})
     const pinData = {
       title: title,
       content: content,
