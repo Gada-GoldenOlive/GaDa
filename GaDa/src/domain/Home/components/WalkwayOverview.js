@@ -30,7 +30,7 @@ const WalkwayOverview = ({
     pinCount = 0,
     time = 0,
     title = '',
-    image,
+    image = '',
   } = walkWay;
   const min = Math.floor(time / 60);
   console.log(image);
@@ -208,7 +208,6 @@ const styles = StyleSheet.create({
     height: 44,
     bottom: 0,
     position: 'absolute',
-    backgroundColor: 'red',
     zIndex: 999,
   },
 });

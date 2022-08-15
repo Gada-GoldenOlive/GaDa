@@ -1,4 +1,4 @@
-import { StyleSheet, View } from 'react-native';
+import { Platform, SafeAreaView, StyleSheet, View } from 'react-native';
 import React from 'react';
 import Text from '../components/MyText';
 import moment from 'moment';
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     height: '100%',
     width: windowWidth,
     paddingStart: 24,
-    paddingTop: 33,
+    paddingTop: Platform.OS === 'android' ? 33 : 133,
   },
   informationContainer: {},
   closeText: {

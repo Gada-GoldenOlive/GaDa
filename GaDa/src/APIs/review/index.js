@@ -12,7 +12,7 @@ export const createReview = async reviewData => {
 
 export const getWalkwayReviewList = async id => {
   const res = await axios
-    .get(`/reviews?walkwayId=${id}`)
+    .get(`/reviews/?walkwayId=${id}`)
     .then(({ data }) => {
       return data;
     })
@@ -22,7 +22,7 @@ export const getWalkwayReviewList = async id => {
 
 export const getUserList = async id => {
   const res = await axios
-    .get(`/reviews?userId=${id}`)
+    .get(`/reviews/?userId=${id}`)
     .then(({ data }) => {
       return data;
     })

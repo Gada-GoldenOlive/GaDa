@@ -24,7 +24,7 @@ import { createWalk } from '../../../APIs/walk';
 
 const CURRENTPOS = 'currentPos';
 
-const HomeContainer = () => {
+const HomeContainer = ({ navigation, route }) => {
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
   // 현재위치
@@ -52,6 +52,7 @@ const HomeContainer = () => {
   // 생성한 핀 개수
   const { pinNum } = useSelector(state => state.status);
   const [loading, setLoading] = useState(false);
+  const { isAuthenticated } = useSelector(state => state.user);
   const dispatch = useDispatch();
   LogBox.ignoreLogs(['new NativeEventEmitter']); // Ignore log notification by message
   LogBox.ignoreAllLogs(); //Ignore all log notifications
@@ -231,6 +232,15 @@ const HomeContainer = () => {
     dispatch(setPinNum(0));
     dispatch(setIsWalking(false));
   };
+  useEffect(() => {
+    console.log({ isAuthenticated });
+    if (!isAuthenticated) {
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'SignIn' }],
+      });
+    }
+  }, [isAuthenticated]);
   useEffect(() => {
     // walkEnd일때 안보여야하고 information visible일때 안보여야한다
     const tabVisible = !walkEnd && !isInformationVisible;

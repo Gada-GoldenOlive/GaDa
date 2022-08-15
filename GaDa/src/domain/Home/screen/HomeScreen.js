@@ -121,7 +121,7 @@ const HomeScreen = ({
   }, [currentPos]);
 
   return (
-    <View style={{ flex: 1, backgroundColor: 'red' }}>
+    <View style={{ flex: 1, backgroundColor: 'white' }}>
       <WebView
         source={{ uri: 'https://53fb-110-8-134-126.jp.ngrok.io' }}
         injectedJavaScript={INJECTED_JAVASCRIPT}
