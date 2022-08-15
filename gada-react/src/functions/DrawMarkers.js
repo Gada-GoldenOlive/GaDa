@@ -43,13 +43,16 @@ const DrawMarkers = ({ pins, setState, isStartWalkClicked }) => {
           <MapMarker
             onClick={() => {
               handleSubmit("clickPin", index);
-              setState((prev) => ({
-                ...prev,
-                center: {
-                  lat: item.location.lat - 0.004,
-                  lng: item.location.lng,
-                },
-              }));
+              {
+                isStartWalkClicked &&
+                  setState((prev) => ({
+                    ...prev,
+                    center: {
+                      lat: item.location.lat - 0.002,
+                      lng: item.location.lng,
+                    },
+                  }));
+              }
             }}
             key={`${item.id}`}
             position={item.location} // 마커를 표시할 위치
