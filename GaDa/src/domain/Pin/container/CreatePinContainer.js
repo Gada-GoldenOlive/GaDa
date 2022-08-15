@@ -13,7 +13,6 @@ const CreatePinContainer = ({ navigation, route }) => {
   const { pinImage } = useSelector(state => state.images);
   const [pinTitle, setPinTitle] = useState(title);
   const [content, setContent] = useState('');
-  const { pinimage } = useSelector(state => state.images);
   const { pinNum } = useSelector(state => state.status);
 
   const dispatch = useDispatch();
@@ -21,13 +20,13 @@ const CreatePinContainer = ({ navigation, route }) => {
     const pinData = {
       title: title,
       content: content,
-      image: `${pinimage}`,
+      image: `${pinImage}`,
       location: {
         lat: lat,
         lng: lng,
       },
       walkwayId: id,
-      userId: '1',
+      userId: '2af75a44-f64d-44bf-8b9a-86b911f8d8ec',
     };
 
     const res = await createPin(pinData);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   FlatList,
   Pressable,
@@ -30,59 +30,52 @@ const ItemSeparatorComponent = () => {
 const PinListModal = ({
   isVisible = false,
   closeModal,
-  dataList = [
-    {
-      address: '성동구 왕십리로 12길',
-      title: '여기 경사가 좀 높아요!',
-      content: '입구쪽인데 생각보다 경사가 많이 높습니다.',
-      image: 'image',
-    },
-    {
-      address: '성동구 왕십리로 12길',
-      title: '여기 경사가 좀 높아요!',
-      content: '입구쪽인데 생각보다 경사가 많이 높습니다.',
-      image: 'image',
-    },
-    {
-      address: '성동구 왕십리로 12길',
-      title: '여기 경사가 좀 높아요!',
-      content: '입구쪽인데 생각보다 경사가 많이 높습니다.',
-      image: 'image',
-    },
-    {
-      address: '성동구 왕십리로 12길',
-      title: '여기 경사가 좀 높아요!',
-      content: '입구쪽인데 생각보다 경사가 많이 높습니다.',
-      image: 'image',
-    },
-  ],
+  dataList = [],
   selectedIndex = 0,
+  address,
 }) => {
+  const [selectIndex, setSelectIndex] = useState(selectedIndex);
   const renderItem = ({ item, index }) => {
-    const { address, title, content, image } = item;
+    const { title, content, image } = item;
+
+    const isFocused = selectIndex === index;
     return (
-      <View style={styles.itemContainer}>
-        <View style={styles.itemTopContainer}>
-          <View style={styles.addressContainer}>
-            <Text style={styles.address}>{address}</Text>
-            <View style={styles.numWrapper}>
-              <Text style={styles.num}>핀{index + 1}</Text>
+      <TouchableWithoutFeedback onPress={() => setSelectIndex(index)}>
+        <View style={[styles.itemContainer, !isFocused && { opacity: 0.5 }]}>
+          <View style={styles.itemTopContainer}>
+            <View style={styles.addressContainer}>
+              <Text
+                style={[
+                  styles.address,
+                  !isFocused && { color: 'rgb(158,158,158)' },
+                ]}
+              >
+                {address}
+              </Text>
+              <View
+                style={[
+                  styles.numWrapper,
+                  !isFocused && { color: 'rgb(158,158,158)' },
+                ]}
+              >
+                <Text style={styles.num}>핀{index + 1}</Text>
+              </View>
+            </View>
+            <View style={styles.iconContainer}>
+              <CustomImage
+                source={Writing}
+                style={[styles.icon, { marginEnd: 20 }]}
+              />
+              <CustomImage source={Delete} style={styles.icon} />
             </View>
           </View>
-          <View style={styles.iconContainer}>
-            <CustomImage
-              source={Writing}
-              style={[styles.icon, { marginEnd: 20 }]}
-            />
-            <CustomImage source={Delete} style={styles.icon} />
+          <View style={styles.contentContainer}>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.content}>{content}</Text>
           </View>
+          <CustomImage style={styles.image} source={Sample} />
         </View>
-        <View style={styles.contentContainer}>
-          <Text style={styles.title}>{title}</Text>
-          <Text style={styles.content}>{content}</Text>
-        </View>
-        <CustomImage style={styles.image} source={Sample} />
-      </View>
+      </TouchableWithoutFeedback>
     );
   };
   return (
