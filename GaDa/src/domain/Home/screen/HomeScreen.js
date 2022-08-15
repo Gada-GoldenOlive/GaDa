@@ -122,6 +122,8 @@ const HomeScreen = ({
   useEffect(() => {
     if (isWalking) {
       handleConnection(ref, 'startWalk');
+    } else {
+      handleConnection(ref, 'stopWalk');
     }
   }, [isWalking]);
   

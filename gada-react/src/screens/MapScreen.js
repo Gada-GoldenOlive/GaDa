@@ -210,6 +210,8 @@ const MapScreen = ({
         //alert("message received: " + event.data);
       } else if (event.data.type === "startWalk") {
         setIsStartWalkClicked(true);
+      } else if (event.data.type === "stopWalk") {
+        setIsStartWalkClicked(false);
       }
     });
   };
@@ -249,7 +251,7 @@ const MapScreen = ({
   useEffect(() => {
     if (isStartWalkClicked === true) {
       setState((prev) => ({ ...prev, center: pathStartPoint }));
-      setIsStartWalkClicked(false);
+      //setIsStartWalkClicked(false);
     }
   }, [isStartWalkClicked]);
   // useEffect(() => {
@@ -317,7 +319,12 @@ const MapScreen = ({
           />
         </div>
         {walkwayPins !== "null" && (
-          <DrawMarkers pins={walkwayPins} handleSubmit={handleSubmit} />
+          <DrawMarkers
+            pins={walkwayPins}
+            handleSubmit={handleSubmit}
+            setState={setState}
+            isStartWalkClicked={isStartWalkClicked}
+          />
         )}
         {/* <DrawMarkers pins={list} /> */}
         {pathStartPoint !== "null" && (

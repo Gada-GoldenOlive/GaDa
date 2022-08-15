@@ -1,9 +1,10 @@
 import React from "react";
-import { MapMarker } from "react-kakao-maps-sdk";
+import { CustomOverlayMap, MapMarker } from "react-kakao-maps-sdk";
+import { boldFontFamily } from "../assets/fonts";
 import currentPos from "../constant/images/CurrentPos";
 import DefaultPin from "../constant/images/Pins";
 
-const DrawMarkers = ({ pins }) => {
+const DrawMarkers = ({ pins, setState, isStartWalkClicked }) => {
   const handleSubmit = (ver, data) => {
     //console.log(position);
     const msg = {
@@ -19,15 +20,44 @@ const DrawMarkers = ({ pins }) => {
     <div>
       {pins.map((item, index) => (
         <div>
+          {isStartWalkClicked && (
+            <CustomOverlayMap
+              position={item.location}
+              yAnchor={0.35}
+              xAnchor={-0.7}
+            >
+              <div>
+                <p
+                  style={{
+                    color: "white",
+                    fontFamily: "SpoqaHanSansNeo-Bold",
+                    fontSize: 14,
+                    pointerEvents: "none",
+                  }}
+                >
+                  {index + 1}
+                </p>
+              </div>
+            </CustomOverlayMap>
+          )}
           <MapMarker
-            onClick={() => handleSubmit("clickPin", index)}
+            onClick={() => {
+              handleSubmit("clickPin", index);
+              setState((prev) => ({
+                ...prev,
+                center: {
+                  lat: item.location.lat - 0.004,
+                  lng: item.location.lng,
+                },
+              }));
+            }}
             key={`${item.id}`}
             position={item.location} // 마커를 표시할 위치
             image={{
               src: DefaultPin, // 마커이미지의 주소입니다
               size: {
-                width: 20,
-                height: 20,
+                width: isStartWalkClicked ? 35 : 20,
+                height: isStartWalkClicked ? 35 : 20,
               }, // 마커이미지의 크기입니다
               options: {
                 offset: {
