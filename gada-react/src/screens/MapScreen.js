@@ -12,6 +12,7 @@ import MovePinText from "./components/MovePinText";
 import PinPosSubmitButton from "./components/PinPosSubmitButton";
 
 import "./css/MapScreen.css";
+import { getDistance } from "geolib";
 
 const MapScreen = ({
   currentPosition,
@@ -24,6 +25,7 @@ const MapScreen = ({
   const [isCurrentPosClicked, setIsCurrentPosClicked] = useState(false);
   const [isAddPinClicked, setIsAddPinClicked] = useState(false);
   const [isSubmitPinPosClicked, setIsSubmitPinPosClicked] = useState(false);
+  const [isStartWalkClicked, setIsStartWalkClicked] = useState(false);
   //console.log(line.getLength());
 
   const [state, setState] = useState({
@@ -41,15 +43,18 @@ const MapScreen = ({
 
   const [movingCurrentList, setMovingCurrentList] = useState();
 
-  const getDistance = (lat1, lat2, lng1, lng2) => {
-    var X = ((Math.cos(lat1) * 6400 * 2 * 3.14) / 360) * Math.abs(lat1 - lat2);
+  // const getDistance = (lat1, lat2, lng1, lng2) => {
+  //   var X = ((Math.cos(lat1) * 6400 * 2 * 3.14) / 360) * Math.abs(lat1 - lat2);
 
-    var Y = 111 * Math.abs(lng1 - lng2);
+  //   var Y = 111 * Math.abs(lng1 - lng2);
 
-    var D = Math.sqrt(X * X + Y * Y);
+  //   var D = Math.sqrt(X * X + Y * Y);
 
-    return D;
-  };
+  //   return D;
+  // };
+  // useEffect(() => {
+  //   autoGeoLocation();
+  // }, []);
   const autoGeoLocation = () => {
     if (navigator.geolocation) {
       let before_record = null;
@@ -65,15 +70,13 @@ const MapScreen = ({
           };
           //시작
           if (before_record !== null) {
-            const dist = getDistance({
-              lat1: before_record.latitude,
-              lng1: before_record.longitude,
+            const dist = getDistance(
+              { lat1: before_record.latitude, lng1: before_record.longitude },
 
-              lat2: new_record.latitude,
-              lng2: new_record.longitude,
-            });
+              { lat2: new_record.latitude, lng2: new_record.longitude }
+            );
 
-            alert(dist);
+            alert(JSON.stringify(position));
             if (dist < 0.05) {
               updateFlag = false;
             }
@@ -179,6 +182,8 @@ const MapScreen = ({
         setWalkwayPins(event.data.pins);
         setPathStartPoint(event.data.startPoint);
         //alert("message received: " + event.data);
+      } else if (event.data.type === "startWalk") {
+        setIsStartWalkClicked(true);
       }
     });
   };
