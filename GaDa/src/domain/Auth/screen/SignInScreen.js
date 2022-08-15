@@ -44,6 +44,7 @@ const SignInScreen = ({
           ]}
           onChangeText={setPw}
           value={pw}
+          secureTextEntry={true}
         />
       </View>
       <View style={styles.bottomContainer}>

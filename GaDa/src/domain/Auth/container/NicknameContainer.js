@@ -24,8 +24,12 @@ const NicknameContainer = ({ navigation }) => {
     };
     const res = createUser(userBody);
     const { id } = res;
-    setIdInLocalStorage(id);
-    handleNavigate();
+    console.log(id)
+    if(id !== null){
+      setIdInLocalStorage(id)
+      dispatch(setIsAuthenticated(true))
+    }
+   
   };
   const handleNavigate = () => {
     dispatch(setIsAuthenticated(true));

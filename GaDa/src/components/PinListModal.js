@@ -22,6 +22,8 @@ import CustomImage from './CustomImage';
 import Writing from '../constant/images/Writing';
 import Delete from '../constant/images/Delete';
 import { Sample } from '../constant/images/Temp';
+import { getRandomImage } from '../function';
+import { PinSampel2, PinSample1 } from '../constant/images/PinSample';
 
 const ItemSeparatorComponent = () => {
   return <View style={styles.separator} />;
@@ -37,11 +39,13 @@ const PinListModal = ({
   const [selectIndex, setSelectIndex] = useState(selectedIndex);
   const renderItem = ({ item, index }) => {
     const { title, content, image } = item;
-
+    console.log(image)
+    console.log('hh', image === "undefined")
     const isFocused = selectIndex === index;
+    const sampleImage = index % 2 === 0 ? PinSample1 : PinSampel2
     return (
       <TouchableWithoutFeedback onPress={() => setSelectIndex(index)}>
-        <View style={[styles.itemContainer, !isFocused && { opacity: 0.5 }]}>
+        <View style={[styles.itemContainer, !isFocused && { opacity: 0.5 }, index === dataList.length - 1 && {paddingBottom: 25}]}>
           <View style={styles.itemTopContainer}>
             <View style={styles.addressContainer}>
               <Text
@@ -55,7 +59,7 @@ const PinListModal = ({
               <View
                 style={[
                   styles.numWrapper,
-                  !isFocused && { color: 'rgb(158,158,158)' },
+                  !isFocused && { backgroundColor: 'rgb(158,158,158)' },
                 ]}
               >
                 <Text style={styles.num}>핀{index + 1}</Text>
@@ -73,7 +77,11 @@ const PinListModal = ({
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.content}>{content}</Text>
           </View>
-          <CustomImage style={styles.image} source={Sample} />
+          {image !== "undefined" && image !== null  ? (
+                <CustomImage source={{ uri: image }} style={styles.image} resizeMode="contain" />
+              ) : (
+                <CustomImage source={sampleImage} style={styles.image} />
+              )}
         </View>
       </TouchableWithoutFeedback>
     );
@@ -127,7 +135,7 @@ const styles = StyleSheet.create({
     bottom: -20,
     justifyContent: 'flex-end',
     flex: 1,
-    height: '80%',
+    height: '70%',
   },
   modalWrapper: {
     width: windowWidth,
@@ -156,6 +164,7 @@ const styles = StyleSheet.create({
   },
   itemContainer: {
     paddingBottom: 16,
+
   },
   itemTopContainer: {
     flex: 1,
@@ -206,7 +215,8 @@ const styles = StyleSheet.create({
   },
   image: {
     height: 173,
-  },
+  
+    },
   nullContainer: {
     width: '100%',
     paddingVertical: 32,

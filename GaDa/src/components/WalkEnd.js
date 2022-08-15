@@ -32,7 +32,7 @@ const WalkEnd = ({
           <Text style={styles.closeText}>산책이 종료되었습니다</Text>
           <View style={styles.kmContainer}>
             <Text style={styles.kmNum}>{distance}</Text>
-            <Text style={styles.km}>distance</Text>
+            <Text style={styles.km}>m</Text>
           </View>
           <View style={styles.bottomContainer}>
             <View style={styles.bottomWrapper}>

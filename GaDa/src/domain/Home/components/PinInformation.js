@@ -50,7 +50,11 @@ const PinInformation = ({
         <View style={styles.bar} />
         <View style={styles.container}>
           <View style={styles.imageContainer}>
-            <CustomImage source={Sample} style={styles.image} />
+          {image !== "undefined" ? (
+                <CustomImage source={{ uri: image }} style={styles.image} />
+              ) : (
+                <CustomImage source={Sample} style={styles.image} />
+              )}
             <View style={styles.imageGradient} />
             <View style={styles.imageWrapper}>
               <CustomImage source={StarIcon} style={styles.starIcon} />

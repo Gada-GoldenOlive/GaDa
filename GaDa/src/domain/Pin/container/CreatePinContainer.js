@@ -4,7 +4,7 @@ import CreatePinScreen from '../screen/CreatePinScreen';
 import { useDispatch, useSelector } from 'react-redux';
 import { createPin } from '../../../APIs/pin';
 import { setPinNum } from '../../../redux/modules/status';
-import { refreshImages } from '../../../redux/modules/images';
+import { refreshImages, setPinImage } from '../../../redux/modules/images';
 
 const CreatePinContainer = ({ navigation, route }) => {
   const { params } = route;
@@ -15,9 +15,11 @@ const CreatePinContainer = ({ navigation, route }) => {
   const [pinTitle, setPinTitle] = useState(title);
   const [content, setContent] = useState('');
   const { pinNum } = useSelector(state => state.status);
-
+  const {userId} = useSelector(state => state.user)
   const dispatch = useDispatch();
+
   const createPinInfo = async () => {
+    
     const pinData = {
       title: title,
       content: content,
@@ -27,13 +29,13 @@ const CreatePinContainer = ({ navigation, route }) => {
         lng: lng,
       },
       walkwayId: id,
-      userId: '2af75a44-f64d-44bf-8b9a-86b911f8d8ec',
+      userId: userId
     };
 
     const res = await createPin(pinData);
     console.log(res);
     dispatch(setPinNum(pinNum + 1));
-
+    dispatch(refreshImages())
     navigation.pop();
   };
 
@@ -43,11 +45,6 @@ const CreatePinContainer = ({ navigation, route }) => {
   const contentTextChange = value => {
     setContent(value);
   };
-
-  useEffect(() => {
-    dispatch(refreshImages());
-  }, []);
-
   return (
     <CreatePinScreen
       pinImage={pinImage}

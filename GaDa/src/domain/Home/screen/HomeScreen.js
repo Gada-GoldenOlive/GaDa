@@ -124,7 +124,7 @@ const HomeScreen = ({
       handleConnection(ref, 'startWalk');
     }
   }, [isWalking]);
-
+  
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       <WebView
