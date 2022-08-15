@@ -84,7 +84,7 @@ export default FriendsScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgba(255, 0, 0, 0.2)',
+    // backgroundColor: 'rgba(255, 0, 0, 0.2)',
   },
   swiperContainer: {
     width: windowWidth,
@@ -103,7 +103,6 @@ const styles = StyleSheet.create({
   },
   indicator: {
     height: 1.5,
-    backgroundColor: 'red',
   },
   dot: {
     width: 7,

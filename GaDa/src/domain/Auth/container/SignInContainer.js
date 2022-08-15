@@ -10,12 +10,18 @@ const SignInContainer = ({ navigation }) => {
   const handleNavigateSignUp = () => {
     navigation.navigate('ID');
   };
+
+  const handleNavigate = () => {
+    console.log('hey');
+    navigation.navigate('BottomTab');
+  };
   return (
     <SignInScreen
       id={id}
       pw={pw}
       setId={setId}
       setPw={setPw}
+      handleNavigate={handleNavigate}
       handleNavigateSignUp={handleNavigateSignUp}
     />
   );

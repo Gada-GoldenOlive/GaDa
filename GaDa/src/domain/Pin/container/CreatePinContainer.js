@@ -1,9 +1,10 @@
 import { View, Text } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CreatePinScreen from '../screen/CreatePinScreen';
 import { useDispatch, useSelector } from 'react-redux';
 import { createPin } from '../../../APIs/pin';
 import { setPinNum } from '../../../redux/modules/status';
+import { refreshImages } from '../../../redux/modules/images';
 
 const CreatePinContainer = ({ navigation, route }) => {
   const { params } = route;
@@ -27,10 +28,11 @@ const CreatePinContainer = ({ navigation, route }) => {
         lng: lng,
       },
       walkwayId: id,
-      userId: '1',
+      userId: '2af75a44-f64d-44bf-8b9a-86b911f8d8ec',
     };
 
     const res = await createPin(pinData);
+    console.log(res);
     dispatch(setPinNum(pinNum + 1));
 
     navigation.pop();
@@ -42,6 +44,10 @@ const CreatePinContainer = ({ navigation, route }) => {
   const contentTextChange = value => {
     setContent(value);
   };
+
+  useEffect(() => {
+    dispatch(refreshImages());
+  }, []);
 
   return (
     <CreatePinScreen

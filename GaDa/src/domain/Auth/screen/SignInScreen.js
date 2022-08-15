@@ -7,7 +7,14 @@ import { boldFontFamily, thinFontFamily } from '../../../constant/fonts';
 import MyTextInput from '../../../components/MyTextInput';
 import { buttonColor } from '../../../constant/colors';
 
-const SignInScreen = ({ id, pw, setId, setPw, handleNavigateSignUp }) => {
+const SignInScreen = ({
+  id,
+  pw,
+  setId,
+  setPw,
+  handleNavigateSignUp,
+  handleNavigate,
+}) => {
   return (
     <View style={styles.container}>
       <CustomImage source={SignInBackground} style={styles.background} />
@@ -40,7 +47,7 @@ const SignInScreen = ({ id, pw, setId, setPw, handleNavigateSignUp }) => {
         />
       </View>
       <View style={styles.bottomContainer}>
-        <TouchableWithoutFeedback>
+        <TouchableWithoutFeedback onPress={handleNavigate}>
           <View style={styles.loginButton}>
             <Text style={styles.loginText}>로그인</Text>
           </View>
