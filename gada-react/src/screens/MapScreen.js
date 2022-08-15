@@ -121,14 +121,17 @@ const MapScreen = ({
           // });
           //alert('set하는뎅')
           if (ver === "watch") {
+            // 현재 위치 표시를 위해 그냥 currentState 저장만
             setCurrentState((prev) => ({
               ...prev,
               center: {
                 lat: position.coords.latitude, // 위도
                 lng: position.coords.longitude, // 경도
               },
+              isLoading: false,
             }));
           } else {
+            // 현재 위치 저장 및 현재 위치로 이동하도록
             setState((prev) => ({
               ...prev,
               center: {
@@ -215,7 +218,6 @@ const MapScreen = ({
   // 각 버튼 클릭시 실행할 것들
   useEffect(() => {
     if (isCurrentPosClicked === true) {
-      setIsCurrentPosClicked(false);
       geoLocation();
     }
   }, [isCurrentPosClicked]);
@@ -234,11 +236,17 @@ const MapScreen = ({
   //   }
   // }, [isSubmitPinPosClicked]);
   useEffect(() => {
-    if (walkwayPath !== "null") {
-      setState({ center: walkwayPath[0] });
+    if (
+      walkwayPath !== "null" &&
+      pathStartPoint !== "null" &&
+      !isCurrentPosClicked
+    ) {
+      setState((prev) => ({ ...prev, center: pathStartPoint }));
+
       //setPathStartPoint(walkwayPath[0]);
     }
-  }, [walkwayPath]);
+    setIsCurrentPosClicked(false);
+  }, [walkwayPath, pathStartPoint]);
   // useEffect(() => {
   //   if (walkwayPins !== "null") {
   //     //alert(JSON.stringify(walkwayPins[0].location));
