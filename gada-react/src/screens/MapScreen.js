@@ -76,7 +76,6 @@ const MapScreen = ({
               { lat2: new_record.latitude, lng2: new_record.longitude }
             );
 
-            alert(JSON.stringify(position));
             if (dist < 0.05) {
               updateFlag = false;
             }
@@ -247,6 +246,12 @@ const MapScreen = ({
     }
     setIsCurrentPosClicked(false);
   }, [walkwayPath, pathStartPoint]);
+  useEffect(() => {
+    if (isStartWalkClicked === true) {
+      setState((prev) => ({ ...prev, center: pathStartPoint }));
+      setIsStartWalkClicked(false);
+    }
+  }, [isStartWalkClicked]);
   // useEffect(() => {
   //   if (walkwayPins !== "null") {
   //     //alert(JSON.stringify(walkwayPins[0].location));
