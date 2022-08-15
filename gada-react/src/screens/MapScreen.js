@@ -5,7 +5,7 @@ import DrawCurrentPos from "../functions/DrawCurrentPos";
 import DrawMarkers from "../functions/DrawMarkers";
 import DrawMarker from "../functions/DrawMarkers";
 import DrawPolyline from "../functions/DrawPolyline";
-import DrawPolylineFromKakao from "../functions/DrawPolylineFromKakao";
+
 import DrawStartPoint from "../functions/DrawStartPoint";
 import GeoLocationMarker from "../functions/GeolocationMarker";
 import MovePinText from "./components/MovePinText";
