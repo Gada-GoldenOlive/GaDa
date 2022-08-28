@@ -12,7 +12,7 @@ const AddMarker = ({ position }) => {
     <>
       {position && (
         <div>
-          <CustomOverlayMap position={position} yAnchor={3.8} xAnchor={0.5}>
+          <CustomOverlayMap position={position} yAnchor={3.6} xAnchor={0.45}>
             <div
               style={
                 {
@@ -35,8 +35,10 @@ const AddMarker = ({ position }) => {
               },
               options: {
                 offset: {
-                  x: 27,
-                  y: 69,
+                  // x: 27,
+                  // y: 69,
+                  x: 17,
+                  y: 55,
                 }, // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
               },
             }}
