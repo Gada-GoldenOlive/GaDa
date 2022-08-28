@@ -34,22 +34,6 @@ const MapContainer = () => {
       //alert("message received: " + event.data[0]);
     });
   };
-  useEffect(() => {
-    console.log("되나?");
-    //handleReceiveMessage();
-    //console.log(position);
-
-    //const { data, type } = JSON.parse(event);
-
-    // console.log(event);
-    // console.log("받은 데이터");
-    // return <p>dddd</p>;
-    // console.log(event.data);
-    //setPosition(event);
-    //console.log(event.data);
-    // if (event.data[0] === 3) {
-    //   setCurrentPosition("들어와?");
-  }, []);
 
   // window.addEventListener("message", (event) => {
   //   //const { data, type } = JSON.parse(event.data);
@@ -81,8 +65,6 @@ const MapContainer = () => {
       //   // center={center}
       //   // setCenter={setCenter}
     />
-    // // <MovePinText />
-    //<DrawPolyline path={path} />
   );
 };
 
