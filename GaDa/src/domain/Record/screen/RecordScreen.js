@@ -23,6 +23,10 @@ import {
 import { blackColor, buttonColor, mainColor } from '../../../constant/colors';
 import Goal from '../components/Goal';
 import Badge from '../components/Badge';
+import { Arrow, ArrowBlack } from '../../../constant/images/Arrow';
+import RecentWalk from '../components/RecentWalk';
+import MyWalkwayList from '../components/MyWalkwayList';
+
 const RecordScreen = ({ handleNavigate }) => {
   return (
     <ScrollView style={styles.container}>
@@ -44,11 +48,29 @@ const RecordScreen = ({ handleNavigate }) => {
           <TouchableWithoutFeedback>
             <View style={styles.moreWrapper}>
               <Text style={styles.more}>더보기</Text>
-              {/* <CustomImage style={styles.moreImage} source={more} */}
+              <CustomImage style={styles.moreImage} source={Arrow} />
             </View>
           </TouchableWithoutFeedback>
         </View>
         <Badge />
+      </View>
+      <View style={styles.recentContainer}>
+        <View style={styles.recentTitleContainer}>
+          <Text style={styles.recentTitle}>최근 활동</Text>
+          <TouchableWithoutFeedback>
+            <View style={styles.recentMoreWrapper}>
+              <Text style={styles.recentMore}>더보기</Text>
+              <CustomImage style={styles.moreImage} source={ArrowBlack} />
+            </View>
+          </TouchableWithoutFeedback>
+        </View>
+        <RecentWalk />
+      </View>
+      <View style={styles.myWalkContainer}>
+        <View style={styles.recentTitleContainer}>
+          <Text style={styles.recentTitle}>작성한 산책로</Text>
+        </View>
+        <MyWalkwayList />
       </View>
     </ScrollView>
   );
@@ -106,5 +128,37 @@ const styles = StyleSheet.create({
   more: {
     color: 'white',
     fontFamily: mediumFontFamily,
+  },
+  moreImage: {
+    width: 11.5,
+    height: 11.5,
+  },
+  recentContainer: {
+    marginTop: 30,
+  },
+  recentTitleContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 14,
+
+    paddingHorizontal: 16,
+  },
+  recentTitle: {
+    color: blackColor,
+    fontSize: boldFontSize,
+    fontFamily: boldFontFamily,
+  },
+  recentMoreWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  recentMore: {
+    fontFamily: mediumFontFamily,
+    color: 'rgb(73,73,73)',
+  },
+  myWalkContainer: {
+    marginTop: 30,
+    marginBottom: 60,
   },
 });
