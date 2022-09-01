@@ -19,7 +19,7 @@ module.exports = {
   },
   plugins: ['react', 'react-native'],
   rules: {
-    'react/jsx-tfilename-extension': [
+    'react/jsx-filename-extension': [
       'error',
       {
         extensions: ['.js', '.jsx'],

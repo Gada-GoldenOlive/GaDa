@@ -8,7 +8,10 @@ const RecordContainer = ({ navigation }) => {
   const handleNavigate = ({}) => {
     navigation.navigate('SignIn');
   };
-  return <RecordScreen handleNavigate={handleNavigate} />;
+  const handleNaigateNickname = () => {
+    navigation.navigate('ModifyNickname')
+  }
+  return <RecordScreen handleNavigate={handleNavigate} handleNaigateNickname={handleNaigateNickname} />;
 };
 
 export default RecordContainer;

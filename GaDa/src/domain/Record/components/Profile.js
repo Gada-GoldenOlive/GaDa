@@ -5,13 +5,13 @@ import { PinSample1 } from '../../../constant/images/PinSample';
 import Setting from '../../../constant/images/Setting';
 import { blackColor } from '../../../constant/colors';
 import { boldFontFamily } from '../../../constant/fonts';
-const Profile = ({}) => {
+const Profile = ({handleNaigateNickname}) => {
   return (
     <View style={styles.container}>
       <View style={styles.wrapper}>
         <CustomImage source={PinSample1} style={styles.image} />
         <Text style={styles.name}>산책왕 뽀삐</Text>
-        <TouchableWithoutFeedback>
+        <TouchableWithoutFeedback onPress={handleNaigateNickname}>
           <CustomImage style={styles.setting} source={Setting} />
         </TouchableWithoutFeedback>
       </View>
