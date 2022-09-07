@@ -27,7 +27,7 @@ import { Arrow, ArrowBlack } from '../../../constant/images/Arrow';
 import RecentWalk from '../components/RecentWalk';
 import MyWalkwayList from '../components/MyWalkwayList';
 
-const RecordScreen = ({ handleNavigate, handleNaigateNickname }) => {
+const RecordScreen = ({ handleNavigate, handleNaigateNickname, handleNaivigateGoal }) => {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.profileContainer}>
@@ -36,7 +36,7 @@ const RecordScreen = ({ handleNavigate, handleNaigateNickname }) => {
       <View style={styles.goalContainer}>
         <View style={styles.goalTitleContainer}>
           <Text style={styles.goalTitle}>달성목표</Text>
-          <TouchableWithoutFeedback>
+          <TouchableWithoutFeedback onPress={handleNaivigateGoal}>
             <CustomImage source={Writing} style={styles.goalWriting} />
           </TouchableWithoutFeedback>
         </View>

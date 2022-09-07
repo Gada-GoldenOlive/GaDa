@@ -3,13 +3,17 @@ import {
   createStackNavigator,
 } from '@react-navigation/stack';
 import React from 'react';
+import BackButton from '../components/BackButton';
+import GoalSettingContainer from '../domain/Record/container/GoalSettingContainer';
 import RecordContainer from '../domain/Record/container/RecordContainer';
 
 const Stack = createStackNavigator();
 const recordScreen = {
   Record: RecordContainer,
 };
-
+const goalSettingScreen = {
+  GoalSetting: GoalSettingContainer,
+};
 const RecordNavigator = () => {
   return (
     <Stack.Navigator
@@ -39,6 +43,17 @@ const RecordNavigator = () => {
           component={component}
           options={{
             title: '기록',
+          }}
+        />
+      ))}
+      {Object.entries({ ...goalSettingScreen }).map(([name, component]) => (
+        <Stack.Screen
+          key={name}
+          name={name}
+          component={component}
+          options={{
+            headerLeft: () => <BackButton />,
+            title: '달성목표 설정',
           }}
         />
       ))}

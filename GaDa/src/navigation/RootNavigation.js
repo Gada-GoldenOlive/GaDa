@@ -40,12 +40,13 @@ const authScreens = [
 ];
 const signInScreen = {
   SignIn: SignInContainer,
-
 };
 
 const modifyNicknameScreen = {
-  ModifyNickname: ModifyNicknameContainer
-}
+  ModifyNickname: ModifyNicknameContainer,
+};
+
+
 
 const RootStack = createStackNavigator();
 const RootNavigation = () => {
@@ -141,7 +142,7 @@ const RootNavigation = () => {
           }}
         />
       ))}
-            {Object.entries({ ...modifyNicknameScreen }).map(([name, component]) => (
+      {Object.entries({ ...modifyNicknameScreen }).map(([name, component]) => (
         <RootStack.Screen
           key={name}
           name={name}
@@ -150,7 +151,7 @@ const RootNavigation = () => {
             return {
               headerShown: true,
               headerLeft: () => <BackButton />,
-              title: '프로필 수정'
+              title: '프로필 수정',
             };
           }}
         />

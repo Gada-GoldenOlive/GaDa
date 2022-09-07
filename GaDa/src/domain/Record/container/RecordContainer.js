@@ -11,7 +11,10 @@ const RecordContainer = ({ navigation }) => {
   const handleNaigateNickname = () => {
     navigation.navigate('ModifyNickname')
   }
-  return <RecordScreen handleNavigate={handleNavigate} handleNaigateNickname={handleNaigateNickname} />;
+  const handleNaivigateGoal = () => {
+    navigation.navigate('GoalSetting')
+  }
+  return <RecordScreen handleNavigate={handleNavigate} handleNaigateNickname={handleNaigateNickname} handleNaivigateGoal={handleNaivigateGoal} />;
 };
 
 export default RecordContainer;

@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import { windowWidth } from '../../../constant/styles';
 import { boldFontFamily, mediumFontFamily } from '../../../constant/fonts';
-import { buttonColor, mainColor } from '../../../constant/colors';
+import { buttonColor, descriptionColorVer2, mainColor } from '../../../constant/colors';
 
 const Goal = () => {
   return (
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: mediumFontFamily,
-    color: 'rgb(158,158,158)',
+    color: descriptionColorVer2,
     marginBottom: 10,
   },
   value: {
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
   goal: {
-    color: 'rgb(158,158,158)',
+    color: descriptionColorVer2,
     fontSize: 12,
   },
 });

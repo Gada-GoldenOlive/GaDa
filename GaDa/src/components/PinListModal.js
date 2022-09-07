@@ -15,6 +15,7 @@ import {
   blackColor,
   buttonColor,
   descriptionColor,
+  descriptionColorVer2,
   mainColor,
 } from '../constant/colors';
 import { windowHeight, windowWidth } from '../constant/styles';
@@ -62,7 +63,7 @@ const PinListModal = ({
               <Text
                 style={[
                   styles.address,
-                  !isFocused && { color: 'rgb(158,158,158)' },
+                  !isFocused && { color: descriptionColorVer2 },
                 ]}
               >
                 {address}
@@ -70,7 +71,7 @@ const PinListModal = ({
               <View
                 style={[
                   styles.numWrapper,
-                  !isFocused && { backgroundColor: 'rgb(158,158,158)' },
+                  !isFocused && { backgroundColor: descriptionColorVer2 },
                 ]}
               >
                 <Text style={styles.num}>핀{index + 1}</Text>
