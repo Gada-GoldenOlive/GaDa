@@ -24,7 +24,7 @@ import {
   mediumFontFamily,
   montBoldFontFamily,
 } from '../../../constant/fonts';
-import { defaultColor } from '../../../constant/colors';
+import { backgroundColor, defaultColor } from '../../../constant/colors';
 
 const friendsLangkingList = [
   {
@@ -65,6 +65,14 @@ const friendsLangkingList = [
   },
 ];
 const FriendsScreen = () => {
+  const isMe = 3; //임시로
+  const MyBadge = () => {
+    return (
+      <View style={styles.myBadgeWrapper}>
+        <Text style={styles.myBadgeText}>MY</Text>
+      </View>
+    );
+  };
   return (
     <ScrollView style={styles.container}>
       <View style={styles.topContainer}>
@@ -89,6 +97,8 @@ const FriendsScreen = () => {
                           source={item.image}
                         />
                         <Text style={styles.top3Text}>{item.name}</Text>
+                        {/* MyBadge 기준 있어야함. 내꺼일 때! */}
+                        <MyBadge />
                       </View>
                       <Text>
                         <Text style={styles.top3Text}>
@@ -142,6 +152,8 @@ const FriendsScreen = () => {
                         source={item.image}
                       />
                       <Text style={styles.bodyText}>{item.name}</Text>
+                      {/* MyBadge 기준 있어야함. 내꺼일 때! */}
+                      <MyBadge />
                     </View>
                     <Text>
                       <Text style={styles.bodyText}>
@@ -165,7 +177,6 @@ const FriendsScreen = () => {
           )}
         </View>
       </View>
-      {/* <CustomImage source={RankingS} style={styles.image} /> */}
     </ScrollView>
   );
 };
@@ -281,5 +292,19 @@ const styles = StyleSheet.create({
     fontFamily: boldFontFamily,
     fontSize: defaultFontSize,
     color: defaultColor,
+  },
+  myBadgeWrapper: {
+    paddingHorizontal: 5.5,
+    paddingVertical: 1,
+
+    borderRadius: 15,
+    backgroundColor: 'black',
+
+    marginLeft: 5,
+  },
+  myBadgeText: {
+    fontFamily: mediumFontFamily,
+    fontSize: 10,
+    color: 'white',
   },
 });
