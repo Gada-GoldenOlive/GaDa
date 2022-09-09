@@ -20,8 +20,11 @@ import { AddFriend } from '../../../constant/images/AddFriend';
 import {
   boldFontFamily,
   defaultFontFamily,
+  defaultFontSize,
+  mediumFontFamily,
   montBoldFontFamily,
 } from '../../../constant/fonts';
+import { defaultColor } from '../../../constant/colors';
 
 const friendsLangkingList = [
   {
@@ -64,51 +67,103 @@ const friendsLangkingList = [
 const FriendsScreen = () => {
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>나의 친구</Text>
-        <CustomImage source={AddFriend} style={styles.addFriendButton} />
-      </View>
+      <View style={styles.topContainer}>
+        <View style={styles.header}>
+          <Text style={styles.headerTitle}>나의 친구</Text>
+          <TouchableWithoutFeedback onPress={() => console.log('친구추가')}>
+            <CustomImage source={AddFriend} style={styles.addFriendButton} />
+          </TouchableWithoutFeedback>
+        </View>
 
-      <View style={styles.bodyTop3Container}>
-        {friendsLangkingList.map(
-          (item, index) =>
-            index < 3 && (
-              <TouchableWithoutFeedback onPress={() => console.log(index)}>
-                <View
-                  key={index}
-                  style={[
-                    styles.top3Wrapper,
-                    index !== 2 && {
-                      borderBottomWidth: 0.7,
-                      borderColor: '#9AF6CA',
-                    },
-                  ]}
-                >
-                  <View style={styles.top3InnerWrapper}>
-                    <Text style={styles.top3RankText}>{index + 1}.</Text>
-                    <CustomImage style={styles.top3Image} source={item.image} />
-                    <Text style={styles.top3Text}>{item.name}</Text>
+        <View style={styles.top3Container}>
+          {friendsLangkingList.map(
+            (item, index) =>
+              index < 3 && (
+                <TouchableWithoutFeedback onPress={() => console.log(index)}>
+                  <View>
+                    <View key={index} style={[styles.top3Wrapper]}>
+                      <View style={styles.top3InnerWrapper}>
+                        <Text style={styles.top3RankText}>{index + 1}.</Text>
+                        <CustomImage
+                          style={styles.top3Image}
+                          source={item.image}
+                        />
+                        <Text style={styles.top3Text}>{item.name}</Text>
+                      </View>
+                      <Text>
+                        <Text style={styles.top3Text}>
+                          {item.totalDistance
+                            .toString()
+                            .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                        </Text>
+                        <Text
+                          style={[
+                            styles.top3Text,
+                            { fontFamily: defaultFontFamily },
+                          ]}
+                        >
+                          {' '}
+                          (m)
+                        </Text>
+                      </Text>
+                    </View>
+                    {index !== 2 && (
+                      <View
+                        style={{
+                          // width: '100%',
+                          height: 0.7,
+                          backgroundColor: '#9AF6CA',
+                          marginHorizontal: 16,
+                        }}
+                      />
+                    )}
                   </View>
-                  <Text>
-                    <Text style={styles.top3Text}>
-                      {item.totalDistance
-                        .toString()
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                </TouchableWithoutFeedback>
+              ),
+          )}
+        </View>
+      </View>
+      <View style={styles.bottomContainer}>
+        <View style={styles.bottomTitleContainer}>
+          <Text style={styles.bottomTitle}>순위</Text>
+          <Text style={[styles.bottomTitle, { marginRight: 65 }]}>닉네임</Text>
+          <Text style={styles.bottomTitle}>달성거리</Text>
+        </View>
+        <View style={styles.bodyContainer}>
+          {friendsLangkingList.map(
+            (item, index) =>
+              index >= 3 && (
+                <TouchableWithoutFeedback onPress={() => console.log(index)}>
+                  <View key={index} style={[styles.bodyWrapper]}>
+                    <View style={styles.bodyInnerWrapper}>
+                      <Text style={styles.bodyRankText}>{index + 1}.</Text>
+                      <CustomImage
+                        style={styles.bodyImage}
+                        source={item.image}
+                      />
+                      <Text style={styles.bodyText}>{item.name}</Text>
+                    </View>
+                    <Text>
+                      <Text style={styles.bodyText}>
+                        {item.totalDistance
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                      </Text>
+                      <Text
+                        style={[
+                          styles.bodyText,
+                          { fontFamily: defaultFontFamily },
+                        ]}
+                      >
+                        {' '}
+                        (m)
+                      </Text>
                     </Text>
-                    <Text
-                      style={[
-                        styles.top3Text,
-                        { fontFamily: defaultFontFamily },
-                      ]}
-                    >
-                      {' '}
-                      (m)
-                    </Text>
-                  </Text>
-                </View>
-              </TouchableWithoutFeedback>
-            ),
-        )}
+                  </View>
+                </TouchableWithoutFeedback>
+              ),
+          )}
+        </View>
       </View>
       {/* <CustomImage source={RankingS} style={styles.image} /> */}
     </ScrollView>
@@ -120,12 +175,15 @@ export default FriendsScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: '#f8f8f8',
+    backgroundColor: '#f8f8f8',
+  },
+  topContainer: {
     backgroundColor: 'white',
-    marginHorizontal: 16,
+    paddingHorizontal: 16,
   },
   header: {
     marginTop: 20,
+
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -139,10 +197,11 @@ const styles = StyleSheet.create({
     width: 37,
     height: 37,
   },
-  bodyTop3Container: {
+  top3Container: {
     backgroundColor: '#49d492',
     borderRadius: 10,
     marginTop: 24,
+    marginBottom: 20,
   },
   top3Wrapper: {
     flexDirection: 'row',
@@ -171,5 +230,56 @@ const styles = StyleSheet.create({
     fontFamily: boldFontFamily,
     fontSize: 16,
     color: 'white',
+  },
+
+  bottomContainer: {
+    margin: 16,
+  },
+  bottomTitleContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingStart: 10,
+    paddingEnd: 48,
+  },
+  bottomTitle: {
+    fontFamily: mediumFontFamily,
+    fontSize: 12,
+    color: '#9e9e9e',
+  },
+  bodyContainer: {
+    marginTop: 7,
+  },
+  bodyWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+
+    backgroundColor: 'white',
+    borderRadius: 10,
+
+    marginBottom: 10,
+  },
+  bodyInnerWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  bodyRankText: {
+    // fontFamily: montBoldFontFamily,
+    fontFamily: boldFontFamily,
+    fontSize: 23,
+    color: defaultColor,
+    marginRight: 15,
+  },
+  bodyImage: {
+    width: 34,
+    height: 34,
+    marginRight: 14,
+  },
+  bodyText: {
+    fontFamily: boldFontFamily,
+    fontSize: defaultFontSize,
+    color: defaultColor,
   },
 });
