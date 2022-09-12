@@ -252,7 +252,7 @@ const HomeContainer = ({ navigation, route }) => {
     setStartModalVisible(false);
     setListIsVisible(true);
   };
-  useEffect(() => {
+/*  useEffect(() => {
     console.log({ isAuthenticated });
     if (!isAuthenticated) {
       navigation.reset({
@@ -260,7 +260,7 @@ const HomeContainer = ({ navigation, route }) => {
         routes: [{ name: 'SignIn' }],
       });
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated]);*/
   useEffect(() => {
     // walkEnd일때 안보여야하고 information visible일때 안보여야한다
     const tabVisible = !walkEnd && !isInformationVisible;
