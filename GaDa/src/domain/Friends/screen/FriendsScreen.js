@@ -64,7 +64,7 @@ const friendsLangkingList = [
     totalDistance: 12,
   },
 ];
-const FriendsScreen = () => {
+const FriendsScreen = ({ handleNavigateAddFriends }) => {
   const isMe = 3; //임시로
   const MyBadge = () => {
     return (
@@ -85,7 +85,7 @@ const FriendsScreen = () => {
                 style={[styles.addFriendButton, { marginRight: 13 }]}
               />
             </TouchableWithoutFeedback>
-            <TouchableWithoutFeedback onPress={() => console.log('친구추가')}>
+            <TouchableWithoutFeedback onPress={handleNavigateAddFriends}>
               <CustomImage source={AddFriends} style={styles.addFriendButton} />
             </TouchableWithoutFeedback>
           </View>

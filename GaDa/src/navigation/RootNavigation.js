@@ -16,6 +16,8 @@ import SignInContainer from '../domain/Auth/container/SignInContainer';
 import IDContainer from '../domain/Auth/container/IDContainer';
 import PWContainer from '../domain/Auth/container/PWContainer';
 import NicknameContainer from '../domain/Auth/container/NicknameContainer';
+// FRIENDS
+import AddFriendsContainer from '../domain/Friends/container/AddFriendsContainer';
 
 const createPinScreen = {
   CreatePin: CreatePinContainer,
@@ -39,6 +41,9 @@ const authScreens = [
 ];
 const signInScreen = {
   SignIn: SignInContainer,
+};
+const addFriendsScreen = {
+  addFriends: AddFriendsContainer,
 };
 
 const RootStack = createStackNavigator();
@@ -131,6 +136,20 @@ const RootNavigation = () => {
             return {
               headerShown: false,
               headerLeft: null,
+            };
+          }}
+        />
+      ))}
+      {Object.entries({ ...addFriendsScreen }).map(([name, component]) => (
+        <RootStack.Screen
+          key={name}
+          name={name}
+          component={component}
+          options={({ route }) => {
+            return {
+              headerShown: true,
+              headerLeft: null,
+              headerTitle: '친구검색',
             };
           }}
         />
