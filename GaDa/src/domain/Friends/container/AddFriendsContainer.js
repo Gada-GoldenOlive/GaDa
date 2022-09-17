@@ -46,6 +46,21 @@ const friendsList = [
     image: SampleImage2,
     id: 12,
   },
+  {
+    name: '만두전골',
+    image: SampleImage2,
+    id: 13,
+  },
+  {
+    name: '만두전골',
+    image: SampleImage2,
+    id: 14,
+  },
+  {
+    name: '만두전골',
+    image: SampleImage2,
+    id: 15,
+  },
 ];
 
 const AddFriendsContainer = () => {

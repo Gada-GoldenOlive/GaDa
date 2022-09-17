@@ -59,6 +59,9 @@ const AddFriendsScreen = ({ searchList }) => {
       <FlatList
         data={searchList}
         renderItem={(item, index) => renderItem(item, index)}
+        bounces={false}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 100 }}
       />
     </View>
   );
@@ -72,6 +75,7 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     marginTop: 25,
+    marginBottom: 15,
     paddingVertical: 16,
     paddingHorizontal: 16,
     backgroundColor: '#f5f5f5',
