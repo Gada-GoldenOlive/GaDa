@@ -15,11 +15,15 @@ const RecordContainer = ({ navigation }) => {
   const handleNavigateSetting = () => {
     navigation.navigate('SettingPage');
   };
+  const handleNavigateBadge = () => {
+    navigation.navigate('BadgeList')
+  }
   return (
     <RecordScreen
       handleNavigate={handleNavigate}
       handleNaivigateGoal={handleNaivigateGoal}
       handleNavigateSetting={handleNavigateSetting}
+      handleNavigateBadge={handleNavigateBadge}
     />
   );
 };

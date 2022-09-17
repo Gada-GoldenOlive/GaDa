@@ -18,6 +18,9 @@ import PWContainer from '../domain/Auth/container/PWContainer';
 import NicknameContainer from '../domain/Auth/container/NicknameContainer';
 import ModifyNicknameContainer from '../domain/Auth/container/ModifyNicknameContainer';
 
+// mypage
+import BadgeListContainer from '../domain/Record/container/BadgeListContainer';
+
 const createPinScreen = {
   CreatePin: CreatePinContainer,
 };
@@ -45,6 +48,10 @@ const signInScreen = {
 const modifyNicknameScreen = {
   ModifyNickname: ModifyNicknameContainer,
 };
+
+const badgeListScreen = {
+  BadgeList: BadgeListContainer
+}
 
 
 
@@ -152,6 +159,20 @@ const RootNavigation = () => {
               headerShown: true,
               headerLeft: () => <BackButton />,
               title: '프로필 수정',
+            };
+          }}
+        />
+      ))}
+      {Object.entries({ ...badgeListScreen }).map(([name, component]) => (
+        <RootStack.Screen
+          key={name}
+          name={name}
+          component={component}
+          options={({ route }) => {
+            return {
+              headerShown: true,
+              headerLeft: () => <BackButton />,
+              title: '배지',
             };
           }}
         />
