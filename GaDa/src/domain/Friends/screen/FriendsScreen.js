@@ -16,7 +16,7 @@ import {
   SampleImage2,
   SampleImage3,
 } from '../../../constant/images/Sample';
-import { AddFriend } from '../../../constant/images/AddFriend';
+import { AddFriends, Alarm } from '../../../constant/images/Friends';
 import {
   boldFontFamily,
   defaultFontFamily,
@@ -77,10 +77,18 @@ const FriendsScreen = () => {
     <ScrollView style={styles.container}>
       <View style={styles.topContainer}>
         <View style={styles.header}>
-          <Text style={styles.headerTitle}>나의 친구</Text>
-          <TouchableWithoutFeedback onPress={() => console.log('친구추가')}>
-            <CustomImage source={AddFriend} style={styles.addFriendButton} />
-          </TouchableWithoutFeedback>
+          <Text style={styles.headerTitle}>이번주 랭킹</Text>
+          <View style={{ flexDirection: 'row' }}>
+            <TouchableWithoutFeedback onPress={() => console.log('알람')}>
+              <CustomImage
+                source={Alarm}
+                style={[styles.addFriendButton, { marginRight: 13 }]}
+              />
+            </TouchableWithoutFeedback>
+            <TouchableWithoutFeedback onPress={() => console.log('친구추가')}>
+              <CustomImage source={AddFriends} style={styles.addFriendButton} />
+            </TouchableWithoutFeedback>
+          </View>
         </View>
 
         <View style={styles.top3Container}>
@@ -205,8 +213,8 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   addFriendButton: {
-    width: 37,
-    height: 37,
+    width: 32,
+    height: 32,
   },
   top3Container: {
     backgroundColor: '#49d492',
