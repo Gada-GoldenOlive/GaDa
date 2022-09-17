@@ -27,13 +27,6 @@ const GoalSettingScreen = () => {
         />
         <Text style={styles.description}>(km)</Text>
       </View>
-      <View style={styles.wrapper}>
-        <MyTextInput
-          style={styles.textInput}
-          placeholder="목표 달성 산책로 개수를 입력하세요"
-        />
-        <Text style={styles.description}>(개)</Text>
-      </View>
     </View>
   );
 };

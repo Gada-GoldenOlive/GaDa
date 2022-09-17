@@ -8,9 +8,7 @@ const RecordContainer = ({ navigation }) => {
   const handleNavigate = ({}) => {
     navigation.navigate('SignIn');
   };
-  const handleNaigateNickname = () => {
-    navigation.navigate('ModifyNickname');
-  };
+
   const handleNaivigateGoal = () => {
     navigation.navigate('GoalSetting');
   };
@@ -20,7 +18,6 @@ const RecordContainer = ({ navigation }) => {
   return (
     <RecordScreen
       handleNavigate={handleNavigate}
-      handleNaigateNickname={handleNaigateNickname}
       handleNaivigateGoal={handleNaivigateGoal}
       handleNavigateSetting={handleNavigateSetting}
     />

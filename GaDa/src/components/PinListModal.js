@@ -13,6 +13,7 @@ import {
   activeDotColor,
   backgroundColor,
   blackColor,
+  borderColor,
   buttonColor,
   descriptionColor,
   descriptionColorVer2,
@@ -158,7 +159,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   bar: {
-    backgroundColor: backgroundColor,
+    backgroundColor: borderColor,
     borderRadius: 2.5,
     width: 50,
     height: 4,

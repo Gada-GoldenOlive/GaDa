@@ -5,7 +5,7 @@ export const mainColor = '#49D492';
 export const pinColor = '#539A71';
 export const blackColor = '#000000';
 export const buttonColor = 'rgb(73,212,146)';
-export const backgroundColor = 'rgb(231,231,231)';
+export const borderColorVer2 = 'rgb(232,232,232)';
 export const borderColor = 'rgb(231,231,231)';
 
 export const starColor = 'rgb(83, 154,113)';

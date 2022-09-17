@@ -11,7 +11,7 @@ import CustomImage from '../../../components/CustomImage';
 import { PinSample1, PinSample2 } from '../../../constant/images/PinSample';
 import { boldFontFamily, boldFontSize } from '../../../constant/fonts';
 import CustomRating from '../../../components/CustomRating';
-import { backgroundColor, blackColor } from '../../../constant/colors';
+import { backgroundColor, blackColor, borderColor } from '../../../constant/colors';
 
 const MyWalkwayList = () => {
   const myinfo = { image: MyImageS, name: '산책와 뽀삐' };
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
     fontSize: boldFontSize,
   },
   information: {
-    color: backgroundColor,
+    color: borderColor,
     lineHeight: 22,
   },
   nullContainer: {

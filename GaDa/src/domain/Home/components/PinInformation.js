@@ -6,6 +6,7 @@ import { boldFontFamily, boldFontSize } from '../../../constant/fonts';
 import {
   backgroundColor,
   blackColor,
+  borderColor,
   mainColor,
 } from '../../../constant/colors';
 import { windowHeight, windowWidth } from '../../../constant/styles';
@@ -112,7 +113,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   bar: {
-    backgroundColor: backgroundColor,
+    backgroundColor: borderColor,
     borderRadius: 2.5,
     width: 50,
     height: 4,
