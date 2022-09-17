@@ -27,11 +27,11 @@ import { Arrow, ArrowBlack } from '../../../constant/images/Arrow';
 import RecentWalk from '../components/RecentWalk';
 import MyWalkwayList from '../components/MyWalkwayList';
 
-const RecordScreen = ({ handleNavigate, handleNaigateNickname, handleNaivigateGoal }) => {
+const RecordScreen = ({ handleNavigate, handleNaigateNickname, handleNaivigateGoal, handleNavigateSetting }) => {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.profileContainer}>
-        <Profile handleNaigateNickname={handleNaigateNickname}/>
+        <Profile handleNavigateSetting={handleNavigateSetting}/>
       </View>
       <View style={styles.goalContainer}>
         <View style={styles.goalTitleContainer}>

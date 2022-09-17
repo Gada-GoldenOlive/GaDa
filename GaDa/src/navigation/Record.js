@@ -6,6 +6,7 @@ import React from 'react';
 import BackButton from '../components/BackButton';
 import GoalSettingContainer from '../domain/Record/container/GoalSettingContainer';
 import RecordContainer from '../domain/Record/container/RecordContainer';
+import SettingPageContainer from '../domain/Record/container/SettingPageContainer';
 
 const Stack = createStackNavigator();
 const recordScreen = {
@@ -13,6 +14,9 @@ const recordScreen = {
 };
 const goalSettingScreen = {
   GoalSetting: GoalSettingContainer,
+};
+const settingPageScreen = {
+  SettingPage: SettingPageContainer,
 };
 const RecordNavigator = () => {
   return (
@@ -54,6 +58,17 @@ const RecordNavigator = () => {
           options={{
             headerLeft: () => <BackButton />,
             title: '달성목표 설정',
+          }}
+        />
+      ))}
+      {Object.entries({ ...settingPageScreen }).map(([name, component]) => (
+        <Stack.Screen
+          key={name}
+          name={name}
+          component={component}
+          options={{
+            headerLeft: () => <BackButton />,
+            title: '설정',
           }}
         />
       ))}

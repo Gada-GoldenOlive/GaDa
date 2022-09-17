@@ -3,15 +3,18 @@ import React from 'react';
 import CustomImage from '../../../components/CustomImage';
 import { PinSample1 } from '../../../constant/images/PinSample';
 import Setting from '../../../constant/images/Setting';
-import { blackColor } from '../../../constant/colors';
+import { blackColor, descriptionColor, descriptionColorVer2 } from '../../../constant/colors';
 import { boldFontFamily } from '../../../constant/fonts';
-const Profile = ({handleNaigateNickname}) => {
+const Profile = ({handleNavigateSetting}) => {
   return (
     <View style={styles.container}>
       <View style={styles.wrapper}>
         <CustomImage source={PinSample1} style={styles.image} />
+        <View style={styles.infoContainer}>
         <Text style={styles.name}>산책왕 뽀삐</Text>
-        <TouchableWithoutFeedback onPress={handleNaigateNickname}>
+        <Text style={styles.num}>초대번호: 123456</Text>
+        </View>
+        <TouchableWithoutFeedback onPress={handleNavigateSetting}>
           <CustomImage style={styles.setting} source={Setting} />
         </TouchableWithoutFeedback>
       </View>
@@ -41,11 +44,19 @@ const styles = StyleSheet.create({
     height: 42,
     marginRight: 13,
   },
+  infoContainer:{
+    flex: 1,
+  },
   name: {
     color: blackColor,
     fontSize: 18,
     fontFamily: boldFontFamily,
     flex: 1,
+  },
+  num:{
+    marginTop: 1,
+    color: descriptionColorVer2,
+    fontSize: 12
   },
   setting: {
     width: 19,

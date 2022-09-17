@@ -9,12 +9,22 @@ const RecordContainer = ({ navigation }) => {
     navigation.navigate('SignIn');
   };
   const handleNaigateNickname = () => {
-    navigation.navigate('ModifyNickname')
-  }
+    navigation.navigate('ModifyNickname');
+  };
   const handleNaivigateGoal = () => {
-    navigation.navigate('GoalSetting')
-  }
-  return <RecordScreen handleNavigate={handleNavigate} handleNaigateNickname={handleNaigateNickname} handleNaivigateGoal={handleNaivigateGoal} />;
+    navigation.navigate('GoalSetting');
+  };
+  const handleNavigateSetting = () => {
+    navigation.navigate('SettingPage');
+  };
+  return (
+    <RecordScreen
+      handleNavigate={handleNavigate}
+      handleNaigateNickname={handleNaigateNickname}
+      handleNaivigateGoal={handleNaivigateGoal}
+      handleNavigateSetting={handleNavigateSetting}
+    />
+  );
 };
 
 export default RecordContainer;
