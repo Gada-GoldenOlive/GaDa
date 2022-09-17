@@ -4,10 +4,10 @@ import CustomImage from '../../../components/CustomImage';
 import CustomRating from '../../../components/CustomRating';
 import { MapImage, Sample } from '../../../constant/images/Temp';
 import { boldFontFamily, boldFontSize } from '../../../constant/fonts';
-import { defaultColor, descriptionColor } from '../../../constant/colors';
+import { backgroundColor, defaultColor, descriptionColor } from '../../../constant/colors';
 
 const ItemSeparatorComponent = () => {
-  return <View style={{ height: 1 }} />;
+  return <View style={{ height: 10 }} />;
 };
 const FeedItemList = () => {
   const dataList = [
@@ -31,7 +31,6 @@ const FeedItemList = () => {
     },
   ];
   const renderItem = ({ item, index }) => {
-    
     return (
       <View style={styles.itemContainer}>
         <View style={styles.topContainer}>
@@ -50,11 +49,15 @@ const FeedItemList = () => {
             </View>
           </View>
         </View>
+        <CustomImage source={MapImage} style={styles.headerImage}/>
+        <View style={styles.radient}/>
         <View style={styles.bottomContainer}>
-            <Text style={styles.title}>{item.name}</Text>
-            <View style={styles.bottomWrapper}>
-                <Text style={styles.description}>{`소요시간: ${item.time/60}시간 / 거리: ${item.distance}km`}</Text>
-            </View>
+          <Text style={styles.title}>{item.name}</Text>
+          <View style={styles.bottomWrapper}>
+            <Text style={styles.description}>{`소요시간: ${
+              item.time / 60
+            }시간 / 거리: ${item.distance}km`}</Text>
+          </View>
         </View>
       </View>
     );
@@ -84,13 +87,14 @@ const styles = StyleSheet.create({
   },
   itemContainer: {
     backgroundColor: 'pink',
-    paddingVertical: 17,
-    paddingHorizontal: 16,
+   
     height: 270,
     justifyContent: 'space-between',
   },
   topContainer: {
-
+    paddingVertical: 17,
+    paddingHorizontal: 16,
+    zIndex: 999
   },
   userContainer: {
     marginBottom: 13,
@@ -115,15 +119,30 @@ const styles = StyleSheet.create({
   rating: {
     justifyContent: 'flex-start',
   },
-  bottomContainer:{},
+  bottomContainer: {
+    paddingVertical: 17,
+    paddingHorizontal: 16,
+    zIndex: 999,
+  },
   title: {
     fontFamily: boldFontFamily,
     fontSize: boldFontSize,
-    color: 'white'
-
+    color: 'white',
   },
   description: {
     lineHeight: 22,
-    color: descriptionColor
+    color: descriptionColor,
+  },
+  headerImage: {
+    position: 'absolute',
+    top: 0,
+    left: 0
+  },
+  radient: {
+    position: 'absolute',
+    width: '100%',
+    height:'100%',
+    backgroundColor: 'rgba(0,0,0,0.3)'
+
   }
 });
