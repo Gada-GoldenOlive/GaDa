@@ -148,7 +148,7 @@ const RootNavigation = () => {
           options={({ route }) => {
             return {
               headerShown: true,
-              headerLeft: null,
+              headerLeft: () => <BackButton />,
               headerTitle: '친구검색',
             };
           }}
