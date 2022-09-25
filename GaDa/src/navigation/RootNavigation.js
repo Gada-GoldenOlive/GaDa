@@ -18,6 +18,7 @@ import PWContainer from '../domain/Auth/container/PWContainer';
 import NicknameContainer from '../domain/Auth/container/NicknameContainer';
 // FRIENDS
 import AddFriendsContainer from '../domain/Friends/container/AddFriendsContainer';
+import FriendsAlarmContainer from '../domain/Friends/container/FriendsAlarmContainer';
 
 const createPinScreen = {
   CreatePin: CreatePinContainer,
@@ -44,6 +45,9 @@ const signInScreen = {
 };
 const addFriendsScreen = {
   addFriends: AddFriendsContainer,
+};
+const friendsAlarmScreen = {
+  friendsAlarm: FriendsAlarmContainer,
 };
 
 const RootStack = createStackNavigator();
@@ -150,6 +154,20 @@ const RootNavigation = () => {
               headerShown: true,
               headerLeft: () => <BackButton />,
               headerTitle: '친구검색',
+            };
+          }}
+        />
+      ))}
+      {Object.entries({ ...friendsAlarmScreen }).map(([name, component]) => (
+        <RootStack.Screen
+          key={name}
+          name={name}
+          component={component}
+          options={({ route }) => {
+            return {
+              headerShown: true,
+              headerLeft: () => <BackButton />,
+              headerTitle: '친구 신청내역',
             };
           }}
         />

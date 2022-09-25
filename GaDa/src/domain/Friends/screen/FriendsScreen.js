@@ -64,7 +64,10 @@ const friendsLangkingList = [
     totalDistance: 12,
   },
 ];
-const FriendsScreen = ({ handleNavigateAddFriends }) => {
+const FriendsScreen = ({
+  handleNavigateAddFriends,
+  handleNavigateFriendsAlarm,
+}) => {
   const isMe = 3; //임시로
   const MyBadge = () => {
     return (
@@ -79,7 +82,7 @@ const FriendsScreen = ({ handleNavigateAddFriends }) => {
         <View style={styles.header}>
           <Text style={styles.headerTitle}>이번주 랭킹</Text>
           <View style={{ flexDirection: 'row' }}>
-            <TouchableWithoutFeedback onPress={() => console.log('알람')}>
+            <TouchableWithoutFeedback onPress={handleNavigateFriendsAlarm}>
               <CustomImage
                 source={Alarm}
                 style={[styles.addFriendButton, { marginRight: 13 }]}

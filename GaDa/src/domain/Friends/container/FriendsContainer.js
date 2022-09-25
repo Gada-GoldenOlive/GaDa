@@ -8,7 +8,15 @@ const FriendsContainer = ({ navigation, route }) => {
   const handleNavigateAddFriends = () => {
     navigation.navigate('addFriends');
   };
+  const handleNavigateFriendsAlarm = () => {
+    navigation.navigate('friendsAlarm');
+  };
 
-  return <FriendsScreen handleNavigateAddFriends={handleNavigateAddFriends} />;
+  return (
+    <FriendsScreen
+      handleNavigateAddFriends={handleNavigateAddFriends}
+      handleNavigateFriendsAlarm={handleNavigateFriendsAlarm}
+    />
+  );
 };
 export default FriendsContainer;
