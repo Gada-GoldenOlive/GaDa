@@ -77,7 +77,7 @@ const FriendsScreen = ({
     );
   };
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} bounces={false}>
       <View style={styles.topContainer}>
         <View style={styles.header}>
           <Text style={styles.headerTitle}>이번주 랭킹</Text>
