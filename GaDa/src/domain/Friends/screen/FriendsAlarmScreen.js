@@ -38,7 +38,7 @@ const FriendsAlarmScreen = ({
               </View>
             </TouchableWithoutFeedback>
             <TouchableWithoutFeedback
-              onPress={() => handleAcceptButton(item.id)}
+              onPress={() => handleRefuseButton(item.id)}
             >
               <View
                 style={[
