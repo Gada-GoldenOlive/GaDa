@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react';
 import { Platform, StyleSheet, TextInput } from 'react-native';
-import { defaultColor, descriptionColor } from '../constant/colors';
+import { defaultColor, descriptionColorVer2 } from '../constant/colors';
 
 const MyTextInput = forwardRef((props, ref) => {
   const {
@@ -13,7 +13,7 @@ const MyTextInput = forwardRef((props, ref) => {
       style={[styles.textInput, textInputStyle]}
       textAlignVertical="top"
       placeholder={placeholder}
-      placeholderTextColor={descriptionColor}
+      placeholderTextColor={descriptionColorVer2}
       {...restProps}
       ref={ref}
     />

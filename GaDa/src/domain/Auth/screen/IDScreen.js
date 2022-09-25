@@ -5,6 +5,7 @@ import {
   blackColor,
   buttonColor,
   descriptionColor,
+  descriptionColorVer2,
 } from '../../../constant/colors';
 import CustomButton from '../../../components/CustomButton';
 import Text from '../../../components/MyText';
@@ -73,7 +74,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   textInput: {
-    borderBottomColor: 'rgb(158,158,158)',
+    borderBottomColor: descriptionColorVer2,
   },
   buttonWrapper: {
     position: 'absolute',

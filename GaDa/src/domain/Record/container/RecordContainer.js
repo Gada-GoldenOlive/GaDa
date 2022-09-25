@@ -8,7 +8,28 @@ const RecordContainer = ({ navigation }) => {
   const handleNavigate = ({}) => {
     navigation.navigate('SignIn');
   };
-  return <RecordScreen handleNavigate={handleNavigate} />;
+
+  const handleNaivigateGoal = () => {
+    navigation.navigate('GoalSetting');
+  };
+  const handleNavigateSetting = () => {
+    navigation.navigate('SettingPage');
+  };
+  const handleNavigateBadge = () => {
+    navigation.navigate('BadgeList')
+  }
+  const handleNavigateRecent = () => {
+    navigation.navigate('Recent')
+  }
+  return (
+    <RecordScreen
+      handleNavigate={handleNavigate}
+      handleNaivigateGoal={handleNaivigateGoal}
+      handleNavigateSetting={handleNavigateSetting}
+      handleNavigateBadge={handleNavigateBadge}
+      handleNavigateRecent={handleNavigateRecent}
+    />
+  );
 };
 
 export default RecordContainer;
