@@ -68,11 +68,19 @@ const AddFriendsContainer = () => {
   const fetchSearchResults = () => {
     setSearchList(friendsList);
   };
+  const handleAddConfirmButton = () => {
+    console.log('click');
+  };
   useEffect(() => {
     fetchSearchResults();
   }, []);
 
-  return <AddFriendsScreen searchList={searchList} />;
+  return (
+    <AddFriendsScreen
+      searchList={searchList}
+      handleAddConfirmButton={handleAddConfirmButton}
+    />
+  );
 };
 
 export default AddFriendsContainer;
