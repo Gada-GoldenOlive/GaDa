@@ -21,7 +21,7 @@ const SettingPageScreen = ({handleNaigateNickname}) => {
       </TouchableWithoutFeedback>
       <TouchableWithoutFeedback onPress={handleNaigateNickname}>
         <View style={styles.buttonContainer}>
-          <Text style={styles.buttonTitle}>회원정보 수정</Text>
+          <Text style={styles.buttonTitle}>비밀번호 재설정</Text>
           <CustomImage style={styles.arrow} source={ArrowBlack} />
         </View>
       </TouchableWithoutFeedback>

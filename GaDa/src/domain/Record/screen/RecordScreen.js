@@ -27,11 +27,17 @@ import { Arrow, ArrowBlack } from '../../../constant/images/Arrow';
 import RecentWalk from '../components/RecentWalk';
 import MyWalkwayList from '../components/MyWalkwayList';
 
-const RecordScreen = ({ handleNavigate, handleNaivigateGoal, handleNavigateSetting, handleNavigateBadge }) => {
+const RecordScreen = ({
+  handleNavigate,
+  handleNaivigateGoal,
+  handleNavigateSetting,
+  handleNavigateBadge,
+  handleNavigateRecent,
+}) => {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.profileContainer}>
-        <Profile handleNavigateSetting={handleNavigateSetting}/>
+        <Profile handleNavigateSetting={handleNavigateSetting} />
       </View>
       <View style={styles.goalContainer}>
         <View style={styles.goalTitleContainer}>
@@ -57,7 +63,7 @@ const RecordScreen = ({ handleNavigate, handleNaivigateGoal, handleNavigateSetti
       <View style={styles.recentContainer}>
         <View style={styles.recentTitleContainer}>
           <Text style={styles.recentTitle}>최근 활동</Text>
-          <TouchableWithoutFeedback>
+          <TouchableWithoutFeedback onPress={handleNavigateRecent}>
             <View style={styles.recentMoreWrapper}>
               <Text style={styles.recentMore}>더보기</Text>
               <CustomImage style={styles.moreImage} source={ArrowBlack} />

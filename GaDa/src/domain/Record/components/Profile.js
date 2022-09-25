@@ -5,6 +5,8 @@ import { PinSample1 } from '../../../constant/images/PinSample';
 import Setting from '../../../constant/images/Setting';
 import { blackColor, descriptionColor, descriptionColorVer2 } from '../../../constant/colors';
 import { boldFontFamily } from '../../../constant/fonts';
+
+
 const Profile = ({handleNavigateSetting}) => {
   return (
     <View style={styles.container}>
@@ -12,7 +14,7 @@ const Profile = ({handleNavigateSetting}) => {
         <CustomImage source={PinSample1} style={styles.image} />
         <View style={styles.infoContainer}>
         <Text style={styles.name}>산책왕 뽀삐</Text>
-        <Text style={styles.num}>초대번호: 123456</Text>
+        <Text style={styles.num}>jeno1234</Text>
         </View>
         <TouchableWithoutFeedback onPress={handleNavigateSetting}>
           <CustomImage style={styles.setting} source={Setting} />
