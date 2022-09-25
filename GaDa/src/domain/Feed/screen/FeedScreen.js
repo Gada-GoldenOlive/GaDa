@@ -8,11 +8,32 @@ import WalkEnd from '../../../components/WalkEnd';
 import CustomImage from '../../../components/CustomImage';
 import { FeedS, MyS } from '../../../constant/images/Sample';
 import { windowHeight, windowWidth } from '../../../constant/styles';
+import Writing from '../../../constant/images/Writing';
+import Text from '../../../components/MyText';
+import { boldFontFamily } from '../../../constant/fonts';
+import { blackColor } from '../../../constant/colors';
+import FilteringButton from '../../../components/FilteringButton';
+import FeedItemList from '../components/FeedItemList';
 
 const FeedScreen = ({}) => {
   return (
     <ScrollView style={styles.container}>
-      <CustomImage source={FeedS} style={styles.image} />
+      <View style={styles.topContainer}>
+        <Text style={styles.title}>피드</Text>
+        <TouchableWithoutFeedback>
+          <View style={styles.writeWrapper}>
+            <CustomImage
+              style={styles.writing}
+              source={Writing}
+              tintColor="white"
+            />
+          </View>
+        </TouchableWithoutFeedback>
+      </View>
+      <View style={styles.middleContainer}>
+        <FilteringButton />
+      </View>
+      <FeedItemList />
     </ScrollView>
   );
 };
@@ -21,11 +42,33 @@ export default FeedScreen;
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: -50,
     flex: 1,
   },
-  image: {
-    width: windowWidth,
-    height: (windowWidth * 955) / 390,
+  topContainer: {
+    paddingHorizontal: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
+  title: {
+    fontFamily: boldFontFamily,
+    fontSize: 20,
+    lineHeight: 31,
+    color: blackColor,
+  },
+  writeWrapper: {
+    width: 37,
+    height: 37,
+    padding: 7,
+    borderRadius: 100,
+    backgroundColor: blackColor,
+  },
+  middleContainer: {
+    paddingTop: 19,
+    paddingBottom: 11,
+    paddingStart: 16,
+  },
+  itemContainer: {
+    
+  }
 });
