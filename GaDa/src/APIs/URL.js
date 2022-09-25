@@ -1,4 +1,4 @@
-const url = 'http://3.34.46.201:3000';
+const url = 'http://52.78.193.12:3000';
 
 const defaultURL = url;
 

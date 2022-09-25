@@ -4,7 +4,7 @@ import Text from '../components/MyText';
 import moment from 'moment';
 import CustomButton from '../components/CustomButton';
 import { boldFontFamily, mediumFontFamily } from '../constant/fonts';
-import { blackColor, buttonColor, defaultColor } from '../constant/colors';
+import { blackColor, buttonColor, defaultColor, descriptionColorVer2 } from '../constant/colors';
 import LinearGradient from 'react-native-linear-gradient';
 import { windowHeight, windowWidth } from '../constant/styles';
 import { useSelector } from 'react-redux';
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
   },
   km: {
     fontSize: 28,
-    color: 'rgb(158,158,158)',
+    color: descriptionColorVer2,
     marginBottom: 13,
   },
   bottomContainer: {
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
   description: {
     fontFamily: mediumFontFamily,
     color: 12,
-    color: 'rgb(158,158,158)',
+    color: descriptionColorVer2,
     marginBottom: 5,
   },
   value: {

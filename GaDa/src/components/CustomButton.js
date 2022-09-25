@@ -2,7 +2,7 @@ import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import React from 'react';
 import { buttonColor } from '../constant/colors';
 import { boldFontFamily } from '../constant/fonts';
-import { bottomShadowStyle, windowWidth } from '../constant/styles';
+import { bottomShadowStyle, topShadowStyle, windowWidth } from '../constant/styles';
 import Text from './MyText';
 
 const CustomButton = ({
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     paddingTop: 14.5,
     paddingHorizontal: 16,
     justifyContent: 'flex-start',
-    ...bottomShadowStyle,
+    ...topShadowStyle,
   },
   wrapper: {
     backgroundColor: buttonColor,
