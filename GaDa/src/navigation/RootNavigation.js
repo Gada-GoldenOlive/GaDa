@@ -21,10 +21,10 @@ import ModifyNicknameContainer from '../domain/Auth/container/ModifyNicknameCont
 // FRIENDS
 import AddFriendsContainer from '../domain/Friends/container/AddFriendsContainer';
 import FriendsAlarmContainer from '../domain/Friends/container/FriendsAlarmContainer';
+import FriendRecordContainer from '../domain/Friends/container/FriendRecordContainer';
 
 // mypage
 import BadgeListContainer from '../domain/Record/container/BadgeListContainer';
-
 
 const createPinScreen = {
   CreatePin: CreatePinContainer,
@@ -55,16 +55,17 @@ const addFriendsScreen = {
 const friendsAlarmScreen = {
   friendsAlarm: FriendsAlarmContainer,
 };
+const friendRecordScreen = {
+  FriendRecord: FriendRecordContainer,
+};
 
 const modifyNicknameScreen = {
   ModifyNickname: ModifyNicknameContainer,
 };
 
 const badgeListScreen = {
-  BadgeList: BadgeListContainer
-}
-
-
+  BadgeList: BadgeListContainer,
+};
 
 const RootStack = createStackNavigator();
 const RootNavigation = () => {
@@ -173,7 +174,7 @@ const RootNavigation = () => {
           }}
         />
       ))}
-{Object.entries({ ...badgeListScreen }).map(([name, component]) => (
+      {Object.entries({ ...badgeListScreen }).map(([name, component]) => (
         <RootStack.Screen
           key={name}
           name={name}
@@ -182,12 +183,13 @@ const RootNavigation = () => {
             return {
               headerShown: true,
               headerLeft: () => <BackButton />,
+              title: '배지',
             };
           }}
         />
       ))}
- {Object.entries({ ...addFriendsScreen }).map(([name, component]) => (
-      <RootStack.Screen
+      {Object.entries({ ...addFriendsScreen }).map(([name, component]) => (
+        <RootStack.Screen
           key={name}
           name={name}
           component={component}
@@ -202,7 +204,7 @@ const RootNavigation = () => {
         />
       ))}
       {Object.entries({ ...friendsAlarmScreen }).map(([name, component]) => (
-<RootStack.Screen
+        <RootStack.Screen
           key={name}
           name={name}
           component={component}
@@ -211,13 +213,25 @@ const RootNavigation = () => {
               headerShown: true,
               headerLeft: () => <BackButton />,
               headerTitle: '친구 신청내역',
-
-              title: '배지',
-            }
-      }}/>
+            };
+          }}
+        />
       ))}
-              
-      
+      {Object.entries({ ...friendRecordScreen }).map(([name, component]) => (
+        <RootStack.Screen
+          key={name}
+          name={name}
+          component={component}
+          options={({ route }) => {
+            return {
+              headerShown: true,
+              headerLeft: () => <BackButton />,
+              headerTitle: '',
+            };
+          }}
+        />
+      ))}
+
       <RootStack.Screen name="BottomTab" component={BottomTab} />
     </RootStack.Navigator>
   );

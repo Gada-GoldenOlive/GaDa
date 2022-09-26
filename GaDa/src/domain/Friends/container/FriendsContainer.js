@@ -11,11 +11,16 @@ const FriendsContainer = ({ navigation, route }) => {
   const handleNavigateFriendsAlarm = () => {
     navigation.navigate('friendsAlarm');
   };
+  const handleNavigate = (id, idx) => {
+    console.log(idx);
+    navigation.navigate('FriendRecord', { id, rank: idx });
+  };
 
   return (
     <FriendsScreen
       handleNavigateAddFriends={handleNavigateAddFriends}
       handleNavigateFriendsAlarm={handleNavigateFriendsAlarm}
+      handleNavigate={handleNavigate}
     />
   );
 };
