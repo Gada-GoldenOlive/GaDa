@@ -13,7 +13,7 @@ const FriendsContainer = ({ navigation, route }) => {
   };
   const handleNavigate = (id, idx) => {
     console.log(idx);
-    navigation.navigate('FriendRecord', { id, rank: idx });
+    navigation.navigate('FriendRecord', { id, rank: idx + 1 });
   };
 
   return (
