@@ -6,4 +6,6 @@ import SampleImage1 from './SampleImage1.png';
 import SampleImage2 from './SampleImage2.png';
 import SampleImage3 from './SampleImage3.png';
 
-export { FeedS, RankingS, MyS, SampleImage1, SampleImage2, SampleImage3 };
+import MyImageS from './MyImageS.png';
+import DefaultProfile from './DefaultProfile.png';
+export { FeedS, RankingS, MyS, MyImageS, DefaultProfile, SampleImage1, SampleImage2, SampleImage3 };

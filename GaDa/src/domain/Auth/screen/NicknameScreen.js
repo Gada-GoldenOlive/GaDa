@@ -1,7 +1,7 @@
 import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import React from 'react';
 import MyTextInPut from '../../../components/MyTextInput';
-import { blackColor, descriptionColor } from '../../../constant/colors';
+import { blackColor, descriptionColor, descriptionColorVer2 } from '../../../constant/colors';
 import CustomButton from '../../../components/CustomButton';
 import Text from '../../../components/MyText';
 import { thinFontFamily } from '../../../constant/fonts';
@@ -50,6 +50,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   textInput: {
-    borderBottomColor: 'rgb(158,158,158)',
+    borderBottomColor: descriptionColorVer2,
   },
 });

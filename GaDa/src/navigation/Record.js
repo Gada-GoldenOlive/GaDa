@@ -3,13 +3,25 @@ import {
   createStackNavigator,
 } from '@react-navigation/stack';
 import React from 'react';
+import BackButton from '../components/BackButton';
+import GoalSettingContainer from '../domain/Record/container/GoalSettingContainer';
 import RecordContainer from '../domain/Record/container/RecordContainer';
+import SettingPageContainer from '../domain/Record/container/SettingPageContainer';
+import RecentContainer from '../domain/Record/container/RecentContainer';
 
 const Stack = createStackNavigator();
 const recordScreen = {
   Record: RecordContainer,
 };
-
+const goalSettingScreen = {
+  GoalSetting: GoalSettingContainer,
+};
+const settingPageScreen = {
+  SettingPage: SettingPageContainer,
+};
+const recentScreen = {
+  Recent: RecentContainer,
+};
 const RecordNavigator = () => {
   return (
     <Stack.Navigator
@@ -39,6 +51,39 @@ const RecordNavigator = () => {
           component={component}
           options={{
             title: '기록',
+          }}
+        />
+      ))}
+      {Object.entries({ ...goalSettingScreen }).map(([name, component]) => (
+        <Stack.Screen
+          key={name}
+          name={name}
+          component={component}
+          options={{
+            headerLeft: () => <BackButton />,
+            title: '달성목표 설정',
+          }}
+        />
+      ))}
+      {Object.entries({ ...settingPageScreen }).map(([name, component]) => (
+        <Stack.Screen
+          key={name}
+          name={name}
+          component={component}
+          options={{
+            headerLeft: () => <BackButton />,
+            title: '설정',
+          }}
+        />
+      ))}
+      {Object.entries({ ...recentScreen }).map(([name, component]) => (
+        <Stack.Screen
+          key={name}
+          name={name}
+          component={component}
+          options={{
+            headerLeft: () => <BackButton />,
+            title: '최근 활동',
           }}
         />
       ))}

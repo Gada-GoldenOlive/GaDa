@@ -41,7 +41,7 @@ const SignInContainer = ({ navigation }) => {
       pw={pw}
       setId={setId}
       setPw={setPw}
-      handleNavigate={checkLogin}
+      handleNavigate={handleNavigate}
       handleNavigateSignUp={handleNavigateSignUp}
     />
   );
