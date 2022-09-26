@@ -5,6 +5,18 @@ import { getIdInLocalStorage } from '../../../function';
 import { useState } from 'react';
 
 const FriendsContainer = ({ navigation, route }) => {
-  return <FriendsScreen />;
+  const handleNavigateAddFriends = () => {
+    navigation.navigate('addFriends');
+  };
+  const handleNavigateFriendsAlarm = () => {
+    navigation.navigate('friendsAlarm');
+  };
+
+  return (
+    <FriendsScreen
+      handleNavigateAddFriends={handleNavigateAddFriends}
+      handleNavigateFriendsAlarm={handleNavigateFriendsAlarm}
+    />
+  );
 };
 export default FriendsContainer;

@@ -18,8 +18,13 @@ import PWContainer from '../domain/Auth/container/PWContainer';
 import NicknameContainer from '../domain/Auth/container/NicknameContainer';
 import ModifyNicknameContainer from '../domain/Auth/container/ModifyNicknameContainer';
 
+// FRIENDS
+import AddFriendsContainer from '../domain/Friends/container/AddFriendsContainer';
+import FriendsAlarmContainer from '../domain/Friends/container/FriendsAlarmContainer';
+
 // mypage
 import BadgeListContainer from '../domain/Record/container/BadgeListContainer';
+
 
 const createPinScreen = {
   CreatePin: CreatePinContainer,
@@ -43,6 +48,12 @@ const authScreens = [
 ];
 const signInScreen = {
   SignIn: SignInContainer,
+};
+const addFriendsScreen = {
+  addFriends: AddFriendsContainer,
+};
+const friendsAlarmScreen = {
+  friendsAlarm: FriendsAlarmContainer,
 };
 
 const modifyNicknameScreen = {
@@ -158,12 +169,11 @@ const RootNavigation = () => {
             return {
               headerShown: true,
               headerLeft: () => <BackButton />,
-              title: '프로필 수정',
             };
           }}
         />
       ))}
-      {Object.entries({ ...badgeListScreen }).map(([name, component]) => (
+{Object.entries({ ...badgeListScreen }).map(([name, component]) => (
         <RootStack.Screen
           key={name}
           name={name}
@@ -172,11 +182,42 @@ const RootNavigation = () => {
             return {
               headerShown: true,
               headerLeft: () => <BackButton />,
-              title: '배지',
             };
           }}
         />
       ))}
+ {Object.entries({ ...addFriendsScreen }).map(([name, component]) => (
+      <RootStack.Screen
+          key={name}
+          name={name}
+          component={component}
+          options={({ route }) => {
+            return {
+              headerShown: true,
+              headerLeft: () => <BackButton />,
+              headerTitle: '친구검색',
+              title: '프로필 수정',
+            };
+          }}
+        />
+      ))}
+      {Object.entries({ ...friendsAlarmScreen }).map(([name, component]) => (
+<RootStack.Screen
+          key={name}
+          name={name}
+          component={component}
+          options={({ route }) => {
+            return {
+              headerShown: true,
+              headerLeft: () => <BackButton />,
+              headerTitle: '친구 신청내역',
+
+              title: '배지',
+            }
+      }}/>
+      ))}
+              
+      
       <RootStack.Screen name="BottomTab" component={BottomTab} />
     </RootStack.Navigator>
   );

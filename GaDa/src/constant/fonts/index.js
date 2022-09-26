@@ -8,5 +8,7 @@ export const mediumFontFamily = 'SpoqaHanSansNeo-Medium';
 export const boldFontFamily = 'SpoqaHanSansNeo-Bold';
 export const thinFontFamily = 'SpoqaHanSansNeo-Thin';
 
+export const montBoldFontFamily = 'Montserrat-Bold';
+
 export const defaultFontSize = 14;
 export const boldFontSize = 16;

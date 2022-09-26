@@ -3,19 +3,19 @@ import {
   createStackNavigator,
 } from '@react-navigation/stack';
 import React from 'react';
-import FriendsContainer from '../domain/Friends/container/FriendsContainer'
+import FriendsContainer from '../domain/Friends/container/FriendsContainer';
 
 const Stack = createStackNavigator();
 const friendsScreen = {
-  Friends: FriendsContainer
-}
+  Friends: FriendsContainer,
+};
 const FriendsNavigator = () => {
   return (
     <Stack.Navigator
       initialRouteName="Friends"
       screenOptions={{
         headerShown: true,
-        cardStyle: {backgroundColor: 'white'},
+        cardStyle: { backgroundColor: 'white' },
         headerTitleStyle: {
           fontSize: 16,
         },
@@ -29,18 +29,19 @@ const FriendsNavigator = () => {
         title: {},
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         headerTitleAlign: 'center',
-      }}>
-        {Object.entries({ ...friendsScreen }).map(([name, component]) => (
+      }}
+    >
+      {Object.entries({ ...friendsScreen }).map(([name, component]) => (
         <Stack.Screen
           key={name}
           name={name}
           component={component}
           options={{
-            title: '친구',
+            title: '',
           }}
         />
       ))}
-      </Stack.Navigator>
+    </Stack.Navigator>
   );
 };
 
