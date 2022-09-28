@@ -23,7 +23,7 @@ import GettingWalkwayItem from './GettingWalkwayItem';
 const ItemSeparatorComponent = () => {
   return <View style={{ height: 1 }} />;
 };
-const FeedItemList = ({type = 'feed'}) => {
+const FeedItemList = ({type = 'feed', handleDetailFeed}) => {
   const dataList = [
     {
       user: { image: null, name: '부산 갈매기' },
@@ -33,6 +33,7 @@ const FeedItemList = ({type = 'feed'}) => {
       name: '수영구 광안해변로 산책길',
       time: 60,
       distance: 125,
+      id: 0,
     },
     {
       user: { image: null, name: '부산 갈매기' },
@@ -42,6 +43,7 @@ const FeedItemList = ({type = 'feed'}) => {
       name: '수영구 광안해변로 산책길',
       time: 60,
       distance: 1.25,
+      id: 1
     },
     {
       user: { image: null, name: '부산 갈매기' },
@@ -51,6 +53,7 @@ const FeedItemList = ({type = 'feed'}) => {
       name: '수영구 광안해변로 산책길',
       time: 60,
       distance: 1.25,
+      id: 2,
     },
     {
       user: { image: null, name: '부산 갈매기' },
@@ -60,12 +63,13 @@ const FeedItemList = ({type = 'feed'}) => {
       name: '수영구 광안해변로 산책길',
       time: 60,
       distance: 1.25,
+      id: 3,
     },
   ];
   const renderItem = ({ item, index }) => {
    return type === 'recent' ? (
     <GettingWalkwayItem item={item} index={index}/>
-   ) : <FeedItem item={item} index={index}/>
+   ) : <FeedItem item={item} index={index} handleDetailFeed={handleDetailFeed}/>
    
   };
   return (

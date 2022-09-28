@@ -28,6 +28,7 @@ import BadgeListContainer from '../domain/Record/container/BadgeListContainer';
 // feed
 import GettingWalkwayContainer from '../domain/Feed/container/GettingWalkwayContainer';
 import DetailFeedContainer from '../domain/Feed/container/DetailFeedContainer';
+import { View } from 'react-native';
 
 const createPinScreen = {
   CreatePin: CreatePinContainer,
@@ -233,7 +234,6 @@ const RootNavigation = () => {
           options={({ route }) => {
             return {
               headerShown: true,
-              headerBackground: () => <View style={{opacity:0 }}/>,
               headerLeft: () => <BackButton />,
               headerTitle: '산책로 가져오기',
             };
@@ -248,8 +248,9 @@ const RootNavigation = () => {
           options={({ route }) => {
             return {
               headerShown: true,
+              headerTransparent: true,
               headerLeft: () => <BackButton />,
-              headerTitle: '산책로 가져오기',
+              headerTitle: '',
             };
           }}
         />

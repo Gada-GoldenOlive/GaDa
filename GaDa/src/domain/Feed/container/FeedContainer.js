@@ -10,8 +10,11 @@ import { FeedS } from '../../../constant/images/Sample';
 const FeedContainer = ({navigation, route}) => {
   const handleGettingWalkway = () => {
     navigation.navigate('GettingWalkway');
+  };
+  const handleDetailFeed = id => {
+    navigation.navigate('DetailFeed', {id});
   }
-  return <FeedScreen handleGettingWalkway={handleGettingWalkway}/>;
+  return <FeedScreen handleGettingWalkway={handleGettingWalkway} handleDetailFeed={handleDetailFeed} />;
 };
 
 export default FeedContainer;

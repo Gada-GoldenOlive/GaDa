@@ -1,11 +1,10 @@
 import { View, Text } from 'react-native'
 import React from 'react'
+import DetailFeedScreen from '../screen/DetailFeedScreen'
 
-const DetailFeedContainer = () => {
+const DetailFeedContainer = ({id}) => {
   return (
-    <View>
-      <Text>DetailFeedContainer</Text>
-    </View>
+  <DetailFeedScreen id={id}/>
   )
 }
 

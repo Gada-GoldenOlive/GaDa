@@ -15,7 +15,7 @@ import { blackColor } from '../../../constant/colors';
 import FilteringButton from '../../../components/FilteringButton';
 import FeedItemList from '../components/FeedItemList';
 
-const FeedScreen = ({handleGettingWalkway}) => {
+const FeedScreen = ({handleGettingWalkway, handleDetailFeed}) => {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.topContainer}>
@@ -31,7 +31,7 @@ const FeedScreen = ({handleGettingWalkway}) => {
           </View>
         </TouchableWithoutFeedback>
       </View>
-      <FeedItemList />
+      <FeedItemList handleDetailFeed={handleDetailFeed}/>
     </ScrollView>
   );
 };
