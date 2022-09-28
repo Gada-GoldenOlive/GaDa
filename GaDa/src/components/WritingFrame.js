@@ -110,6 +110,7 @@ const WritingFrame = ({
   };
 
   const setImages = items => {
+    console.log(items);
     dispatch(setPinImage(items));
   };
 

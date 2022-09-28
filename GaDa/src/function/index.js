@@ -54,3 +54,22 @@ export const getRandomImage = (width = 150, height = 150) => {
   const randomImage = `https://picsum.photos/${width}/${height}/?image=${num}`;
   return randomImage;
 };
+
+export const getNicknameIsNotValid = ({nickname}) => {
+  if(nickname.length > 10 || nickname.length < 3) {
+    return true
+  }
+  const reg = /[`~!@#$%^&*()_|+\-=?;:'"<>\{\}\[\]\\\/ ]/gim;
+  const result = reg.test(nickname);
+  return result
+}
+
+export const getPWIsNotValid = ({pw}) => {
+  if(pw.length > 20 || (pw.length >0 && pw.length < 6)) {
+    return true
+  }
+  const korean = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+ 
+  const result = korean.test(pw);
+  return result
+}

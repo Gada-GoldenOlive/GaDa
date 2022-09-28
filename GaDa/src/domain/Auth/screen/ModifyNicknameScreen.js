@@ -6,7 +6,8 @@ import Writing from '../../../constant/images/Writing';
 import { bottomShadowStyle } from '../../../constant/styles';
 import MyTextInput from '../../../components/MyTextInput';
 import CustomButton from '../../../components/CustomButton';
-const ModifyNicknameScreen = ({ nicknameChange, nickname }) => {
+import { getNicknameIsValid } from '../../../function';
+const ModifyNicknameScreen = ({ nicknameChange, nickname, nicknameCheck, isValid }) => {
   return (
     <View style={styles.container}>
       <View style={styles.topContainer}>
@@ -24,7 +25,10 @@ const ModifyNicknameScreen = ({ nicknameChange, nickname }) => {
         />
       </View>
       <CustomButton
-        title="다음"
+        title="설정 완료"
+        style={styles.button}
+        handlePress={nicknameCheck}
+        clickable={isValid}
       />
     </View>
   );
@@ -66,5 +70,9 @@ const styles = StyleSheet.create({
   title: {
     alignItems:'center',
     justifyContent: 'center'
+  },
+  button:{
+    position: 'absolute',
+    bottom: 0,
   }
 });

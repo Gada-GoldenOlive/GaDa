@@ -30,6 +30,7 @@ import GettingWalkwayContainer from '../domain/Feed/container/GettingWalkwayCont
 import DetailFeedContainer from '../domain/Feed/container/DetailFeedContainer';
 import { View } from 'react-native';
 import CreateWalkwayContainer from '../domain/Feed/container/CreateWalkwayContainer';
+import ModifyPWContainer from '../domain/Auth/container/ModifyPWContainer';
 
 const createPinScreen = {
   CreatePin: CreatePinContainer,
@@ -61,9 +62,14 @@ const friendsAlarmScreen = {
   friendsAlarm: FriendsAlarmContainer,
 };
 
-const modifyNicknameScreen = {
-  ModifyNickname: ModifyNicknameContainer,
-};
+const modifyScreens = [
+  {
+    name: 'ModifyNickname',
+    screen: ModifyNicknameContainer,
+    title: '프로필 수정',
+  },
+  { name: 'ModifyPW', screen: ModifyPWContainer, title: '비밀번호 재설정' },
+];
 
 const badgeListScreen = {
   BadgeList: BadgeListContainer,
@@ -147,14 +153,14 @@ const RootNavigation = () => {
           }}
         />
       ))}
-      {authScreens.map(({ name, screen }) => {
+      {modifyScreens.map(({ name, screen, title}) => {
         return (
           <RootStack.Screen
             key={name}
             name={name}
             component={screen}
             options={{
-              headerTitle: '',
+              headerTitle: title,
               headerShown: true,
               headerLeft: () => <BackButton />,
             }}
@@ -174,19 +180,20 @@ const RootNavigation = () => {
           }}
         />
       ))}
-      {Object.entries({ ...modifyNicknameScreen }).map(([name, component]) => (
-        <RootStack.Screen
-          key={name}
-          name={name}
-          component={component}
-          options={({ route }) => {
-            return {
+      {authScreens.map(({ name, screen }) => {
+        return (
+          <RootStack.Screen
+            key={name}
+            name={name}
+            component={screen}
+            options={{
+              headerTitle: '',
               headerShown: true,
               headerLeft: () => <BackButton />,
-            };
-          }}
-        />
-      ))}
+            }}
+          />
+        );
+      })}
       {Object.entries({ ...badgeListScreen }).map(([name, component]) => (
         <RootStack.Screen
           key={name}

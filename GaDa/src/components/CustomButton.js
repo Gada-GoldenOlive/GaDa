@@ -10,14 +10,15 @@ const CustomButton = ({
   handlePress,
   backgroundColor,
   fontColor,
-  clickable,
+  clickable = true,
   style: containerStyle = null,
   textStyle = null,
 }) => {
+  console.log(clickable)
   return (
     <View style={[styles.container, containerStyle]}>
-      <TouchableWithoutFeedback onPress={handlePress}>
-        <View style={[styles.wrapper, backgroundColor && { backgroundColor }]}>
+      <TouchableWithoutFeedback onPress={clickable ? handlePress : null}>
+        <View style={[styles.wrapper, backgroundColor && { backgroundColor }, !clickable && {backgroundColor: '#9e9e9e'}]}>
           <Text style={[styles.text, textStyle]}>{title}</Text>
         </View>
       </TouchableWithoutFeedback>
