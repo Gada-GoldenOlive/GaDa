@@ -1,32 +1,29 @@
-import { ScrollView, StyleSheet, View } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
 import WritingFrame from '../../../components/WritingFrame';
 
-const CreatePinScreen = ({
-  pinImage,
-  title,
-  content,
+const CreateWalkwayScreen = ({
+  title = '어쩌구저쩌구',
+  content = '내용입니다',
   titleTextChange,
   contentTextChange,
-  handlePress,
-  address,
+  address = '서대문구 서대문로',
 }) => {
   return (
     <WritingFrame
       titlePlaceHolder="제목"
       contentPlaceholder="내용"
-      buttonTitle="작성완료"
-      image={pinImage}
+      buttonTitle="업로드"
       title={title}
       content={content}
       titleTextChange={titleTextChange}
       contentTextChange={contentTextChange}
-      handlePress={handlePress}
       address={address}
+      type="walkway"
     />
   );
 };
 
-export default CreatePinScreen;
+export default CreateWalkwayScreen;
 
 const styles = StyleSheet.create({});

@@ -7,7 +7,7 @@ import {
   View,
 } from 'react-native';
 import React, { useState } from 'react';
-import { blackColor } from '../../../constant/colors';
+import { blackColor, buttonColor } from '../../../constant/colors';
 import { boldFontFamily, boldFontSize } from '../../../constant/fonts';
 import CustomImage from '../../../components/CustomImage';
 import { MapImage } from '../../../constant/images/Temp';
@@ -17,22 +17,30 @@ import SubmitButton from '../../../components/SubmitButton';
 import CustomButton from '../../../components/CustomButton';
 import FeedItemList from '../components/FeedItemList';
 
-
-const GettingWalkwayScreen = () => {
+const GettingWalkwayScreen = ({handleClick}) => {
   return (
-    <ScrollView style={styles.container}>
-    <View style={styles.topContainer}>
-      <Text style={styles.title}>내가 다녀온 산책로</Text>
+    <View style={styles.container}>
+      <ScrollView style={styles.container}>
+        <View style={styles.container}>
+          <View style={styles.topContainer}>
+            <Text style={styles.title}>내가 다녀온 산책로</Text>
+          </View>
+          <FeedItemList type="recent" />
+        </View>
+      </ScrollView>
+      <TouchableWithoutFeedback onPress={handleClick}> 
+        <View style={styles.buttonWrapper}>
+          <Text style={styles.text}>가져오기</Text>
+        </View>
+      </TouchableWithoutFeedback>
     </View>
-    <FeedItemList type="recent"/>
-  </ScrollView>
   );
 };
 
 export default GettingWalkwayScreen;
 
-const styles = StyleSheet.create({  
-    container: {
+const styles = StyleSheet.create({
+  container: {
     flex: 1,
   },
   topContainer: {
@@ -59,5 +67,21 @@ const styles = StyleSheet.create({
     paddingTop: 19,
     paddingBottom: 11,
     paddingStart: 16,
+  },
+  buttonWrapper: {
+    backgroundColor: buttonColor,
+    borderRadius: 8,
+    paddingVertical: 17,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginHorizontal: 16,
+    marginBottom: 33,
+    marginTop: 13,
+  },
+  text: {
+    fontFamily: boldFontFamily,
+    fontSize: 18,
+    letterSpacing: -0.36,
+    color: 'white',
   },
 });

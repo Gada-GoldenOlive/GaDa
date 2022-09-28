@@ -29,6 +29,7 @@ import BadgeListContainer from '../domain/Record/container/BadgeListContainer';
 import GettingWalkwayContainer from '../domain/Feed/container/GettingWalkwayContainer';
 import DetailFeedContainer from '../domain/Feed/container/DetailFeedContainer';
 import { View } from 'react-native';
+import CreateWalkwayContainer from '../domain/Feed/container/CreateWalkwayContainer';
 
 const createPinScreen = {
   CreatePin: CreatePinContainer,
@@ -75,6 +76,10 @@ const gettingWalkwayScreen = {
 const detailFeedScreen = {
   DetailFeed: DetailFeedContainer,
 };
+const createWalkwayScreen = {
+  CreateWalkway: CreateWalkwayContainer,
+};
+
 const RootStack = createStackNavigator();
 const RootNavigation = () => {
   const navigation = useNavigation();
@@ -251,6 +256,20 @@ const RootNavigation = () => {
               headerTransparent: true,
               headerLeft: () => <BackButton />,
               headerTitle: '',
+            };
+          }}
+        />
+      ))}
+      {Object.entries({ ...createWalkwayScreen }).map(([name, component]) => (
+        <RootStack.Screen
+          key={name}
+          name={name}
+          component={component}
+          options={({ route }) => {
+            return {
+              headerShown: true,
+              headerLeft: () => <BackButton />,
+              headerTitle: '산책로 등록',
             };
           }}
         />

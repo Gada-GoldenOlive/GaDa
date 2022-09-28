@@ -18,7 +18,7 @@ const CreatePinContainer = ({ navigation, route }) => {
   const { userId } = useSelector(state => state.user);
   const dispatch = useDispatch();
 
-  const createPinInfo = async () => {
+  const handlePress = async () => {
     const pinData = {
       title: pinTitle,
       content: content,
@@ -51,7 +51,7 @@ const CreatePinContainer = ({ navigation, route }) => {
       content={content}
       titleTextChange={titleTextChange}
       contentTextChange={contentTextChange}
-      createPinInfo={createPinInfo}
+      handlePress={handlePress}
       address={address}
     />
   );

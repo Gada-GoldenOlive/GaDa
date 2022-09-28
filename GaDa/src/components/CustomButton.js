@@ -29,8 +29,6 @@ export default CustomButton;
 
 const styles = StyleSheet.create({
   container: {
-    position: 'absolute',
-    bottom: 0,
     width: windowWidth,
     paddingBottom: 33,
     backgroundColor: 'white',

@@ -2,9 +2,12 @@ import { View, Text } from 'react-native'
 import React from 'react'
 import GettingWalkwayScreen from '../screen/GettingWalkwayScreen'
 
-const GettingWalkwayContainer = () => {
+const GettingWalkwayContainer = ({navigation, route}) => {
+    const handleClick = () => {
+        navigation.navigate('CreateWalkway')
+    }
   return (
-    <GettingWalkwayScreen />
+    <GettingWalkwayScreen handleClick={handleClick} />
   )
 }
 
