@@ -25,6 +25,9 @@ import FriendsAlarmContainer from '../domain/Friends/container/FriendsAlarmConta
 // mypage
 import BadgeListContainer from '../domain/Record/container/BadgeListContainer';
 
+// feed
+import GettingWalkwayContainer from '../domain/Feed/container/GettingWalkwayContainer';
+import DetailFeedContainer from '../domain/Feed/container/DetailFeedContainer';
 
 const createPinScreen = {
   CreatePin: CreatePinContainer,
@@ -61,11 +64,16 @@ const modifyNicknameScreen = {
 };
 
 const badgeListScreen = {
-  BadgeList: BadgeListContainer
-}
+  BadgeList: BadgeListContainer,
+};
 
-
-
+const gettingWalkwayScreen = {
+  GettingWalkway: GettingWalkwayContainer,
+};
+// feed
+const detailFeedScreen = {
+  DetailFeed: DetailFeedContainer,
+};
 const RootStack = createStackNavigator();
 const RootNavigation = () => {
   const navigation = useNavigation();
@@ -173,7 +181,7 @@ const RootNavigation = () => {
           }}
         />
       ))}
-{Object.entries({ ...badgeListScreen }).map(([name, component]) => (
+      {Object.entries({ ...badgeListScreen }).map(([name, component]) => (
         <RootStack.Screen
           key={name}
           name={name}
@@ -186,8 +194,8 @@ const RootNavigation = () => {
           }}
         />
       ))}
- {Object.entries({ ...addFriendsScreen }).map(([name, component]) => (
-      <RootStack.Screen
+      {Object.entries({ ...addFriendsScreen }).map(([name, component]) => (
+        <RootStack.Screen
           key={name}
           name={name}
           component={component}
@@ -202,7 +210,7 @@ const RootNavigation = () => {
         />
       ))}
       {Object.entries({ ...friendsAlarmScreen }).map(([name, component]) => (
-<RootStack.Screen
+        <RootStack.Screen
           key={name}
           name={name}
           component={component}
@@ -213,11 +221,39 @@ const RootNavigation = () => {
               headerTitle: '친구 신청내역',
 
               title: '배지',
-            }
-      }}/>
+            };
+          }}
+        />
       ))}
-              
-      
+      {Object.entries({ ...gettingWalkwayScreen }).map(([name, component]) => (
+        <RootStack.Screen
+          key={name}
+          name={name}
+          component={component}
+          options={({ route }) => {
+            return {
+              headerShown: true,
+              headerBackground: () => <View style={{opacity:0 }}/>,
+              headerLeft: () => <BackButton />,
+              headerTitle: '산책로 가져오기',
+            };
+          }}
+        />
+      ))}
+      {Object.entries({ ...detailFeedScreen }).map(([name, component]) => (
+        <RootStack.Screen
+          key={name}
+          name={name}
+          component={component}
+          options={({ route }) => {
+            return {
+              headerShown: true,
+              headerLeft: () => <BackButton />,
+              headerTitle: '산책로 가져오기',
+            };
+          }}
+        />
+      ))}
       <RootStack.Screen name="BottomTab" component={BottomTab} />
     </RootStack.Navigator>
   );

@@ -41,7 +41,7 @@ const RecordScreen = ({
       </View>
       <View style={styles.goalContainer}>
         <View style={styles.goalTitleContainer}>
-          <Text style={styles.goalTitle}>달성목표</Text>
+          <Text style={styles.goalTitle}>이번 주 목표</Text>
           <TouchableWithoutFeedback onPress={handleNaivigateGoal}>
             <CustomImage source={Writing} style={styles.goalWriting} />
           </TouchableWithoutFeedback>
