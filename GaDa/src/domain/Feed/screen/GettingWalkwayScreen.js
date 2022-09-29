@@ -20,7 +20,7 @@ import FeedItemList from '../components/FeedItemList';
 const GettingWalkwayScreen = ({handleClick}) => {
   return (
     <View style={styles.container}>
-      <ScrollView style={styles.container}>
+      <ScrollView style={styles.container}  bounces={false} showsVerticalScrollIndicator={false} >
         <View style={styles.container}>
           <View style={styles.topContainer}>
             <Text style={styles.title}>내가 다녀온 산책로</Text>

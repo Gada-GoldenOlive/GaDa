@@ -3,7 +3,7 @@ import React from 'react'
 
 const BadgeListScreen = () => {
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container}  bounces={false} showsVerticalScrollIndicator={false}>
         <Text style={styles.title}>산책</Text>
         
     </ScrollView>

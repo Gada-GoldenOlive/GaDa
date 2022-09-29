@@ -1,4 +1,10 @@
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 import React from 'react';
 import { windowWidth } from '../../../constant/styles';
 import CustomImage from '../../../components/CustomImage';
@@ -6,24 +12,28 @@ import { MapImage } from '../../../constant/images/Temp';
 import { blackColor, mainColor } from '../../../constant/colors';
 import { boldFontFamily, boldFontSize } from '../../../constant/fonts';
 
-const RecentScreen = () => {
+const RecentScreen = ({ handleDetailPin }) => {
   const renderItem = ({ item, index }) => {
     const { name, distance, time, date } = item;
     return (
-      <View style={[styles.itemContainer, index % 2 === 0 && {marginEnd: 11}]}>
-        <Text style={styles.time}>{date}</Text>
-        <View style={styles.contentView}>
-          <CustomImage style={styles.background} source={MapImage} />
-          <View style={styles.gradient} />
-          <View style={styles.bottomWrapper}>
-            <View style={styles.percentWrapper}>
-              <Text style={styles.percent}>40%</Text>
+      <TouchableWithoutFeedback onPress={handleDetailPin}>
+        <View
+          style={[styles.itemContainer, index % 2 === 0 && { marginEnd: 11 }]}
+        >
+          <Text style={styles.time}>{date}</Text>
+          <View style={styles.contentView}>
+            <CustomImage style={styles.background} source={MapImage} />
+            <View style={styles.gradient} />
+            <View style={styles.bottomWrapper}>
+              <View style={styles.percentWrapper}>
+                <Text style={styles.percent}>40%</Text>
+              </View>
+              <Text style={styles.distance}>{distance}m</Text>
             </View>
-            <Text style={styles.distance}>{distance}m</Text>
           </View>
+          <Text style={styles.name}>{name}</Text>
         </View>
-        <Text style={styles.name}>{name}</Text>
-      </View>
+      </TouchableWithoutFeedback>
     );
   };
   const dataList = [
@@ -94,13 +104,12 @@ const styles = StyleSheet.create({
   itemContainer: {
     width: (windowWidth - 32 - 11) / 2,
     marginTop: 25,
-    
   },
-  time:{
+  time: {
     color: '#9e9e9e',
     marginBottom: 6,
   },
-  contentView:{
+  contentView: {
     borderRadius: 4,
     width: '100%',
     height: 94,
@@ -125,13 +134,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 9,
     paddingBottom: 8,
   },
-  percentWrapper:{
+  percentWrapper: {
     backgroundColor: mainColor,
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: 15,
   },
-  percent:{
+  percent: {
     color: 'white',
     fontFamily: boldFontFamily,
   },
@@ -139,9 +148,9 @@ const styles = StyleSheet.create({
     color: 'white',
     fontFamily: boldFontFamily,
   },
-  name:{
+  name: {
     color: blackColor,
     fontSize: boldFontSize,
     fontFamily: boldFontFamily,
-  }
+  },
 });
