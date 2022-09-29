@@ -1,6 +1,6 @@
 export const defaultColor = '#rgb(83,83,83)';
 export const descriptionColor = '#8D8D8D'; // 'rgb(141,141,141)
-export const descriptionColorVer2 = 'rgb(158,158,158)';
+export const descriptionColorVer2 = 'rgb(158,158,158)'; // #9e9e9e
 export const mainColor = '#49D492';
 export const pinColor = '#539A71';
 export const blackColor = '#000000';

@@ -1,16 +1,38 @@
-import { StyleSheet, View } from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 import React from 'react';
 import CustomImage from '../../../components/CustomImage';
-import { borderColor } from '../../../constant/colors';
+import {
+  blackColor,
+  borderColor,
+  defaultColor,
+  descriptionColor,
+  descriptionColorVer2,
+} from '../../../constant/colors';
 import {
   boldFontFamily,
+  boldFontSize,
   defaultFontFamily,
   mediumFontFamily,
   montBoldFontFamily,
 } from '../../../constant/fonts';
 import Text from '../../../components/MyText';
+import { Trash } from '../../../constant/images/Trash';
+import Goal from '../../Record/components/Goal';
+import { Arrow } from '../../../constant/images/Arrow';
+import MyWalkwayList from '../../Record/components/MyWalkwayList';
+import { AddComma } from '../../../function';
 
-const FriendRecordScreen = ({ dataList, rank }) => {
+const FriendRecordScreen = ({
+  dataList,
+  rank,
+  handleDeleteButton,
+  handleViewMoreButton,
+}) => {
   const { id, name, image, totalTime, totalDistance } = dataList;
 
   const renderUserInfo = () => {
@@ -23,6 +45,11 @@ const FriendRecordScreen = ({ dataList, rank }) => {
               <Text style={styles.userName}>{name}</Text>
               <Text style={styles.userId}>{id}</Text>
             </View>
+          </View>
+          <View>
+            <TouchableWithoutFeedback onPress={handleDeleteButton}>
+              <CustomImage source={Trash} style={styles.trashIcon} />
+            </TouchableWithoutFeedback>
           </View>
         </View>
       </View>
@@ -45,8 +72,7 @@ const FriendRecordScreen = ({ dataList, rank }) => {
           </View>
           <Text>
             <Text style={styles.rankDistance}>
-              {typeof totalDistance === 'number' &&
-                totalDistance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+              {typeof totalDistance === 'number' && AddComma(totalDistance)}
             </Text>
             <Text
               style={[styles.rankDistance, { fontFamily: defaultFontFamily }]}
@@ -59,12 +85,50 @@ const FriendRecordScreen = ({ dataList, rank }) => {
       </View>
     );
   };
-  return (
-    <View style={styles.container}>
-      {renderUserInfo()}
-      {renderRank()}
-    </View>
-  );
+
+  const renderGoalInfo = () => {
+    return (
+      <View style={styles.goalContainer}>
+        <TouchableWithoutFeedback onPress={handleViewMoreButton}>
+          <View style={styles.viewMore}>
+            <Text style={styles.viewMoreText}>전체보기</Text>
+            <CustomImage
+              source={Arrow}
+              style={styles.arrowIcon}
+              tintColor={descriptionColorVer2}
+            />
+          </View>
+        </TouchableWithoutFeedback>
+
+        <View style={{ marginTop: -7 }}>
+          <Goal />
+        </View>
+      </View>
+    );
+  };
+
+  const renderWalkwaysInfo = () => {
+    return (
+      <View style={styles.walkwaysContainer}>
+        <View style={styles.recentTitleContainer}>
+          <Text style={styles.recentTitle}>작성한 산책로</Text>
+        </View>
+      </View>
+    );
+  };
+
+  const ListHeaderComponent = () => {
+    return (
+      <View style={styles.container}>
+        {renderUserInfo()}
+        {renderRank()}
+        {renderGoalInfo()}
+        {renderWalkwaysInfo()}
+      </View>
+    );
+  };
+
+  return <MyWalkwayList ListHeaderComponent={ListHeaderComponent} />;
 };
 
 export default FriendRecordScreen;
@@ -72,7 +136,7 @@ export default FriendRecordScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginHorizontal: 16,
+    // marginHorizontal: 16,
   },
   userInfoContainer: {
     paddingVertical: 20.5,
@@ -144,5 +208,43 @@ const styles = StyleSheet.create({
     fontSize: 16,
     letterSpacing: -0.32,
     color: 'white',
+  },
+  trashIcon: {
+    width: 28,
+    height: 28,
+  },
+  goalContainer: {
+    marginTop: 23,
+  },
+  viewMore: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  viewMoreText: {
+    fontFamily: mediumFontFamily,
+    letterSpacing: -0.28,
+    color: descriptionColorVer2,
+  },
+  arrowIcon: {
+    width: 11.5,
+    height: 11.5,
+  },
+  walkwaysContainer: {
+    marginHorizontal: -16,
+    marginTop: 30,
+  },
+  recentTitleContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 14,
+
+    paddingHorizontal: 16,
+  },
+  recentTitle: {
+    color: blackColor,
+    fontSize: boldFontSize,
+    fontFamily: boldFontFamily,
   },
 });

@@ -54,3 +54,8 @@ export const getRandomImage = (width = 150, height = 150) => {
   const randomImage = `https://picsum.photos/${width}/${height}/?image=${num}`;
   return randomImage;
 };
+
+export const AddComma = num => {
+  const regexp = /\B(?=(\d{3})+(?!\d))/g;
+  return num.toString().replace(regexp, ',');
+};

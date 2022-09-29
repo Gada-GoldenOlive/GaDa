@@ -25,6 +25,7 @@ import {
   montBoldFontFamily,
 } from '../../../constant/fonts';
 import { backgroundColor, defaultColor } from '../../../constant/colors';
+import { AddComma } from '../../../function';
 
 const friendsLangkingList = [
   {
@@ -124,9 +125,7 @@ const FriendsScreen = ({
                       <Text>
                         <Text style={styles.top3Text}>
                           {typeof item.totalDistance === 'number' &&
-                            item.totalDistance
-                              .toString()
-                              .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                            AddComma(item.totalDistance)}
                         </Text>
                         <Text
                           style={[
@@ -181,9 +180,7 @@ const FriendsScreen = ({
                     </View>
                     <Text>
                       <Text style={styles.bodyText}>
-                        {item.totalDistance
-                          .toString()
-                          .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                        {AddComma(item.totalDistance)}
                       </Text>
                       <Text
                         style={[

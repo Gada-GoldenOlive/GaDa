@@ -27,6 +27,13 @@ const FriendRecordContainer = ({ route }) => {
     setLoading(false);
   };
 
+  const handleDeleteButton = () => {
+    console.log('delete');
+  };
+  const handleViewMoreButton = () => {
+    console.log('viewMore');
+  };
+
   useEffect(() => {
     if (dataList.length > 0) {
       console.log('언제?');
@@ -37,7 +44,16 @@ const FriendRecordContainer = ({ route }) => {
     fetchRecordData();
   }, []);
 
-  return !loading && <FriendRecordScreen dataList={dataList} rank={rank} />;
+  return (
+    !loading && (
+      <FriendRecordScreen
+        dataList={dataList}
+        rank={rank}
+        handleDeleteButton={handleDeleteButton}
+        handleViewMoreButton={handleViewMoreButton}
+      />
+    )
+  );
 };
 
 export default FriendRecordContainer;
