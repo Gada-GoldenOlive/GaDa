@@ -1,3 +1,4 @@
-import heart from 'heart.png';
+import heart from './heart.png';
+import heartClicked from './heartClicked.png';
 
-export default heart;
+export { heart, heartClicked };

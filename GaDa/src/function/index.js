@@ -54,3 +54,45 @@ export const getRandomImage = (width = 150, height = 150) => {
   const randomImage = `https://picsum.photos/${width}/${height}/?image=${num}`;
   return randomImage;
 };
+
+export const getNicknameIsNotValid = ({nickname}) => {
+  if(nickname.length > 10 || nickname.length < 3) {
+    return true
+  }
+  const reg = /[`~!@#$%^&*()_|+\-=?;:'"<>\{\}\[\]\\\/ ]/gim;
+  const result = reg.test(nickname);
+  return result
+}
+
+export const getPWIsNotValid = ({pw}) => {
+  if(pw.length > 20 || (pw.length >0 && pw.length < 6)) {
+    return true
+  }
+  const korean = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+ 
+  const result = korean.test(pw);
+  return result
+}
+
+export const getKm = ({distance}) => {
+  return distance / 1000;
+};
+
+export const getHour = ({time}) => {
+  return time / 60
+
+}
+
+export const getDistanceFromLatLonInKm = ({lat1,lng1,lat2,lng2}) =>  {
+  const deg2rad = deg => {
+      return deg * (Math.PI/180)
+  }
+
+  const R = 6371; // Radius of the earth in km
+  const dLat = deg2rad(lat2-lat1);  // deg2rad below
+  const dLon = deg2rad(lng2-lng1);
+  const a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon/2) * Math.sin(dLon/2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  const d = R * c; // Distance in km
+  return d;
+}

@@ -20,7 +20,12 @@ import {
   boldFontSize,
   mediumFontFamily,
 } from '../../../constant/fonts';
-import { blackColor, buttonColor, mainColor } from '../../../constant/colors';
+import {
+  blackColor,
+  buttonColor,
+  descriptionColorVer2,
+  mainColor,
+} from '../../../constant/colors';
 import Goal from '../components/Goal';
 import Badge from '../components/Badge';
 import { Arrow, ArrowBlack } from '../../../constant/images/Arrow';
@@ -33,6 +38,7 @@ const RecordScreen = ({
   handleNavigateSetting,
   handleNavigateBadge,
   handleNavigateRecent,
+  handleNavigateMyRecord
 }) => {
   return (
     <ScrollView style={styles.container}>
@@ -41,9 +47,21 @@ const RecordScreen = ({
       </View>
       <View style={styles.goalContainer}>
         <View style={styles.goalTitleContainer}>
-          <Text style={styles.goalTitle}>달성목표</Text>
-          <TouchableWithoutFeedback onPress={handleNaivigateGoal}>
-            <CustomImage source={Writing} style={styles.goalWriting} />
+          <View style={styles.goalTitleWrapper}>
+            <Text style={styles.goalTitle}>이번 주 목표</Text>
+            <TouchableWithoutFeedback onPress={handleNaivigateGoal}>
+              <CustomImage source={Writing} style={styles.goalWriting} />
+            </TouchableWithoutFeedback>
+          </View>
+          <TouchableWithoutFeedback onPress={handleNavigateMyRecord}>
+            <View style={styles.moreWrapper}>
+              <Text>전체보기</Text>
+              <CustomImage
+                style={styles.arrow}
+                source={Arrow}
+                tintColor={descriptionColorVer2}
+              />
+            </View>
           </TouchableWithoutFeedback>
         </View>
         <Goal />
@@ -99,6 +117,11 @@ const styles = StyleSheet.create({
   goalTitleContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  goalTitleWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   goalTitle: {
     fontFamily: boldFontFamily,
@@ -109,6 +132,18 @@ const styles = StyleSheet.create({
   goalWriting: {
     width: 24,
     height: 24,
+  },
+  moreWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  more: {
+    fontFamily: mediumFontFamily,
+    color: descriptionColorVer2,
+  },
+  arrow: {
+    width: 11.5,
+    height: 11.5,
   },
   badgeContainer: {
     backgroundColor: mainColor,

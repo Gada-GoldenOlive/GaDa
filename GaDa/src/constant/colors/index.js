@@ -13,3 +13,5 @@ export const starBackgroundColor = 'rgb(217,217,217)';
 
 export const dotColor = 'rgb(228,228,228)';
 export const activeDotColor = 'rgb(64,209,126)';
+
+export const errorColor = 'rgb(255, 92, 0)'
