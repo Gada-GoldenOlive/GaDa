@@ -21,6 +21,9 @@ const RecordContainer = ({ navigation }) => {
   const handleNavigateRecent = () => {
     navigation.navigate('Recent')
   }
+  const handleNavigateMyRecord = () => {
+    navigation.navigate('MyRecord');
+  }
   return (
     <RecordScreen
       handleNavigate={handleNavigate}
@@ -28,6 +31,7 @@ const RecordContainer = ({ navigation }) => {
       handleNavigateSetting={handleNavigateSetting}
       handleNavigateBadge={handleNavigateBadge}
       handleNavigateRecent={handleNavigateRecent}
+      handleNavigateMyRecord={handleNavigateMyRecord}
     />
   );
 };

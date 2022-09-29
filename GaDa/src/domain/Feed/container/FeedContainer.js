@@ -7,8 +7,14 @@ import { useEffect } from 'react';
 import { setBottomTabVisible } from '../../../redux/modules/status';
 import { FeedS } from '../../../constant/images/Sample';
 
-const FeedContainer = () => {
-  return <FeedScreen />;
+const FeedContainer = ({navigation, route}) => {
+  const handleGettingWalkway = () => {
+    navigation.navigate('GettingWalkway');
+  };
+  const handleDetailFeed = id => {
+    navigation.navigate('DetailFeed', {id});
+  }
+  return <FeedScreen handleGettingWalkway={handleGettingWalkway} handleDetailFeed={handleDetailFeed} />;
 };
 
 export default FeedContainer;

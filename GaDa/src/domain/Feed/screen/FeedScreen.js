@@ -15,12 +15,13 @@ import { blackColor } from '../../../constant/colors';
 import FilteringButton from '../../../components/FilteringButton';
 import FeedItemList from '../components/FeedItemList';
 
-const FeedScreen = ({}) => {
+const FeedScreen = ({handleGettingWalkway, handleDetailFeed}) => {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.topContainer}>
         <Text style={styles.title}>피드</Text>
-        <TouchableWithoutFeedback>
+        <FilteringButton />
+        <TouchableWithoutFeedback onPress={handleGettingWalkway}>
           <View style={styles.writeWrapper}>
             <CustomImage
               style={styles.writing}
@@ -30,10 +31,7 @@ const FeedScreen = ({}) => {
           </View>
         </TouchableWithoutFeedback>
       </View>
-      <View style={styles.middleContainer}>
-        <FilteringButton />
-      </View>
-      <FeedItemList />
+      <FeedItemList handleDetailFeed={handleDetailFeed}/>
     </ScrollView>
   );
 };
@@ -49,12 +47,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    paddingBottom: 21,
+    paddingTop: 3,
   },
   title: {
     fontFamily: boldFontFamily,
     fontSize: 20,
     lineHeight: 31,
     color: blackColor,
+    marginEnd: 8,
   },
   writeWrapper: {
     width: 37,
@@ -68,7 +69,5 @@ const styles = StyleSheet.create({
     paddingBottom: 11,
     paddingStart: 16,
   },
-  itemContainer: {
-    
-  }
+  
 });

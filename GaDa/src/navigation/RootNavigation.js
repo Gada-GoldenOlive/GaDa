@@ -26,6 +26,14 @@ import FriendRecordContainer from '../domain/Friends/container/FriendRecordConta
 // mypage
 import BadgeListContainer from '../domain/Record/container/BadgeListContainer';
 
+// feed
+import GettingWalkwayContainer from '../domain/Feed/container/GettingWalkwayContainer';
+import DetailFeedContainer from '../domain/Feed/container/DetailFeedContainer';
+import { View } from 'react-native';
+import CreateWalkwayContainer from '../domain/Feed/container/CreateWalkwayContainer';
+import ModifyPWContainer from '../domain/Auth/container/ModifyPWContainer';
+import MyRecordContainer from '../domain/Record/container/MyRecordContainer';
+
 const createPinScreen = {
   CreatePin: CreatePinContainer,
 };
@@ -45,6 +53,10 @@ const authScreens = [
     name: 'Nickname',
     screen: NicknameContainer,
   },
+  {
+    name: 'MyRecord',
+    screen: MyRecordContainer
+  }
 ];
 const signInScreen = {
   SignIn: SignInContainer,
@@ -59,13 +71,31 @@ const friendRecordScreen = {
   FriendRecord: FriendRecordContainer,
 };
 
-const modifyNicknameScreen = {
-  ModifyNickname: ModifyNicknameContainer,
-};
+const modifyScreens = [
+  {
+    name: 'ModifyNickname',
+    screen: ModifyNicknameContainer,
+    title: '프로필 수정',
+  },
+  { name: 'ModifyPW', screen: ModifyPWContainer, title: '비밀번호 재설정' },
+];
 
 const badgeListScreen = {
   BadgeList: BadgeListContainer,
 };
+
+const gettingWalkwayScreen = {
+  GettingWalkway: GettingWalkwayContainer,
+};
+
+// feed
+const detailFeedScreen = {
+  DetailFeed: DetailFeedContainer,
+};
+const createWalkwayScreen = {
+  CreateWalkway: CreateWalkwayContainer,
+};
+
 
 const RootStack = createStackNavigator();
 const RootNavigation = () => {
@@ -134,14 +164,14 @@ const RootNavigation = () => {
           }}
         />
       ))}
-      {authScreens.map(({ name, screen }) => {
+      {modifyScreens.map(({ name, screen, title}) => {
         return (
           <RootStack.Screen
             key={name}
             name={name}
             component={screen}
             options={{
-              headerTitle: '',
+              headerTitle: title,
               headerShown: true,
               headerLeft: () => <BackButton />,
             }}
@@ -161,19 +191,20 @@ const RootNavigation = () => {
           }}
         />
       ))}
-      {Object.entries({ ...modifyNicknameScreen }).map(([name, component]) => (
-        <RootStack.Screen
-          key={name}
-          name={name}
-          component={component}
-          options={({ route }) => {
-            return {
+      {authScreens.map(({ name, screen }) => {
+        return (
+          <RootStack.Screen
+            key={name}
+            name={name}
+            component={screen}
+            options={{
+              headerTitle: '',
               headerShown: true,
               headerLeft: () => <BackButton />,
-            };
-          }}
-        />
-      ))}
+            }}
+          />
+        );
+      })}
       {Object.entries({ ...badgeListScreen }).map(([name, component]) => (
         <RootStack.Screen
           key={name}
@@ -183,7 +214,6 @@ const RootNavigation = () => {
             return {
               headerShown: true,
               headerLeft: () => <BackButton />,
-              title: '배지',
             };
           }}
         />
@@ -213,6 +243,8 @@ const RootNavigation = () => {
               headerShown: true,
               headerLeft: () => <BackButton />,
               headerTitle: '친구 신청내역',
+
+              title: '배지',
             };
           }}
         />
@@ -231,6 +263,52 @@ const RootNavigation = () => {
           }}
         />
       ))}
+
+      {Object.entries({ ...gettingWalkwayScreen }).map(([name, component]) => (
+        <RootStack.Screen
+          key={name}
+          name={name}
+          component={component}
+          options={({ route }) => {
+            return {
+              headerShown: true,
+              headerLeft: () => <BackButton />,
+              headerTitle: '산책로 가져오기',
+            };
+          }}
+        />
+      ))}
+      {Object.entries({ ...detailFeedScreen }).map(([name, component]) => (
+        <RootStack.Screen
+          key={name}
+          name={name}
+          component={component}
+          options={({ route }) => {
+            return {
+              headerShown: true,
+              headerTransparent: true,
+              headerLeft: () => <BackButton />,
+              headerTitle: '',
+            };
+          }}
+        />
+      ))}
+      {Object.entries({ ...createWalkwayScreen }).map(([name, component]) => (
+        <RootStack.Screen
+          key={name}
+          name={name}
+          component={component}
+          options={({ route }) => {
+            return {
+              headerShown: true,
+              headerLeft: () => <BackButton />,
+              headerTitle: '산책로 등록',
+            };
+          }}
+        />
+      ))}
+
+
 
       <RootStack.Screen name="BottomTab" component={BottomTab} />
     </RootStack.Navigator>
