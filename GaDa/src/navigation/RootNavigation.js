@@ -21,6 +21,7 @@ import ModifyNicknameContainer from '../domain/Auth/container/ModifyNicknameCont
 // FRIENDS
 import AddFriendsContainer from '../domain/Friends/container/AddFriendsContainer';
 import FriendsAlarmContainer from '../domain/Friends/container/FriendsAlarmContainer';
+import FriendRecordContainer from '../domain/Friends/container/FriendRecordContainer';
 
 // mypage
 import BadgeListContainer from '../domain/Record/container/BadgeListContainer';
@@ -66,6 +67,9 @@ const addFriendsScreen = {
 const friendsAlarmScreen = {
   friendsAlarm: FriendsAlarmContainer,
 };
+const friendRecordScreen = {
+  FriendRecord: FriendRecordContainer,
+};
 
 const modifyScreens = [
   {
@@ -83,6 +87,7 @@ const badgeListScreen = {
 const gettingWalkwayScreen = {
   GettingWalkway: GettingWalkwayContainer,
 };
+
 // feed
 const detailFeedScreen = {
   DetailFeed: DetailFeedContainer,
@@ -90,6 +95,7 @@ const detailFeedScreen = {
 const createWalkwayScreen = {
   CreateWalkway: CreateWalkwayContainer,
 };
+
 
 const RootStack = createStackNavigator();
 const RootNavigation = () => {
@@ -243,6 +249,21 @@ const RootNavigation = () => {
           }}
         />
       ))}
+      {Object.entries({ ...friendRecordScreen }).map(([name, component]) => (
+        <RootStack.Screen
+          key={name}
+          name={name}
+          component={component}
+          options={({ route }) => {
+            return {
+              headerShown: true,
+              headerLeft: () => <BackButton />,
+              headerTitle: '',
+            };
+          }}
+        />
+      ))}
+
       {Object.entries({ ...gettingWalkwayScreen }).map(([name, component]) => (
         <RootStack.Screen
           key={name}
@@ -286,6 +307,9 @@ const RootNavigation = () => {
           }}
         />
       ))}
+
+
+
       <RootStack.Screen name="BottomTab" component={BottomTab} />
     </RootStack.Navigator>
   );

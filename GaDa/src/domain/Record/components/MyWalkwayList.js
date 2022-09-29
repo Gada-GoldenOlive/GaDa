@@ -11,9 +11,13 @@ import CustomImage from '../../../components/CustomImage';
 import { PinSample1, PinSample2 } from '../../../constant/images/PinSample';
 import { boldFontFamily, boldFontSize } from '../../../constant/fonts';
 import CustomRating from '../../../components/CustomRating';
-import { backgroundColor, blackColor, borderColor } from '../../../constant/colors';
+import {
+  backgroundColor,
+  blackColor,
+  borderColor,
+} from '../../../constant/colors';
 
-const MyWalkwayList = () => {
+const MyWalkwayList = ({ ListHeaderComponent }) => {
   const myinfo = { image: MyImageS, name: '산책와 뽀삐' };
   const tempList = [
     {
@@ -64,7 +68,7 @@ const MyWalkwayList = () => {
   };
   return (
     <View style={styles.container}>
-      {tempList2.length >= 1 ? (
+      {tempList.length >= 1 ? (
         <FlatList
           scrollEventThrottle={16}
           showsVerticalScrollIndicator={false}
@@ -74,18 +78,22 @@ const MyWalkwayList = () => {
           renderItem={({ item, index }) => renderItem({ item, index })}
           onEndReachedThreshold={0.7}
           keyExtractor={(item, index) => `${item.id}-${index}`}
+          ListHeaderComponent={ListHeaderComponent}
         />
       ) : (
-        <View style={styles.nullContainer}>
-          <CustomImage style={styles.nullImage} source={PinSample1} />
-          <View style={styles.nullGradient} />
-          <Text style={styles.nullTitle}>산책로를 만들고 공유하세요!</Text>
-          <TouchableWithoutFeedback>
-            <View style={styles.nullButton}>
-              <Text style={styles.null}>기록시작</Text>
-            </View>
-          </TouchableWithoutFeedback>
-        </View>
+        <>
+          <ListHeaderComponent />
+          <View style={styles.nullContainer}>
+            <CustomImage style={styles.nullImage} source={PinSample1} />
+            <View style={styles.nullGradient} />
+            <Text style={styles.nullTitle}>산책로를 만들고 공유하세요!</Text>
+            <TouchableWithoutFeedback>
+              <View style={styles.nullButton}>
+                <Text style={styles.null}>기록시작</Text>
+              </View>
+            </TouchableWithoutFeedback>
+          </View>
+        </>
       )}
     </View>
   );
