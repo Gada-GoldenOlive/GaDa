@@ -31,6 +31,7 @@ import DetailFeedContainer from '../domain/Feed/container/DetailFeedContainer';
 import { View } from 'react-native';
 import CreateWalkwayContainer from '../domain/Feed/container/CreateWalkwayContainer';
 import ModifyPWContainer from '../domain/Auth/container/ModifyPWContainer';
+import MyRecordContainer from '../domain/Record/container/MyRecordContainer';
 
 const createPinScreen = {
   CreatePin: CreatePinContainer,
@@ -51,6 +52,10 @@ const authScreens = [
     name: 'Nickname',
     screen: NicknameContainer,
   },
+  {
+    name: 'MyRecord',
+    screen: MyRecordContainer
+  }
 ];
 const signInScreen = {
   SignIn: SignInContainer,
