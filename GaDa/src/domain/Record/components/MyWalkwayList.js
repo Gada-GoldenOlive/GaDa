@@ -12,6 +12,7 @@ import { PinSample1, PinSample2 } from '../../../constant/images/PinSample';
 import { boldFontFamily, boldFontSize } from '../../../constant/fonts';
 import CustomRating from '../../../components/CustomRating';
 import { backgroundColor, blackColor, borderColor } from '../../../constant/colors';
+import { getDistance } from '../../../function';
 
 const MyWalkwayList = () => {
   const myinfo = { image: MyImageS, name: '산책와 뽀삐' };
@@ -56,7 +57,7 @@ const MyWalkwayList = () => {
           <Text style={styles.title}>{name}</Text>
           <Text style={styles.information}>
             <Text>소요시간: {time / 60}시간 / </Text>
-            <Text>거리: {distance}m </Text>
+            <Text>거리: {getDistance({distance, unit: 'm'})}m </Text>
           </Text>
         </View>
       </View>
@@ -64,7 +65,7 @@ const MyWalkwayList = () => {
   };
   return (
     <View style={styles.container}>
-      {tempList2.length >= 1 ? (
+      {tempList.length >= 1 ? (
         <FlatList
           scrollEventThrottle={16}
           showsVerticalScrollIndicator={false}

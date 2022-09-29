@@ -6,7 +6,6 @@ import { blackColor } from '../../../constant/colors'
 const BadgeListScreen = () => {
   return (
     <ScrollView style={styles.container}>
-        <Text style={styles.title}>산책</Text>
         <BadgeList />
     </ScrollView>
   )

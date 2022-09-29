@@ -49,6 +49,41 @@ const BadgeList = () => {
       code: 3,
       isValid: true,
     },
+    {
+      category: 'WALKWAY',
+      code: 5,
+      isValid: false,
+    },
+    {
+      category: 'REVIEW',
+      code: 5,
+      isValid: false,
+    },
+    {
+      category: 'WALKTIME',
+      code: 5,
+      isValid: false,
+    },
+    {
+      category: 'DISTANCE',
+      code: 5,
+      isValid: false,
+    },
+    {
+      category: 'PIN',
+      code: 5,
+      isValid: false,
+    },
+    {
+      category: 'FRIEND',
+      code: 5,
+      isValid: false,
+    },
+    {
+      category: 'COMMENT',
+      code: 5,
+      isValid: false,
+    },
   ];
   const getTitle = item => {
     const { category, code } = item;
@@ -69,9 +104,26 @@ const BadgeList = () => {
         return `댓글 ${code}개 달성!`;
     }
   };
+  const getNum = code => {
+    switch (code) {
+      case 'THREE':
+        return 3;
+      case 'FIVE':
+        return 5;
+      case 'TEN':
+        return 10;
+      case 'TWENTY':
+        return 20;
+      case 'HUNDRED':
+        return 100;
+      case 'FIFTY':
+        return 50;
+      
+    }
+  };
   const getImage = item => {
     const { category, isValid } = item;
-    if(!isValid){
+    if (!isValid) {
       return defaultImage;
     }
     switch (category) {
