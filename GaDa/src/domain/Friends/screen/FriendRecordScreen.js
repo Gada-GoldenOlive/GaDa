@@ -35,7 +35,7 @@ const FriendRecordScreen = ({
 }) => {
   const { id, name, image, totalTime, totalDistance } = dataList;
 
-  const renderUserInfo = () => {
+  const RenderUserInfo = () => {
     return (
       <View style={styles.userInfoContainer}>
         <View style={styles.flexDirection}>
@@ -56,7 +56,7 @@ const FriendRecordScreen = ({
     );
   };
 
-  const renderRank = () => {
+  const RenderRank = () => {
     return (
       <View style={styles.rankContainer}>
         <Text style={styles.rankTitle}>이번주 순위</Text>
@@ -86,7 +86,7 @@ const FriendRecordScreen = ({
     );
   };
 
-  const renderGoalInfo = () => {
+  const RenderGoalInfo = () => {
     return (
       <View style={styles.goalContainer}>
         <TouchableWithoutFeedback onPress={handleViewMoreButton}>
@@ -107,7 +107,7 @@ const FriendRecordScreen = ({
     );
   };
 
-  const renderWalkwaysInfo = () => {
+  const RenderWalkwaysInfo = () => {
     return (
       <View style={styles.walkwaysContainer}>
         <View style={styles.recentTitleContainer}>
@@ -120,10 +120,10 @@ const FriendRecordScreen = ({
   const ListHeaderComponent = () => {
     return (
       <View style={styles.container}>
-        {renderUserInfo()}
-        {renderRank()}
-        {renderGoalInfo()}
-        {renderWalkwaysInfo()}
+        <RenderUserInfo />
+        <RenderRank />
+        <RenderGoalInfo />
+        <RenderWalkwaysInfo />
       </View>
     );
   };
@@ -135,7 +135,7 @@ export default FriendRecordScreen;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
     // marginHorizontal: 16,
   },
   userInfoContainer: {

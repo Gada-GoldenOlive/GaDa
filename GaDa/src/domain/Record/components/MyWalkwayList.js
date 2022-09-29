@@ -81,16 +81,19 @@ const MyWalkwayList = ({ ListHeaderComponent }) => {
           ListHeaderComponent={ListHeaderComponent}
         />
       ) : (
-        <View style={styles.nullContainer}>
-          <CustomImage style={styles.nullImage} source={PinSample1} />
-          <View style={styles.nullGradient} />
-          <Text style={styles.nullTitle}>산책로를 만들고 공유하세요!</Text>
-          <TouchableWithoutFeedback>
-            <View style={styles.nullButton}>
-              <Text style={styles.null}>기록시작</Text>
-            </View>
-          </TouchableWithoutFeedback>
-        </View>
+        <>
+          <ListHeaderComponent />
+          <View style={styles.nullContainer}>
+            <CustomImage style={styles.nullImage} source={PinSample1} />
+            <View style={styles.nullGradient} />
+            <Text style={styles.nullTitle}>산책로를 만들고 공유하세요!</Text>
+            <TouchableWithoutFeedback>
+              <View style={styles.nullButton}>
+                <Text style={styles.null}>기록시작</Text>
+              </View>
+            </TouchableWithoutFeedback>
+          </View>
+        </>
       )}
     </View>
   );
@@ -100,7 +103,7 @@ export default MyWalkwayList;
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
+    flex: 1,
     paddingHorizontal: 16,
   },
   itemContainer: {
