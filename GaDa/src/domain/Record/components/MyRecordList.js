@@ -7,8 +7,8 @@ const ItemSeparatorComponent = () => {
   return <View style={{ height: 14 }} />;
 };
 const ListFooterComponent = () => {
-  return <View style={{height: 50}}/>
-}
+  return <View style={{ height: 50 }} />;
+};
 const MyRecordList = () => {
   const dataList = [
     {
@@ -100,37 +100,32 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
   },
-  topContainer:{
+  topContainer: {
     borderBottomColor: 'rgb(240, 240, 243)',
     borderBottomWidth: 1,
     paddingStart: 10,
     paddingBottom: 7.5,
   },
-  title:{
+  title: {
     fontSize: 12,
-
   },
-  bottomContainer:{
+  bottomContainer: {
     paddingTop: 14.5,
     paddingStart: 10,
     paddingEnd: 47,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   bottomWrapper: {
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
   },
-  real:{
+  real: {
     fontFamily: boldFontFamily,
-    fontSize: boldFontSize
+    fontSize: boldFontSize,
   },
-  goal:{
+  goal: {
     color: descriptionColorVer2,
-
-
-  }
-
-  
+  },
 });
