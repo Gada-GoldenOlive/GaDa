@@ -5,7 +5,7 @@ import { boldFontFamily } from '../../../constant/fonts'
 import { blackColor } from '../../../constant/colors'
 const BadgeListScreen = () => {
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} bounces={false} showsVerticalScrollIndicator={false} >
         <BadgeList />
     </ScrollView>
   )

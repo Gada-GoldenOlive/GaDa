@@ -33,6 +33,7 @@ import { View } from 'react-native';
 import CreateWalkwayContainer from '../domain/Feed/container/CreateWalkwayContainer';
 import ModifyPWContainer from '../domain/Auth/container/ModifyPWContainer';
 import MyRecordContainer from '../domain/Record/container/MyRecordContainer';
+import DetailPinContainer from '../domain/Pin/container/DetailPinContainer';
 
 const createPinScreen = {
   CreatePin: CreatePinContainer,
@@ -89,9 +90,14 @@ const gettingWalkwayScreen = {
 };
 
 // feed
-const detailFeedScreen = {
-  DetailFeed: DetailFeedContainer,
-};
+const detailFeedScreens = [
+  {
+    name: 'DetailFeed',
+    screen: DetailFeedContainer,
+  },
+  { name: 'DetailPin', screen: DetailPinContainer, },
+]
+
 const createWalkwayScreen = {
   CreateWalkway: CreateWalkwayContainer,
 };
@@ -279,21 +285,20 @@ const RootNavigation = () => {
           }}
         />
       ))}
-      {Object.entries({ ...detailFeedScreen }).map(([name, component]) => (
-        <RootStack.Screen
-          key={name}
-          name={name}
-          component={component}
-          options={({ route }) => {
-            return {
-              headerShown: true,
-              headerTransparent: true,
-              headerLeft: () => <BackButton />,
+      {detailFeedScreens.map(({ name, screen }) => {
+        return (
+          <RootStack.Screen
+            key={name}
+            name={name}
+            component={screen}
+            options={{
               headerTitle: '',
-            };
-          }}
-        />
-      ))}
+              headerShown: true,
+              headerLeft: () => <BackButton />,
+            }}
+          />
+        );
+      })}
       {Object.entries({ ...createWalkwayScreen }).map(([name, component]) => (
         <RootStack.Screen
           key={name}

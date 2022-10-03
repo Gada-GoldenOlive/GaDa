@@ -27,7 +27,7 @@ import CustomButton from '../../../components/CustomButton';
 const DetailFeedScreen = ({ id }) => {
   return (
     <View style={styles.container}>
-      <ScrollView>
+      <ScrollView  bounces={false} showsVerticalScrollIndicator={false}>
         <View style={styles.topContainer}>
           <CustomImage style={styles.background} source={MapImage} />
           <View style={styles.topInformationContainer}>
