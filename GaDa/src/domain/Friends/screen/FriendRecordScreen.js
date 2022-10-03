@@ -26,33 +26,51 @@ import Goal from '../../Record/components/Goal';
 import { Arrow } from '../../../constant/images/Arrow';
 import MyWalkwayList from '../../Record/components/MyWalkwayList';
 import { AddComma } from '../../../function';
+import PopupModal from '../../../components/PopupModal';
+import { useState } from 'react';
 
 const FriendRecordScreen = ({
   dataList,
   rank,
   handleDeleteButton,
   handleViewMoreButton,
+  isPopupVisible,
+  openPopup,
+  closePopup,
+  handleConfirmButton,
 }) => {
   const { id, name, image, totalTime, totalDistance } = dataList;
 
   const RenderUserInfo = () => {
     return (
-      <View style={styles.userInfoContainer}>
-        <View style={styles.flexDirection}>
+      <>
+        <PopupModal
+          isPopupVisible={isPopupVisible}
+          closePopup={closePopup}
+          handleConfirmButton={handleConfirmButton}
+          content={{
+            title: `${name}님을\n친구에서 삭제하시겠어요?`,
+            description: `${name}님과 관련된\n모든 정보가 삭제됩니다`,
+            button: '삭제하기',
+          }}
+        />
+        <View style={styles.userInfoContainer}>
           <View style={styles.flexDirection}>
-            <CustomImage source={image} style={styles.userImg} />
+            <View style={styles.flexDirection}>
+              <CustomImage source={image} style={styles.userImg} />
+              <View>
+                <Text style={styles.userName}>{name}</Text>
+                <Text style={styles.userId}>{id}</Text>
+              </View>
+            </View>
             <View>
-              <Text style={styles.userName}>{name}</Text>
-              <Text style={styles.userId}>{id}</Text>
+              <TouchableWithoutFeedback onPress={handleDeleteButton}>
+                <CustomImage source={Trash} style={styles.trashIcon} />
+              </TouchableWithoutFeedback>
             </View>
           </View>
-          <View>
-            <TouchableWithoutFeedback onPress={handleDeleteButton}>
-              <CustomImage source={Trash} style={styles.trashIcon} />
-            </TouchableWithoutFeedback>
-          </View>
         </View>
-      </View>
+      </>
     );
   };
 

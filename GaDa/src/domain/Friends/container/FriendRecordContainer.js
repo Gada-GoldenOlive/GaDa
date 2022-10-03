@@ -13,12 +13,21 @@ const res = {
   id: 4940,
 };
 
-const FriendRecordContainer = ({ route }) => {
+const FriendRecordContainer = ({ navigation, route }) => {
   const { params } = route;
   const { id, rank } = params;
 
   const [loading, setLoading] = useState(false);
   const [dataList, setDataList] = useState([]);
+
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
+
+  const openPopup = () => {
+    setIsPopupVisible(true);
+  };
+  const closePopup = () => {
+    setIsPopupVisible(false);
+  };
 
   const fetchRecordData = async () => {
     setLoading(true);
@@ -29,9 +38,14 @@ const FriendRecordContainer = ({ route }) => {
 
   const handleDeleteButton = () => {
     console.log('delete');
+    setIsPopupVisible(!isPopupVisible);
   };
   const handleViewMoreButton = () => {
     console.log('viewMore');
+    navigation.navigate('MyRecord');
+  };
+  handleConfirmButton = () => {
+    console.log('confirm');
   };
 
   useEffect(() => {
@@ -51,6 +65,10 @@ const FriendRecordContainer = ({ route }) => {
         rank={rank}
         handleDeleteButton={handleDeleteButton}
         handleViewMoreButton={handleViewMoreButton}
+        isPopupVisible={isPopupVisible}
+        openPopup={openPopup}
+        closePopup={closePopup}
+        handleConfirmButton={handleConfirmButton}
       />
     )
   );
