@@ -55,6 +55,12 @@ export const getRandomImage = (width = 150, height = 150) => {
   return randomImage;
 };
 
+
+export const AddComma = num => {
+  const regexp = /\B(?=(\d{3})+(?!\d))/g;
+  return num.toString().replace(regexp, ',');
+};
+
 export const getNicknameIsNotValid = ({nickname}) => {
   if(nickname.length > 10 || nickname.length < 3) {
     return true
@@ -74,8 +80,15 @@ export const getPWIsNotValid = ({pw}) => {
   return result
 }
 
-export const getKm = ({distance}) => {
-  return distance / 1000;
+export const getDistance = ({distance, unit }) => {
+  if(unit === 'km') {
+    const str = String(distance); 
+    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+  } else {
+    distance / 1000;
+    const str = String(distance); 
+    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+  }
 };
 
 export const getHour = ({time}) => {
@@ -96,3 +109,4 @@ export const getDistanceFromLatLonInKm = ({lat1,lng1,lat2,lng2}) =>  {
   const d = R * c; // Distance in km
   return d;
 }
+

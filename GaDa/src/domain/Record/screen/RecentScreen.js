@@ -11,6 +11,7 @@ import CustomImage from '../../../components/CustomImage';
 import { MapImage } from '../../../constant/images/Temp';
 import { blackColor, mainColor } from '../../../constant/colors';
 import { boldFontFamily, boldFontSize } from '../../../constant/fonts';
+import { getDistance } from '../../../function';
 
 const RecentScreen = ({ handleDetailPin }) => {
   const renderItem = ({ item, index }) => {
@@ -30,6 +31,7 @@ const RecentScreen = ({ handleDetailPin }) => {
               </View>
               <Text style={styles.distance}>{distance}m</Text>
             </View>
+            <Text style={styles.distance}>{getDistance({distance, unit: 'm'})}m</Text>
           </View>
           <Text style={styles.name}>{name}</Text>
         </View>
