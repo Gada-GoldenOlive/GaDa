@@ -17,7 +17,7 @@ import FeedItemList from '../components/FeedItemList';
 
 const FeedScreen = ({handleGettingWalkway, handleDetailFeed}) => {
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} bounces={false} showsVerticalScrollIndicator={false}>
       <View style={styles.topContainer}>
         <Text style={styles.title}>피드</Text>
         <FilteringButton />

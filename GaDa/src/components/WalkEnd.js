@@ -8,6 +8,7 @@ import { blackColor, buttonColor, defaultColor, descriptionColorVer2 } from '../
 import LinearGradient from 'react-native-linear-gradient';
 import { windowHeight, windowWidth } from '../constant/styles';
 import { useSelector } from 'react-redux';
+import { getDistance } from '../function';
 
 const WalkEnd = ({
   pinNum: prevNum = 0,
@@ -31,7 +32,7 @@ const WalkEnd = ({
         <View style={styles.informationContainer}>
           <Text style={styles.closeText}>산책이 종료되었습니다</Text>
           <View style={styles.kmContainer}>
-            <Text style={styles.kmNum}>{distance}</Text>
+            <Text style={styles.kmNum}>{getDistance({distance, unit: 'm'})}</Text>
             <Text style={styles.km}>m</Text>
           </View>
           <View style={styles.bottomContainer}>

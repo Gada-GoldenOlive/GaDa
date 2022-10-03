@@ -116,7 +116,7 @@ const WritingFrame = ({
 
   return (
     <View style={styles.contianer}>
-      <ScrollView style={styles.contianer} showsVerticalScrollIndicator={false}>
+      <ScrollView style={styles.contianer}  bounces={false} showsVerticalScrollIndicator={false}>
         <View>
           <TouchableWithoutFeedback onPress={openModal}>
             <View style={styles.imageContainer}>

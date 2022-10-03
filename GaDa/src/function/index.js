@@ -80,8 +80,15 @@ export const getPWIsNotValid = ({pw}) => {
   return result
 }
 
-export const getKm = ({distance}) => {
-  return distance / 1000;
+export const getDistance = ({distance, unit }) => {
+  if(unit === 'km') {
+    const str = String(distance); 
+    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+  } else {
+    distance / 1000;
+    const str = String(distance); 
+    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+  }
 };
 
 export const getHour = ({time}) => {

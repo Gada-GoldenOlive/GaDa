@@ -11,7 +11,8 @@ import MyRecordList from '../components/MyRecordList';
 
 const MyRecordScreen = () => {
   return (
-    <ScrollView>
+
+    <ScrollView style={styles.container} bounces={false} showsVerticalScrollIndicator={false}>
       <View style={styles.container}>
         <View style={styles.topContainer}>
           <Text style={styles.topTitle}>Total</Text>
