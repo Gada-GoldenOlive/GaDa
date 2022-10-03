@@ -2,7 +2,11 @@ import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import { windowWidth } from '../../../constant/styles';
 import { boldFontFamily, mediumFontFamily } from '../../../constant/fonts';
-import { buttonColor, descriptionColorVer2, mainColor } from '../../../constant/colors';
+import {
+  buttonColor,
+  descriptionColorVer2,
+  mainColor,
+} from '../../../constant/colors';
 
 const Goal = () => {
   return (
@@ -11,7 +15,7 @@ const Goal = () => {
         <Text style={styles.title}>시간</Text>
         <Text style={styles.value}>
           <Text style={styles.num}>0</Text>
-          <Text style={styles.value}>시간</Text>
+          <Text style={styles.value}>분</Text>
         </Text>
         <Text style={styles.goal}>목표 미설정</Text>
       </View>
@@ -19,7 +23,7 @@ const Goal = () => {
         <Text style={styles.title}>거리</Text>
         <Text style={styles.value}>
           <Text style={styles.num}>0</Text>
-          <Text style={styles.value}>km</Text>
+          <Text style={styles.value}>m</Text>
         </Text>
         <Text style={styles.goal}>목표 미설정</Text>
       </View>
@@ -31,7 +35,7 @@ export default Goal;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
     paddingTop: 24,
     flexDirection: 'row',
   },

@@ -14,7 +14,7 @@ import CustomRating from '../../../components/CustomRating';
 import { backgroundColor, blackColor, borderColor } from '../../../constant/colors';
 import { getDistance } from '../../../function';
 
-const MyWalkwayList = () => {
+const MyWalkwayList = ({ ListHeaderComponent }) => {
   const myinfo = { image: MyImageS, name: '산책와 뽀삐' };
   const tempList = [
     {
@@ -75,18 +75,22 @@ const MyWalkwayList = () => {
           renderItem={({ item, index }) => renderItem({ item, index })}
           onEndReachedThreshold={0.7}
           keyExtractor={(item, index) => `${item.id}-${index}`}
+          ListHeaderComponent={ListHeaderComponent}
         />
       ) : (
-        <View style={styles.nullContainer}>
-          <CustomImage style={styles.nullImage} source={PinSample1} />
-          <View style={styles.nullGradient} />
-          <Text style={styles.nullTitle}>산책로를 만들고 공유하세요!</Text>
-          <TouchableWithoutFeedback>
-            <View style={styles.nullButton}>
-              <Text style={styles.null}>기록시작</Text>
-            </View>
-          </TouchableWithoutFeedback>
-        </View>
+        <>
+          <ListHeaderComponent />
+          <View style={styles.nullContainer}>
+            <CustomImage style={styles.nullImage} source={PinSample1} />
+            <View style={styles.nullGradient} />
+            <Text style={styles.nullTitle}>산책로를 만들고 공유하세요!</Text>
+            <TouchableWithoutFeedback>
+              <View style={styles.nullButton}>
+                <Text style={styles.null}>기록시작</Text>
+              </View>
+            </TouchableWithoutFeedback>
+          </View>
+        </>
       )}
     </View>
   );

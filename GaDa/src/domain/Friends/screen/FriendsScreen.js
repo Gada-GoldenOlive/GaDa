@@ -25,54 +25,63 @@ import {
   montBoldFontFamily,
 } from '../../../constant/fonts';
 import { backgroundColor, defaultColor } from '../../../constant/colors';
+import { AddComma } from '../../../function';
 
 const friendsLangkingList = [
   {
     name: '만두전골',
     image: SampleImage2,
     totalDistance: 12293,
+    id: 5350,
   },
   {
     name: '상암동 정호연',
     image: SampleImage3,
     totalDistance: 10090,
+    id: 4940,
   },
   {
     name: '산책왕 차돌',
     image: SampleImage3,
     totalDistance: 9252,
+    id: 3593,
   },
 
   {
     name: '산책왕 뽀삐',
     image: SampleImage1,
     totalDistance: 5350,
+    id: 12,
   },
   {
     name: '만두전골',
     image: SampleImage2,
     totalDistance: 4940,
+    id: 13,
   },
   {
     name: '만두전골',
     image: SampleImage2,
     totalDistance: 3593,
+    id: 14,
   },
   {
     name: '만두전골',
     image: SampleImage2,
     totalDistance: 12,
+    id: 15,
   },
 ];
 const FriendsScreen = ({
   handleNavigateAddFriends,
   handleNavigateFriendsAlarm,
+  handleNavigate,
 }) => {
   const isMe = 3; //임시로
-  const MyBadge = () => {
+  const MyTag = () => {
     return (
-      <View style={styles.myBadgeWrapper}>
-        <Text style={styles.myBadgeText}>MY</Text>
+      <View style={styles.myTagWrapper}>
+        <Text style={styles.myTagText}>MY</Text>
       </View>
     );
   };
@@ -98,7 +107,9 @@ const FriendsScreen = ({
           {friendsLangkingList.map(
             (item, index) =>
               index < 3 && (
-                <TouchableWithoutFeedback onPress={() => console.log(index)}>
+                <TouchableWithoutFeedback
+                  onPress={() => handleNavigate(item.id, index)}
+                >
                   <View>
                     <View key={index} style={[styles.top3Wrapper]}>
                       <View style={styles.top3InnerWrapper}>
@@ -108,14 +119,13 @@ const FriendsScreen = ({
                           source={item.image}
                         />
                         <Text style={styles.top3Text}>{item.name}</Text>
-                        {/* MyBadge 기준 있어야함. 내꺼일 때! */}
-                        <MyBadge />
+                        {/* MyTag 기준 있어야함. 내꺼일 때! */}
+                        <MyTag />
                       </View>
                       <Text>
                         <Text style={styles.top3Text}>
-                          {item.totalDistance
-                            .toString()
-                            .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                          {typeof item.totalDistance === 'number' &&
+                            AddComma(item.totalDistance)}
                         </Text>
                         <Text
                           style={[
@@ -154,7 +164,9 @@ const FriendsScreen = ({
           {friendsLangkingList.map(
             (item, index) =>
               index >= 3 && (
-                <TouchableWithoutFeedback onPress={() => console.log(index)}>
+                <TouchableWithoutFeedback
+                  onPress={() => handleNavigate(item.id, index)}
+                >
                   <View key={index} style={[styles.bodyWrapper]}>
                     <View style={styles.bodyInnerWrapper}>
                       <Text style={styles.bodyRankText}>{index + 1}.</Text>
@@ -163,14 +175,12 @@ const FriendsScreen = ({
                         source={item.image}
                       />
                       <Text style={styles.bodyText}>{item.name}</Text>
-                      {/* MyBadge 기준 있어야함. 내꺼일 때! */}
-                      <MyBadge />
+                      {/* MyTag 기준 있어야함. 내꺼일 때! */}
+                      <MyTag />
                     </View>
                     <Text>
                       <Text style={styles.bodyText}>
-                        {item.totalDistance
-                          .toString()
-                          .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                        {AddComma(item.totalDistance)}
                       </Text>
                       <Text
                         style={[
@@ -304,7 +314,7 @@ const styles = StyleSheet.create({
     fontSize: defaultFontSize,
     color: defaultColor,
   },
-  myBadgeWrapper: {
+  myTagWrapper: {
     paddingHorizontal: 5.5,
     paddingVertical: 1,
 
@@ -313,7 +323,7 @@ const styles = StyleSheet.create({
 
     marginLeft: 5,
   },
-  myBadgeText: {
+  myTagText: {
     fontFamily: mediumFontFamily,
     fontSize: 10,
     color: 'white',
