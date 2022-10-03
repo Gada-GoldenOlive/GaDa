@@ -6,6 +6,7 @@ import { MapImage } from '../../../constant/images/Temp';
 import { Check } from '../../../constant/images/Check';
 import { windowWidth } from '../../../constant/styles';
 import { boldFontFamily, boldFontSize } from '../../../constant/fonts';
+import { getDistance } from '../../../function';
 
 const GettingWalkwayItem = ({item, index}) => {
     const { name, time, distance, date } = item;
@@ -20,7 +21,7 @@ const GettingWalkwayItem = ({item, index}) => {
         <View style={styles.bottomContainer}>
           <Text style={styles.name}>{name}</Text>
           <Text style={styles.description}>
-            소요시간: {time}분 / 거리 {distance}m / 핀 5개
+            소요시간: {time}분 / 거리 {getDistance({distance, unit: 'm'})}m / 핀 5개
           </Text>
         </View>
       </View>

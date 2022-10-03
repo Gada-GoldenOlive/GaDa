@@ -213,6 +213,7 @@ const RootNavigation = () => {
           options={({ route }) => {
             return {
               headerShown: true,
+              headerTitle: '배지',
               headerLeft: () => <BackButton />,
             };
           }}

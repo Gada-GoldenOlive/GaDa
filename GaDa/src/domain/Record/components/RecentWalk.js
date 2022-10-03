@@ -4,6 +4,7 @@ import { PinSample1, PinSample2 } from '../../../constant/images/PinSample';
 import CustomImage from '../../../components/CustomImage';
 import { boldFontFamily, boldFontSize } from '../../../constant/fonts';
 import { mainColor } from '../../../constant/colors';
+import { getDistance } from '../../../function';
 
 const RecentWalk = ({}) => {
   const tempList = [
@@ -40,7 +41,7 @@ const RecentWalk = ({}) => {
           <View style={styles.informationContainer}>
             <Text style={styles.information}>
               <Text>{time}분 / </Text>
-              <Text>{distance}m</Text>
+              <Text>{getDistance({distance, unit: 'm'})}m</Text>
             </Text>
           </View>
         </View>

@@ -5,6 +5,7 @@ import CustomImage from '../../../components/CustomImage';
 import { MapImage } from '../../../constant/images/Temp';
 import { blackColor, mainColor } from '../../../constant/colors';
 import { boldFontFamily, boldFontSize } from '../../../constant/fonts';
+import { getDistance } from '../../../function';
 
 const RecentScreen = () => {
   const renderItem = ({ item, index }) => {
@@ -19,7 +20,7 @@ const RecentScreen = () => {
             <View style={styles.percentWrapper}>
               <Text style={styles.percent}>40%</Text>
             </View>
-            <Text style={styles.distance}>{distance}m</Text>
+            <Text style={styles.distance}>{getDistance({distance, unit: 'm'})}m</Text>
           </View>
         </View>
         <Text style={styles.name}>{name}</Text>
