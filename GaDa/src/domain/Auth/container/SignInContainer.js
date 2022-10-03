@@ -5,8 +5,10 @@ import { set } from 'react-native-reanimated';
 import { checkLogin, getUserLogin } from '../../../APIs/user';
 import Toast from 'react-native-toast-message';
 import { useDispatch } from 'react-redux';
-import { setIsAuthenticated } from '../../../redux/modules/user';
-import { setIdInLocalStorage } from '../../../function';
+import { setIsAuthenticated, setUserId } from '../../../redux/modules/user';
+import { setIdInLocalStorage, storeAccessToken, storeInLocalStorage } from '../../../function';
+import jwtDecode from 'jwt-decode';
+import defaultAxios from '../../../APIs';
 
 const SignInContainer = ({ navigation }) => {
   const [userId, setId] = useState('');
@@ -23,17 +25,29 @@ const SignInContainer = ({ navigation }) => {
       index: 0,
       routes: [{ name: 'BottomTab' }],
     });
-    navigation.navigate('BottomTabHome');
+    //navigation.navigate('BottomTabHome');
   };
   const checkLogin = async () => {
     const res = await getUserLogin({ id: userId, pw: pw });
-    const { id } = res;
-    if (id !== null) {
-      setIdInLocalStorage(id);
-      dispatch(setIsAuthenticated(true));
+    const { access_token } = res;
+    if (access_token !== null) {
+      saveTokenDataInLocalAndAxios(access_token)
       handleNavigate();
+    } else {
+      console.log(res)
     }
   };
+
+  const saveTokenDataInLocalAndAxios = async (accessToken) => {
+    await storeAccessToken(accessToken);
+    dispatch(setIsAuthenticated(true));
+    const { user_id: userId } = jwtDecode(accessToken);
+    dispatch(setUserId(userId));
+    console.log(accessToken, userId)
+    defaultAxios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+
+  };
+
 
   return (
     <SignInScreen
@@ -41,7 +55,7 @@ const SignInContainer = ({ navigation }) => {
       pw={pw}
       setId={setId}
       setPw={setPw}
-      handleNavigate={handleNavigate}
+      handleNavigate={checkLogin}
       handleNavigateSignUp={handleNavigateSignUp}
     />
   );

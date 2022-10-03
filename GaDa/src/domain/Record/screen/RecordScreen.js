@@ -33,70 +33,94 @@ import RecentWalk from '../components/RecentWalk';
 import MyWalkwayList from '../components/MyWalkwayList';
 
 const RecordScreen = ({
+  userData,
   handleNavigate,
   handleNaivigateGoal,
   handleNavigateSetting,
   handleNavigateBadge,
   handleNavigateRecent,
-  handleNavigateMyRecord
+  handleNavigateMyRecord,
 }) => {
-  return (
-    <ScrollView style={styles.container} bounces={false} showsVerticalScrollIndicator={false} >
-      <View style={styles.profileContainer}>
-        <Profile handleNavigateSetting={handleNavigateSetting} />
-      </View>
-      <View style={styles.goalContainer}>
-        <View style={styles.goalTitleContainer}>
-          <View style={styles.goalTitleWrapper}>
-            <Text style={styles.goalTitle}>이번 주 목표</Text>
-            <TouchableWithoutFeedback onPress={handleNaivigateGoal}>
-              <CustomImage source={Writing} style={styles.goalWriting} />
+  const {
+    id,
+    loginId,
+    image,
+    name,
+    pinCOunt,
+    badgeCount,
+    goalDistance,
+    goalTime,
+    totalDistance,
+    totalTime,
+  } = userData;
+  const header = () => {
+    return (
+      <View style={styles.container}>
+        <View style={styles.profileContainer}>
+          <Profile handleNavigateSetting={handleNavigateSetting} />
+        </View>
+        <View style={styles.goalContainer}>
+          <View style={styles.goalTitleContainer}>
+            <View style={styles.goalTitleWrapper}>
+              <Text style={styles.goalTitle}>이번 주 목표</Text>
+              <TouchableWithoutFeedback onPress={handleNaivigateGoal}>
+                <CustomImage source={Writing} style={styles.goalWriting} />
+              </TouchableWithoutFeedback>
+            </View>
+            <TouchableWithoutFeedback onPress={handleNavigateMyRecord}>
+              <View style={styles.moreWrapper}>
+                <Text>전체보기</Text>
+                <CustomImage
+                  style={styles.arrow}
+                  source={Arrow}
+                  tintColor={descriptionColorVer2}
+                />
+              </View>
             </TouchableWithoutFeedback>
           </View>
-          <TouchableWithoutFeedback onPress={handleNavigateMyRecord}>
-            <View style={styles.moreWrapper}>
-              <Text>전체보기</Text>
-              <CustomImage
-                style={styles.arrow}
-                source={Arrow}
-                tintColor={descriptionColorVer2}
-              />
-            </View>
-          </TouchableWithoutFeedback>
+          <Goal />
         </View>
-        <Goal />
-      </View>
-      <View style={styles.badgeContainer}>
-        <View style={styles.badgeTitleContainer}>
-          <Text style={styles.badgeTitle}>나의 뱃지</Text>
-          <TouchableWithoutFeedback onPress={handleNavigateBadge}>
-            <View style={styles.moreWrapper}>
-              <Text style={styles.more}>더보기</Text>
-              <CustomImage style={styles.moreImage} source={Arrow} />
-            </View>
-          </TouchableWithoutFeedback>
+        <View style={styles.badgeContainer}>
+          <View style={styles.badgeTitleContainer}>
+            <Text style={styles.badgeTitle}>나의 뱃지</Text>
+            <TouchableWithoutFeedback onPress={handleNavigateBadge}>
+              <View style={styles.moreWrapper}>
+                <Text style={styles.more}>더보기</Text>
+                <CustomImage style={styles.moreImage} source={Arrow} />
+              </View>
+            </TouchableWithoutFeedback>
+          </View>
+          <Badge />
         </View>
-        <Badge />
-      </View>
-      <View style={styles.recentContainer}>
-        <View style={styles.recentTitleContainer}>
-          <Text style={styles.recentTitle}>최근 활동</Text>
-          <TouchableWithoutFeedback onPress={handleNavigateRecent}>
-            <View style={styles.recentMoreWrapper}>
-              <Text style={styles.recentMore}>더보기</Text>
-              <CustomImage style={styles.moreImage} source={ArrowBlack} />
-            </View>
-          </TouchableWithoutFeedback>
+        <View style={styles.recentContainer}>
+          <View style={styles.recentTitleContainer}>
+            <Text style={styles.recentTitle}>최근 활동</Text>
+            <TouchableWithoutFeedback onPress={handleNavigateRecent}>
+              <View style={styles.recentMoreWrapper}>
+                <Text style={styles.recentMore}>더보기</Text>
+                <CustomImage style={styles.moreImage} source={ArrowBlack} />
+              </View>
+            </TouchableWithoutFeedback>
+          </View>
+          <RecentWalk />
         </View>
-        <RecentWalk />
-      </View>
-      <View style={styles.myWalkContainer}>
-        <View style={styles.recentTitleContainer}>
-          <Text style={styles.recentTitle}>작성한 산책로</Text>
+
+        <View style={styles.myWalkContainer}>
+          <View style={styles.recentTitleContainer}>
+            <Text style={styles.recentTitle}>작성한 산책로</Text>
+          </View>
         </View>
-        <MyWalkwayList />
       </View>
-    </ScrollView>
+    );
+  };
+  return (
+    <View
+      style={styles.container}
+      bounces={false}
+      showsVerticalScrollIndicator={false}
+    >
+      <MyWalkwayList ListHeaderComponent={header}/>
+    </View>
   );
 };
 
@@ -108,11 +132,11 @@ const styles = StyleSheet.create({
   },
   profileContainer: {
     marginTop: 16,
-    paddingHorizontal: 16,
+    // paddingHorizontal: 16,
   },
   goalContainer: {
     marginTop: 35,
-    paddingHorizontal: 16,
+   // paddingHorizontal: 16,
   },
   goalTitleContainer: {
     flexDirection: 'row',
@@ -183,7 +207,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 14,
 
-    paddingHorizontal: 16,
+    // paddingHorizontal: 16,
   },
   recentTitle: {
     color: blackColor,
