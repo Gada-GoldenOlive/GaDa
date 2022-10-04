@@ -53,3 +53,11 @@ export const getMyReviewList = async userId => {
   .catch(e => console.log(e.response));
   return res;
 }
+
+export const getFeeds = async () => {
+  const res = await axios
+  .get(`/reviews/feeds/`)
+  .then(({data}) => data)
+  .catch(e => console.log(e.response.data));
+  return res;
+}
