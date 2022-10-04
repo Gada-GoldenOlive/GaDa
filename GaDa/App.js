@@ -1,18 +1,26 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, BackHandler, useCallback } from 'react';
 import { PermissionsAndroid, StyleSheet, useColorScheme } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import RootNavigation from './src/navigation/RootNavigation';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
-
+import NetInfo from '@react-native-community/netinfo';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import store from './src/redux/store';
 // SplashScreen 추가
 import SplashScreen from 'react-native-splash-screen';
 import { setIsAuthenticated, setUserId } from './src/redux/modules/user';
-import { getIdInLocalStorage, removeInLocalStorage, setIdInLocalStorage, storeInLocalStorage } from './src/function';
+import {
+  getIdInLocalStorage,
+  removeInLocalStorage,
+  setIdInLocalStorage,
+  storeAccessToken,
+  storeInLocalStorage,
+} from './src/function';
 import { refreshToken, verifyToken } from './src/APIs/JWT';
 import jwtDecode from 'jwt-decode';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import defaultAxios from './src/APIs';
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
@@ -79,70 +87,107 @@ const App = () => {
     }
   }, [id]);
 
+  // Access Token 관리
+  useEffect(() => {
+    loadEssentialData();
+  }, [loadEssentialData]);
 
-  // 토큰 관리
+  const getNetworkState = useCallback(async () => {
+    const state = await NetInfo.fetch();
+    return state;
+  }, []);
+
   const getTokens = async () => {
     const access_token = await AsyncStorage.getItem('access_token');
     const refresh_token = await AsyncStorage.getItem('refresh_token');
     return { access_token, refresh_token };
   };
 
-  const { access_token = '', refresh_token = '' } = await getTokens();
+  const getAccess = async () => {
+    const access_token = await AsyncStorage.getItem('access_token');
+    return { access_token };
+  };
+  const loadEssentialData = async () => {
+    const state = await getNetworkState();
+    if (state.isConnected !== true) {
+      Alert.alert('네트워크 확인', '네트워크를 연결하고 다시 시도해주세요.', [
+        {
+          text: '확인',
+          onPress: () => BackHandler.exitApp(),
+        },
+      ]);
+      return null;
+    }
 
-  if (access_token) {
-    const { is_valid: is_access_token_valid } = await verifyToken(
-      access_token,
-    );
-    // access token 이 유효하면 바로 refresh token 을 호출하지 않아도 된다.
-    if (is_access_token_valid) {
-      const { new_access_token = '', new_refresh_token = '' } =
-        await refreshToken(refresh_token);
-      if (new_access_token && new_refresh_token) {
-        const { user_id } = jwtDecode(new_access_token);
-        dispatch(setUserId(user_id));
-        dispatch(setIsAuthenticated(true));
+    //const { access_token = '', refresh_token = '' } = await getTokens();
+    const { access_token = '' } = await getAccess();
+    if(access_token){
+      const { user_id } = jwtDecode(access_token);
+      dispatch(setUserId(user_id));
+      dispatch(setIsAuthenticated(true));
+      console.log(access_token)
+      defaultAxios.defaults.headers.common.Authorization = `Bearer ${access_token}`;
+      await storeAccessToken(access_token);
 
-        axios.defaults.headers.common.Authorization = `Bearer ${new_access_token}`;
-        chatAxios.defaults.headers.common.Authorization = `Bearer ${new_access_token}`;
-        await storeInLocalStorage(new_access_token, new_refresh_token);
-      }
-      // save fcm
-      //saveFcmToken();
-    } else {
-      const { is_valid: is_refresh_token_valid } = await verifyToken(
-        refresh_token,
+      SplashScreen.hide();
+
+    }
+    /*
+    if (access_token) {
+      const { is_valid: is_access_token_valid } = await verifyToken(
+        access_token,
       );
-
-      if (is_refresh_token_valid) {
-        // refresh token 을 이용해 access_token 을 재갱신 해준다.
-        // 만약 오류가 발생하면 access token 과 refresh token 을 다 초기화 해준다.
+      // access token 이 유효하면 바로 refresh token 을 호출하지 않아도 된다.
+      if (is_access_token_valid) {
         const { new_access_token = '', new_refresh_token = '' } =
           await refreshToken(refresh_token);
         if (new_access_token && new_refresh_token) {
           const { user_id } = jwtDecode(new_access_token);
           dispatch(setUserId(user_id));
           dispatch(setIsAuthenticated(true));
+
           axios.defaults.headers.common.Authorization = `Bearer ${new_access_token}`;
           chatAxios.defaults.headers.common.Authorization = `Bearer ${new_access_token}`;
-          // save fcm
-          //saveFcmToken();
           await storeInLocalStorage(new_access_token, new_refresh_token);
-        } else {
-          removeInLocalStorage();
+        }
+        // save fcm
+        // saveFcmToken();
+      } else {
+        const { is_valid: is_refresh_token_valid } = await verifyToken(
+          refresh_token,
+        );
+
+        if (is_refresh_token_valid) {
+          // refresh token 을 이용해 access_token 을 재갱신 해준다.
+          // 만약 오류가 발생하면 access token 과 refresh token 을 다 초기화 해준다.
+          const { new_access_token = '', new_refresh_token = '' } =
+            await refreshToken(refresh_token);
+          if (new_access_token && new_refresh_token) {
+            const { user_id } = jwtDecode(new_access_token);
+            dispatch(setUserId(user_id));
+            dispatch(setIsAuthenticated(true));
+            axios.defaults.headers.common.Authorization = `JWT ${new_access_token}`;
+            chatAxios.defaults.headers.common.Authorization = `JWT ${new_access_token}`;
+            // save fcm
+            // saveFcmToken();
+            await storeInLocalStorage(new_access_token, new_refresh_token);
+          } else {
+            removeInLocalStorage();
+          }
         }
       }
+      setLoading(false);
+    } else {
+      setLoading(false);
+      UnkUserAppOpen();
     }
-    setLoading(false);
-  } else {
-    setLoading(false);
-    UnkUserAppOpen();
-  }
-  //SplashScreen.hide();
-  //return messaging().onTokenRefresh(() => {
-   // saveFcmToken();
-  //});
-}; // getNetworkState
-
+    SplashScreen.hide();
+    return messaging().onTokenRefresh(() => {
+      saveFcmToken();
+    });
+    */
+  }; // getNetworkState
+  
 
   return (
     <SafeAreaProvider>

@@ -7,6 +7,9 @@ export const storeInLocalStorage = async (accessToken, refreshToken) => {
   await AsyncStorage.setItem('access_token', accessToken);
   await AsyncStorage.setItem('refresh_token', refreshToken);
 };
+export const storeAccessToken = async accessToken => {
+  await AsyncStorage.setItem('access_token', accessToken);
+};
 
 export const removeInLocalStorage = () => {
   try {

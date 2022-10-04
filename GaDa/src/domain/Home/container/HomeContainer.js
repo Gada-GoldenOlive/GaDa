@@ -252,15 +252,20 @@ const HomeContainer = ({ navigation, route }) => {
     setStartModalVisible(false);
     setListIsVisible(true);
   };
-  // useEffect(() => {
-  //   console.log({ isAuthenticated });
-  //   if (!isAuthenticated) {
-  //     navigation.reset({
-  //       index: 0,
-  //       routes: [{ name: 'SignIn' }],
-  //     });
-  //   }
-  // }, [isAuthenticated]);
+
+  const getAccess = async () => {
+    const {access_token} = await getAccess();
+    return access_token
+  }
+   useEffect(() => {
+     const res = getAccess();
+     if (res === '') {
+       navigation.reset({
+         index: 0,
+         routes: [{ name: 'SignIn' }],
+       });
+     }
+   }, [isAuthenticated]);
   useEffect(() => {
     // walkEnd일때 안보여야하고 information visible일때 안보여야한다
     const tabVisible = !walkEnd && !isInformationVisible;
