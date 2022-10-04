@@ -32,18 +32,20 @@ export default PWScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 16,
     paddingTop: 40,
   },
   title: {
     fontSize: 27,
     lineHeight: 40,
+    paddingHorizontal: 16,
     color: blackColor,
     fontFamily: thinFontFamily,
   },
   contentContainer: {
     flex: 1,
     paddingTop: 130,
+    paddingHorizontal: 16,
+    
   },
   contentWrapper: {
     flexDirection: 'row',

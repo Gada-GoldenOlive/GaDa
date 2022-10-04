@@ -32,10 +32,10 @@ export default NicknameScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 16,
     paddingTop: 40,
   },
   title: {
+    paddingHorizontal: 16,
     fontSize: 27,
     lineHeight: 40,
     color: blackColor,
@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
     paddingTop: 130,
+    paddingHorizontal: 16,
   },
   contentWrapper: {
     flexDirection: 'row',

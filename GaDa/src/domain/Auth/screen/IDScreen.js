@@ -1,4 +1,4 @@
-import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
+import { NativeModules, Platform, StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import React from 'react';
 import MyTextInPut from '../../../components/MyTextInput';
 import {
@@ -10,6 +10,9 @@ import {
 import CustomButton from '../../../components/CustomButton';
 import Text from '../../../components/MyText';
 import { thinFontFamily } from '../../../constant/fonts';
+import KeyboardAvoidingView from 'react-native/Libraries/Components/Keyboard/KeyboardAvoidingView';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 const IDScreen = ({
   isWrong,
@@ -20,9 +23,23 @@ const IDScreen = ({
   handleNavigate,
   handleIdChange,
 }) => {
-  const back = !isWrong ? buttonColor : descriptionColor;
+  const { StatusBarManager } = NativeModules;
+  const [statusBarHeight, setStatusBarHeight] = useState(0);
+
+  useEffect(() => {
+    Platform.OS === 'ios' &&
+      StatusBarManager.getHeight(statusBarFrameData => {
+        setStatusBarHeight(statusBarFrameData.height);
+      });
+  }, []);
+  const back = !changed && !isWrong ? buttonColor : descriptionColor;
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      keyboardVerticalOffset={statusBarHeight + 44}
+      behavior={Platform.OS === 'ios' && 'padding'}
+    >
+      <>
       <Text style={styles.title}>아이디를 입력하세요</Text>
       <View style={styles.contentContainer}>
         <View style={styles.contentWrapper}>
@@ -47,7 +64,8 @@ const IDScreen = ({
         handlePress={handleNavigate}
         backgroundColor={back}
       />
-    </View>
+      </>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -56,7 +74,6 @@ export default IDScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 16,
     paddingTop: 40,
   },
   title: {
@@ -64,10 +81,12 @@ const styles = StyleSheet.create({
     lineHeight: 40,
     color: blackColor,
     fontFamily: thinFontFamily,
+    paddingHorizontal: 16,
   },
   contentContainer: {
     flex: 1,
     paddingTop: 130,
+    paddingHorizontal: 16,
   },
   contentWrapper: {
     flexDirection: 'row',

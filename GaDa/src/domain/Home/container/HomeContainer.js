@@ -21,6 +21,7 @@ import { setStartTime } from '../../../redux/modules/status';
 import { get } from 'react-native/Libraries/Utilities/PixelRatio';
 import { createWalk } from '../../../APIs/walk';
 import { setUserId } from '../../../redux/modules/user';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // * 현재위치
 // 일정 시간 후 주기적으로 반복해서 geoLocation 해주기!
@@ -254,18 +255,18 @@ const HomeContainer = ({ navigation, route }) => {
   };
 
   const getAccess = async () => {
-    const {access_token} = await getAccess();
-    return access_token
-  }
-   useEffect(() => {
-     const res = getAccess();
-     if (res === '') {
-       navigation.reset({
-         index: 0,
-         routes: [{ name: 'SignIn' }],
-       });
-     }
-   }, [isAuthenticated]);
+    const access_token = await AsyncStorage.getItem('access_token');
+    console.log({ access_token });
+    if (access_token === null) {
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'SignIn' }],
+      });
+    }
+  };
+  useEffect(() => {
+    getAccess();
+  }, [isAuthenticated]);
   useEffect(() => {
     // walkEnd일때 안보여야하고 information visible일때 안보여야한다
     const tabVisible = !walkEnd && !isInformationVisible;

@@ -10,7 +10,7 @@ import {
 import { boldFontFamily, boldFontSize } from '../../../constant/fonts';
 import Text from '../../../components/MyText';
 
-const SettingPageScreen = ({handleNaigateNickname, handleNavigatePW}) => {
+const SettingPageScreen = ({handleNaigateNickname, handleNavigatePW, handleLogout}) => {
   return (
     <View style={styles.container}>
       <TouchableWithoutFeedback onPress={handleNaigateNickname}>
@@ -22,6 +22,12 @@ const SettingPageScreen = ({handleNaigateNickname, handleNavigatePW}) => {
       <TouchableWithoutFeedback onPress={handleNavigatePW}>
         <View style={styles.buttonContainer}>
           <Text style={styles.buttonTitle}>비밀번호 재설정</Text>
+          <CustomImage style={styles.arrow} source={ArrowBlack} />
+        </View>
+      </TouchableWithoutFeedback>
+      <TouchableWithoutFeedback onPress={handleLogout}>
+        <View style={styles.buttonContainer}>
+          <Text style={styles.buttonTitle}>로그아웃</Text>
           <CustomImage style={styles.arrow} source={ArrowBlack} />
         </View>
       </TouchableWithoutFeedback>
