@@ -6,7 +6,7 @@ import { boldFontFamily, boldFontSize } from '../../../constant/fonts';
 import { mainColor } from '../../../constant/colors';
 import { getDistance } from '../../../function';
 
-const RecentWalk = ({}) => {
+const RecentWalk = ({recentWalks}) => {
   const tempList = [
     {
       title: '성동구 왕십리로 산책길',
@@ -31,10 +31,11 @@ const RecentWalk = ({}) => {
     },
   ];
   const renderItem = ({ item, index }) => {
-    const { title, time, distance, percent, image } = item;
+    const {distance, finishStatus, id, image, rate, time, title, userId, walkwayId} = item;
+
     return (
       <View style={styles.itemContainer}>
-        <CustomImage source={image} style={styles.backgroundImage} />
+        <CustomImage source={{uri: image}} style={styles.backgroundImage} />
         <View style={styles.gradient} />
         <View style={styles.titleContainer}>
           <Text style={styles.title}>{title}</Text>
@@ -47,7 +48,7 @@ const RecentWalk = ({}) => {
         </View>
         <View style={styles.bottomContainer}>
           <View style={styles.bottomWrapper}>
-            <Text style={styles.percent}>{percent}%</Text>
+            <Text style={styles.percent}>{rate}%</Text>
           </View>
         </View>
       </View>
@@ -58,7 +59,7 @@ const RecentWalk = ({}) => {
       <FlatList
         scrollEventThrottle={16}
         showsHorizontalScrollIndicator={false}
-        data={tempList}
+        data={recentWalks.slice(0,2)}
         horizontal
         disableVirtualization={false}
         contentContainerStyle={styles.itemWrapper}

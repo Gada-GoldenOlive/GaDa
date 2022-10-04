@@ -7,25 +7,34 @@ import {
   descriptionColorVer2,
   mainColor,
 } from '../../../constant/colors';
+import { getDistance, getHour } from '../../../function';
 
-const Goal = () => {
+const Goal = ({ goal }) => {
+  const { loginId, goalDistance, goalTime, totalDistance, totalTime } = goal;
   return (
     <View style={styles.container}>
       <View style={styles.wrapper}>
         <Text style={styles.title}>시간</Text>
         <Text style={styles.value}>
-          <Text style={styles.num}>0</Text>
-          <Text style={styles.value}>분</Text>
+          <Text style={styles.num}>{getHour(totalTime)}</Text>
         </Text>
-        <Text style={styles.goal}>목표 미설정</Text>
+        {goalTime === null ? (
+          <Text style={styles.goal}>목표 미설정</Text>
+        ) : (
+          <Text style={styles.goal}>목표 : {getHour(goalTime)}</Text>
+        )}
       </View>
       <View style={styles.wrapper}>
         <Text style={styles.title}>거리</Text>
         <Text style={styles.value}>
-          <Text style={styles.num}>0</Text>
+          <Text style={styles.num}>{getDistance({distance:totalDistance, unit:'m'})}</Text>
           <Text style={styles.value}>m</Text>
         </Text>
-        <Text style={styles.goal}>목표 미설정</Text>
+        {goalDistance === null ? (
+          <Text style={styles.goal}>목표 미설정</Text>
+        ) : (
+          <Text style={styles.goal}>목표 : {getDistance({distance: goalDistance, unit:'m'})}</Text>
+        )}
       </View>
     </View>
   );

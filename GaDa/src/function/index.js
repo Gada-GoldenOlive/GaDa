@@ -2,7 +2,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import moment from 'moment';
 import store from '../redux/store';
 import { reloadApp } from './error';
-
 export const storeInLocalStorage = async (accessToken, refreshToken) => {
   await AsyncStorage.setItem('access_token', accessToken);
   await AsyncStorage.setItem('refresh_token', refreshToken);
@@ -83,10 +82,10 @@ export const getPWIsNotValid = ({pw}) => {
   return result
 }
 
-export const getDistance = ({distance, unit }) => {
-  if(unit === 'km') {
-    const str = String(distance); 
-    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+export const getDistance = ({distance = 0, unit = 'm' }) => {
+  if(unit === 'm') {
+    const regexp = /\B(?=(\d{3})+(?!\d))/g;
+    return distance.toString().replace(regexp, ',')
   } else {
     distance / 1000;
     const str = String(distance); 
@@ -94,8 +93,17 @@ export const getDistance = ({distance, unit }) => {
   }
 };
 
-export const getHour = ({time}) => {
-  return time / 60
+export const getHour = (time = 0) => {
+
+  if(time === 0) {
+    return '0분'
+  }
+  var h = Math.floor(time / 60);
+  var m = Math.floor(time % 60 );
+
+  var hDisplay = h > 0 ? h + "시간" : "";
+  var mDisplay = m > 0 ? m + "분" : "";
+  return hDisplay + mDisplay; 
 
 }
 
@@ -113,3 +121,11 @@ export const getDistanceFromLatLonInKm = ({lat1,lng1,lat2,lng2}) =>  {
   return d;
 }
 
+
+export const getDate = (time) => {
+  console.log(time);
+
+  return moment(time).format('YYYY.MM.DD')
+  
+
+}

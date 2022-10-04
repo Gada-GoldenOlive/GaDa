@@ -39,7 +39,7 @@ export const deleteUser = async id => {
 
 export const getUsersCheckedId = async id => {
   const res = await axios
-    .get(`/users/checked-id/?loginId=${id}`)
+    .get(`/users/checked-id?loginId=${id}`)
     .then(({ data }) => data)
     .catch(handleNetworkError);
   return res;

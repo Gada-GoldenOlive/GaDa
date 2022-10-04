@@ -128,7 +128,6 @@ const App = () => {
       console.log(access_token)
       defaultAxios.defaults.headers.common.Authorization = `Bearer ${access_token}`;
       await storeAccessToken(access_token);
-
       SplashScreen.hide();
 
     }

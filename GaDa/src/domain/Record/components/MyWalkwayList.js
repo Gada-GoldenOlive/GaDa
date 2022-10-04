@@ -4,6 +4,7 @@ import {
   View,
   FlatList,
   TouchableWithoutFeedback,
+  ScrollView,
 } from 'react-native';
 import React from 'react';
 import { MyImageS } from '../../../constant/images/Sample';
@@ -11,10 +12,17 @@ import CustomImage from '../../../components/CustomImage';
 import { PinSample1, PinSample2 } from '../../../constant/images/PinSample';
 import { boldFontFamily, boldFontSize } from '../../../constant/fonts';
 import CustomRating from '../../../components/CustomRating';
-import { backgroundColor, blackColor, borderColor } from '../../../constant/colors';
+import {
+  backgroundColor,
+  blackColor,
+  borderColor,
+} from '../../../constant/colors';
 import { getDistance } from '../../../function';
 
-const MyWalkwayList = ({ ListHeaderComponent }) => {
+const ListFooterComponent = () => {
+  return <View style={{ height: 30 }} />;
+};
+const MyWalkwayList = ({ ListHeaderComponent, myWalks }) => {
   const myinfo = { image: MyImageS, name: '산책와 뽀삐' };
   const tempList = [
     {
@@ -57,7 +65,7 @@ const MyWalkwayList = ({ ListHeaderComponent }) => {
           <Text style={styles.title}>{name}</Text>
           <Text style={styles.information}>
             <Text>소요시간: {time / 60}시간 / </Text>
-            <Text>거리: {getDistance({distance, unit: 'm'})}m </Text>
+            <Text>거리: {getDistance({ distance, unit: 'm' })}m </Text>
           </Text>
         </View>
       </View>
@@ -65,7 +73,7 @@ const MyWalkwayList = ({ ListHeaderComponent }) => {
   };
   return (
     <View style={styles.container}>
-      {tempList.length >= 1 ? (
+      {myWalks.length >= 1 ? (
         <FlatList
           scrollEventThrottle={16}
           showsVerticalScrollIndicator={false}
@@ -76,21 +84,24 @@ const MyWalkwayList = ({ ListHeaderComponent }) => {
           onEndReachedThreshold={0.7}
           keyExtractor={(item, index) => `${item.id}-${index}`}
           ListHeaderComponent={ListHeaderComponent}
+          ListFooterComponent={ListFooterComponent}
         />
       ) : (
-        <>
-          <ListHeaderComponent />
-          <View style={styles.nullContainer}>
-            <CustomImage style={styles.nullImage} source={PinSample1} />
-            <View style={styles.nullGradient} />
-            <Text style={styles.nullTitle}>산책로를 만들고 공유하세요!</Text>
-            <TouchableWithoutFeedback>
-              <View style={styles.nullButton}>
-                <Text style={styles.null}>기록시작</Text>
-              </View>
-            </TouchableWithoutFeedback>
+        <ScrollView>
+          <View style={styles.container}>
+            <ListHeaderComponent />
+            <View style={styles.nullContainer}>
+              <CustomImage style={styles.nullImage} source={PinSample1} />
+              <View style={styles.nullGradient} />
+              <Text style={styles.nullTitle}>산책로를 만들고 공유하세요!</Text>
+              <TouchableWithoutFeedback>
+                <View style={styles.nullButton}>
+                  <Text style={styles.null}>기록시작</Text>
+                </View>
+              </TouchableWithoutFeedback>
+            </View>
           </View>
-        </>
+        </ScrollView>
       )}
     </View>
   );
@@ -101,13 +112,13 @@ export default MyWalkwayList;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 16,
   },
   itemContainer: {
-    width: '100%',
     height: 184,
     marginBottom: 20,
     justifyContent: 'space-between',
+
+    marginHorizontal: 16,
   },
   backgroundImage: {
     position: 'absolute',
@@ -154,7 +165,7 @@ const styles = StyleSheet.create({
     lineHeight: 22,
   },
   nullContainer: {
-    width: '100%',
+    marginHorizontal: 16,
     borderRadius: 20,
     alignItems: 'center',
   },
