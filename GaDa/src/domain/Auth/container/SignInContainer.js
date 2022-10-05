@@ -29,9 +29,12 @@ const SignInContainer = ({ navigation }) => {
   };
   const checkLogin = async () => {
     const res = await getUserLogin({ id: userId, pw: pw });
-    const { access_token } = res;
-    if (access_token !== null) {
-      saveTokenDataInLocalAndAxios(access_token)
+
+    console.log({res});
+    const { accessToken, refreshToken } = res;
+
+    if (accessToken !== null) {
+      saveTokenDataInLocalAndAxios(accessToken)
       handleNavigate();
     } else {
       console.log(res)

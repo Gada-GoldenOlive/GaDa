@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import NicknameScreen from '../screen/NicknameScreen';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsAuthenticated, setNickname } from '../../../redux/modules/user';
-import { setIdInLocalStorage } from '../../../function';
+import { setIdInLocalStorage, storeInLocalStorage } from '../../../function';
 import { createUser } from '../../../APIs/user';
 
 const NicknameContainer = ({ navigation }) => {
@@ -22,9 +22,10 @@ const NicknameContainer = ({ navigation }) => {
         image: '',
       };
       const res = await createUser(userBody);
-      const id = res?.id ? res?.id : null;
+      const {accessToken, refreshToken} = res;
+      console.log(res);
       if (id !== null) {
-        setIdInLocalStorage(id);
+        storeInLocalStorage(accessToken, refreshToken);
         dispatch(setIsAuthenticated(true));
         handleNavigate();
       }
