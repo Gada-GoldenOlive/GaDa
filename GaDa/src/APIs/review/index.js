@@ -69,3 +69,4 @@ export const getDetailFeed = async reviewId => {
     .catch(handleNetworkError);
   return res;
 };
+
