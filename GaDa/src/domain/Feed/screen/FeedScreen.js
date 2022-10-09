@@ -21,7 +21,7 @@ const FeedScreen = ({ feedList, handleGettingWalkway, handleDetailFeed }) => {
     return (
       <View style={styles.topContainer}>
         <Text style={styles.title}>피드</Text>
-        <FilteringButton />
+        {/* <FilteringButton />*/}
         <TouchableWithoutFeedback onPress={handleGettingWalkway}>
           <View style={styles.writeWrapper}>
             <CustomImage

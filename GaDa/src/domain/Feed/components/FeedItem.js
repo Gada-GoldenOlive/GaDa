@@ -9,30 +9,19 @@ import { getDistance, getHour } from '../../../function';
 
 const FeedItem = ({ item, index, handleDetailFeed }) => {
   /*
-  {"address": "서울특별시 용산구 서빙고로", "distance": 9550, "images": [], "like": false, 
-"review": {"content": "테스트리뷰3 입니다~~~", "createdAt": "2022-10-08T07:30:42.170Z", "id": "39r918af-0705-d123-f0b9-r0bc742a204dc3", 
-  "star": 4, "title": "테스트  리뷰3", "updatedAt": "2022-10-08T07:30:42.170Z", "userId": "42e83ce7-5ba5-4461-91be-119c4f278ff9", 
-  "userImage": "https://picsum.photos/150/150/?image=1", "userName": "테스트유저", "vehicle": "MANUAL", "walkwayId": "d2209c34-056f-458f-9bab-ce99e34d2e44", 
-  "walkwayTitle": "박물관 보행로 산책로"}, 
-"time": 440, "walkwayImage": "https://picsum.photos/400/250/?image=481"}
+ {"address": "서울특별시 용산구 서빙고로", "content": "테스트리뷰1 입니다~~~", 
+ "createdAt": "2022-10-08T07:27:58.887Z", "distance": 500, 
+ "id": "f120af123-0705-4dcd-8rb9-1c70bf042390", "images": [], 
+ "like": false, "star": 4, "time": 20, 
+ "title": "테스트 리뷰1", "updatedAt": "2022-10-08T07:27:58.887Z",
+  "userImage": "https://picsum.photos/150/150/?image=1", "userName": "뽀삐", 
+  "vehicle": "MANUAL", "walkwayId": "d2209c34-056f-458f-9bab-ce99e34d2e44", 
+  "walkwayImage": "https://picsum.photos/400/250/?image=481",
+   "walkwayTitle": "박물관 보행로 산책로"}
 */
 
-  const { address, distance, images, like, review, time, walkwayImage } = item;
-  const {
-    content,
-    createdAt,
-    id,
-    star,
-    title,
-    updatedAt,
-    userId,
-    userImage,
-    userName,
-    vehicle,
-    walkwayId,
-    walkwayTitle,
-  } = review;
-
+  const { address,content, createdAt, distance, id, images,like, star, time, title, updatedAt, 
+  userImage, userName, vehicle, walkwayId, walkwayImage, walkwayTitle } = item;
   return (
     <TouchableWithoutFeedback onPress={() => handleDetailFeed(id)}>
       <View style={styles.itemContainer}>

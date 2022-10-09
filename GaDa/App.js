@@ -16,9 +16,7 @@ import store from './src/redux/store';
 // SplashScreen 추가
 import SplashScreen from 'react-native-splash-screen';
 import { setIsAuthenticated, setUserId } from './src/redux/modules/user';
-import {
-  storeInLocalStorage,
-} from './src/function';
+import { storeInLocalStorage } from './src/function';
 import { refreshToken, verifyToken } from './src/APIs/JWT';
 import jwtDecode from 'jwt-decode';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -72,7 +70,6 @@ const App = () => {
     }
   });
 
-
   // Access Token 관리
   useEffect(() => {
     loadEssentialData();
@@ -103,24 +100,23 @@ const App = () => {
 
     const { access_token = '', refresh_token = '' } = await getTokens();
     if (access_token) {
+      defaultAxios.defaults.headers.common.Authorization = `Bearer ${access_token}`;
       const { new_access_token = '', new_refresh_token = '' } =
         await refreshToken(access_token);
       if (new_access_token && new_refresh_token) {
-        const { sub:user_id } = jwtDecode(new_access_token);
-          dispatch(setUserId(user_id));
+        console.log('hey')
+        const { sub: user_id } = jwtDecode(new_access_token);
+        dispatch(setUserId(user_id));
         dispatch(setIsAuthenticated(true));
-
         defaultAxios.defaults.headers.common.Authorization = `Bearer ${new_access_token}`;
         await storeInLocalStorage(new_access_token, new_refresh_token);
       }
     } else {
       setLoading(false);
-      UnkUserAppOpen();
+      console.log('error')
+
     }
     SplashScreen.hide();
-    return messaging().onTokenRefresh(() => {
-      saveFcmToken();
-    });
   }; // getNetworkState
 
   return (

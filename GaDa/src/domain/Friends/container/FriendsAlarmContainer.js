@@ -9,6 +9,7 @@ import {
 } from '../../../constant/images/Sample';
 import { useEffect } from 'react';
 import { useCallback } from 'react';
+import { getAlarmList } from '../../../APIs/user';
 
 const res = [
   {
@@ -69,7 +70,11 @@ const FriendsAlarmContainer = () => {
   const [refreshing, setRefreshing] = useState(false);
 
   const fetchAlarmList = async () => {
-    setAlarmList(res);
+    const res = await getAlarmList();
+    if(res){
+      const {requests} = res;
+      setAlarmList(requests);
+    }
   };
 
   const handleAcceptButton = id => {

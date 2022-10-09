@@ -9,6 +9,7 @@ import { getFeeds } from '../../../APIs/review';
 
 const FeedContainer = ({ navigation, route }) => {
   const [feedList, setFeedList] = useState([]);
+  
 
   const fetchData = async () => {
     const res = await getFeeds();
