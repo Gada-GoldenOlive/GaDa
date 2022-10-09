@@ -7,14 +7,16 @@ import { blackColor, descriptionColor, descriptionColorVer2 } from '../../../con
 import { boldFontFamily } from '../../../constant/fonts';
 
 
-const Profile = ({handleNavigateSetting}) => {
+const Profile = ({handleNavigateSetting, profile}) => {
+  const {loginId, name, image} = profile;
+
   return (
     <View style={styles.container}>
       <View style={styles.wrapper}>
-        <CustomImage source={PinSample1} style={styles.image} />
+        <CustomImage source={{uri: image}} style={styles.image} />
         <View style={styles.infoContainer}>
-        <Text style={styles.name}>산책왕 뽀삐</Text>
-        <Text style={styles.num}>jeno1234</Text>
+        <Text style={styles.name}>{name}</Text>
+        <Text style={styles.num}>{loginId}</Text>
         </View>
         <TouchableWithoutFeedback onPress={handleNavigateSetting}>
           <CustomImage style={styles.setting} source={Setting} />

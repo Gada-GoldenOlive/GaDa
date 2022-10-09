@@ -12,6 +12,8 @@ const SignInScreen = ({
   pw,
   setId,
   setPw,
+  clickable,
+  isWrong, 
   handleNavigateSignUp,
   handleNavigate,
 }) => {
@@ -48,6 +50,7 @@ const SignInScreen = ({
         />
       </View>
       <View style={styles.bottomContainer}>
+        {isWrong && (<Text>*존재하지 않는 아이디/비밀번호 입니다</Text>)}
         <TouchableWithoutFeedback onPress={handleNavigate}>
           <View style={styles.loginButton}>
             <Text style={styles.loginText}>로그인</Text>

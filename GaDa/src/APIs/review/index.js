@@ -45,3 +45,19 @@ export const deleteReview = async id => {
     .catch(handleNetworkError);
   return res;
 };
+
+export const getMyReviewList = async userId => {
+  const res = await axios
+  .get(`/reviews/feeds?userId=${userId}`)
+  .then(({data}) => data)
+  .catch(e => console.log(e.response));
+  return res;
+}
+
+export const getFeeds = async () => {
+  const res = await axios
+  .get(`/reviews/feeds/`)
+  .then(({data}) => data)
+  .catch(e => console.log(e.response.data));
+  return res;
+}

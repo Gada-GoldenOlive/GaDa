@@ -34,6 +34,8 @@ import MyWalkwayList from '../components/MyWalkwayList';
 
 const RecordScreen = ({
   userData,
+  myWalks,
+  recentWalks,
   handleNavigate,
   handleNaivigateGoal,
   handleNavigateSetting,
@@ -46,18 +48,23 @@ const RecordScreen = ({
     loginId,
     image,
     name,
-    pinCOunt,
+    pinCount,
     badgeCount,
     goalDistance,
     goalTime,
     totalDistance,
     totalTime,
   } = userData;
+  const profile = { loginId, image, name };
+  const goal = { loginId, goalDistance, goalTime, totalDistance, totalTime };
   const header = () => {
     return (
       <View style={styles.container}>
         <View style={styles.profileContainer}>
-          <Profile handleNavigateSetting={handleNavigateSetting} />
+          <Profile
+            handleNavigateSetting={handleNavigateSetting}
+            profile={profile}
+          />
         </View>
         <View style={styles.goalContainer}>
           <View style={styles.goalTitleContainer}>
@@ -78,7 +85,7 @@ const RecordScreen = ({
               </View>
             </TouchableWithoutFeedback>
           </View>
-          <Goal />
+          <Goal goal={goal} />
         </View>
         <View style={styles.badgeContainer}>
           <View style={styles.badgeTitleContainer}>
@@ -92,18 +99,20 @@ const RecordScreen = ({
           </View>
           <Badge />
         </View>
-        <View style={styles.recentContainer}>
-          <View style={styles.recentTitleContainer}>
-            <Text style={styles.recentTitle}>최근 활동</Text>
-            <TouchableWithoutFeedback onPress={handleNavigateRecent}>
-              <View style={styles.recentMoreWrapper}>
-                <Text style={styles.recentMore}>더보기</Text>
-                <CustomImage style={styles.moreImage} source={ArrowBlack} />
-              </View>
-            </TouchableWithoutFeedback>
+        {recentWalks.length >= 1 && (
+          <View style={styles.recentContainer}>
+            <View style={styles.recentTitleContainer}>
+              <Text style={styles.recentTitle}>최근 활동</Text>
+              <TouchableWithoutFeedback onPress={handleNavigateRecent}>
+                <View style={styles.recentMoreWrapper}>
+                  <Text style={styles.recentMore}>더보기</Text>
+                  <CustomImage style={styles.moreImage} source={ArrowBlack} />
+                </View>
+              </TouchableWithoutFeedback>
+            </View>
+            <RecentWalk recentWalks={recentWalks} />
           </View>
-          <RecentWalk />
-        </View>
+        )}
 
         <View style={styles.myWalkContainer}>
           <View style={styles.recentTitleContainer}>
@@ -119,7 +128,7 @@ const RecordScreen = ({
       bounces={false}
       showsVerticalScrollIndicator={false}
     >
-      <MyWalkwayList ListHeaderComponent={header}/>
+      <MyWalkwayList ListHeaderComponent={header} myWalks={myWalks} />
     </View>
   );
 };
@@ -132,11 +141,11 @@ const styles = StyleSheet.create({
   },
   profileContainer: {
     marginTop: 16,
-    // paddingHorizontal: 16,
+    paddingHorizontal: 16,
   },
   goalContainer: {
     marginTop: 35,
-   // paddingHorizontal: 16,
+    paddingHorizontal: 16,
   },
   goalTitleContainer: {
     flexDirection: 'row',
@@ -207,7 +216,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 14,
 
-    // paddingHorizontal: 16,
+    paddingHorizontal: 16,
   },
   recentTitle: {
     color: blackColor,
@@ -224,6 +233,5 @@ const styles = StyleSheet.create({
   },
   myWalkContainer: {
     marginTop: 30,
-    marginBottom: 60,
   },
 });

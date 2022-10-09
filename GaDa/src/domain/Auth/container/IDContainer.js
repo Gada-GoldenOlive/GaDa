@@ -3,19 +3,26 @@ import React, { useEffect } from 'react';
 import IDScreen from '../screen/IDScreen';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setUserId } from '../../../redux/modules/user';
+import { setLoginId, setUserId } from '../../../redux/modules/user';
 import { getUsersCheckedId } from '../../../APIs/user';
+import { getIDIsNotValid } from '../../../function';
 
 const IDContainer = ({ navigation }) => {
   const [isWrong, setIsWrong] = useState(true);
-  const { userId } = useSelector(state => state.user);
+  const { loginId } = useSelector(state => state.user);
   const [first, setFirst] = useState(true);
-  const [changed, setChanged] = useState(false)
+  const [changed, setChanged] = useState(false);
+  const [isNotValid, setIsNotValid] = useState(true);
 
   const dispatch = useDispatch();
   const handleIdChange = idText => {
-    dispatch(setUserId(idText));
-    setChanged(true)
+    dispatch(setLoginId(idText));
+    if(getIDIsNotValid(idText)){
+      setIsNotValid(true);
+    }else {
+      setIsNotValid(false);
+    }
+    setChanged(true);
   };
   const handleNavigate = () => {
     if (!isWrong) {
@@ -24,25 +31,25 @@ const IDContainer = ({ navigation }) => {
   };
 
   const checkId = async () => {
-    const res = await getUsersCheckedId(userId);
-    console.log(res);
+    const res = await getUsersCheckedId(loginId);
     const { isValid } = res;
     if (isValid) {
       setIsWrong(false);
-    } else if(!isValid){
-      setIsWrong(true)
+    } else if (!isValid) {
+      setIsWrong(true);
     }
-    setChanged(false)
+    setChanged(false);
     setFirst(false);
   };
   useEffect(() => {
-    dispatch(setUserId(''));
+    dispatch(setLoginId(''));
   }, []);
 
   return (
     <IDScreen
       isWrong={isWrong}
-      userId={userId}
+      isNotValid={isNotValid}
+      loginId={loginId}
       first={first}
       checkId={checkId}
       changed={changed}

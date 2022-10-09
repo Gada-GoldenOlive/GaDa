@@ -3,32 +3,48 @@ import React, { useEffect } from 'react';
 import NicknameScreen from '../screen/NicknameScreen';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsAuthenticated, setNickname } from '../../../redux/modules/user';
-import { setIdInLocalStorage } from '../../../function';
+import {
+  getNicknameIsNotValid,
+  setIdInLocalStorage,
+  storeInLocalStorage,
+} from '../../../function';
 import { createUser } from '../../../APIs/user';
+import defaultAxios from '../../../APIs';
+import { reloadApp } from '../../../function/error';
+import { useState } from 'react';
 
 const NicknameContainer = ({ navigation }) => {
-  const { nickname, userId, pw } = useSelector(state => state.user);
+  const { nickname, loginId, pw } = useSelector(state => state.user);
+  const [isValid, setIsValid] = useState(false);
   const dispatch = useDispatch();
   const handleNicknameChange = text => {
     dispatch(setNickname(text));
+    const res = getNicknameIsNotValid(text);
+    if (res) {
+      setIsValid(false);
+    } else {
+      setIsValid(true);
+    }
   };
 
   const login = async () => {
-    if (nickname.length >= 1) {
+   
       const userBody = {
-        userId: userId,
+        userId: loginId,
         password: pw,
         name: nickname,
         image: '',
       };
+      delete defaultAxios.defaults.headers.common.Authorization;
+
       const res = await createUser(userBody);
-      const id = res?.id ? res?.id : null;
+      const { accessToken, refreshToken } = res;
       if (id !== null) {
-        setIdInLocalStorage(id);
+        storeInLocalStorage(accessToken, refreshToken);
         dispatch(setIsAuthenticated(true));
-        handleNavigate();
+        reloadApp();
       }
-    }
+    
   };
   const handleNavigate = () => {
     dispatch(setIsAuthenticated(true));
@@ -43,6 +59,7 @@ const NicknameContainer = ({ navigation }) => {
   }, []);
   return (
     <NicknameScreen
+      isValid={isValid}
       nickname={nickname}
       handleNavigate={login}
       handleNicknameChange={handleNicknameChange}

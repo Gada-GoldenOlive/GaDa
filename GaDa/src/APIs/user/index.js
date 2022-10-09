@@ -7,7 +7,7 @@ export const createUser = async userData => {
     .then(({ data }) => {
       return data;
     })
-    .catch(err => err.response.data.statusCode);
+    .catch(err => console.log('create', err.response));
   return res;
 };
 
@@ -39,7 +39,7 @@ export const deleteUser = async id => {
 
 export const getUsersCheckedId = async id => {
   const res = await axios
-    .get(`/users/checked-id/?loginId=${id}`)
+    .get(`/users/checked-id?loginId=${id}`)
     .then(({ data }) => data)
     .catch(handleNetworkError);
   return res;
@@ -50,7 +50,7 @@ export const getUserLogin = async ({ id, pw }) => {
   const res = await axios
     .post(`/users/login/`, { loginId: id, password: pw })
     .then(({ data }) => data)
-    .catch(e => console.log(e.response.data));
+    .catch(e => e.response.data);
   return res;
 };
 

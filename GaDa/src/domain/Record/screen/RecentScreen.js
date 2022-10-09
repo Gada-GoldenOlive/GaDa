@@ -11,29 +11,42 @@ import CustomImage from '../../../components/CustomImage';
 import { MapImage } from '../../../constant/images/Temp';
 import { blackColor, mainColor } from '../../../constant/colors';
 import { boldFontFamily, boldFontSize } from '../../../constant/fonts';
-import { getDistance } from '../../../function';
+import { getDate, getDistance } from '../../../function';
 
-const RecentScreen = ({ handleDetailPin }) => {
+const RecentScreen = ({ handleDetailPin, recentWalks }) => {
   const renderItem = ({ item, index }) => {
-    const { name, distance, time, date } = item;
+    const {
+      distance,
+      finishStatus,
+      id,
+      image,
+      rate,
+      time,
+      title,
+      userId,
+      walkwayId,
+      updatedAt,
+    } = item;
+
     return (
       <TouchableWithoutFeedback onPress={handleDetailPin}>
         <View
           style={[styles.itemContainer, index % 2 === 0 && { marginEnd: 11 }]}
         >
-          <Text style={styles.time}>{date}</Text>
+          <Text style={styles.time}>{getDate(updatedAt)}</Text>
           <View style={styles.contentView}>
-            <CustomImage style={styles.background} source={MapImage} />
+            <CustomImage style={styles.background} source={{ uri: image }} />
             <View style={styles.gradient} />
             <View style={styles.bottomWrapper}>
               <View style={styles.percentWrapper}>
-                <Text style={styles.percent}>40%</Text>
+                <Text style={styles.percent}>{rate}%</Text>
               </View>
-              <Text style={styles.distance}>{distance}m</Text>
+              <Text style={styles.distance}>
+                {getDistance({ distance, unit: 'm' })}m
+              </Text>
             </View>
-            <Text style={styles.distance}>{getDistance({distance, unit: 'm'})}m</Text>
           </View>
-          <Text style={styles.name}>{name}</Text>
+          <Text style={styles.name}>{title}</Text>
         </View>
       </TouchableWithoutFeedback>
     );
@@ -86,7 +99,7 @@ const RecentScreen = ({ handleDetailPin }) => {
         scrollEventThrottle={16}
         numColumns={2}
         showsVerticalScrollIndicator={false}
-        data={dataList}
+        data={recentWalks}
         bounces={false}
         disableVirtualization={false}
         renderItem={({ item, index }) => renderItem({ item, index })}

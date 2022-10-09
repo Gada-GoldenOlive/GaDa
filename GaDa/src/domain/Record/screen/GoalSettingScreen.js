@@ -8,25 +8,35 @@ import {
   descriptionColor,
   descriptionColorVer2,
 } from '../../../constant/colors';
+import CustomButton from '../../../components/CustomButton';
 
-const GoalSettingScreen = () => {
+const GoalSettingScreen = ({ time, distance, timeChange, distanceChange, updateGoal }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>달성목표</Text>
       <View style={styles.wrapper}>
         <MyTextInput
+          value={time}
+          onChangeText={timeChange}
           style={styles.textInput}
-          placeholder="목표 달성시간을 입력하세요"
+          keyboardType="numeric"
+          placeholder={time === null ? '목표 달성시간을 입력하세요' : time.toString()}
         />
         <Text style={styles.description}>(시간)</Text>
       </View>
       <View style={styles.wrapper}>
         <MyTextInput
+          value={distance}
+          onChangeText={distanceChange}
           style={styles.textInput}
-          placeholder="목표 달성거리를 입력하세요"
+          keyboardType="numeric"
+          placeholder={
+            distance === null ? '목표 달성거리를 입력하세요' : distance.toString()
+          }
         />
-        <Text style={styles.description}>(km)</Text>
+        <Text style={styles.description}>(m)</Text>
       </View>
+      {time && distance && <CustomButton style={styles.button} handlePress={updateGoal} title="설정 완료"/>}
     </View>
   );
 };
@@ -60,4 +70,8 @@ const styles = StyleSheet.create({
     top: 16,
     color: descriptionColorVer2,
   },
+  button: {
+    position: 'absolute',
+    bottom: 0,
+  }
 });
