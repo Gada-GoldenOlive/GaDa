@@ -9,8 +9,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setNickname } from '../../../redux/modules/user';
 
 const ModifyNicknameContainer = ({navigation, route}) => {
-  const { nickname, userId } = useSelector(state => state.user);
+  const { nickname, userId, userImage } = useSelector(state => state.user);
+  console.log(nickname, userId, userImage)
   const [newNickname, setNewNickname] = useState(nickname);
+  const [image, setImage] = useState(userImage);
   const [isValid, setIsValid] = useState(true);
   const dispatch = useDispatch();
 
@@ -29,7 +31,6 @@ const ModifyNicknameContainer = ({navigation, route}) => {
   };
   const handlePress = async () => {
     const data = {name: newNickname};
-    console.log(data);
     await updateUserInfo(userId, data);
     navigation.reset({
       index: 0,
@@ -46,6 +47,7 @@ const ModifyNicknameContainer = ({navigation, route}) => {
       nicknameChange={nicknameChange}
       handlePress={handlePress}
       isValid={isValid}
+      image={image}
     />
   );
 };

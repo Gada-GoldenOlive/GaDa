@@ -56,8 +56,23 @@ export const getUserLogin = async ({ id, pw }) => {
 
 export const getUserDetail = async () => {
   const res = await axios
-    .get('/users/detail')
+    .get('/users/detail/')
     .then(({ data }) => data)
     .catch(handleNetworkError);
   return res;
 };
+
+export const getUserFriends = async () => {
+  const res = await axios
+    .get('users/friends/')
+    .then(({ data }) => data)
+    .catch(handleNetworkError);
+  return res;
+};
+export const checkNickname = async name => {
+  const res = await axios
+  .get(`users/checked-name?name=${name}`)
+  .then(({data}) => data)
+  .catch(e =>  e.response.data);
+  return res;
+}

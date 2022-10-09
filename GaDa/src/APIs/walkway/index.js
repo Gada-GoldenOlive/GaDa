@@ -12,7 +12,7 @@ export const createWalkway = async walkwayData => {
 
 export const getWalkwayList = async ({ lng, lat }) => {
   const res = await axios
-    .get(`/walkways/list?lng=${lng}&lat=${lat}`)
+    .get(`/walkways/?lng=${lng}&lat=${lat}`)
     .then(({ data }) => {
       return data;
     })

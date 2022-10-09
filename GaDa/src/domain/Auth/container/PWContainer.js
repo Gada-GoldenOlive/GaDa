@@ -9,6 +9,8 @@ import { useState } from 'react';
 const PWContainer = ({ navigation }) => {
   const [password, setPassword] = useState('');
   const [isValid, setIsValid] = useState(false);
+  const {loginId, pw} = useSelector(state => state.user);
+  console.log(loginId, pw);
   const dispatch = useDispatch();
   const handlePwChange = text => {
     setPassword(text);
