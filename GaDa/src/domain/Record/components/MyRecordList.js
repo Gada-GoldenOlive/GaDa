@@ -1,7 +1,8 @@
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 import React from 'react';
 import { boldFontFamily, boldFontSize } from '../../../constant/fonts';
 import { descriptionColorVer2 } from '../../../constant/colors';
+import Text from '../../../components/MyText';
 
 const ItemSeparatorComponent = () => {
   return <View style={{ height: 14 }} />;

@@ -1,10 +1,11 @@
-import { StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
+import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import React from 'react';
 import { useState } from 'react';
 import CustomImage from './CustomImage';
 import Polygon from '../constant/images/Polygon';
 import { blackColor } from '../constant/colors';
 import BottomUpmodal from './BottomUpmodal';
+import Text from './MyText';
 
 const FilteringButton = ({ itemList = ['거리순', '최신순', '좋아요순'] }) => {
   const [clickedItem, setClickedItem] = useState(itemList[0]);

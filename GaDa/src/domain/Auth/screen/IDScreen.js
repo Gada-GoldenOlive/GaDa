@@ -111,6 +111,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     borderBottomColor: descriptionColorVer2,
+  
   },
   buttonWrapper: {
     position: 'absolute',

@@ -10,7 +10,7 @@ import {
 import { boldFontFamily, boldFontSize } from '../../../constant/fonts';
 import Text from '../../../components/MyText';
 
-const SettingPageScreen = ({handleNaigateNickname, handleNavigatePW, handleLogout}) => {
+const SettingPageScreen = ({handleNaigateNickname, handleNavigatePW, handleLogout, handleSignOut}) => {
   return (
     <View style={styles.container}>
       <TouchableWithoutFeedback onPress={handleNaigateNickname}>
@@ -31,7 +31,7 @@ const SettingPageScreen = ({handleNaigateNickname, handleNavigatePW, handleLogou
           <CustomImage style={styles.arrow} source={ArrowBlack} />
         </View>
       </TouchableWithoutFeedback>
-      <TouchableWithoutFeedback onPress={handleNaigateNickname}>
+      <TouchableWithoutFeedback onPress={handleSignOut}>
         <View style={styles.buttonContainer}>
           <Text style={styles.buttonTitle}>회원 탈퇴</Text>
           <CustomImage style={styles.arrow} source={ArrowBlack} />

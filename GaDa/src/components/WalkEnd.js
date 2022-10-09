@@ -46,7 +46,7 @@ const WalkEnd = ({
             </View>
           </View>
         </View>
-        <CustomButton title="다음" handlePress={onPress} />
+        <CustomButton title="다음" handlePress={onPress} style={styles.button}/>
       </View>
     )
   );
@@ -111,4 +111,8 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: defaultColor,
   },
+  button:{
+    position: 'absolute',
+    bottom: 0,
+  }
 });

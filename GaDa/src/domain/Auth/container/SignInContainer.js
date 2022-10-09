@@ -31,7 +31,7 @@ const SignInContainer = ({ navigation }) => {
   const checkLogin = async () => {
     const res = await getUserLogin({ id: userId, pw: pw });
     console.log(res);
-    if(res.data){
+    if(res.statusCode){
       setIsWrong(true);
     }
     else{

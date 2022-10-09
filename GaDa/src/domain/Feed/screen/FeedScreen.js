@@ -6,7 +6,6 @@ import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 import WalkEnd from '../../../components/WalkEnd';
 import CustomImage from '../../../components/CustomImage';
-import { FeedS, MyS } from '../../../constant/images/Sample';
 import { windowHeight, windowWidth } from '../../../constant/styles';
 import Writing from '../../../constant/images/Writing';
 import Text from '../../../components/MyText';
@@ -21,7 +20,7 @@ const FeedScreen = ({ feedList, handleGettingWalkway, handleDetailFeed }) => {
     return (
       <View style={styles.topContainer}>
         <Text style={styles.title}>피드</Text>
-        <FilteringButton />
+        {/* <FilteringButton />*/}
         <TouchableWithoutFeedback onPress={handleGettingWalkway}>
           <View style={styles.writeWrapper}>
             <CustomImage

@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 import React from 'react';
 import { windowWidth } from '../../../constant/styles';
 import CustomImage from '../../../components/CustomImage';
@@ -12,6 +12,7 @@ import {
   time,
   walkway,
 } from '../../../constant/images/Badge';
+import Text from '../../../components/MyText';
 const BadgeList = () => {
   const dataList = [
     {

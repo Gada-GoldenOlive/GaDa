@@ -1,11 +1,11 @@
-import { StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
+import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import React from 'react';
 import CustomImage from '../../../components/CustomImage';
 import { PinSample1 } from '../../../constant/images/PinSample';
 import Setting from '../../../constant/images/Setting';
 import { blackColor, descriptionColor, descriptionColorVer2 } from '../../../constant/colors';
 import { boldFontFamily } from '../../../constant/fonts';
-
+import Text from '../../../components/MyText';
 
 const Profile = ({handleNavigateSetting, profile}) => {
   const {loginId, name, image} = profile;

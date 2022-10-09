@@ -1,10 +1,11 @@
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 import React from 'react';
 import { PinSample1, PinSample2 } from '../../../constant/images/PinSample';
 import CustomImage from '../../../components/CustomImage';
 import { boldFontFamily, boldFontSize } from '../../../constant/fonts';
 import { mainColor } from '../../../constant/colors';
 import { getDistance } from '../../../function';
+import Text from '../../../components/MyText';
 
 const RecentWalk = ({recentWalks}) => {
   const tempList = [

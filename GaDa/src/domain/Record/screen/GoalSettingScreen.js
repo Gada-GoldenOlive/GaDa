@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import React from 'react';
 import MyTextInput from '../../../components/MyTextInput';
 import { boldFontFamily, boldFontSize } from '../../../constant/fonts';
@@ -9,6 +9,7 @@ import {
   descriptionColorVer2,
 } from '../../../constant/colors';
 import CustomButton from '../../../components/CustomButton';
+import Text from '../../../components/MyText';
 
 const GoalSettingScreen = ({ time, distance, timeChange, distanceChange, updateGoal }) => {
   return (

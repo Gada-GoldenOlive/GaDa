@@ -24,7 +24,7 @@ const GoalSettingContainer = ({ route, navigation }) => {
       goalTime: Number(time),
     });
     console.log(res);
-    navigation.goBack();
+    navigation.navigate('Record', {refresh: {}});
   };
   /*
           <MyTextInput
