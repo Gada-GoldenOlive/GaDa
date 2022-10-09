@@ -14,6 +14,7 @@ import PinPosSubmitButton from "./components/PinPosSubmitButton";
 import "./css/MapScreen.css";
 import { getDistance } from "geolib";
 import AddPin from "../constant/images/AddPin";
+import { getDistanceFromLatLonInKm } from "../functions";
 
 const MapScreen = ({
   currentPosition,
@@ -27,6 +28,7 @@ const MapScreen = ({
   const [isAddPinClicked, setIsAddPinClicked] = useState(false);
   const [isSubmitPinPosClicked, setIsSubmitPinPosClicked] = useState(false);
   const [isStartWalkClicked, setIsStartWalkClicked] = useState(false);
+  const [recordPosition, setRecordPosition] = useState([]);
   //console.log(line.getLength());
   let timer;
   const handlePolylineDrag = (map) => {
@@ -38,8 +40,8 @@ const MapScreen = ({
 
   const [state, setState] = useState({
     center: {
-      lat: 37.54699,
-      lng: 127.09598,
+      lat: null,
+      lng: null,
     },
     errMsg: null,
     isLoading: true,
@@ -48,6 +50,7 @@ const MapScreen = ({
   const [walkwayPath, setWalkwayPath] = useState("null");
   const [walkwayPins, setWalkwayPins] = useState("null");
   const [pathStartPoint, setPathStartPoint] = useState("null");
+  const [isFirstRecording, setIsFirstRecording] = useState(true);
 
   const [movingCurrentList, setMovingCurrentList] = useState();
 
@@ -108,10 +111,59 @@ const MapScreen = ({
       }));
     }
   };
+  useEffect(() => {}, [recordPosition]);
   useEffect(() => {
     geoLocation();
-    //autoGeoLocation();
+    // setCurrent
+    // console.log(currentPosition);
+    // if (
+    //   currentPosition &&
+    //   currentPosition.center.lat !== null &&
+    //   currentPosition.center.lng !== null
+    // ) {
+    //   setRecordPosition([
+    //     { lat: currentPosition.center.lat, lng: currentPosition.center.lng },
+    //   ]);
+    // }
   }, []);
+
+  useEffect(() => {
+    if (
+      currentState.center.lat !== null &&
+      currentState.center.lng !== null &&
+      isFirstRecording
+    ) {
+      alert("hi");
+      setRecordPosition([
+        { lat: currentState.center.lat, lng: currentState.center.lng },
+      ]);
+      setIsFirstRecording(false);
+    }
+
+    // if (
+    //   getDistanceFromLatLonInKm({
+    //     lat1: recordPosition[recordPosition.length - 1].lat,
+    //     lng1: recordPosition[recordPosition.length - 1].lng,
+    //     lat2: currentState.center.lat,
+    //     lng2: currentState.center.lng,
+    //   }) *
+    //     1000 >=
+    //   0.5
+    // ) {
+    //   console.log("요만큼");
+    // }
+
+    // if (
+    //   recordPosition !== [] &&
+
+    //   setRecordPosition([
+    //     ...recordPosition,
+    //     { lat: currentPosition.center.lat, lng: currentPosition.center.lng },
+    //   ]);
+  }, [currentState]);
+  useEffect(() => {
+    alert(recordPosition);
+  }, [recordPosition]);
 
   useEffect(() => {
     if (isGeolocation) {
