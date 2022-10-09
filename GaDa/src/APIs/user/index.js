@@ -50,7 +50,7 @@ export const getUserLogin = async ({ id, pw }) => {
   const res = await axios
     .post(`/users/login/`, { loginId: id, password: pw })
     .then(({ data }) => data)
-    .catch(e => console.log(e.response.data));
+    .catch(e => e.response.data);
   return res;
 };
 

@@ -13,8 +13,9 @@ import { storeInLocalStorage } from '../../../function';
 const SignInContainer = ({ navigation }) => {
   const [userId, setId] = useState('');
   const [pw, setPw] = useState('');
-
+  
   const [isWrong, setIsWrong] = useState(false);
+  const [clickable, setClickable] = useState(false);
   const dispatch = useDispatch();
   const handleNavigateSignUp = () => {
     navigation.navigate('ID');
@@ -29,16 +30,23 @@ const SignInContainer = ({ navigation }) => {
   };
   const checkLogin = async () => {
     const res = await getUserLogin({ id: userId, pw: pw });
-
-    console.log({res});
-    const { accessToken, refreshToken } = res;
-
-    if (accessToken !== null) {
-      saveTokenDataInLocalAndAxios(accessToken, refreshToken)
-      handleNavigate();
-    } else {
-      console.log(res)
+    console.log(res);
+    if(res.data){
+      setIsWrong(true);
     }
+    else{
+      setIsWrong(false);
+      const { accessToken, refreshToken } = res;
+
+      if (accessToken !== null) {
+        saveTokenDataInLocalAndAxios(accessToken, refreshToken)
+        handleNavigate();
+      } else {
+        console.log(res);
+      }
+
+    }
+
   };
 
   const saveTokenDataInLocalAndAxios = async (accessToken, refreshToken) => {
@@ -50,13 +58,23 @@ const SignInContainer = ({ navigation }) => {
 
   };
 
+  useEffect(() => {
+    if(userId.length > 6 && pw.length > 6){
+      setClickable(true);
+    } else {
+      setClickable(false);
+    }
+  }, [userId, pw])
+
 
   return (
     <SignInScreen
       id={userId}
       pw={pw}
+      clickable={clickable}
       setId={setId}
       setPw={setPw}
+      isWrong={isWrong}
       handleNavigate={checkLogin}
       handleNavigateSignUp={handleNavigateSignUp}
     />

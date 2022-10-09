@@ -49,7 +49,7 @@ const IDScreen = ({
       <>
         <Text style={styles.title}>아이디를 입력하세요</Text>
         <Text style={styles.description}>
-          * 영어 대/소문자, 특수문자 조합 3글자 이상
+          * 영어 대/소문자, 특수문자 조합 6글자 이상
         </Text>
         <View style={styles.contentContainer}>
           <View style={styles.contentWrapper}>
