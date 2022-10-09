@@ -12,7 +12,7 @@ export const createWalkway = async walkwayData => {
 
 export const getWalkwayList = async ({ lng, lat }) => {
   const res = await axios
-    .get(`/walkways/list?lng=${lng}&lat=${lat}`)
+    .get(`/walkways?lng=${lng}&lat=${lat}`)
     .then(({ data }) => {
       return data;
     })
@@ -46,9 +46,9 @@ export const deleteWalkway = async id => {
 
 export const getMyWalkList = async option => {
   const res = await axios
-  .get(`/walkways/walks?option=${option}`)
-  .then(({data}) =>  data)
-  .catch(err => console.log(err.response.data));
+    .get(`/walkways/walks?option=${option}`)
+    .then(({ data }) => data)
+    .catch(err => console.log(err.response.data));
 
   return res;
-}
+};
