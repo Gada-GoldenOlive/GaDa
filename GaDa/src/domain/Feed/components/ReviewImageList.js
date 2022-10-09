@@ -10,7 +10,7 @@ import CustomImage from '../../../components/CustomImage';
 import { useRef } from 'react';
 import { windowWidth } from '../../../constant/styles';
 
-const ReviewImageList = () => {
+const ReviewImageList = ({images}) => {
   const bottomScroll = useRef();
   const imageList = [
     {
@@ -68,14 +68,14 @@ const ReviewImageList = () => {
   const handleOnLayout = () => {
     bottomScroll.current.scrollToIndex({ index: 0, animated: false });
   };
-  return (
+  return images.length > 0 &&  (
     <View style={styles.container}>
       <FlatList
         keyExtractor={({ image }, index) => {
           return `${image}-${index}`;
         }}
         onLayout={handleOnLayout}
-        data={imageList}
+        data={images}
         showsHorizontalScrollIndicator={false}
         horizontal
         renderItem={BottomImages}

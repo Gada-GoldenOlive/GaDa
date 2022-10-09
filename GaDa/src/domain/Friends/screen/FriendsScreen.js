@@ -10,12 +10,6 @@ import React, { useState } from 'react';
 import { windowWidth } from '../../../constant/styles';
 import Text from '../../../components/MyText';
 import CustomImage from '../../../components/CustomImage';
-import {
-  RankingS,
-  SampleImage1,
-  SampleImage2,
-  SampleImage3,
-} from '../../../constant/images/Sample';
 import { AddFriends, Alarm } from '../../../constant/images/Friends';
 import {
   boldFontFamily,

@@ -168,7 +168,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   name: {
-    backgroundColor: 'blue',
     color: mainColor,
     fontFamily: boldFontFamily,
     fontSize: 13,

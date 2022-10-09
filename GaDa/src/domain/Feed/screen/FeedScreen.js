@@ -6,7 +6,6 @@ import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 import WalkEnd from '../../../components/WalkEnd';
 import CustomImage from '../../../components/CustomImage';
-import { FeedS, MyS } from '../../../constant/images/Sample';
 import { windowHeight, windowWidth } from '../../../constant/styles';
 import Writing from '../../../constant/images/Writing';
 import Text from '../../../components/MyText';

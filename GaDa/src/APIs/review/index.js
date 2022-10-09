@@ -48,16 +48,24 @@ export const deleteReview = async id => {
 
 export const getMyReviewList = async userId => {
   const res = await axios
-  .get(`/reviews/feeds?userId=${userId}`)
-  .then(({data}) => data)
-  .catch(e => console.log(e.response));
+    .get(`/reviews/feeds?userId=${userId}`)
+    .then(({ data }) => data)
+    .catch(e => console.log(e.response));
   return res;
-}
+};
 
 export const getFeeds = async () => {
   const res = await axios
-  .get(`/reviews/feeds/`)
-  .then(({data}) => data)
-  .catch(e => console.log(e.response.data));
+    .get(`/reviews/feeds/`)
+    .then(({ data }) => data)
+    .catch(e => console.log(e.response.data));
   return res;
-}
+};
+
+export const getDetailFeed = async reviewId => {
+  const res = await axios
+    .get(`reviews/${reviewId}`)
+    .then(({ data }) => data)
+    .catch(handleNetworkError);
+  return res;
+};
