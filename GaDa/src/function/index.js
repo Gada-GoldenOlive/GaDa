@@ -63,8 +63,9 @@ export const AddComma = num => {
   return num.toString().replace(regexp, ',');
 };
 
-export const getNicknameIsNotValid = ({nickname}) => {
-  if(nickname.length > 10 || nickname.length < 3) {
+export const getNicknameIsNotValid = (nickname) => {
+  console.log(nickname)
+  if(nickname.length > 17 || nickname.length < 2) {
     return true
   }
   const reg = /[`~!@#$%^&*()_|+\-=?;:'"<>\{\}\[\]\\\/ ]/gim;
@@ -72,8 +73,19 @@ export const getNicknameIsNotValid = ({nickname}) => {
   return result
 }
 
-export const getPWIsNotValid = ({pw}) => {
-  if(pw.length > 20 || (pw.length >0 && pw.length < 6)) {
+export const getIDIsNotValid = (id) => {
+  if(id.length > 20 || (id.length > 0 && id.length < 6)) {
+    return true
+  }
+  const korean = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+ 
+  const result = korean.test(id);
+  return result
+}
+
+
+export const getPWIsNotValid = (pw) => {
+  if(pw.length > 20 || (pw.length > 0 && pw.length < 6)) {
     return true
   }
   const korean = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
@@ -87,8 +99,7 @@ export const getDistance = ({distance = 0, unit = 'm' }) => {
     const regexp = /\B(?=(\d{3})+(?!\d))/g;
     return distance.toString().replace(regexp, ',')
   } else {
-    distance / 1000;
-    const str = String(distance); 
+    const str = String( distance / 1000); 
     return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
   }
 };

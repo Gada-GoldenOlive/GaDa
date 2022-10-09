@@ -7,7 +7,7 @@ export const createUser = async userData => {
     .then(({ data }) => {
       return data;
     })
-    .catch(err => console.log('create', err.response.data));
+    .catch(err => console.log('create', err.response));
   return res;
 };
 

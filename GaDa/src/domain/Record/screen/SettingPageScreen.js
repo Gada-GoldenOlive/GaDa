@@ -15,7 +15,7 @@ const SettingPageScreen = ({handleNaigateNickname, handleNavigatePW, handleLogou
     <View style={styles.container}>
       <TouchableWithoutFeedback onPress={handleNaigateNickname}>
         <View style={styles.buttonContainer}>
-          <Text style={styles.buttonTitle}>이름 / 닉네임 설정</Text>
+          <Text style={styles.buttonTitle}>프로필 수정</Text>
           <CustomImage style={styles.arrow} source={ArrowBlack} />
         </View>
       </TouchableWithoutFeedback>

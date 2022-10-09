@@ -5,24 +5,49 @@ import CustomImage from '../../../components/CustomImage';
 import { MapImage, Sample } from '../../../constant/images/Temp';
 import FeedBookmark from '../../../components/FeedBookmark';
 import { boldFontFamily, boldFontSize } from '../../../constant/fonts';
+import { getDistance, getHour } from '../../../function';
 
 const FeedItem = ({ item, index, handleDetailFeed }) => {
-    const {id, user, name} = item;
+  /*
+  {"address": "서울특별시 용산구 서빙고로", "distance": 9550, "images": [], "like": false, 
+"review": {"content": "테스트리뷰3 입니다~~~", "createdAt": "2022-10-08T07:30:42.170Z", "id": "39r918af-0705-d123-f0b9-r0bc742a204dc3", 
+  "star": 4, "title": "테스트  리뷰3", "updatedAt": "2022-10-08T07:30:42.170Z", "userId": "42e83ce7-5ba5-4461-91be-119c4f278ff9", 
+  "userImage": "https://picsum.photos/150/150/?image=1", "userName": "테스트유저", "vehicle": "MANUAL", "walkwayId": "d2209c34-056f-458f-9bab-ce99e34d2e44", 
+  "walkwayTitle": "박물관 보행로 산책로"}, 
+"time": 440, "walkwayImage": "https://picsum.photos/400/250/?image=481"}
+*/
+
+  const { address, distance, images, like, review, time, walkwayImage } = item;
+  const {
+    content,
+    createdAt,
+    id,
+    star,
+    title,
+    updatedAt,
+    userId,
+    userImage,
+    userName,
+    vehicle,
+    walkwayId,
+    walkwayTitle,
+  } = review;
+
   return (
     <TouchableWithoutFeedback onPress={() => handleDetailFeed(id)}>
       <View style={styles.itemContainer}>
         <View style={styles.topContainer}>
           <View style={styles.userContainer}>
             <View style={styles.userWrapper}>
-              <CustomImage source={Sample} style={styles.image} />
+              <CustomImage source={{uri: userImage}} style={styles.image} />
               <View style={styles.informationWrapper}>
-                <Text style={styles.name}>{item.user.name}</Text>
+                <Text style={styles.name}>{userName}</Text>
                 <CustomRating
                   style={styles.rating}
                   readonly
                   size={11}
                   score={item.score}
-                  starMargin={2.6}
+                  starMargin={star}
                   tintColor="white"
                 />
               </View>
@@ -30,14 +55,12 @@ const FeedItem = ({ item, index, handleDetailFeed }) => {
             <FeedBookmark />
           </View>
         </View>
-        <CustomImage source={MapImage} style={styles.headerImage} />
+        <CustomImage source={{uri: walkwayImage}} style={styles.headerImage} />
         <View style={styles.radient} />
         <View style={styles.bottomContainer}>
-          <Text style={styles.title}>{item.name}</Text>
+          <Text style={styles.title}>{title}</Text>
           <View style={styles.bottomWrapper}>
-            <Text style={styles.description}>{`소요시간: ${
-              item.time / 60
-            }시간 / 거리: ${item.distance}km`}</Text>
+            <Text style={styles.description}>{`소요시간: ${getHour(time)} / 거리: ${getDistance({distance, unit: 'km'})}km`}</Text>
           </View>
         </View>
       </View>

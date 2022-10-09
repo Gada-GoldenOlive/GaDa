@@ -7,7 +7,7 @@ import { bottomShadowStyle } from '../../../constant/styles';
 import MyTextInput from '../../../components/MyTextInput';
 import CustomButton from '../../../components/CustomButton';
 import { getNicknameIsValid } from '../../../function';
-const ModifyNicknameScreen = ({ nicknameChange, nickname, nicknameCheck, isValid }) => {
+const ModifyNicknameScreen = ({ nicknameChange, nickname, handlePress, isValid }) => {
   return (
     <View style={styles.container}>
       <View style={styles.topContainer}>
@@ -27,7 +27,7 @@ const ModifyNicknameScreen = ({ nicknameChange, nickname, nicknameCheck, isValid
       <CustomButton
         title="설정 완료"
         style={styles.button}
-        handlePress={nicknameCheck}
+        handlePress={handlePress}
         clickable={isValid}
       />
     </View>

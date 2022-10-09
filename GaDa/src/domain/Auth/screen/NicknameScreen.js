@@ -6,7 +6,7 @@ import CustomButton from '../../../components/CustomButton';
 import Text from '../../../components/MyText';
 import { thinFontFamily } from '../../../constant/fonts';
 
-const NicknameScreen = ({ nickname, handleNavigate, handleNicknameChange }) => {
+const NicknameScreen = ({ isValid, nickname, handleNavigate, handleNicknameChange }) => {
   return (
     <View style={styles.container}>
       <View style={styles.topContainer}>
@@ -22,7 +22,7 @@ const NicknameScreen = ({ nickname, handleNavigate, handleNicknameChange }) => {
           />
         </View>
       </View>
-      <CustomButton title="다음" handlePress={handleNavigate} backgroundColor={nickname.length <1 && descriptionColor} />
+      <CustomButton title="다음" handlePress={handleNavigate} clickable={isValid} />
     </View>
   );
 };

@@ -132,7 +132,7 @@ const HomeScreen = ({
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       <WebView
-        source={{ uri: 'https://53fb-110-8-134-126.jp.ngrok.io' }}
+        source={{ uri: 'https://ga-da-goldenolive.vercel.app' }}
         injectedJavaScript={INJECTED_JAVASCRIPT}
         ref={ref}
         javaScriptEnabled

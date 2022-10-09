@@ -15,9 +15,10 @@ import { blackColor } from '../../../constant/colors';
 import FilteringButton from '../../../components/FilteringButton';
 import FeedItemList from '../components/FeedItemList';
 
-const FeedScreen = ({handleGettingWalkway, handleDetailFeed}) => {
-  return (
-    <ScrollView style={styles.container} bounces={false} showsVerticalScrollIndicator={false}>
+const FeedScreen = ({ feedList, handleGettingWalkway, handleDetailFeed }) => {
+
+  const headerComponent = () => {
+    return (
       <View style={styles.topContainer}>
         <Text style={styles.title}>피드</Text>
         <FilteringButton />
@@ -31,8 +32,16 @@ const FeedScreen = ({handleGettingWalkway, handleDetailFeed}) => {
           </View>
         </TouchableWithoutFeedback>
       </View>
-      <FeedItemList handleDetailFeed={handleDetailFeed}/>
-    </ScrollView>
+    );
+  };
+  return (
+    <View style={styles.container}>
+      <FeedItemList
+        headerComponent={headerComponent}
+        handleDetailFeed={handleDetailFeed}
+        feedList={feedList}
+      />
+    </View>
   );
 };
 
@@ -69,5 +78,4 @@ const styles = StyleSheet.create({
     paddingBottom: 11,
     paddingStart: 16,
   },
-  
 });

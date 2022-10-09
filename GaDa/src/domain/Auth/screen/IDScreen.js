@@ -1,4 +1,10 @@
-import { NativeModules, Platform, StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
+import {
+  NativeModules,
+  Platform,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 import React from 'react';
 import MyTextInPut from '../../../components/MyTextInput';
 import {
@@ -16,10 +22,11 @@ import { useEffect } from 'react';
 
 const IDScreen = ({
   isWrong,
-  userId,
+  loginId,
   checkId,
   first,
   changed,
+  isNotValid,
   handleNavigate,
   handleIdChange,
 }) => {
@@ -40,30 +47,35 @@ const IDScreen = ({
       behavior={Platform.OS === 'ios' && 'padding'}
     >
       <>
-      <Text style={styles.title}>아이디를 입력하세요</Text>
-      <View style={styles.contentContainer}>
-        <View style={styles.contentWrapper}>
-          <MyTextInPut
-            style={styles.textInput}
-            placeholder="아이디를 입력하세요"
-            value={userId}
-            onChangeText={handleIdChange}
-          />
-          <TouchableWithoutFeedback onPress={checkId}>
-            <View style={styles.buttonWrapper}>
-              <Text style={styles.buttonText}>중복확인</Text>
-            </View>
-          </TouchableWithoutFeedback>
+        <Text style={styles.title}>아이디를 입력하세요</Text>
+        <Text style={styles.description}>
+          * 영어 대/소문자, 특수문자 조합 3글자 이상
+        </Text>
+        <View style={styles.contentContainer}>
+          <View style={styles.contentWrapper}>
+            <MyTextInPut
+              style={styles.textInput}
+              placeholder="아이디를 입력하세요"
+              value={loginId}
+              onChangeText={handleIdChange}
+            />
+            {!isNotValid && (
+              <TouchableWithoutFeedback onPress={checkId}>
+                <View style={styles.buttonWrapper}>
+                  <Text style={styles.buttonText}>중복확인</Text>
+                </View>
+              </TouchableWithoutFeedback>
+            )}
+          </View>
+          {isWrong && !first && !changed && (
+            <Text style={styles.errorText}>*중복된 아이디입니다</Text>
+          )}
         </View>
-        {isWrong && !first && !changed && (
-          <Text style={styles.errorText}>*중복된 아이디입니다</Text>
-        )}
-      </View>
-      <CustomButton
-        title="다음"
-        handlePress={handleNavigate}
-        backgroundColor={back}
-      />
+        <CustomButton
+          title="다음"
+          handlePress={handleNavigate}
+          backgroundColor={back}
+        />
       </>
     </KeyboardAvoidingView>
   );
@@ -82,6 +94,11 @@ const styles = StyleSheet.create({
     color: blackColor,
     fontFamily: thinFontFamily,
     paddingHorizontal: 16,
+  },
+  description:{
+    paddingHorizontal: 16,
+    color: descriptionColorVer2
+
   },
   contentContainer: {
     flex: 1,

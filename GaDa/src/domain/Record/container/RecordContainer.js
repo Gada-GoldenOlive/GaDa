@@ -1,7 +1,6 @@
 import { View, Text } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, useSelector } from 'react';
 import RecordScreen from '../screen/RecordScreen';
-import { setBottomTabVisible } from '../../../redux/modules/status';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { getUserDetail } from '../../../APIs/user';
@@ -9,19 +8,27 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import defaultAxios from '../../../APIs';
 import { getBadgeList } from '../../../APIs/badge';
 import { getMyWalkList } from '../../../APIs/walkway';
-import {getMyReviewList} from '../../../APIs/review';
+import { getMyReviewList } from '../../../APIs/review';
+import { setUser } from '../../../redux/modules/user';
 
 const RecordContainer = ({ navigation }) => {
   const [userData, setUserData] = useState({});
   const [userId, setUserId] = useState('');
   const [myWalks, setMyWalks] = useState([]);
   const [recentWalks, setRecentWalks] = useState([]);
+  const [goalInfo, setGoalInfo] = useState({});
+
+  const dispatch = useDispatch();
+
   const fetchData = async () => {
-    console.log(defaultAxios.defaults.headers.common.Authorization)
     const res = await getUserDetail();
-    if (res.id) {
-      setUserData(res);
-      setUserId(res.id);
+    console.log(res);
+    const { user } = res;
+    if (user) {
+      setUserData(user);
+      setUserId(user.id);
+      setGoalInfo({ goalTime: user.goalTime, goalDistance: user.goalDistance });
+      dispatch(setUser({id: user.id, loginId: user.loginId, pw: user.pw, nickname: user.name}));
     }
   };
 
@@ -50,7 +57,7 @@ const RecordContainer = ({ navigation }) => {
   };
 
   const handleNaivigateGoal = () => {
-    navigation.navigate('GoalSetting');
+    navigation.navigate('GoalSetting', { userId, goalInfo });
   };
   const handleNavigateSetting = () => {
     navigation.navigate('SettingPage');
@@ -59,7 +66,7 @@ const RecordContainer = ({ navigation }) => {
     navigation.navigate('BadgeList');
   };
   const handleNavigateRecent = () => {
-    navigation.navigate('Recent', {recentWalks:recentWalks});
+    navigation.navigate('Recent', { recentWalks: recentWalks });
   };
   const handleNavigateMyRecord = () => {
     navigation.navigate('MyRecord');

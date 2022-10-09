@@ -14,7 +14,6 @@ const CustomButton = ({
   style: containerStyle = null,
   textStyle = null,
 }) => {
-  console.log(clickable)
   return (
     <View style={[styles.container, containerStyle]}>
       <TouchableWithoutFeedback onPress={clickable ? handlePress : null}>

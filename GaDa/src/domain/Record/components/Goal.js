@@ -33,7 +33,7 @@ const Goal = ({ goal }) => {
         {goalDistance === null ? (
           <Text style={styles.goal}>목표 미설정</Text>
         ) : (
-          <Text style={styles.goal}>목표 : {getDistance({distance: goalDistance, unit:'m'})}</Text>
+          <Text style={styles.goal}>목표 : {getDistance({distance: goalDistance, unit:'m'})}m</Text>
         )}
       </View>
     </View>
