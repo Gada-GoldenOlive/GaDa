@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
+import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import React from 'react';
 import CustomRating from '../../../components/CustomRating';
 import CustomImage from '../../../components/CustomImage';
@@ -6,6 +6,7 @@ import { MapImage, Sample } from '../../../constant/images/Temp';
 import FeedBookmark from '../../../components/FeedBookmark';
 import { boldFontFamily, boldFontSize } from '../../../constant/fonts';
 import { getDistance, getHour } from '../../../function';
+import Text from '../../../components/MyText';
 
 const FeedItem = ({ item, index, handleDetailFeed }) => {
   /*
