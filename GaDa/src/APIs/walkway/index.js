@@ -48,6 +48,5 @@ export const getMyWalkList = async option => {
   const res = await axios
   .get(`/walkways/walks?option=${option}`)
   .then(({data}) =>  data)
-  .catch(handleNetworkError);
   return res;
-}
+};

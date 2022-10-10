@@ -26,6 +26,7 @@ import Stop from '../../../constant/images/Stop';
 import { useSelector } from 'react-redux';
 import WalkEnd from '../../../components/WalkEnd';
 import PinListModal from '../../../components/PinListModal';
+import { getDistanceFromLatLonInKm } from '../../../function';
 
 const HomeScreen = ({
   geoLocation,
@@ -77,6 +78,11 @@ const HomeScreen = ({
   const INJECTED_JAVASCRIPT = `(function() {
     window.postMessage(JSON.stringify({key : "value"}));true;
 })();`;
+
+  const handleRecordPosition = async recordPosition => {
+    // await send
+    console.log(recordPosition);
+  };
   const handleReceive = event => {
     const {
       nativeEvent: { data },
@@ -89,6 +95,10 @@ const HomeScreen = ({
       if (msg.type === 'clickPin') {
         setPinIndex(msg.index);
         setCheckPin(checkPin * -1);
+      }
+      if (msg.type === 'read') console.log({ position: msg.position });
+      if (msg.type === 'recordPosition') {
+        handleRecordPosition(recordPosition);
       }
     }
   };
@@ -129,9 +139,19 @@ const HomeScreen = ({
       handleConnection(ref, 'stopWalk');
     }
   }, [isWalking]);
+
+  console.log(
+    getDistanceFromLatLonInKm({
+      lat1: 37.52326084981643,
+      lng1: 126.9829734115683,
+      lat2: 37.52319545411705,
+      lng2: 126.9829625459926,
+    }),
+  );
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       <WebView
+        // source={{ uri: 'https://ga-da-goldenolive.vercel.app' }}
         source={{ uri: 'https://93d6-2001-2d8-e926-8ad3-6cc0-2489-7e79-3315.jp.ngrok.io' }}
         injectedJavaScript={INJECTED_JAVASCRIPT}
         ref={ref}
