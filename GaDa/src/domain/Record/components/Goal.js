@@ -72,6 +72,7 @@ const styles = StyleSheet.create({
   },
   num: {
     fontSize: 30,
+    color: buttonColor,
   },
   goal: {
     color: descriptionColorVer2,

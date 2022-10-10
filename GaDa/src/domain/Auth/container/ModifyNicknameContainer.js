@@ -1,4 +1,3 @@
-import { View, Text } from 'react-native';
 import React from 'react';
 import ModifyNicknameScreen from '../screen/ModifyNicknameScreen';
 import { useEffect } from 'react';

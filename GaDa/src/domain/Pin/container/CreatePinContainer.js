@@ -1,4 +1,3 @@
-import { View, Text } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import CreatePinScreen from '../screen/CreatePinScreen';
 import { useDispatch, useSelector } from 'react-redux';
