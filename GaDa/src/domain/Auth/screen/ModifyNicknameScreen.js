@@ -7,12 +7,22 @@ import { bottomShadowStyle } from '../../../constant/styles';
 import MyTextInput from '../../../components/MyTextInput';
 import CustomButton from '../../../components/CustomButton';
 import { getNicknameIsValid } from '../../../function';
-const ModifyNicknameScreen = ({ image, nicknameChange, nickname, handlePress, isValid }) => {
-  console.log(image);
+const ModifyNicknameScreen = ({
+  image,
+  nicknameChange,
+  nickname,
+  handlePress,
+  isValid,
+}) => {
+  console.log({image});
   return (
     <View style={styles.container}>
       <View style={styles.topContainer}>
-        {image !== null ? <CustomImage source={{uri:image}} style={styles.image} />: <CustomImage source={DefaultProfile} style={styles.image} /> }
+        {image !== null && image !== '' ? (
+          <CustomImage source={{ uri: image }} style={styles.image} />
+        ) : (
+          <CustomImage source={DefaultProfile} style={styles.image} />
+        )}
         <View style={styles.writeWrapper}>
           <CustomImage source={Writing} style={styles.writing} />
         </View>
@@ -70,11 +80,11 @@ const styles = StyleSheet.create({
     ...bottomShadowStyle,
   },
   title: {
-    alignItems:'center',
-    justifyContent: 'center'
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  button:{
+  button: {
     position: 'absolute',
     bottom: 0,
-  }
+  },
 });

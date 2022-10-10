@@ -26,11 +26,7 @@ const [checkWrong, setCheckWrong] = useState(false)
   };
 
   const handleCurrentValid = () => {
-    if(pw === current){
-      setCurrentWrong(false);
-    }else {
-      setCurrentWrong(true);
-    }
+    
   }
   const handleCheckValid = () => {
     if(check === newText){

@@ -3,6 +3,7 @@ import {
   Platform,
   StyleSheet,
   TouchableWithoutFeedback,
+  KeyboardAvoidingView,
   View,
 } from 'react-native';
 import React from 'react';
@@ -16,9 +17,10 @@ import {
 import CustomButton from '../../../components/CustomButton';
 import Text from '../../../components/MyText';
 import { thinFontFamily } from '../../../constant/fonts';
-import KeyboardAvoidingView from 'react-native/Libraries/Components/Keyboard/KeyboardAvoidingView';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { windowHeight } from '../../../constant/styles';
 
 const IDScreen = ({
   isWrong,
@@ -42,41 +44,41 @@ const IDScreen = ({
   const back = !changed && !isWrong ? buttonColor : descriptionColor;
   return (
     <KeyboardAvoidingView
-      style={styles.container}
+      style={{ flex: 1 }}
       keyboardVerticalOffset={statusBarHeight + 44}
       behavior={Platform.OS === 'ios' && 'padding'}
     >
-      <>
-        <Text style={styles.title}>아이디를 입력하세요</Text>
-        <Text style={styles.description}>
-          * 영어 대/소문자, 특수문자 조합 6글자 이상
-        </Text>
-        <View style={styles.contentContainer}>
-          <View style={styles.contentWrapper}>
-            <MyTextInPut
-              style={styles.textInput}
-              placeholder="아이디를 입력하세요"
-              value={loginId}
-              onChangeText={handleIdChange}
-            />
-            {!isNotValid && (
-              <TouchableWithoutFeedback onPress={checkId}>
-                <View style={styles.buttonWrapper}>
-                  <Text style={styles.buttonText}>중복확인</Text>
-                </View>
-              </TouchableWithoutFeedback>
+        <View style={styles.container}>
+          <Text style={styles.title}>아이디를 입력하세요</Text>
+          <Text style={styles.description}>
+            * 영어 대/소문자, 특수문자 조합 6글자 이상
+          </Text>
+          <View style={styles.contentContainer}>
+            <View style={styles.contentWrapper}>
+              <MyTextInPut
+                style={styles.textInput}
+                placeholder="아이디를 입력하세요"
+                value={loginId}
+                onChangeText={handleIdChange}
+              />
+              {!isNotValid && (
+                <TouchableWithoutFeedback onPress={checkId}>
+                  <View style={styles.buttonWrapper}>
+                    <Text style={styles.buttonText}>중복확인</Text>
+                  </View>
+                </TouchableWithoutFeedback>
+              )}
+            </View>
+            {isWrong && !first && !changed && (
+              <Text style={styles.errorText}>*중복된 아이디입니다</Text>
             )}
           </View>
-          {isWrong && !first && !changed && (
-            <Text style={styles.errorText}>*중복된 아이디입니다</Text>
-          )}
+          <CustomButton
+            title="다음"
+            handlePress={handleNavigate}
+            backgroundColor={back}
+          />
         </View>
-        <CustomButton
-          title="다음"
-          handlePress={handleNavigate}
-          backgroundColor={back}
-        />
-      </>
     </KeyboardAvoidingView>
   );
 };
@@ -95,10 +97,9 @@ const styles = StyleSheet.create({
     fontFamily: thinFontFamily,
     paddingHorizontal: 16,
   },
-  description:{
+  description: {
     paddingHorizontal: 16,
-    color: descriptionColorVer2
-
+    color: descriptionColorVer2,
   },
   contentContainer: {
     flex: 1,
@@ -111,7 +112,6 @@ const styles = StyleSheet.create({
   },
   textInput: {
     borderBottomColor: descriptionColorVer2,
-  
   },
   buttonWrapper: {
     position: 'absolute',
