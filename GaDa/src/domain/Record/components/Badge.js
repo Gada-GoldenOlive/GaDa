@@ -18,8 +18,9 @@ const Badge = ({ badgeList = [] }) => {
     <View style={styles.container}>
       <View style={styles.wrapper}>
         {tempList.map(({ type, num }) => {
+        
           if (type === 'distance') {
-            return <CustomImage source={distance} style={styles.image} />;
+            return <CustomImage  source={distance} style={styles.image} />;
           }
           if (type === 'comment') {
             return <CustomImage source={comment} style={styles.image} />;

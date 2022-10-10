@@ -11,6 +11,7 @@ import {
 import { checkNickname, createUser } from '../../../APIs/user';
 import defaultAxios from '../../../APIs';
 import { useState } from 'react';
+import RNRestart from 'react-native-restart';
 
 const NicknameContainer = ({ navigation }) => {
   
