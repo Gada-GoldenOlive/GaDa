@@ -9,7 +9,7 @@ import CustomImage from '../../../components/CustomImage';
 import { windowHeight, windowWidth } from '../../../constant/styles';
 import Writing from '../../../constant/images/Writing';
 import Text from '../../../components/MyText';
-import { boldFontFamily } from '../../../constant/fonts';
+import { boldFontFamily, montBoldFontFamily } from '../../../constant/fonts';
 import { blackColor } from '../../../constant/colors';
 import FilteringButton from '../../../components/FilteringButton';
 import FeedItemList from '../components/FeedItemList';

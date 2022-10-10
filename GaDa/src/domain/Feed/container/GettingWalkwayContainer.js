@@ -1,4 +1,3 @@
-import { View, Text } from 'react-native';
 import React from 'react';
 import GettingWalkwayScreen from '../screen/GettingWalkwayScreen';
 import { useState } from 'react';

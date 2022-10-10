@@ -155,6 +155,7 @@ const styles = StyleSheet.create({
     fontSize: boldFontSize,
     color: blackColor,
     marginRight: 8,
+    
   },
   goalWriting: {
     width: 24,

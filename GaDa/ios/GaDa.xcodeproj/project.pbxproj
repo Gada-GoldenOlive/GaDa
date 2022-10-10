@@ -22,6 +22,7 @@
 		B3F84E059FAD4595B4F4E34A /* SpoqaHanSansNeo-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DCA2D4F299194C6F92275EB5 /* SpoqaHanSansNeo-Light.ttf */; };
 		BCDD4D1E692042E19FFAFFFE /* SpoqaHanSansNeo-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 86D1CB6B374742E4939F01AE /* SpoqaHanSansNeo-Bold.ttf */; };
 		C15BC196797844E4B10FE77B /* SpoqaHanSansNeo-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 101EE5C9606244079D6B425C /* SpoqaHanSansNeo-Regular.ttf */; };
+		18ED8A5494424D809C298AC9 /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D12DC6192CC4484DB8F41DCE /* Montserrat-Bold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +61,7 @@
 		B918560CD5874A29A94CBB0F /* SpoqaHanSansNeo-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SpoqaHanSansNeo-Medium.ttf"; path = "../assets/fonts/SpoqaHanSansNeo-Medium.ttf"; sourceTree = "<group>"; };
 		DCA2D4F299194C6F92275EB5 /* SpoqaHanSansNeo-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SpoqaHanSansNeo-Light.ttf"; path = "../assets/fonts/SpoqaHanSansNeo-Light.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		D12DC6192CC4484DB8F41DCE /* Montserrat-Bold.ttf */ = {isa = PBXFileReference; name = "Montserrat-Bold.ttf"; path = "../assets/fonts/Montserrat-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,6 +168,7 @@
 				B918560CD5874A29A94CBB0F /* SpoqaHanSansNeo-Medium.ttf */,
 				101EE5C9606244079D6B425C /* SpoqaHanSansNeo-Regular.ttf */,
 				920E29C3F0CD44D7A8030CF4 /* SpoqaHanSansNeo-Thin.ttf */,
+				D12DC6192CC4484DB8F41DCE /* Montserrat-Bold.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -284,6 +287,7 @@
 				C15BC196797844E4B10FE77B /* SpoqaHanSansNeo-Regular.ttf in Resources */,
 				5FA66C0EFCB245D1AA6D4D99 /* SpoqaHanSansNeo-Thin.ttf in Resources */,
 				43284C85289CB06C007C1B07 /* Fonts in Resources */,
+				18ED8A5494424D809C298AC9 /* Montserrat-Bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

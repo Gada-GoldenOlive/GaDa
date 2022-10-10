@@ -1,4 +1,3 @@
-import { View, Text } from 'react-native';
 import React from 'react';
 import SettingPageScreen from '../screen/SettingPageScreen';
 import { removeInLocalStorage } from '../../../function';

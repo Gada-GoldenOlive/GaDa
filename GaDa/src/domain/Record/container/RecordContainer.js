@@ -1,4 +1,3 @@
-import { View, Text } from 'react-native';
 import React, { useState, useSelector } from 'react';
 import RecordScreen from '../screen/RecordScreen';
 import { useEffect } from 'react';

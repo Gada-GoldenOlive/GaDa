@@ -1,4 +1,3 @@
-import { View, Text } from 'react-native';
 import React from 'react';
 import DetailFeedScreen from '../screen/DetailFeedScreen';
 import { getDetailFeed } from '../../../APIs/review';
