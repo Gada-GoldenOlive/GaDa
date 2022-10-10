@@ -67,10 +67,12 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   value: {
-    color: buttonColor,
+    color: mainColor,
     fontFamily: boldFontFamily,
+    fontSize: 20,
   },
   num: {
+    color: mainColor,
     fontSize: 30,
   },
   goal: {
