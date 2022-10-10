@@ -1,9 +1,10 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import React from 'react';
 import { boldFontFamily, boldFontSize } from '../../../constant/fonts';
 import MyTextInput from '../../../components/MyTextInput';
 import { blackColor, errorColor } from '../../../constant/colors';
 import CustomButton from '../../../components/CustomButton';
+import Text from '../../../components/MyText';
 
 const ModifyPWScreen = ({
   current,

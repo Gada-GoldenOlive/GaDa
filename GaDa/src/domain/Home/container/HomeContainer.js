@@ -256,7 +256,6 @@ const HomeContainer = ({ navigation, route }) => {
 
   const getAccess = async () => {
     const access_token = await AsyncStorage.getItem('access_token');
-    console.log({ access_token });
     if (access_token === null) {
       navigation.reset({
         index: 0,
@@ -265,7 +264,7 @@ const HomeContainer = ({ navigation, route }) => {
     }
   };
   useEffect(() => {
-    getAccess();
+    //getAccess();
   }, [isAuthenticated]);
   useEffect(() => {
     // walkEnd일때 안보여야하고 information visible일때 안보여야한다

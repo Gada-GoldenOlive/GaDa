@@ -11,9 +11,9 @@ export const createUser = async userData => {
   return res;
 };
 
-export const getUserList = async () => {
+export const getUserList = async loginId => {
   const res = await axios
-    .get(`/users`)
+    .get(`/users?loginId=${loginId}`)
     .then(({ data }) => {
       return data;
     })
@@ -56,8 +56,33 @@ export const getUserLogin = async ({ id, pw }) => {
 
 export const getUserDetail = async () => {
   const res = await axios
-    .get('/users/detail')
+    .get('/users/detail/')
     .then(({ data }) => data)
     .catch(handleNetworkError);
   return res;
 };
+
+export const getUserFriends = async () => {
+  const res = await axios
+    .get('/users/friends/')
+    .then(({ data }) => data)
+    .catch(e=> console.log(e.response.data));
+  return res;
+};
+export const checkNickname = async name => {
+  const res = await axios
+  .get(`users/checked-name?name=${name}`)
+  .then(({data}) => data)
+  .catch(e =>  e.response.data);
+  return res;
+}
+
+export const getAlarmList = async () => {
+  const res = await axios
+  .get('/users/friend-requests/')
+  .then(({data}) => data)
+  .catch(e => e.response.data);
+
+  return res;
+
+}

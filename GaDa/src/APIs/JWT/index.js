@@ -20,7 +20,7 @@ export const verifyToken = async token => {
 // new_access_token, new_refresh_token
 export const refreshToken = async token => {
   const res = await axios
-    .post('/users/refresh/', {headers: {Authorization: `Bearer ${token}`}})
+    .post('/users/refresh/')
     .then(({ data }) => {
       const { accessToken = null, refreshToken = null } = data;
       return {

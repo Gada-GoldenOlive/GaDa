@@ -38,7 +38,7 @@ const FeedItemList = ({
 "time": 440, "walkwayImage": "https://picsum.photos/400/250/?image=481"}
 */
   const renderItem = ({ item, index }) => {
-    console.log(item);
+
     return type === 'recent' ? (
       <GettingWalkwayItem item={item} index={index} />
     ) : (

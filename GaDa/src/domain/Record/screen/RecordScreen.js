@@ -6,13 +6,7 @@ import {
   View,
 } from 'react-native';
 import React from 'react';
-import CenterModal from '../../../components/CenterModal';
-import WalkEnd from '../../../components/WalkEnd';
 import CustomImage from '../../../components/CustomImage';
-import { MapImage, Sample } from '../../../constant/images/Temp';
-import { windowHeight, windowWidth } from '../../../constant/styles';
-import CustomButton from '../../../components/CustomButton';
-import { MyS } from '../../../constant/images/Sample';
 import Profile from '../components/Profile';
 import Writing from '../../../constant/images/Writing';
 import {
@@ -161,6 +155,7 @@ const styles = StyleSheet.create({
     fontSize: boldFontSize,
     color: blackColor,
     marginRight: 8,
+    
   },
   goalWriting: {
     width: 24,

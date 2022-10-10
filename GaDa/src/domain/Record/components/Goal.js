@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import React from 'react';
 import { windowWidth } from '../../../constant/styles';
 import { boldFontFamily, mediumFontFamily } from '../../../constant/fonts';
@@ -8,6 +8,7 @@ import {
   mainColor,
 } from '../../../constant/colors';
 import { getDistance, getHour } from '../../../function';
+import Text from '../../../components/MyText';
 
 const Goal = ({ goal }) => {
   const { loginId, goalDistance, goalTime, totalDistance, totalTime } = goal;
@@ -71,6 +72,7 @@ const styles = StyleSheet.create({
   },
   num: {
     fontSize: 30,
+    color: buttonColor,
   },
   goal: {
     color: descriptionColorVer2,

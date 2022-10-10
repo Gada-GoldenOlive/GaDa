@@ -18,28 +18,25 @@ const FriendsAlarmScreen = ({
   onRefresh,
   refreshing,
 }) => {
-  const renderItem = ({ item, index }) => {
+  const renderItem = ({ item = {}, index }) => {
+    const { id, userId, loginId, name, image } = item;
     return (
       <View style={styles.itemContainer}>
         <View style={styles.flexDirection}>
           <View style={styles.flexDirection}>
-            <CustomImage style={styles.userImg} source={item.image} />
+            <CustomImage style={styles.userImg} source={image} />
             <View>
-              <Text style={styles.userName}>{item.name}</Text>
-              <Text style={styles.userId}>{item.id}</Text>
+              <Text style={styles.userName}>{name}</Text>
+              <Text style={styles.userId}>{loginId}</Text>
             </View>
           </View>
           <View style={styles.flexDirection}>
-            <TouchableWithoutFeedback
-              onPress={() => handleAcceptButton(item.id)}
-            >
+            <TouchableWithoutFeedback onPress={() => handleAcceptButton(id)}>
               <View style={[styles.addButtonWrapper, { marginRight: 9 }]}>
                 <Text style={styles.addButtonText}>수락</Text>
               </View>
             </TouchableWithoutFeedback>
-            <TouchableWithoutFeedback
-              onPress={() => handleRefuseButton(item.id)}
-            >
+            <TouchableWithoutFeedback onPress={() => handleRefuseButton(id)}>
               <View
                 style={[
                   styles.addButtonWrapper,
@@ -56,15 +53,21 @@ const FriendsAlarmScreen = ({
   };
   return (
     <View style={styles.container}>
-      <FlatList
-        data={alarmList}
-        renderItem={(item, index) => renderItem(item, index)}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 100, marginTop: 13 }}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-      />
+      {alarmList.length > 0 ? (
+        <FlatList
+          data={alarmList}
+          renderItem={(item, index) => renderItem(item, index)}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: 100, marginTop: 13 }}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+        />
+      ) : (
+        <View style={styles.nullContainer}>
+          <Text style={styles.nullTitle}>친구 신청 목록이 없습니다</Text>
+        </View>
+      )}
     </View>
   );
 };
@@ -115,4 +118,9 @@ const styles = StyleSheet.create({
     color: 'white',
     fontFamily: boldFontFamily,
   },
+  nullContainer:{
+    paddingTop: 24,
+    alignItems: 'center'
+
+  }
 });

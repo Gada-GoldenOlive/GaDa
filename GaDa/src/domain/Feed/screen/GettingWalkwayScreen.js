@@ -17,22 +17,20 @@ import SubmitButton from '../../../components/SubmitButton';
 import CustomButton from '../../../components/CustomButton';
 import FeedItemList from '../components/FeedItemList';
 
-const GettingWalkwayScreen = ({handleClick}) => {
+const GettingWalkwayScreen = ({ handleClick, walkways }) => {
+  const headerComponent = () => {
+    return (
+      <View style={styles.container}>
+        <View style={styles.topContainer}>
+          <Text style={styles.title}>내가 다녀온 산책로</Text>
+        </View>
+      </View>
+    );
+  };
   return (
     <View style={styles.container}>
-      <ScrollView style={styles.container}  bounces={false} showsVerticalScrollIndicator={false} >
-        <View style={styles.container}>
-          <View style={styles.topContainer}>
-            <Text style={styles.title}>내가 다녀온 산책로</Text>
-          </View>
-          <FeedItemList type="recent" />
-        </View>
-      </ScrollView>
-      <TouchableWithoutFeedback onPress={handleClick}> 
-        <View style={styles.buttonWrapper}>
-          <Text style={styles.text}>가져오기</Text>
-        </View>
-      </TouchableWithoutFeedback>
+      <FeedItemList type="recent" headerComponent={headerComponent}/>
+      <CustomButton title='가져오기' style={styles.button} />
     </View>
   );
 };
@@ -84,4 +82,8 @@ const styles = StyleSheet.create({
     letterSpacing: -0.36,
     color: 'white',
   },
+  button:{
+    position: 'absolute',
+    bottom: 0,
+  }
 });

@@ -1,4 +1,3 @@
-import { View, Text } from 'react-native';
 import React, { useState, useSelector } from 'react';
 import RecordScreen from '../screen/RecordScreen';
 import { useEffect } from 'react';
@@ -11,12 +10,16 @@ import { getMyWalkList } from '../../../APIs/walkway';
 import { getMyReviewList } from '../../../APIs/review';
 import { setUser } from '../../../redux/modules/user';
 
-const RecordContainer = ({ navigation }) => {
+const RecordContainer = ({ navigation, route }) => {
+  const {params = {}} = route;
+
   const [userData, setUserData] = useState({});
   const [userId, setUserId] = useState('');
+
   const [myWalks, setMyWalks] = useState([]);
   const [recentWalks, setRecentWalks] = useState([]);
   const [goalInfo, setGoalInfo] = useState({});
+  const [badgeList, setBadgeList] = useState([]);
 
   const dispatch = useDispatch();
 
@@ -28,12 +31,13 @@ const RecordContainer = ({ navigation }) => {
       setUserData(user);
       setUserId(user.id);
       setGoalInfo({ goalTime: user.goalTime, goalDistance: user.goalDistance });
-      dispatch(setUser({id: user.id, loginId: user.loginId, pw: user.pw, nickname: user.name}));
+      dispatch(setUser({id: user.id, loginId: user.loginId, nickname: user.name, image: user.image}));
     }
   };
 
   const getBadge = async () => {
-    const res = await getBadgeList(userId);
+    const res = await getBadgeList();
+    console.log(res);
   };
 
   const getRecentWalks = async () => {
@@ -78,11 +82,17 @@ const RecordContainer = ({ navigation }) => {
 
   useEffect(() => {
     if (userId !== '') {
-      //getBadge();
+      getBadge();
       //getMyWalks()
       getRecentWalks();
     }
   }, [userId]);
+
+  useEffect(() => {
+    if(params.refresh){
+      fetchData();
+    }
+  }, [params])
   return (
     <RecordScreen
       userData={userData}

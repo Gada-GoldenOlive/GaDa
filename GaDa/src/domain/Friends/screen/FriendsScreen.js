@@ -10,12 +10,6 @@ import React, { useState } from 'react';
 import { windowWidth } from '../../../constant/styles';
 import Text from '../../../components/MyText';
 import CustomImage from '../../../components/CustomImage';
-import {
-  RankingS,
-  SampleImage1,
-  SampleImage2,
-  SampleImage3,
-} from '../../../constant/images/Sample';
 import { AddFriends, Alarm } from '../../../constant/images/Friends';
 import {
   boldFontFamily,
@@ -24,180 +18,154 @@ import {
   mediumFontFamily,
   montBoldFontFamily,
 } from '../../../constant/fonts';
-import { backgroundColor, defaultColor } from '../../../constant/colors';
+import {
+  backgroundColor,
+  defaultColor,
+  mainColor,
+} from '../../../constant/colors';
 import { AddComma } from '../../../function';
+import { useSelector } from 'react-redux';
 
-const friendsLangkingList = [
-  {
-    name: '만두전골',
-    image: SampleImage2,
-    totalDistance: 12293,
-    id: 5350,
-  },
-  {
-    name: '상암동 정호연',
-    image: SampleImage3,
-    totalDistance: 10090,
-    id: 4940,
-  },
-  {
-    name: '산책왕 차돌',
-    image: SampleImage3,
-    totalDistance: 9252,
-    id: 3593,
-  },
-
-  {
-    name: '산책왕 뽀삐',
-    image: SampleImage1,
-    totalDistance: 5350,
-    id: 12,
-  },
-  {
-    name: '만두전골',
-    image: SampleImage2,
-    totalDistance: 4940,
-    id: 13,
-  },
-  {
-    name: '만두전골',
-    image: SampleImage2,
-    totalDistance: 3593,
-    id: 14,
-  },
-  {
-    name: '만두전골',
-    image: SampleImage2,
-    totalDistance: 12,
-    id: 15,
-  },
-];
 const FriendsScreen = ({
+  friendList = [],
+  unreadExist,
   handleNavigateAddFriends,
   handleNavigateFriendsAlarm,
   handleNavigate,
 }) => {
-  const isMe = 3; //임시로
-  const MyTag = () => {
+  const { userId: id } = useSelector(state => state.user);
+  const MyTag = ({ userId }) => {
+    console.log(userId, id);
     return (
-      <View style={styles.myTagWrapper}>
-        <Text style={styles.myTagText}>MY</Text>
-      </View>
+      userId === id && (
+        <View style={styles.myTagWrapper}>
+          <Text style={styles.myTagText}>MY</Text>
+        </View>
+      )
     );
   };
   return (
-    <ScrollView style={styles.container}  bounces={false} showsVerticalScrollIndicator={false}>
+    <ScrollView
+      style={styles.container}
+      bounces={false}
+      showsVerticalScrollIndicator={false}
+    >
       <View style={styles.topContainer}>
         <View style={styles.header}>
           <Text style={styles.headerTitle}>이번주 랭킹</Text>
           <View style={{ flexDirection: 'row' }}>
-            <TouchableWithoutFeedback onPress={handleNavigateFriendsAlarm}>
-              <CustomImage
-                source={Alarm}
-                style={[styles.addFriendButton, { marginRight: 13 }]}
-              />
-            </TouchableWithoutFeedback>
+            <View style={styles.alarmWrapper}>
+              {unreadExist && <View style={styles.dot} />}
+              <TouchableWithoutFeedback onPress={handleNavigateFriendsAlarm}>
+                <CustomImage source={Alarm} style={styles.addFriendButton} />
+              </TouchableWithoutFeedback>
+            </View>
             <TouchableWithoutFeedback onPress={handleNavigateAddFriends}>
               <CustomImage source={AddFriends} style={styles.addFriendButton} />
             </TouchableWithoutFeedback>
           </View>
         </View>
-
-        <View style={styles.top3Container}>
-          {friendsLangkingList.map(
-            (item, index) =>
-              index < 3 && (
-                <TouchableWithoutFeedback
-                  onPress={() => handleNavigate(item.id, index)}
-                >
-                  <View>
-                    <View key={index} style={[styles.top3Wrapper]}>
-                      <View style={styles.top3InnerWrapper}>
-                        <Text style={styles.top3RankText}>{index + 1}.</Text>
+        {friendList.length > 0 && (
+          <View style={styles.top3Container}>
+            {friendList.map(
+              (item, index) =>
+                index < 3 && (
+                  <TouchableWithoutFeedback
+                    onPress={() => handleNavigate(item.id, index)}
+                    key={`${item.id}-${index}`}
+                  >
+                    <View>
+                      <View key={index} style={[styles.top3Wrapper]}>
+                        <View style={styles.top3InnerWrapper}>
+                          <Text style={styles.top3RankText}>{index + 1}.</Text>
+                          <CustomImage
+                            style={styles.top3Image}
+                            source={{ uri: item.image }}
+                          />
+                          <Text style={styles.top3Text}>{item.name}</Text>
+                          {/* MyTag 기준 있어야함. 내꺼일 때! */}
+                          <MyTag userId={item.userId} />
+                        </View>
+                        <Text>
+                          <Text style={styles.top3Text}>
+                            {typeof item.totalDistance === 'number' &&
+                              AddComma(item.totalDistance)}
+                          </Text>
+                          <Text
+                            style={[
+                              styles.top3Text,
+                              { fontFamily: defaultFontFamily },
+                            ]}
+                          >
+                            (m)
+                          </Text>
+                        </Text>
+                      </View>
+                      {index !== 2 && (
+                        <View
+                          style={{
+                            // width: '100%',
+                            height: 0.7,
+                            backgroundColor: '#9AF6CA',
+                            marginHorizontal: 16,
+                          }}
+                        />
+                      )}
+                    </View>
+                  </TouchableWithoutFeedback>
+                ),
+            )}
+          </View>
+        )}
+      </View>
+      {friendList.length > 3 && (
+        <View style={styles.bottomContainer}>
+          <View style={styles.bottomTitleContainer}>
+            <Text style={styles.bottomTitle}>순위</Text>
+            <Text style={[styles.bottomTitle, { marginRight: 65 }]}>
+              닉네임
+            </Text>
+            <Text style={styles.bottomTitle}>달성거리</Text>
+          </View>
+          <View style={styles.bodyContainer}>
+            {friendList.map(
+              (item, index) =>
+                index >= 3 && (
+                  <TouchableWithoutFeedback
+                    key={`${item}-${index}`}
+                    onPress={() => handleNavigate(item.id, index)}
+                  >
+                    <View key={index} style={[styles.bodyWrapper]}>
+                      <View style={styles.bodyInnerWrapper}>
+                        <Text style={styles.bodyRankText}>{index + 1}.</Text>
                         <CustomImage
-                          style={styles.top3Image}
+                          style={styles.bodyImage}
                           source={item.image}
                         />
-                        <Text style={styles.top3Text}>{item.name}</Text>
+                        <Text style={styles.bodyText}>{item.name}</Text>
                         {/* MyTag 기준 있어야함. 내꺼일 때! */}
-                        <MyTag />
+                        <MyTag userId={item.userId} />
                       </View>
                       <Text>
-                        <Text style={styles.top3Text}>
-                          {typeof item.totalDistance === 'number' &&
-                            AddComma(item.totalDistance)}
+                        <Text style={styles.bodyText}>
+                          {AddComma(item.totalDistance)}
                         </Text>
                         <Text
                           style={[
-                            styles.top3Text,
+                            styles.bodyText,
                             { fontFamily: defaultFontFamily },
                           ]}
                         >
-                          {' '}
                           (m)
                         </Text>
                       </Text>
                     </View>
-                    {index !== 2 && (
-                      <View
-                        style={{
-                          // width: '100%',
-                          height: 0.7,
-                          backgroundColor: '#9AF6CA',
-                          marginHorizontal: 16,
-                        }}
-                      />
-                    )}
-                  </View>
-                </TouchableWithoutFeedback>
-              ),
-          )}
+                  </TouchableWithoutFeedback>
+                ),
+            )}
+          </View>
         </View>
-      </View>
-      <View style={styles.bottomContainer}>
-        <View style={styles.bottomTitleContainer}>
-          <Text style={styles.bottomTitle}>순위</Text>
-          <Text style={[styles.bottomTitle, { marginRight: 65 }]}>닉네임</Text>
-          <Text style={styles.bottomTitle}>달성거리</Text>
-        </View>
-        <View style={styles.bodyContainer}>
-          {friendsLangkingList.map(
-            (item, index) =>
-              index >= 3 && (
-                <TouchableWithoutFeedback
-                  onPress={() => handleNavigate(item.id, index)}
-                >
-                  <View key={index} style={[styles.bodyWrapper]}>
-                    <View style={styles.bodyInnerWrapper}>
-                      <Text style={styles.bodyRankText}>{index + 1}.</Text>
-                      <CustomImage
-                        style={styles.bodyImage}
-                        source={item.image}
-                      />
-                      <Text style={styles.bodyText}>{item.name}</Text>
-                      {/* MyTag 기준 있어야함. 내꺼일 때! */}
-                      <MyTag />
-                    </View>
-                    <Text>
-                      <Text style={styles.bodyText}>
-                        {AddComma(item.totalDistance)}
-                      </Text>
-                      <Text
-                        style={[
-                          styles.bodyText,
-                          { fontFamily: defaultFontFamily },
-                        ]}
-                      >
-                        {' '}
-                        (m)
-                      </Text>
-                    </Text>
-                  </View>
-                </TouchableWithoutFeedback>
-              ),
-          )}
-        </View>
-      </View>
+      )}
     </ScrollView>
   );
 };
@@ -327,5 +295,17 @@ const styles = StyleSheet.create({
     fontFamily: mediumFontFamily,
     fontSize: 10,
     color: 'white',
+  },
+  alarmWrapper: {
+    marginRight: 13,
+  },
+  dot: {
+    width: 5,
+    height: 5,
+    backgroundColor: mainColor,
+    borderRadius: 100,
+    position: 'absolute',
+    top: 3,
+    right: 3
   },
 });

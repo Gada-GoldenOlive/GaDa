@@ -3,6 +3,7 @@ const SET_PIN_IMAGE = 'images/SET_IMAGE';
 const REFRESH_IMAGES = 'images/REFRESH_IMAGES';
 const SET_UPLOAD_IMAGES_CHANGED = 'images/SET_UPLOAD_IMAGES_CHANGED';
 const SET_WALKWAY_IMAGES = 'images/SET_WALKWAY_IMAGES';
+const SET_PROFILE_IMAGE = 'images/SET_PROFILE_IMAGE';
 
 // action 생성 함수
 export const setPinImage = value => ({
@@ -22,11 +23,17 @@ export const setWalkwayImages = value => ({
   value,
 });
 
+export const setProfileImage = value => ({
+  type: SET_PROFILE_IMAGE,
+  value,
+})
+
 // reducer initial state
 const initialState = {
   pinImage: '',
   uploadImagesChanged: false,
   walkwayImages: [],
+  profileImage : '',
 };
 
 export default function images(state = initialState, action) {
@@ -46,6 +53,11 @@ export default function images(state = initialState, action) {
         ...state,
         walkwayImages: action.value,
       };
+    case SET_PROFILE_IMAGE:
+      return {
+        ...state,
+        profileImage: action.value,
+      }
     case REFRESH_IMAGES:
       return initialState;
 

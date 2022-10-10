@@ -50,7 +50,7 @@ const SignInScreen = ({
         />
       </View>
       <View style={styles.bottomContainer}>
-        {isWrong && (<Text>*존재하지 않는 아이디/비밀번호 입니다</Text>)}
+        {isWrong && (<Text style={styles.error}>*존재하지 않는 아이디/비밀번호 입니다</Text>)}
         <TouchableWithoutFeedback onPress={handleNavigate}>
           <View style={styles.loginButton}>
             <Text style={styles.loginText}>로그인</Text>
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
   },
   bottomContainer: {
     paddingHorizontal: 16,
-    paddingBottom: 51,
+    paddingTop: 'auto'
   },
   loginButton: {
     width: '100%',
@@ -142,4 +142,9 @@ const styles = StyleSheet.create({
     fontFamily: boldFontFamily,
     fontSize: 18,
   },
+  error:{
+    color: 'white',
+    marginBottom: 23,
+
+  }
 });

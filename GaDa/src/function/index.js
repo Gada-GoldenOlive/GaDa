@@ -63,7 +63,7 @@ export const AddComma = num => {
   return num.toString().replace(regexp, ',');
 };
 
-export const getNicknameIsNotValid = (nickname) => {
+export const getNicknameIsNotValid = (nickname = '') => {
   console.log(nickname)
   if(nickname.length > 17 || nickname.length < 2) {
     return true

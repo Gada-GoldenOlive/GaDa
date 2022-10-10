@@ -1,4 +1,3 @@
-import { View, Text } from 'react-native';
 import React from 'react';
 import GoalSettingScreen from '../screen/GoalSettingScreen';
 import { useState } from 'react';
@@ -24,7 +23,7 @@ const GoalSettingContainer = ({ route, navigation }) => {
       goalTime: Number(time),
     });
     console.log(res);
-    navigation.goBack();
+    navigation.navigate('Record', {refresh: {}});
   };
   /*
           <MyTextInput

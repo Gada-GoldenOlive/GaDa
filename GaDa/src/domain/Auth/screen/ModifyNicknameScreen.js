@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import React from 'react';
 import CustomImage from '../../../components/CustomImage';
 import { DefaultProfile } from '../../../constant/images/Sample';
@@ -7,11 +7,12 @@ import { bottomShadowStyle } from '../../../constant/styles';
 import MyTextInput from '../../../components/MyTextInput';
 import CustomButton from '../../../components/CustomButton';
 import { getNicknameIsValid } from '../../../function';
-const ModifyNicknameScreen = ({ nicknameChange, nickname, handlePress, isValid }) => {
+const ModifyNicknameScreen = ({ image, nicknameChange, nickname, handlePress, isValid }) => {
+  console.log(image);
   return (
     <View style={styles.container}>
       <View style={styles.topContainer}>
-        <CustomImage source={DefaultProfile} style={styles.image} />
+        {image !== null ? <CustomImage source={{uri:image}} style={styles.image} />: <CustomImage source={DefaultProfile} style={styles.image} /> }
         <View style={styles.writeWrapper}>
           <CustomImage source={Writing} style={styles.writing} />
         </View>
@@ -50,6 +51,7 @@ const styles = StyleSheet.create({
   image: {
     width: 148,
     height: 148,
+    borderRadius: 100,
   },
   textInputWrapper: {
     paddingHorizontal: 16,

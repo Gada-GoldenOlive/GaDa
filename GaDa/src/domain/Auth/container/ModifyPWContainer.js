@@ -1,11 +1,12 @@
-import { View, Text } from 'react-native';
 import React from 'react';
 import ModifyPWScreen from '../screen/ModifyPWScreen';
 import { useState } from 'react';
 import { getPWIsNotValid } from '../../../function';
 import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 const ModifyPWContainer = ({ navigation, route }) => {
+  
   const [current, setCurrent] = useState('');
   const [newText, setNewText] = useState('');
   const [check, setCheck] = useState('');
@@ -24,6 +25,13 @@ const [checkWrong, setCheckWrong] = useState(false)
     setCheck(text);
   };
 
+  const handleCurrentValid = () => {
+    if(pw === current){
+      setCurrentWrong(false);
+    }else {
+      setCurrentWrong(true);
+    }
+  }
   const handleCheckValid = () => {
     if(check === newText){
       setCheckWrong(false)
@@ -46,6 +54,10 @@ const [checkWrong, setCheckWrong] = useState(false)
   useEffect(() => {
     handleNewValid()
   }, [newText])
+
+  useEffect(() => {
+    handleCurrentValid();
+  }, [current])
 
   return (
     <ModifyPWScreen

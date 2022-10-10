@@ -5,6 +5,7 @@ const SET_USER_ID = 'user/SET_USER_ID';
 const SET_LOGIN_ID = 'user/SET_LOGIN_ID';
 const SET_PW = 'user/SET_PW';
 const SET_NICKNAME = 'user/SET_NICKNAME';
+const SET_USER_IMAGE = 'user/SET_USER_IMAGE';
 
 // action 생성 함수
 export const setUser = value => ({
@@ -17,24 +18,29 @@ export const setIsAuthenticated = boolean => ({
   boolean,
 });
 
-export const setUserId = id => ({
+export const setUserId = value => ({
   type: SET_USER_ID,
-  id,
+  value,
 });
 
-export const setLoginId = id => ({
+export const setLoginId = value => ({
   type: SET_LOGIN_ID,
-  id,
+  value,
 })
-export const setPW = email => ({
+export const setPW = value => ({
   type: SET_PW,
-  email,
+  value,
 });
 
-export const setNickname = nickname => ({
+export const setNickname = value => ({
   type: SET_NICKNAME,
-  nickname,
+  value,
 });
+
+export const setUserImage = value=> ({
+  type: SET_USER_IMAGE,
+  value,
+})
 
 // reducer initial state
 const initialState = {
@@ -43,13 +49,13 @@ const initialState = {
   loginId: '',
   pw: '',
   nickname: '',
+  userImage: '',
 };
 
 // reducer
 export default function user(state = initialState, action) {
   switch (action.type) {
     case SET_USER:
-      console.log(action.value.nickname)
       const user = action.value;
       return {
         ...state,
@@ -57,6 +63,7 @@ export default function user(state = initialState, action) {
         loginId: user.loginId,
         pw: user.pw,
         nickname: user.nickname,
+        userImage: user.image,
       };
     case SET_IS_AUTHENTICATED:
       return {
@@ -84,7 +91,11 @@ export default function user(state = initialState, action) {
         ...state,
         nickname: action.value,
       };
-
+    case SET_USER_IMAGE:
+      return{
+        ...state,
+        userImage: action.value,
+      }
     default:
       return state;
   }

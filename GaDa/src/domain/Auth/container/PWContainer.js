@@ -1,4 +1,3 @@
-import { View, Text } from 'react-native';
 import React, { useEffect } from 'react';
 import PWScreen from '../screen/PWScreen';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,6 +8,8 @@ import { useState } from 'react';
 const PWContainer = ({ navigation }) => {
   const [password, setPassword] = useState('');
   const [isValid, setIsValid] = useState(false);
+  const {loginId, pw} = useSelector(state => state.user);
+  console.log(loginId, pw);
   const dispatch = useDispatch();
   const handlePwChange = text => {
     setPassword(text);

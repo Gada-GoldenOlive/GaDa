@@ -1,4 +1,3 @@
-import { View, Text } from 'react-native';
 import React, { useEffect } from 'react';
 import IDScreen from '../screen/IDScreen';
 import { useState } from 'react';
@@ -9,14 +8,14 @@ import { getIDIsNotValid } from '../../../function';
 
 const IDContainer = ({ navigation }) => {
   const [isWrong, setIsWrong] = useState(true);
-  const { loginId } = useSelector(state => state.user);
+ const [id, setId] = useState('');
   const [first, setFirst] = useState(true);
   const [changed, setChanged] = useState(false);
   const [isNotValid, setIsNotValid] = useState(true);
 
   const dispatch = useDispatch();
   const handleIdChange = idText => {
-    dispatch(setLoginId(idText));
+    setId(idText)
     if(getIDIsNotValid(idText)){
       setIsNotValid(true);
     }else {
@@ -26,17 +25,17 @@ const IDContainer = ({ navigation }) => {
   };
   const handleNavigate = () => {
     if (!isWrong) {
+      dispatch(setLoginId(id))
       navigation.navigate('PW');
     }
   };
 
   const checkId = async () => {
-    const res = await getUsersCheckedId(loginId);
-    const { isValid } = res;
-    if (isValid) {
-      setIsWrong(false);
-    } else if (!isValid) {
-      setIsWrong(true);
+    const res = await getUsersCheckedId(id);
+    console.log(res, id)
+    if(res){
+      const {isValid} = res;
+      setIsWrong(!isValid);
     }
     setChanged(false);
     setFirst(false);
@@ -45,11 +44,15 @@ const IDContainer = ({ navigation }) => {
     dispatch(setLoginId(''));
   }, []);
 
+  useEffect(() => {
+    console.log(id);
+  }, [id])
+
   return (
     <IDScreen
       isWrong={isWrong}
       isNotValid={isNotValid}
-      loginId={loginId}
+      loginId={id}
       first={first}
       checkId={checkId}
       changed={changed}

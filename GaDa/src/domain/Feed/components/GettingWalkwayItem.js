@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native'
+import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native'
 import React from 'react'
 import { useState } from 'react';
 import CustomImage from '../../../components/CustomImage';
@@ -7,6 +7,7 @@ import { Check } from '../../../constant/images/Check';
 import { windowWidth } from '../../../constant/styles';
 import { boldFontFamily, boldFontSize } from '../../../constant/fonts';
 import { getDistance } from '../../../function';
+import Text from '../../../components/MyText';
 
 const GettingWalkwayItem = ({item, index}) => {
     const { name, time, distance, date } = item;
