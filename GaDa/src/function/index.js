@@ -137,6 +137,4 @@ export const getDate = (time) => {
   console.log(time);
 
   return moment(time).format('YYYY.MM.DD')
-  
-
 }

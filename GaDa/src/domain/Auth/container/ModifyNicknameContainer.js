@@ -47,6 +47,7 @@ const ModifyNicknameContainer = ({navigation, route}) => {
       handlePress={handlePress}
       isValid={isValid}
       image={image}
+      navigation={navigation}
     />
   );
 };

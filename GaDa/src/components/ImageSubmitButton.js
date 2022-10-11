@@ -6,11 +6,12 @@ import { mediumFontFamily } from '../constant/fonts';
 import { blackColor, emphasisColorVer2 } from '../constant/colors';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { setPinImage, setUploadImagesChanged } from '../redux/modules/images';
+import { setPinImage, setProfileImage, setUploadImagesChanged } from '../redux/modules/images';
 import { createNewMessage } from '../APIs/Chat';
-import { getPreSignedUrl, uploadImage } from '../APIs/image';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { getParam, getPreSignedUrl, uploadImageToS3 } from '../function/image';
+import { s3 } from '../constant/setting';
 
 const HeaderImageSubmitButton = props => {
   const { imageList, ver, body } = props;
@@ -19,21 +20,25 @@ const HeaderImageSubmitButton = props => {
   const navigation = useNavigation();
 
   const dispatch = useDispatch();
-  const { bodyPhotoCount, bodyPhotoImages } = useSelector(({ images }) => ({
-    bodyPhotoCount: images.bodyPhotoCount,
-    bodyPhotoImages: images.bodyPhotoImages,
-  }));
-  const getURL = async () => {
-    const res = await getPreSignedUrl();
-    if(res){
-      const {url} = res;
-      setEachUrl(url);
-    }
+
+  const uploadButtonClick = () => {
+    const param = getParam(imageList);
+
+    s3.upload(param, (err, data) => {
+      if (err) {
+        console.log('image upload err: ' + err);
+        return;
+      }
+      const imgTag = `${data.Location}`;
+      dispatch(setProfileImage(imgTag));
+    });
   }
+  
   const handleClick = async () => {
     if (ver === 'pin') {
       // pin
       imageList.forEach(async item => {
+
 
         const uri = `data:${item.imageData.mime};base64,${item.imageData.data}`;
         await uploadImage(eachUrl, uri);
@@ -46,11 +51,13 @@ const HeaderImageSubmitButton = props => {
         setImages(eachUrl);
       });
       navigation.pop();
+    } else {
+      uploadButtonClick()
     }
   };
 
   useEffect(() => {
-    getURL();
+    //getURL();
   }, [])
   return (
     <TouchableWithoutFeedback onPress={handleClick}>
