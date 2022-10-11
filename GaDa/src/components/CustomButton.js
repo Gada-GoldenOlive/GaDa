@@ -30,17 +30,19 @@ export default CustomButton;
 const styles = StyleSheet.create({
   container: {
     width: windowWidth,
-    paddingBottom: 33,
+    paddingBottom: 44,
     backgroundColor: 'white',
     paddingTop: 14.5,
     paddingHorizontal: 16,
-    justifyContent: 'flex-start',
+    // justifyContent: 'flex-start',
     ...topShadowStyle,
+   // position: 'absolute',
+    // bottom: 0,
   },
   wrapper: {
     backgroundColor: buttonColor,
     borderRadius: 8,
-    paddingVertical: 17,
+    height: 55,
     alignItems: 'center',
     justifyContent: 'center',
   },

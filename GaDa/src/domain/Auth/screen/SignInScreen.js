@@ -14,10 +14,8 @@ import Text from '../../../components/MyText';
 import { boldFontFamily, thinFontFamily } from '../../../constant/fonts';
 import MyTextInput from '../../../components/MyTextInput';
 import { buttonColor } from '../../../constant/colors';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { windowHeight } from '../../../constant/styles';
 
 const SignInScreen = ({
   id,
@@ -47,9 +45,8 @@ const SignInScreen = ({
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         keyboardVerticalOffset={statusBarHeight + 44}
-        behavior={Platform.OS === 'ios' && 'padding'}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
-        
         <View style={styles.container}>
           <CustomImage source={SignInBackground} style={styles.background} />
           <View style={styles.liner} />
@@ -158,8 +155,8 @@ const styles = StyleSheet.create({
   },
   bottomContainer: {
     paddingHorizontal: 16,
-    flex: 1,
     justifyContent: 'center',
+    flex: 1,
   },
   loginButton: {
     width: '100%',
