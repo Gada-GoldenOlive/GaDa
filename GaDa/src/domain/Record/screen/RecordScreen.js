@@ -29,6 +29,7 @@ import MyWalkwayList from '../components/MyWalkwayList';
 const RecordScreen = ({
   userData,
   myWalks,
+  badgeList,
   recentWalks,
   handleNavigate,
   handleNaivigateGoal,
@@ -36,6 +37,7 @@ const RecordScreen = ({
   handleNavigateBadge,
   handleNavigateRecent,
   handleNavigateMyRecord,
+  handleNavigateLikeReviews,
 }) => {
   const {
     id,
@@ -56,6 +58,7 @@ const RecordScreen = ({
       <View style={styles.container}>
         <View style={styles.profileContainer}>
           <Profile
+            handleNavigateLikeReviews={handleNavigateLikeReviews}
             handleNavigateSetting={handleNavigateSetting}
             profile={profile}
           />
@@ -68,7 +71,7 @@ const RecordScreen = ({
                 <CustomImage source={Writing} style={styles.goalWriting} />
               </TouchableWithoutFeedback>
             </View>
-            <TouchableWithoutFeedback onPress={handleNavigateMyRecord}>
+            {/*<TouchableWithoutFeedback onPress={handleNavigateMyRecord}>
               <View style={styles.moreWrapper}>
                 <Text>전체보기</Text>
                 <CustomImage
@@ -77,7 +80,7 @@ const RecordScreen = ({
                   tintColor={descriptionColorVer2}
                 />
               </View>
-            </TouchableWithoutFeedback>
+            </TouchableWithoutFeedback>*/}
           </View>
           <Goal goal={goal} />
         </View>
@@ -155,7 +158,6 @@ const styles = StyleSheet.create({
     fontSize: boldFontSize,
     color: blackColor,
     marginRight: 8,
-    
   },
   goalWriting: {
     width: 24,

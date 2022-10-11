@@ -37,7 +37,24 @@ const RecordContainer = ({ navigation, route }) => {
 
   const getBadge = async () => {
     const res = await getBadgeList();
-    console.log(res);
+   if(res){
+    const {userBadges} = res;
+    setBadgeList(userBadges);
+    /*
+     "userBadges": [
+    {
+      "badge": {
+        "title": "string",
+        "image": "string",
+        "category": "WALKWAY",
+        "code": "1_THREE",
+        "status": "DELETE"
+      },
+      "status": "string"
+    }
+  ]
+    */
+   }
   };
 
   const getRecentWalks = async () => {
@@ -67,7 +84,7 @@ const RecordContainer = ({ navigation, route }) => {
     navigation.navigate('SettingPage');
   };
   const handleNavigateBadge = () => {
-    navigation.navigate('BadgeList');
+    navigation.navigate('BadgeList', {badgeList});
   };
   const handleNavigateRecent = () => {
     navigation.navigate('Recent', { recentWalks: recentWalks });
@@ -75,6 +92,10 @@ const RecordContainer = ({ navigation, route }) => {
   const handleNavigateMyRecord = () => {
     navigation.navigate('MyRecord');
   };
+
+  const handleNavigateLikeReviews = () => {
+    navigation.navigate('LikeReviews');
+  }
 
   useEffect(() => {
     fetchData();
@@ -97,7 +118,9 @@ const RecordContainer = ({ navigation, route }) => {
     <RecordScreen
       userData={userData}
       myWalks={myWalks}
+      badgeList={badgeList}
       recentWalks={recentWalks}
+      handleNavigateLikeReviews={handleNavigateLikeReviews}
       handleNavigate={handleNavigate}
       handleNaivigateGoal={handleNaivigateGoal}
       handleNavigateSetting={handleNavigateSetting}

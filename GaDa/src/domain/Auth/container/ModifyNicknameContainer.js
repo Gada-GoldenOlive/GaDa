@@ -3,13 +3,12 @@ import ModifyNicknameScreen from '../screen/ModifyNicknameScreen';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { getNicknameIsNotValid } from '../../../function';
-import { updateUserInfo } from '../../../APIs/user';
+import { checkNickname, updateUserInfo } from '../../../APIs/user';
 import { useDispatch, useSelector } from 'react-redux';
 import { setNickname } from '../../../redux/modules/user';
 
 const ModifyNicknameContainer = ({navigation, route}) => {
   const { nickname, userId, userImage } = useSelector(state => state.user);
-  console.log(nickname, userId, userImage)
   const [newNickname, setNewNickname] = useState(nickname);
   const [image, setImage] = useState(userImage);
   const [isValid, setIsValid] = useState(true);
@@ -24,13 +23,23 @@ const ModifyNicknameContainer = ({navigation, route}) => {
     if (result) {
       setIsValid(false);
     } else {
+      handleCheckDuplicate(text)
       setIsValid(true);
-      dispatch(setNickname(text))
     }
   };
+
+  const handleCheckDuplicate = async(text) => {
+    const res = await checkNickname(text);
+    if(res){
+      const {isValid: valid} = res;
+      setIsValid(valid);
+    }
+
+  }
+
   const handlePress = async () => {
-    const data = {name: newNickname};
-    await updateUserInfo(userId, data);
+    const data = {image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlizf0lI5aTa4R2rTjku3h5VsosT8gDSzVYQ&usqp=CAU'};
+    const res = await updateUserInfo(userId, data);
     navigation.reset({
       index: 0,
       routes: [{ name: 'BottomTab' }],
@@ -38,7 +47,6 @@ const ModifyNicknameContainer = ({navigation, route}) => {
   };
   useEffect(() => {
     nicknameCheck(newNickname);
-    console.log(newNickname, isValid);
   }, [newNickname]);
   return (
     <ModifyNicknameScreen

@@ -39,6 +39,7 @@ const FeedScreen = ({ feedList, handleGettingWalkway, handleDetailFeed }) => {
         headerComponent={headerComponent}
         handleDetailFeed={handleDetailFeed}
         feedList={feedList}
+        type="feed"
       />
     </View>
   );

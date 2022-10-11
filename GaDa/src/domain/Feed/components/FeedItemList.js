@@ -27,6 +27,7 @@ const FeedItemList = ({
   type = 'feed',
   handleDetailFeed,
   headerComponent,
+
   feedList,
 }) => {
   /*

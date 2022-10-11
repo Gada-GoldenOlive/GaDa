@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 
 const GettingWalkwayContainer = ({ navigation, route }) => {
   const [walkways, setWalkways] = useState([]);
-  
+  const [clickable, setClickable] = useState(false);
   const fetchData = async () => {
     const res = await getMyWalkList(1);
     if (res) {
@@ -22,7 +22,7 @@ const GettingWalkwayContainer = ({ navigation, route }) => {
     fetchData();
   },[]);
 
-  return <GettingWalkwayScreen handleClick={handleClick} walkways={walkways}/>;
+  return <GettingWalkwayScreen handleClick={handleClick} walkways={walkways} clickable={clickable}/>;
 };
 
 export default GettingWalkwayContainer;
