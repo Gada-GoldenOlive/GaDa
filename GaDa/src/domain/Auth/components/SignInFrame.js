@@ -9,12 +9,7 @@ import {
 } from 'react-native';
 import React from 'react';
 import MyTextInPut from '../../../components/MyTextInput';
-import {
-  blackColor,
-  buttonColor,
-  descriptionColor,
-  descriptionColorVer2,
-} from '../../../constant/colors';
+import { blackColor, descriptionColorVer2 } from '../../../constant/colors';
 import CustomButton from '../../../components/CustomButton';
 import Text from '../../../components/MyText';
 import { thinFontFamily } from '../../../constant/fonts';
@@ -23,68 +18,67 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { windowHeight, windowWidth } from '../../../constant/styles';
 const SignInFrame = props => {
-    const {
-      screenContainerStyle = {},
-      mainText = '',
-      emphasisText = '',
-      subText = '',
-      mainTextContainerStyle = {},
-      renderMainTextComponent = null,
-      mainTextStyle = {},
-      mainBodyContainerStyle = {},
-      renderMainBody = () => <View />, // main body customized component
-      renderFooter = () => <CustomButton />,
-      footerContainerStyle = {},
-    } = props;
-  
-    const { StatusBarManager } = NativeModules;
-    const [statusBarHeight, setStatusBarHeight] = useState(0);
-  
-    useEffect(() => {
-      Platform.OS === 'ios' &&
-        StatusBarManager.getHeight(statusBarFrameData => {
-          setStatusBarHeight(statusBarFrameData.height);
-        });
-    }, []);
-  
-    const renderMainText = () => {
- 
-      return (
-        <>
-          <Text style={[styles.title, mainTextStyle]}>
-            <Text style={[styles.title, mainTextStyle]}>{firstString}</Text>
-              {emphasisText}
-            </Text>
-            <Text style={[styles.title, mainTextStyle]}>{secondString}</Text>
-          {subText !== '' && <Text style={styles.description}>{subText}</Text>}
-        </>
-      );
-    };
-    const headerComponent = () => {
-      return (
-        <View style={[styles.mainTextContainer, mainTextContainerStyle]}>
-          {renderMainTextComponent ? renderMainTextComponent() : renderMainText()}
-        </View>
-      );
-    };
-    const renderMainComponent = () => {
-      return (
-        <View style={[styles.mainBodyContainer, mainBodyContainerStyle]}>
-          {renderMainBody()}
-        </View>
-      );
-    };
-    const renderFooterComponent = () => {
-      return (
-        <View style={[styles.footerContainer, footerContainerStyle]}>
-          {renderFooter()}
-        </View>
-      );
-    };
+  const {
+    screenContainerStyle = {},
+    mainText = '',
+    emphasisText = '',
+    subText = '',
+    mainTextContainerStyle = {},
+    renderMainTextComponent = null,
+    mainTextStyle = {},
+    mainBodyContainerStyle = {},
+    renderMainBody = () => <View />, // main body customized component
+    renderFooter = () => <CustomButton />,
+    footerContainerStyle = {},
+  } = props;
+
+  const { StatusBarManager } = NativeModules;
+  const [statusBarHeight, setStatusBarHeight] = useState(0);
+
+  useEffect(() => {
+    Platform.OS === 'ios' &&
+      StatusBarManager.getHeight(statusBarFrameData => {
+        setStatusBarHeight(statusBarFrameData.height);
+      });
+  }, []);
+
+  const renderMainText = () => {
+    return (
+      <>
+        <Text style={[styles.title, mainTextStyle]}>
+          <Text style={[styles.title, mainTextStyle]}>{firstString}</Text>
+          {emphasisText}
+        </Text>
+        <Text style={[styles.title, mainTextStyle]}>{secondString}</Text>
+        {subText !== '' && <Text style={styles.description}>{subText}</Text>}
+      </>
+    );
+  };
+  const headerComponent = () => {
+    return (
+      <View style={[styles.mainTextContainer, mainTextContainerStyle]}>
+        {renderMainTextComponent ? renderMainTextComponent() : renderMainText()}
+      </View>
+    );
+  };
+  const renderMainComponent = () => {
+    return (
+      <View style={[styles.mainBodyContainer, mainBodyContainerStyle]}>
+        {renderMainBody()}
+      </View>
+    );
+  };
+  const renderFooterComponent = () => {
+    return (
+      <View style={[styles.footerContainer, footerContainerStyle]}>
+        {renderFooter()}
+      </View>
+    );
+  };
   //const back = !changed && !isWrong ? buttonColor : descriptionColor;
   return (
     <KeyboardAvoidingView
-      style={{ flex: 1, backgroundColor: 'white' }}
+      style={{ flex: 1, backgroundColor: 'white'}}
       keyboardVerticalOffset={statusBarHeight + 44}
       behavior={Platform.OS === 'ios' && 'padding'}
     >
@@ -94,20 +88,17 @@ const SignInFrame = props => {
         scrollEnabled
         enableOnAndroid
         enableAutomaticScroll
-        keyboardShouldPersistTaps="always"
-        extraScrollHeight={Platform.OS === 'android' ? 250 : -100}
+        keyboardShouldPersistTaps
+        extraScrollHeight={Platform.OS === 'android' ? 0 : -100}
       >
-        <View style={[styles.screenContainer, screenContainerStyle]}>
-          {(mainText.length !== 0 || renderMainTextComponent) &&
-            headerComponent()}
-          {renderMainComponent()}
-        </View>
-        
-      </KeyboardAwareScrollView>
-      
-      {renderFooter && renderFooterComponent()}
-      {/* <Background /> */}
-    </KeyboardAvoidingView>
+          <View style={[styles.screenContainer, screenContainerStyle]}>
+            {(mainText.length !== 0 || renderMainTextComponent) &&
+              headerComponent()}
+            {renderMainComponent()}
+          </View>
+        </KeyboardAwareScrollView>
+        {renderFooter && renderFooterComponent()}
+      </KeyboardAvoidingView>
   );
 };
 
@@ -156,7 +147,6 @@ const styles = StyleSheet.create({
     marginTop: 9.5,
     color: 'rgb(255,92,0)',
   },
-  button: {
-    //flex:1,
+  footerContainer: {
   },
 });

@@ -1,4 +1,4 @@
-import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
+import { Platform, StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import React from 'react';
 import { buttonColor } from '../constant/colors';
 import { boldFontFamily } from '../constant/fonts';
@@ -30,7 +30,7 @@ export default CustomButton;
 const styles = StyleSheet.create({
   container: {
     width: windowWidth,
-    paddingBottom: 44,
+    paddingBottom: Platform.OS ==='ios' ? 44 : 14.5,
     backgroundColor: 'white',
     paddingTop: 14.5,
     paddingHorizontal: 16,

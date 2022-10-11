@@ -79,14 +79,18 @@ const IDScreen = ({
 
   const renderFooter = () => {
     return (
-      <CustomButton
-        title="다음"
-        handlePress={handleNavigate}
-        backgroundColor={back}
-      />
+      <>
+        <CustomButton
+          title="다음"
+          handlePress={handleNavigate}
+          backgroundColor={back}
+        />
+      </>
     );
   };
-  return <SignInFrame renderMainBody={renderMainBody} renderFooter={renderFooter}/>;
+  return (
+    <SignInFrame renderMainBody={renderMainBody} renderFooter={renderFooter} />
+  );
   /*
   return (
     <KeyboardAvoidingView
