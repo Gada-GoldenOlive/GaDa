@@ -212,13 +212,12 @@ const HomeContainer = ({ navigation, route }) => {
     dispatch(setIsWalking(false));
     const time = getDuringTime();
     const dis = finishRecord().toFixed(2);
-    console.log({ res, dis });
     const nowWalk = {
       time: time,
       distance: dis / 10,
+      pinCount: pinNum,
       finishStatus: status,
       walkwayId: selectedItem.id,
-      userId: userId,
     };
     setWalkData(nowWalk);
 
