@@ -138,7 +138,7 @@ const FriendRecordScreen = ({
   const RenderGoalInfo = () => {
     return (
       <View style={styles.goalContainer}>
-        <TouchableWithoutFeedback onPress={handleViewMoreButton}>
+        {/* <TouchableWithoutFeedback onPress={handleViewMoreButton}>
           <View style={styles.viewMore}>
             <Text style={styles.viewMoreText}>전체보기</Text>
             <CustomImage
@@ -147,9 +147,10 @@ const FriendRecordScreen = ({
               tintColor={descriptionColorVer2}
             />
           </View>
-        </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback> */}
 
-        <View style={{ marginTop: -7 }}>
+        {/* <View style={{ marginTop: -7 }}> */}
+        <View style={{ marginTop: -17 }}>
           <Goal goal={goal} />
         </View>
       </View>
