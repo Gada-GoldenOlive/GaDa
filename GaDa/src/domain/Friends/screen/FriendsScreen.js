@@ -88,8 +88,8 @@ const FriendsScreen = ({
                         </View>
                         <Text>
                           <Text style={styles.top3Text}>
-                            {typeof item.totalDistance === 'number' &&
-                              AddComma(item.totalDistance)}
+                            {typeof item.distance === 'number' &&
+                              AddComma(item.distance)}
                           </Text>
                           <Text
                             style={[
@@ -140,7 +140,7 @@ const FriendsScreen = ({
                         <Text style={styles.bodyRankText}>{index + 1}.</Text>
                         <CustomImage
                           style={styles.bodyImage}
-                          source={item.image}
+                          source={{ uri: item.image }}
                         />
                         <Text style={styles.bodyText}>{item.name}</Text>
                         {/* MyTag 기준 있어야함. 내꺼일 때! */}
@@ -148,7 +148,7 @@ const FriendsScreen = ({
                       </View>
                       <Text>
                         <Text style={styles.bodyText}>
-                          {AddComma(item.totalDistance)}
+                          {AddComma(item.distance)}
                         </Text>
                         <Text
                           style={[
