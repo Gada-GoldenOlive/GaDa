@@ -2,6 +2,7 @@ import React from "react";
 import { Polyline } from "react-kakao-maps-sdk";
 
 const DrawPolyline = ({ path, setLine }) => {
+  console.log(path);
   return (
     <Polyline
       path={path}

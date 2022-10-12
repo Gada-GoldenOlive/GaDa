@@ -34,7 +34,7 @@ const HomeContainer = ({ navigation, route }) => {
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
   // 현재위치
-  const [coords, setCoords] = useState({ latitude: null, longitude: null });
+  const [coords, setCoords] = useState({ lat: null, lng: null });
   // 내위치 리스트
   const [locationList, setLocationList] = useState([]);
   // 기록 시작
@@ -93,8 +93,8 @@ const HomeContainer = ({ navigation, route }) => {
         if (position) {
           let updateFlag = true;
           const newRecord = {
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
           };
           // 시작
           if (beforeRecord !== null) {
@@ -125,6 +125,7 @@ const HomeContainer = ({ navigation, route }) => {
     var path = [];
     var pins = [];
     var start = {};
+
     if (ver === 'selectWalkway') {
       path = nowPath;
       pins = nowPins;
@@ -222,13 +223,13 @@ const HomeContainer = ({ navigation, route }) => {
     };
     setWalkData(nowWalk);
 
-    const res2 = await createWalk(nowWalk);
+    // const res2 = await createWalk(nowWalk);
   };
 
   const resetData = () => {
     console.log('reset');
     setLocationList([]);
-    setCoords({ latitude: null, longitude: null });
+    setCoords({ lat: null, lng: null });
     setRecording(false);
     setBeforeRecord(null);
     setIsVisible(false);
