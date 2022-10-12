@@ -115,7 +115,7 @@ export const getHour = (time = 0) => {
 };
 export const getGoalHour = (time = 0) => {
   if (time === 0) {
-    return '0';
+    return [0, 0];
   }
   var h = Math.floor(time / 60);
   var m = Math.floor(time % 60);
