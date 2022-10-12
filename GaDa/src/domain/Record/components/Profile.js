@@ -1,13 +1,13 @@
 import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import React from 'react';
 import CustomImage from '../../../components/CustomImage';
-import { PinSample1 } from '../../../constant/images/PinSample';
+import {heart} from '../../../constant/images/Heart';
 import Setting from '../../../constant/images/Setting';
 import { blackColor, descriptionColor, descriptionColorVer2 } from '../../../constant/colors';
 import { boldFontFamily } from '../../../constant/fonts';
 import Text from '../../../components/MyText';
 
-const Profile = ({handleNavigateSetting, profile}) => {
+const Profile = ({handleNavigateLikeReviews, handleNavigateSetting, profile}) => {
   const {loginId, name, image} = profile;
 
   return (
@@ -18,6 +18,9 @@ const Profile = ({handleNavigateSetting, profile}) => {
         <Text style={styles.name}>{name}</Text>
         <Text style={styles.num}>{loginId}</Text>
         </View>
+        <TouchableWithoutFeedback onPress={handleNavigateLikeReviews}>
+          <CustomImage style={styles.heart} source={heart} />
+        </TouchableWithoutFeedback>
         <TouchableWithoutFeedback onPress={handleNavigateSetting}>
           <CustomImage style={styles.setting} source={Setting} />
         </TouchableWithoutFeedback>
@@ -63,7 +66,12 @@ const styles = StyleSheet.create({
     fontSize: 12
   },
   setting: {
-    width: 19,
-    height: 20,
+    width: 24,
+    height: 24,
+  },
+  heart: {
+    width: 24,
+    height: 24,
+    marginEnd: 17.5,
   },
 });

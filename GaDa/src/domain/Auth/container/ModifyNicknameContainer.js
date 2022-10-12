@@ -3,7 +3,7 @@ import ModifyNicknameScreen from '../screen/ModifyNicknameScreen';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { getNicknameIsNotValid } from '../../../function';
-import { updateUserInfo } from '../../../APIs/user';
+import { checkNickname, updateUserInfo } from '../../../APIs/user';
 import { useDispatch, useSelector } from 'react-redux';
 import { setNickname, setUserImage } from '../../../redux/modules/user';
 import { getParam } from '../../../function/image';
@@ -29,11 +29,21 @@ const ModifyNicknameContainer = ({ navigation, route }) => {
     if (result) {
       setIsValid(false);
     } else {
+      handleCheckDuplicate(text)
       setIsValid(true);
-      console.log('hahahahahaha');
       setIsChanged(true);
     }
   };
+
+  const handleCheckDuplicate = async(text) => {
+    const res = await checkNickname(text);
+    if(res){
+      const {isValid: valid} = res;
+      setIsValid(valid);
+    }
+
+  }
+
   const handlePress = async () => {
     if (imageFile !== null) {
       const param = await getParam(imageFile);
@@ -52,7 +62,6 @@ const ModifyNicknameContainer = ({ navigation, route }) => {
       dispatch(setNickname(newNickname));
       await updateUserInfo(userId, { name: newNickname });
     }
-
     navigation.reset({
       index: 0,
       routes: [{ name: 'BottomTab' }],

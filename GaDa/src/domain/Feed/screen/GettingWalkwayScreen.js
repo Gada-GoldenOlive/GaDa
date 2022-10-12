@@ -17,7 +17,7 @@ import CustomButton from '../../../components/CustomButton';
 import FeedItemList from '../components/FeedItemList';
 import Text from '../../../components/MyText';
 
-const GettingWalkwayScreen = ({ handleClick, walkways }) => {
+const GettingWalkwayScreen = ({ handleClick, walkways, clickable }) => {
   const headerComponent = () => {
     return (
       <View style={styles.container}>
@@ -30,7 +30,7 @@ const GettingWalkwayScreen = ({ handleClick, walkways }) => {
   return (
     <View style={styles.container}>
       <FeedItemList type="recent" headerComponent={headerComponent}/>
-      <CustomButton title='가져오기' style={styles.button} />
+      <CustomButton title='가져오기' style={styles.button} clickable={clickable}/>
     </View>
   );
 };
