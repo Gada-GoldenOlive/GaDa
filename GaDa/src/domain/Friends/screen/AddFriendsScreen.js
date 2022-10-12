@@ -13,7 +13,7 @@ import { useRef } from 'react';
 import { useState } from 'react';
 import CustomImage from '../../../components/CustomImage';
 import { Search } from '../../../constant/images/Friends';
-import { boldFontFamily } from '../../../constant/fonts';
+import { boldFontFamily, defaultFontFamily } from '../../../constant/fonts';
 import Text from '../../../components/MyText';
 import { useEffect } from 'react';
 import Modal from 'react-native-modal';
@@ -83,6 +83,7 @@ const AddFriendsScreen = ({
             placeholderTextColor={descriptionColor}
             onChangeText={setSearchId}
             value={searchId}
+            style={{fontFamily: defaultFontFamily, flex: 1, alignItems: 'center'}}
             ref={ref}
           />
           <TouchableWithoutFeedback
@@ -112,11 +113,12 @@ const styles = StyleSheet.create({
   searchInput: {
     marginTop: 25,
     marginBottom: 15,
-    paddingVertical: 16,
+    paddingVertical: Platform.OS === 'ios' ? 16 : 8,
     paddingHorizontal: 16,
     backgroundColor: '#f5f5f5',
     borderRadius: 10,
     flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'space-between',
   },
   searchIcon: {

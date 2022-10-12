@@ -2,7 +2,6 @@ import {
   FlatList,
   ScrollView,
   StyleSheet,
-  Text,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
@@ -16,6 +15,7 @@ import { windowWidth } from '../../../constant/styles';
 import SubmitButton from '../../../components/SubmitButton';
 import CustomButton from '../../../components/CustomButton';
 import FeedItemList from '../components/FeedItemList';
+import Text from '../../../components/MyText';
 
 const GettingWalkwayScreen = ({ handleClick, walkways }) => {
   const headerComponent = () => {

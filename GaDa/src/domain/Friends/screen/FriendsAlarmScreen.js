@@ -1,7 +1,6 @@
 import {
   RefreshControl,
   StyleSheet,
-  Text,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
@@ -10,6 +9,7 @@ import { backgroundColor, borderColor } from '../../../constant/colors';
 import { boldFontFamily } from '../../../constant/fonts';
 import { FlatList } from 'react-native-gesture-handler';
 import CustomImage from '../../../components/CustomImage';
+import Text from '../../../components/MyText';
 
 const FriendsAlarmScreen = ({
   alarmList,

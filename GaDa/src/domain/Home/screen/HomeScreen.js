@@ -1,7 +1,6 @@
 import {
   Alert,
   StyleSheet,
-  Text,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
@@ -27,6 +26,7 @@ import { useSelector } from 'react-redux';
 import WalkEnd from '../../../components/WalkEnd';
 import PinListModal from '../../../components/PinListModal';
 import { getDistanceFromLatLonInKm } from '../../../function';
+import Text from '../../../components/MyText';
 
 const HomeScreen = ({
   geoLocation,

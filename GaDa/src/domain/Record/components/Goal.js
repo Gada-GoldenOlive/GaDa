@@ -1,7 +1,7 @@
 import { StyleSheet, View } from 'react-native';
 import React from 'react';
 import { windowWidth } from '../../../constant/styles';
-import { boldFontFamily, mediumFontFamily } from '../../../constant/fonts';
+import { boldFontFamily, defaultFontFamily, mediumFontFamily } from '../../../constant/fonts';
 import {
   buttonColor,
   descriptionColorVer2,
@@ -25,7 +25,7 @@ const Goal = ({ goal }) => {
             </Text>
           )}
           {getGoalHour(totalTime)[1] !== '' && (
-            <Text>
+            <Text style={{fontFamily: defaultFontFamily}}>
               <Text style={styles.num}>{getGoalHour(totalTime)[1]}</Text>
               <Text style={styles.value}>분</Text>
             </Text>

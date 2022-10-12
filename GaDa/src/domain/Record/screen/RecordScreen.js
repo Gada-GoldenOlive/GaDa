@@ -1,7 +1,6 @@
 import {
   ScrollView,
   StyleSheet,
-  Text,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
@@ -25,6 +24,7 @@ import Badge from '../components/Badge';
 import { Arrow, ArrowBlack } from '../../../constant/images/Arrow';
 import RecentWalk from '../components/RecentWalk';
 import MyWalkwayList from '../components/MyWalkwayList';
+import Text from '../../../components/MyText';
 
 const RecordScreen = ({
   userData,
@@ -68,7 +68,7 @@ const RecordScreen = ({
                 <CustomImage source={Writing} style={styles.goalWriting} />
               </TouchableWithoutFeedback>
             </View>
-            <TouchableWithoutFeedback onPress={handleNavigateMyRecord}>
+            {/*<TouchableWithoutFeedback onPress={handleNavigateMyRecord}>
               <View style={styles.moreWrapper}>
                 <Text>전체보기</Text>
                 <CustomImage
@@ -77,7 +77,7 @@ const RecordScreen = ({
                   tintColor={descriptionColorVer2}
                 />
               </View>
-            </TouchableWithoutFeedback>
+    </TouchableWithoutFeedback>*/}
           </View>
           <Goal goal={goal} />
         </View>
