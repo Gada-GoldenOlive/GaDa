@@ -6,26 +6,41 @@ import {
   defaultImage,
 } from '../../../constant/images/Badge';
 import CustomImage from '../../../components/CustomImage';
-
+import { useState } from 'react';
+import { useEffect } from 'react';
 const Badge = ({ badgeList = [] }) => {
-  const tempList = [
-    { type: 'distance', num: 5 },
-    { type: 'comment', num: 5 },
-    {},
-    {},
-  ];
+  const [achieveList, setAchieveList] = useState([]);
+
+  useEffect(() => {
+    let tempList = [];
+    badgeList.map(item => {
+      const { badge, status } = item;
+      const { image, title } = badge;
+      if (status === 'ACHIEVE') {
+        tempList.push(item);
+      }
+    });
+
+    if (tempList.length < 4) {
+      tempList = [
+        ...tempList,
+        ...Array(4 - tempList.length).fill({badge: {}}),
+      ];
+    }
+    setAchieveList(tempList);
+  }, [badgeList]);
+
+  // {badge : {image, title}, status}
   return (
     <View style={styles.container}>
       <View style={styles.wrapper}>
-        {tempList.map(({ type, num }) => {
-        
-          if (type === 'distance') {
-            return <CustomImage  source={distance} style={styles.image} />;
+        {achieveList.map(({ badge, status }, index) => {
+          if (badge.title) {
+            const { image, title } = badge;
+            return <CustomImage key={`${badge.title}-${index}`} source={{ uri: image }} style={styles.image} />;
+          } else {
+            return <CustomImage key={`${badge.title}-${index}`} source={defaultImage} style={styles.image} />;
           }
-          if (type === 'comment') {
-            return <CustomImage source={comment} style={styles.image} />;
-          }
-          return <CustomImage source={defaultImage} style={styles.image} />;
         })}
       </View>
     </View>

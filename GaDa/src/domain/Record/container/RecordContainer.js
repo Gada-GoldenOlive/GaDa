@@ -3,16 +3,14 @@ import RecordScreen from '../screen/RecordScreen';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserDetail } from '../../../APIs/user';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import defaultAxios from '../../../APIs';
 import { getBadgeList } from '../../../APIs/badge';
 import { getMyWalkList } from '../../../APIs/walkway';
 import { getMyReviewList } from '../../../APIs/review';
 import { setUser } from '../../../redux/modules/user';
 
 const RecordContainer = ({ navigation, route }) => {
-  const {params = {}} = route;
-  const {userId, loginId } = useSelector(state => state.user);
+  const { params = {} } = route;
+  const { userId, loginId } = useSelector(state => state.user);
   const [userData, setUserData] = useState({});
   //const [userId, setUserId] = useState('');
 
@@ -20,9 +18,10 @@ const RecordContainer = ({ navigation, route }) => {
   const [recentWalks, setRecentWalks] = useState([]);
   const [goalInfo, setGoalInfo] = useState({});
   const [badgeList, setBadgeList] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const dispatch = useDispatch();
-  console.log( {userId, loginId})
+
   const fetchData = async () => {
     const res = await getUserDetail(userId);
     const { user = {} } = res;
@@ -42,10 +41,10 @@ const RecordContainer = ({ navigation, route }) => {
 
   const getBadge = async () => {
     const res = await getBadgeList();
-   if(res){
-    const {userBadges} = res;
-    setBadgeList(userBadges);
-    /*
+    if (res) {
+      const { userBadges } = res;
+      setBadgeList(userBadges);
+      /*
      "userBadges": [
     {
       "badge": {
@@ -59,14 +58,12 @@ const RecordContainer = ({ navigation, route }) => {
     }
   ]
     */
-   }
+    }
   };
 
   const getRecentWalks = async () => {
     const res = await getMyWalkList(0);
     if (res) {
-      console.log(res);
-      //setMyWalks(walks);
       setRecentWalks(res);
     }
   };
@@ -89,7 +86,7 @@ const RecordContainer = ({ navigation, route }) => {
     navigation.navigate('SettingPage');
   };
   const handleNavigateBadge = () => {
-    navigation.navigate('BadgeList', {badgeList});
+    navigation.navigate('BadgeList', { badgeList });
   };
   const handleNavigateRecent = () => {
     navigation.navigate('Recent', { recentWalks: recentWalks });
@@ -100,7 +97,13 @@ const RecordContainer = ({ navigation, route }) => {
 
   const handleNavigateLikeReviews = () => {
     navigation.navigate('LikeReviews');
-  }
+  };
+
+  const fetchAllData = async () => {
+    setLoading(true);
+    await Promise.all([getBadge(), getMyWalks(), getRecentWalks()]);
+    setLoading(false);
+  };
 
   useEffect(() => {
     fetchData();
@@ -108,9 +111,7 @@ const RecordContainer = ({ navigation, route }) => {
 
   useEffect(() => {
     if (userId !== '') {
-      getBadge();
-      //getMyWalks()
-      getRecentWalks();
+      fetchAllData();
     }
   }, [userId]);
 
@@ -121,6 +122,7 @@ const RecordContainer = ({ navigation, route }) => {
   }, [params]);
   return (
     <RecordScreen
+      loading={loading}
       userData={userData}
       myWalks={myWalks}
       badgeList={badgeList}
