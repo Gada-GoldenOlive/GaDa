@@ -84,6 +84,7 @@ const AddFriendsScreen = ({
             onChangeText={setSearchId}
             value={searchId}
             ref={ref}
+            style={{ flex: 1 }}
           />
           <TouchableWithoutFeedback
             onPress={() => handleSearchButton(searchId)}
