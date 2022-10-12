@@ -9,7 +9,6 @@ import { setIsAuthenticated, setUserId } from '../../../redux/modules/user';
 import jwtDecode from 'jwt-decode';
 import defaultAxios from '../../../APIs';
 import { storeInLocalStorage } from '../../../function';
-
 const SignInContainer = ({ navigation }) => {
   const [userId, setId] = useState('');
   const [pw, setPw] = useState('');
@@ -66,7 +65,6 @@ const SignInContainer = ({ navigation }) => {
     }
   }, [userId, pw])
 
-
   return (
     <SignInScreen
       id={userId}
@@ -79,6 +77,7 @@ const SignInContainer = ({ navigation }) => {
       handleNavigateSignUp={handleNavigateSignUp}
     />
   );
+
 };
 
 export default SignInContainer;

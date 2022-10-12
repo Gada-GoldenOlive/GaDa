@@ -1,4 +1,4 @@
-import { StyleSheet, View } from 'react-native';
+import { KeyboardAvoidingView, NativeModules, StyleSheet, View } from 'react-native';
 import React from 'react';
 import CustomImage from '../../../components/CustomImage';
 import { DefaultProfile } from '../../../constant/images/Sample';
@@ -7,6 +7,9 @@ import { bottomShadowStyle } from '../../../constant/styles';
 import MyTextInput from '../../../components/MyTextInput';
 import CustomButton from '../../../components/CustomButton';
 import { getNicknameIsValid } from '../../../function';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { useState } from 'react';
+import { useEffect } from 'react';
 const ModifyNicknameScreen = ({
   image,
   nicknameChange,
@@ -14,34 +17,59 @@ const ModifyNicknameScreen = ({
   handlePress,
   isValid,
 }) => {
-  console.log({image});
+  const { StatusBarManager } = NativeModules;
+  const [statusBarHeight, setStatusBarHeight] = useState(0);
+
+  useEffect(() => {
+    Platform.OS === 'ios' &&
+      StatusBarManager.getHeight(statusBarFrameData => {
+        setStatusBarHeight(statusBarFrameData.height);
+      });
+  }, []);
+
   return (
-    <View style={styles.container}>
-      <View style={styles.topContainer}>
-        {image !== null && image !== '' ? (
-          <CustomImage source={{ uri: image }} style={styles.image} />
-        ) : (
-          <CustomImage source={DefaultProfile} style={styles.image} />
-        )}
-        <View style={styles.writeWrapper}>
-          <CustomImage source={Writing} style={styles.writing} />
+    <KeyboardAvoidingView
+      style={{ flex: 1, backgroundColor: 'white' }}
+      keyboardVerticalOffset={statusBarHeight + 44}
+      behavior={Platform.OS === 'ios' && 'padding'}
+    >
+      <KeyboardAwareScrollView
+        style={{ flex: 1 }}
+        bounces={false}
+        scrollEnabled
+        enableOnAndroid
+        enableAutomaticScroll
+        keyboardShouldPersistTaps
+        extraScrollHeight={Platform.OS === 'android' ? 100 : -100}
+      >
+        <View style={styles.container}>
+          <View style={styles.topContainer}>
+            {image !== null && image !== '' ? (
+              <CustomImage source={{ uri: image }} style={styles.image} />
+            ) : (
+              <CustomImage source={DefaultProfile} style={styles.image} />
+            )}
+            <View style={styles.writeWrapper}>
+              <CustomImage source={Writing} style={styles.writing} />
+            </View>
+          </View>
+          <View style={styles.textInputWrapper}>
+            <MyTextInput
+              placeholder="닉네임을 입력하세요"
+              style={styles.title}
+              onChangeText={nicknameChange}
+              value={nickname}
+            />
+          </View>
         </View>
-      </View>
-      <View style={styles.textInputWrapper}>
-        <MyTextInput
-          placeholder="닉네임을 입력하세요"
-          style={styles.title}
-          onChangeText={nicknameChange}
-          value={nickname}
-        />
-      </View>
+      </KeyboardAwareScrollView>
       <CustomButton
         title="설정 완료"
         style={styles.button}
         handlePress={handlePress}
         clickable={isValid}
       />
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
