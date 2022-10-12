@@ -151,9 +151,9 @@ const RootNavigation = () => {
           options={({ route }) => {
             const { params } = route;
             const { images, ver, body } = params;
-            if (ver === 'pin') {
+            if (ver === 'pin' || ver === 'profile' ) {
               return {
-                title: 'pin',
+                title: '상세 이미지',
                 headerShown: true,
                 headerLeft: () => <BackButton />,
                 headerRight: () => (

@@ -16,11 +16,12 @@ import store from './src/redux/store';
 // SplashScreen 추가
 import SplashScreen from 'react-native-splash-screen';
 import { setIsAuthenticated, setUserId } from './src/redux/modules/user';
-import { storeInLocalStorage } from './src/function';
+import { setIdInLocalStorage, storeInLocalStorage } from './src/function';
 import { refreshToken, verifyToken } from './src/APIs/JWT';
 import jwtDecode from 'jwt-decode';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import defaultAxios from './src/APIs';
+import { reloadApp } from './src/function/error';
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
@@ -99,23 +100,48 @@ const App = () => {
     }
 
     const { access_token = '', refresh_token = '' } = await getTokens();
+    console.log(access_token)
+    if (access_token !== '') {
+      defaultAxios.defaults.headers.common.Authorization = `Bearer ${access_token}`;
+      const { new_access_token = '', new_refresh_token = '' } =
+      await refreshToken(access_token);
+
+      if (new_access_token && new_refresh_token) {
+        const { sub: user_id } = jwtDecode(new_access_token);
+        await setIdInLocalStorage(user_id);
+        dispatch(setUserId(user_id));
+        console.log({user_id})
+        dispatch(setIsAuthenticated(true));
+        defaultAxios.defaults.headers.common.Authorization = `Bearer ${new_access_token}`;
+        await storeInLocalStorage(new_access_token, new_refresh_token);
+      } else {
+        //reloadApp();
+      }
+    } else {
+      
+      reloadApp();
+    }
+    /*
     if (access_token) {
       defaultAxios.defaults.headers.common.Authorization = `Bearer ${access_token}`;
       const { new_access_token = '', new_refresh_token = '' } =
         await refreshToken(access_token);
       if (new_access_token && new_refresh_token) {
-        console.log('hey')
         const { sub: user_id } = jwtDecode(new_access_token);
         dispatch(setUserId(user_id));
+        console.log({user_id})
         dispatch(setIsAuthenticated(true));
         defaultAxios.defaults.headers.common.Authorization = `Bearer ${new_access_token}`;
         await storeInLocalStorage(new_access_token, new_refresh_token);
+      } else {
+        //reloadApp();
       }
     } else {
       setLoading(false);
-      console.log('error')
+      reloadApp();
 
     }
+    */
     SplashScreen.hide();
   }; // getNetworkState
 

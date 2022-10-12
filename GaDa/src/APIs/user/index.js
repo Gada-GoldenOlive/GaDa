@@ -54,9 +54,9 @@ export const getUserLogin = async ({ id, pw }) => {
   return res;
 };
 
-export const getUserDetail = async () => {
+export const getUserDetail = async userId => {
   const res = await axios
-    .get('/users/detail/')
+    .get(`/users/${userId}/`)
     .then(({ data }) => data)
     .catch(handleNetworkError);
   return res;

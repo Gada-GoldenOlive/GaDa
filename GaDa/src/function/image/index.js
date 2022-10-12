@@ -31,7 +31,14 @@ export const getPreSignedUrl = async () => {
   return { url: url };
 };
 
-export const getParam = image => {
+export const getBlob = async (fileUri) => {
+  const resp = await fetch(fileUri);
+  const imageBody = await resp.blob();
+  return imageBody;
+};
+
+
+export const getParam = async image => {
   const options = {
     keyPrefix: 'uploads/',
     bucket: 'golden-olive-gada',
@@ -51,11 +58,13 @@ export const getParam = image => {
     region: 'ap-northeast-2',
   });
 
+  const body = await getBlob(image.path);
+
   const param = {
     Bucket: 'golden-olive-gada',
     Key: `gada/image/${file.name}`,
-    Body: image.path,
-    ContentType: 'image/png',
+    Body:body,
+    ContentType: 'image/jpg',
   };
 
   return param;

@@ -15,22 +15,26 @@ import { getNicknameIsValid } from '../../../function';
 import { useState } from 'react';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import { useDispatch } from 'react-redux';
-import { setProfileImage } from '../../../redux/modules/images';
+import { setImageFile, setProfileImage } from '../../../redux/modules/images';
 import CameraSelectModal from '../../../components/CameraSelectModal';
-import { getParam, getPreSignedUrl, uploadImageToS3 } from '../../../function/image';
+import {
+  getBlob,
+  getParam,
+  getPreSignedUrl,
+  uploadImageToS3,
+} from '../../../function/image';
 import { useEffect } from 'react';
 
-import {s3} from '../../../constant/setting';
 const ModifyNicknameScreen = ({
   image,
+  setImage,
   nicknameChange,
   nickname,
   handlePress,
   isValid,
+  isChanged,
   navigation,
 }) => {
-  const dispatch = useDispatch();
-  const [uri, setUri] = useState('');
   const baseCameraOption = {
     mediaType: 'photo',
     includeBase64: true,
@@ -53,35 +57,21 @@ const ModifyNicknameScreen = ({
     height: 1000,
     width: 1000,
   };
-
+  const dispatch = useDispatch();
   const [cameraVisible, setCameraVisible] = useState(false);
+
   const openCamera = () => {
     ImageCropPicker.openCamera(
       Platform.OS === 'ios'
         ? { ...baseCameraOption, ...iosOptions }
         : baseCameraOption,
-    ).then(image => {
-      const param = getParam(image);
-      s3.upload(param, (err, data) => {
-        if (err) {
-          console.log('image upload err: ' + err);
-          return;
-        }
-        const imgTag = `${data.Location}`;
-        setUri(imgTag);
-      });
-
+    ).then(async image => {
+      
+      const uri = `data:${image.mime};base64,${image.data}`;
+      setImage(uri);
+      dispatch(setImageFile(image));
+      cancelModal();
     });
-  };
-
-  useEffect(() =>{
-    console.log(uri)
-  },[uri])
-
-  const handleImage = async image => {
-    const res = await uploadImageToS3(image);
-    console.log(res);
-    cancelModal();
   };
 
   const openImageLibrary = () => {
@@ -89,13 +79,17 @@ const ModifyNicknameScreen = ({
       Platform.OS === 'ios'
         ? { ...baseImageLibraryOption, ...iosOptions }
         : baseImageLibraryOption,
-    ).then(images => {
-      let imageList = [];
-      imageList.push({ imageData: images, image: images.path });
+    ).then(image => {
+      const uri = `data:${image.mime};base64,${image.data}`;
+      setImage(uri);
+      dispatch(setImageFile(image));
+      const imageList = [];
+      imageList.push({ imageData: image, image: image.path });
 
       navigation.navigate('DetailImage', {
         idx: 0,
         images: imageList,
+        ver: 'profile'
       });
       cancelModal();
     });
@@ -112,13 +106,6 @@ const ModifyNicknameScreen = ({
     dispatch(setProfileImage(items));
   };
 
-  const getURL = async () => {
-    const res = await getPreSignedUrl();
-    if (res) {
-      const { url } = res;
-      console.log(url);
-    }
-  };
 
   return (
     <View style={styles.container}>
@@ -128,6 +115,7 @@ const ModifyNicknameScreen = ({
         ) : (
           <CustomImage source={DefaultProfile} style={styles.image} />
         )}
+
         <TouchableWithoutFeedback onPress={openModal}>
           <View style={styles.writeWrapper}>
             <CustomImage source={Writing} style={styles.writing} />
@@ -146,12 +134,12 @@ const ModifyNicknameScreen = ({
         title="설정 완료"
         style={styles.button}
         handlePress={handlePress}
-        clickable={isValid}
+        clickable={isChanged}
       />
       <CameraSelectModal
         isVisible={cameraVisible}
         openCamera={openCamera}
-        openImageLibrary={getURL}
+        openImageLibrary={openImageLibrary}
         cancelModal={cancelModal}
       />
     </View>
