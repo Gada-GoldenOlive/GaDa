@@ -10,6 +10,7 @@ import {
 import { useEffect } from 'react';
 import { useCallback } from 'react';
 import { getAlarmList, modifyFriend } from '../../../APIs/user';
+import { refresh } from '@react-native-community/netinfo';
 
 const hi = [
   {
@@ -71,6 +72,7 @@ const FriendsAlarmContainer = () => {
 
   const fetchAlarmList = async () => {
     const res = await getAlarmList();
+    console.log(res);
     if (res) {
       const { requests } = res;
       setAlarmList(requests);
@@ -80,10 +82,12 @@ const FriendsAlarmContainer = () => {
   const handleAcceptButton = async id => {
     await modifyFriend(id, 'ACCEPTED');
     console.log('accept', id);
+    onRefresh();
   };
   const handleRefuseButton = async id => {
     await modifyFriend(id, 'REJECTED');
     console.log('refuse', id);
+    onRefresh();
   };
 
   const onRefresh = useCallback(() => {
