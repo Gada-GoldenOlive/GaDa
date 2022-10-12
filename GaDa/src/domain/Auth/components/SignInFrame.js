@@ -78,7 +78,7 @@ const SignInFrame = props => {
   //const back = !changed && !isWrong ? buttonColor : descriptionColor;
   return (
     <KeyboardAvoidingView
-      style={{ flex: 1, backgroundColor: 'white'}}
+      style={{ flex: 1, backgroundColor: 'white' }}
       keyboardVerticalOffset={statusBarHeight + 44}
       behavior={Platform.OS === 'ios' && 'padding'}
     >
@@ -89,16 +89,16 @@ const SignInFrame = props => {
         enableOnAndroid
         enableAutomaticScroll
         keyboardShouldPersistTaps
-        extraScrollHeight={Platform.OS === 'android' ? 0 : -100}
+        extraScrollHeight={Platform.OS === 'android' ? 0 : -200}
       >
-          <View style={[styles.screenContainer, screenContainerStyle]}>
-            {(mainText.length !== 0 || renderMainTextComponent) &&
-              headerComponent()}
-            {renderMainComponent()}
-          </View>
-        </KeyboardAwareScrollView>
-        {renderFooter && renderFooterComponent()}
-      </KeyboardAvoidingView>
+        <View style={[styles.screenContainer, screenContainerStyle]}>
+          {(mainText.length !== 0 || renderMainTextComponent) &&
+            headerComponent()}
+          {renderMainComponent()}
+        </View>
+      </KeyboardAwareScrollView>
+      {renderFooter && renderFooterComponent()}
+    </KeyboardAvoidingView>
   );
 };
 
@@ -147,6 +147,5 @@ const styles = StyleSheet.create({
     marginTop: 9.5,
     color: 'rgb(255,92,0)',
   },
-  footerContainer: {
-  },
+  footerContainer: {},
 });
