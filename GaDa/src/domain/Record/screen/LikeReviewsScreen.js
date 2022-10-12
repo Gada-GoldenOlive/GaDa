@@ -1,6 +1,7 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import React from 'react';
 import FeedItemList from '../../Feed/components/FeedItemList';
+import Text from '../../../components/MyText';
 
 const LikeReviewsScreen = ({ reviewList, handleDetailFeed }) => {
   return reviewList.length > 0 ?(
