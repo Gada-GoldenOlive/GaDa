@@ -43,7 +43,6 @@ export const deleteWalkway = async id => {
     .catch(handleNetworkError);
   return res;
 };
-
 export const getMyWalkList = async option => {
   const res = await axios
   .get(`/walkways/walks?option=${option}`)

@@ -41,7 +41,6 @@ const SignInScreen = ({
   return (
     <KeyboardAvoidingView
       style={{ flex: 1, backgroundColor: 'black' }}
-      keyboardVerticalOffset={statusBarHeight + 44}
       behavior={Platform.OS === 'ios' && 'padding'}
     >
       <View style={styles.container}>
