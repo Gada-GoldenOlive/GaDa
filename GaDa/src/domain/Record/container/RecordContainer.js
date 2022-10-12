@@ -25,12 +25,18 @@ const RecordContainer = ({ navigation, route }) => {
   console.log( {userId, loginId})
   const fetchData = async () => {
     const res = await getUserDetail(userId);
-    console.log({res});
     const { user = {} } = res;
     if (user) {
       setUserData(user);
       setGoalInfo({ goalTime: user.goalTime, goalDistance: user.goalDistance });
-      dispatch(setUser({id: user.id, loginId: user.loginId, nickname: user.name, image: user.image}));
+      dispatch(
+        setUser({
+          id: user.id,
+          loginId: user.loginId,
+          nickname: user.name,
+          image: user.image,
+        }),
+      );
     }
   };
 
@@ -88,10 +94,10 @@ const RecordContainer = ({ navigation, route }) => {
   }, [userId]);
 
   useEffect(() => {
-    if(params.refresh){
+    if (params.refresh) {
       fetchData();
     }
-  }, [params])
+  }, [params]);
   return (
     <RecordScreen
       userData={userData}

@@ -9,6 +9,7 @@ import {
 import CustomButton from '../../../components/CustomButton';
 import Text from '../../../components/MyText';
 import { thinFontFamily } from '../../../constant/fonts';
+import SignInFrame from '../components/SignInFrame';
 
 const NicknameScreen = ({
   isValid,
@@ -19,6 +20,50 @@ const NicknameScreen = ({
   handleNavigate,
   handleNicknameChange,
 }) => {
+  const renderMainBody = () =>{
+    return (
+      <View style={styles.container}>
+      <View style={styles.topContainer}>
+        <Text style={styles.title}>닉네임을 설정하세요</Text>
+      </View>
+      <View style={styles.contentContainer}>
+        <View style={styles.contentWrapper}>
+          <MyTextInPut
+            style={styles.textInput}
+            placeholder="닉네임을 입력하세요"
+            value={name}
+            onChangeText={handleNicknameChange}
+          />
+          {isValid && (
+            <TouchableWithoutFeedback onPress={handleCheckDuplicate}>
+              <View style={styles.buttonWrapper}>
+                <Text style={styles.buttonText}>중복확인</Text>
+              </View>
+            </TouchableWithoutFeedback>
+          )}
+        </View>
+        {duplicated && (
+          <Text style={styles.errorText}>*중복된 아이디입니다</Text>
+        )}
+      </View>
+    </View>
+
+    )
+  };
+  const renderFooter = () => {
+    return (
+      <CustomButton
+      title="다음"
+      handlePress={handleNavigate}
+      clickable={isOK}
+    />
+
+    )
+  }
+
+  return (
+    <SignInFrame renderMainBody={renderMainBody} renderFooter={renderFooter} />
+  )
   return (
     <View style={styles.container}>
       <View style={styles.topContainer}>

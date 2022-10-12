@@ -3,8 +3,12 @@ import {
   StyleSheet,
   TouchableWithoutFeedback,
   View,
+  KeyboardAvoidingView,
+  NativeModules,
 } from 'react-native';
+
 import React from 'react';
+import { useState, useEffect } from 'react';
 import CustomImage from '../../../components/CustomImage';
 import { DefaultProfile } from '../../../constant/images/Sample';
 import Writing from '../../../constant/images/Writing';
@@ -12,7 +16,6 @@ import { bottomShadowStyle } from '../../../constant/styles';
 import MyTextInput from '../../../components/MyTextInput';
 import CustomButton from '../../../components/CustomButton';
 import { getNicknameIsValid } from '../../../function';
-import { useState } from 'react';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import { useDispatch } from 'react-redux';
 import { setImageFile, setProfileImage } from '../../../redux/modules/images';
@@ -23,7 +26,7 @@ import {
   getPreSignedUrl,
   uploadImageToS3,
 } from '../../../function/image';
-import { useEffect } from 'react';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const ModifyNicknameScreen = ({
   image,
@@ -35,6 +38,16 @@ const ModifyNicknameScreen = ({
   isChanged,
   navigation,
 }) => {
+  const { StatusBarManager } = NativeModules;
+  const [statusBarHeight, setStatusBarHeight] = useState(0);
+
+  useEffect(() => {
+    Platform.OS === 'ios' &&
+      StatusBarManager.getHeight(statusBarFrameData => {
+        setStatusBarHeight(statusBarFrameData.height);
+      });
+  }, []);
+
   const baseCameraOption = {
     mediaType: 'photo',
     includeBase64: true,
@@ -66,7 +79,6 @@ const ModifyNicknameScreen = ({
         ? { ...baseCameraOption, ...iosOptions }
         : baseCameraOption,
     ).then(async image => {
-      
       const uri = `data:${image.mime};base64,${image.data}`;
       setImage(uri);
       dispatch(setImageFile(image));
@@ -89,7 +101,7 @@ const ModifyNicknameScreen = ({
       navigation.navigate('DetailImage', {
         idx: 0,
         images: imageList,
-        ver: 'profile'
+        ver: 'profile',
       });
       cancelModal();
     });
@@ -106,30 +118,45 @@ const ModifyNicknameScreen = ({
     dispatch(setProfileImage(items));
   };
 
-
   return (
-    <View style={styles.container}>
-      <View style={styles.topContainer}>
-        {image !== null && image !== '' ? (
-          <CustomImage source={{ uri: image }} style={styles.image} />
-        ) : (
-          <CustomImage source={DefaultProfile} style={styles.image} />
-        )}
+    <KeyboardAvoidingView
+      style={{ flex: 1, backgroundColor: 'white' }}
+      keyboardVerticalOffset={statusBarHeight + 44}
+      behavior={Platform.OS === 'ios' && 'padding'}
+    >
+      <KeyboardAwareScrollView
+        style={{ flex: 1 }}
+        bounces={false}
+        scrollEnabled
+        enableOnAndroid
+        enableAutomaticScroll
+        keyboardShouldPersistTaps
+        extraScrollHeight={Platform.OS === 'android' ? 100 : -100}
+      >
+        <View style={styles.container}>
+          <View style={styles.topContainer}>
+            {image !== null && image !== '' ? (
+              <CustomImage source={{ uri: image }} style={styles.image} />
+            ) : (
+              <CustomImage source={DefaultProfile} style={styles.image} />
+            )}
 
-        <TouchableWithoutFeedback onPress={openModal}>
-          <View style={styles.writeWrapper}>
-            <CustomImage source={Writing} style={styles.writing} />
+            <TouchableWithoutFeedback onPress={openModal}>
+              <View style={styles.writeWrapper}>
+                <CustomImage source={Writing} style={styles.writing} />
+              </View>
+            </TouchableWithoutFeedback>
           </View>
-        </TouchableWithoutFeedback>
-      </View>
-      <View style={styles.textInputWrapper}>
-        <MyTextInput
-          placeholder="닉네임을 입력하세요"
-          style={styles.title}
-          onChangeText={nicknameChange}
-          value={nickname}
-        />
-      </View>
+          <View style={styles.textInputWrapper}>
+            <MyTextInput
+              placeholder="닉네임을 입력하세요"
+              style={styles.title}
+              onChangeText={nicknameChange}
+              value={nickname}
+            />
+          </View>
+        </View>
+      </KeyboardAwareScrollView>
       <CustomButton
         title="설정 완료"
         style={styles.button}
@@ -142,7 +169,7 @@ const ModifyNicknameScreen = ({
         openImageLibrary={openImageLibrary}
         cancelModal={cancelModal}
       />
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

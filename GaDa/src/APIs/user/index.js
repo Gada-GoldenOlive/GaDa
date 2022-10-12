@@ -66,23 +66,38 @@ export const getUserFriends = async () => {
   const res = await axios
     .get('/users/friends/')
     .then(({ data }) => data)
-    .catch(e=> console.log(e.response.data));
+    .catch(e => console.log('err', e.response.data));
   return res;
 };
 export const checkNickname = async name => {
   const res = await axios
-  .get(`users/checked-name?name=${name}`)
-  .then(({data}) => data)
-  .catch(e =>  e.response.data);
+    .get(`users/checked-name?name=${name}`)
+    .then(({ data }) => data)
+    .catch(e => e.response.data);
   return res;
-}
+};
 
 export const getAlarmList = async () => {
   const res = await axios
-  .get('/users/friend-requests/')
-  .then(({data}) => data)
-  .catch(e => e.response.data);
+    .get('/users/friend-requests/')
+    .then(({ data }) => data)
+    .catch(e => e.response.data);
 
   return res;
+};
 
-}
+export const addFriend = async id => {
+  const res = await axios
+    .post('/users/friends/', { friendLoginId: id })
+    .then(({ data }) => data)
+    .catch(e => console.log(e.response.data));
+  return res;
+};
+export const modifyFriend = async (id, status) => {
+  console.log(status);
+  const res = await axios
+    .patch(`/users/friends/${id}`, { status })
+    .then(({ data }) => data)
+    .catch(e => console.log(e.response.data));
+  return res;
+};

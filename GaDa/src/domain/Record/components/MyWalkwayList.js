@@ -22,7 +22,7 @@ import { getDistance } from '../../../function';
 const ListFooterComponent = () => {
   return <View style={{ height: 30 }} />;
 };
-const MyWalkwayList = ({ ListHeaderComponent, myWalks }) => {
+const MyWalkwayList = ({ ListHeaderComponent, myWalks = {} }) => {
   const myinfo = { image: MyImageS, name: '산책와 뽀삐' };
   const tempList = [
     {

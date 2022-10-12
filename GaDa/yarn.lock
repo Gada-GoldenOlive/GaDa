@@ -9732,6 +9732,11 @@ react-native-aws3@^0.0.9:
     buffer "^4.5.1"
     crypto-js "^3.1.6"
 
+react-native-avoid-softinput@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/react-native-avoid-softinput/-/react-native-avoid-softinput-3.0.2.tgz#449cad693318f6165b393fad5b7fd791834b2a18"
+  integrity sha512-nLGklSpGpuVUJ24/ZUys0R+OpP5RS0UDtc5RbFBmb0356WfHuvJelqPahGL+2Buml/pO2jnd6KJ6V30b+bOQOQ==
+
 react-native-codegen@^0.0.17:
   version "0.0.17"
   resolved "https://registry.yarnpkg.com/react-native-codegen/-/react-native-codegen-0.0.17.tgz#83fb814d94061cbd46667f510d2ddba35ffb50ac"
@@ -9792,6 +9797,11 @@ react-native-keyboard-aware-scroll-view@^0.9.5:
   dependencies:
     prop-types "^15.6.2"
     react-native-iphone-x-helper "^1.0.3"
+
+react-native-keyboard-aware-view@^0.0.14:
+  version "0.0.14"
+  resolved "https://registry.yarnpkg.com/react-native-keyboard-aware-view/-/react-native-keyboard-aware-view-0.0.14.tgz#4cb0079c97a3f85172e451267e333db95cc70372"
+  integrity sha512-+dJwZAvQxdHelti7LXSvSwjiI4Oxox4ApkX6t1z2q0/hUZ2VV8xAoMMQBqU7SsRn02W+/FPrX6f9tG6y0L3jDA==
 
 react-native-linear-gradient@^2.6.2:
   version "2.6.2"

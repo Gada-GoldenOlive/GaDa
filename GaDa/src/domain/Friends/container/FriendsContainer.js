@@ -12,21 +12,21 @@ const FriendsContainer = ({ navigation, route }) => {
   const fetchData = async () => {
     const res = await getUserFriends();
     if (res) {
-      console.log({res});
+      console.log(res);
       const { friends, is_exist_unread_request: unread } = res;
       setFriendList(friends);
       setUnreadExist(unread);
     }
   };
+
   const handleNavigateAddFriends = () => {
     navigation.navigate('addFriends');
   };
   const handleNavigateFriendsAlarm = () => {
     navigation.navigate('friendsAlarm');
   };
-  const handleNavigate = (id, idx) => {
-    console.log(idx);
-    navigation.navigate('FriendRecord', { id, rank: idx + 1 });
+  const handleNavigate = (id, idx, friendId) => {
+    navigation.navigate('FriendRecord', { id, rank: idx + 1, friendId });
   };
 
   useEffect(() => {
