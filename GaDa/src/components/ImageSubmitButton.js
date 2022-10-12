@@ -6,11 +6,16 @@ import { mediumFontFamily } from '../constant/fonts';
 import { blackColor, emphasisColorVer2 } from '../constant/colors';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { setPinImage, setUploadImagesChanged } from '../redux/modules/images';
-import { createNewMessage } from '../APIs/Chat';
-import { getPreSignedUrl, uploadImage } from '../APIs/image';
+import {
+  setImageFile,
+  setPinImage,
+  setProfileImage,
+  setUploadImagesChanged,
+} from '../redux/modules/images';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { getParam } from '../function/image';
+import { s3 } from '../constant/setting';
 
 const HeaderImageSubmitButton = props => {
   const { imageList, ver, body } = props;
@@ -19,39 +24,35 @@ const HeaderImageSubmitButton = props => {
   const navigation = useNavigation();
 
   const dispatch = useDispatch();
-  const { bodyPhotoCount, bodyPhotoImages } = useSelector(({ images }) => ({
-    bodyPhotoCount: images.bodyPhotoCount,
-    bodyPhotoImages: images.bodyPhotoImages,
-  }));
-  const getURL = async () => {
-    const res = await getPreSignedUrl();
-    if(res){
-      const {url} = res;
-      setEachUrl(url);
-    }
-  }
+
   const handleClick = async () => {
     if (ver === 'pin') {
       // pin
       imageList.forEach(async item => {
+        const param = await getParam(item);
 
-        const uri = `data:${item.imageData.mime};base64,${item.imageData.data}`;
-        await uploadImage(eachUrl, uri);
-        
-        const setImages = items => {
-          dispatch(setPinImage(items));
+        s3.upload(param, (err, data) => {
+          if (err) {
+            console.log('image upload err: ' + err);
+            return;
+          }
+          const imgTag = `${data.Location}`;
+          dispatch(setPinImage(imgTag));
           dispatch(setUploadImagesChanged(true));
-        };
-        
-        setImages(eachUrl);
+        });
+      });
+      navigation.pop();
+    } else if (ver === 'profile') {
+      imageList.forEach(async item => {
+        dispatch(setImageFile(item.imageData));
       });
       navigation.pop();
     }
   };
 
   useEffect(() => {
-    getURL();
-  }, [])
+    //getURL();
+  }, []);
   return (
     <TouchableWithoutFeedback onPress={handleClick}>
       <View style={styles.textButton} {...props}>

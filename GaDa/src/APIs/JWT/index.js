@@ -1,3 +1,4 @@
+import defaultAxios from '../index';
 import axios from '../index';
 
 // return is_valid
@@ -28,7 +29,8 @@ export const refreshToken = async token => {
         new_refresh_token: refreshToken,
       };
     })
-    .catch(() => {
+    .catch(e => {
+      console.log('refresh error', e)
       return {
         new_access_token: '',
         new_refresh_token: '',

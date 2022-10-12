@@ -24,7 +24,6 @@
 		B3F84E059FAD4595B4F4E34A /* SpoqaHanSansNeo-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DCA2D4F299194C6F92275EB5 /* SpoqaHanSansNeo-Light.ttf */; };
 		BCDD4D1E692042E19FFAFFFE /* SpoqaHanSansNeo-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 86D1CB6B374742E4939F01AE /* SpoqaHanSansNeo-Bold.ttf */; };
 		C15BC196797844E4B10FE77B /* SpoqaHanSansNeo-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 101EE5C9606244079D6B425C /* SpoqaHanSansNeo-Regular.ttf */; };
-		18ED8A5494424D809C298AC9 /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D12DC6192CC4484DB8F41DCE /* Montserrat-Bold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */

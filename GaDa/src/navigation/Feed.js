@@ -3,6 +3,7 @@ import {
   createStackNavigator,
 } from '@react-navigation/stack';
 import React from 'react';
+import { boldFontFamily } from '../constant/fonts';
 import FeedContainer from '../domain/Feed/container/FeedContainer';
 
 const Stack = createStackNavigator();
@@ -19,6 +20,7 @@ const FeedNavigator = () => {
         cardStyle: { backgroundColor: 'white' },
         headerTitleStyle: {
           fontSize: 16,
+          fontFamily: boldFontFamily,
         },
         headerStyle: {
           elevation: 0,

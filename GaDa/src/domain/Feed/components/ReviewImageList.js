@@ -1,7 +1,6 @@
 import {
   FlatList,
   StyleSheet,
-  Text,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';

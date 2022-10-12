@@ -1,7 +1,6 @@
 import {
   ScrollView,
   StyleSheet,
-  Text,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
@@ -25,6 +24,7 @@ import Badge from '../components/Badge';
 import { Arrow, ArrowBlack } from '../../../constant/images/Arrow';
 import RecentWalk from '../components/RecentWalk';
 import MyWalkwayList from '../components/MyWalkwayList';
+import Text from '../../../components/MyText';
 
 const RecordScreen = ({
   userData,

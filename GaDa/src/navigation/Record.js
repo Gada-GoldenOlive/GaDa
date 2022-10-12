@@ -8,6 +8,7 @@ import GoalSettingContainer from '../domain/Record/container/GoalSettingContaine
 import RecordContainer from '../domain/Record/container/RecordContainer';
 import SettingPageContainer from '../domain/Record/container/SettingPageContainer';
 import RecentContainer from '../domain/Record/container/RecentContainer';
+import { boldFontFamily } from '../constant/fonts';
 
 const Stack = createStackNavigator();
 const recordScreen = {
@@ -31,6 +32,7 @@ const RecordNavigator = () => {
         cardStyle: { backgroundColor: 'white' },
         headerTitleStyle: {
           fontSize: 16,
+          fontFamily: boldFontFamily,
         },
         headerStyle: {
           elevation: 0,

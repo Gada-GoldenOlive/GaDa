@@ -1,7 +1,6 @@
 import {
   ScrollView,
   StyleSheet,
-  Text,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
@@ -24,6 +23,7 @@ import Pin from '../../../constant/images/Pin';
 import Locate from '../../../constant/images/Locate';
 import CustomButton from '../../../components/CustomButton';
 import { getDistance, getHour } from '../../../function';
+import Text from '../../../components/MyText';
 
 const DetailFeedScreen = ({ feedInfo }) => {
   const {

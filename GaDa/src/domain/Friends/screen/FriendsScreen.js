@@ -25,6 +25,7 @@ import {
 } from '../../../constant/colors';
 import { AddComma } from '../../../function';
 import { useSelector } from 'react-redux';
+import MyTag from '../components/MyTag';
 
 const FriendsScreen = ({
   friendList = [],
@@ -34,16 +35,7 @@ const FriendsScreen = ({
   handleNavigate,
 }) => {
   const { userId: id } = useSelector(state => state.user);
-  const MyTag = ({ userId }) => {
-    console.log(userId, id);
-    return (
-      userId === id && (
-        <View style={styles.myTagWrapper}>
-          <Text style={styles.myTagText}>MY</Text>
-        </View>
-      )
-    );
-  };
+
   return (
     <ScrollView
       style={styles.container}
@@ -71,7 +63,7 @@ const FriendsScreen = ({
               (item, index) =>
                 index < 3 && (
                   <TouchableWithoutFeedback
-                    onPress={() => handleNavigate(item.id, index)}
+                    onPress={() => handleNavigate(item.userId, index, item.id)}
                     key={`${item.id}-${index}`}
                   >
                     <View>
@@ -84,12 +76,12 @@ const FriendsScreen = ({
                           />
                           <Text style={styles.top3Text}>{item.name}</Text>
                           {/* MyTag 기준 있어야함. 내꺼일 때! */}
-                          <MyTag userId={item.userId} />
+                          <MyTag userId={item.userId} id={id} />
                         </View>
                         <Text>
                           <Text style={styles.top3Text}>
-                            {typeof item.totalDistance === 'number' &&
-                              AddComma(item.totalDistance)}
+                            {typeof item.distance === 'number' &&
+                              AddComma(item.distance)}
                           </Text>
                           <Text
                             style={[
@@ -133,14 +125,14 @@ const FriendsScreen = ({
                 index >= 3 && (
                   <TouchableWithoutFeedback
                     key={`${item}-${index}`}
-                    onPress={() => handleNavigate(item.id, index)}
+                    onPress={() => handleNavigate(item.userId, index, item.id)}
                   >
                     <View key={index} style={[styles.bodyWrapper]}>
                       <View style={styles.bodyInnerWrapper}>
                         <Text style={styles.bodyRankText}>{index + 1}.</Text>
                         <CustomImage
                           style={styles.bodyImage}
-                          source={item.image}
+                          source={{ uri: item.image }}
                         />
                         <Text style={styles.bodyText}>{item.name}</Text>
                         {/* MyTag 기준 있어야함. 내꺼일 때! */}
@@ -148,7 +140,7 @@ const FriendsScreen = ({
                       </View>
                       <Text>
                         <Text style={styles.bodyText}>
-                          {AddComma(item.totalDistance)}
+                          {AddComma(item.distance)}
                         </Text>
                         <Text
                           style={[
@@ -225,6 +217,7 @@ const styles = StyleSheet.create({
     width: 42,
     height: 42,
     marginRight: 10,
+    borderRadius: 50,
   },
   top3Text: {
     fontFamily: boldFontFamily,
@@ -276,26 +269,14 @@ const styles = StyleSheet.create({
     width: 34,
     height: 34,
     marginRight: 14,
+    borderRadius: 50,
   },
   bodyText: {
     fontFamily: boldFontFamily,
     fontSize: defaultFontSize,
     color: defaultColor,
   },
-  myTagWrapper: {
-    paddingHorizontal: 5.5,
-    paddingVertical: 1,
 
-    borderRadius: 15,
-    backgroundColor: 'black',
-
-    marginLeft: 5,
-  },
-  myTagText: {
-    fontFamily: mediumFontFamily,
-    fontSize: 10,
-    color: 'white',
-  },
   alarmWrapper: {
     marginRight: 13,
   },
@@ -306,6 +287,6 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     position: 'absolute',
     top: 3,
-    right: 3
+    right: 3,
   },
 });

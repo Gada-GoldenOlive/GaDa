@@ -1,6 +1,5 @@
 import {
   StyleSheet,
-  Text,
   View,
   FlatList,
   TouchableWithoutFeedback,
@@ -18,11 +17,12 @@ import {
   borderColor,
 } from '../../../constant/colors';
 import { getDistance } from '../../../function';
+import Text from '../../../components/MyText';
 
 const ListFooterComponent = () => {
   return <View style={{ height: 30 }} />;
 };
-const MyWalkwayList = ({ ListHeaderComponent, myWalks }) => {
+const MyWalkwayList = ({ ListHeaderComponent, myWalks = {} }) => {
   const myinfo = { image: MyImageS, name: '산책와 뽀삐' };
   const tempList = [
     {

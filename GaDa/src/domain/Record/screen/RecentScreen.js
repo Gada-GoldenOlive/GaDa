@@ -1,7 +1,6 @@
 import {
   FlatList,
   StyleSheet,
-  Text,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
@@ -12,6 +11,7 @@ import { MapImage } from '../../../constant/images/Temp';
 import { blackColor, mainColor } from '../../../constant/colors';
 import { boldFontFamily, boldFontSize } from '../../../constant/fonts';
 import { getDate, getDistance } from '../../../function';
+import Text from '../../../components/MyText';
 
 const RecentScreen = ({ handleDetailPin, recentWalks }) => {
   const renderItem = ({ item, index }) => {

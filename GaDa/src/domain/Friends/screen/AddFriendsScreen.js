@@ -13,7 +13,7 @@ import { useRef } from 'react';
 import { useState } from 'react';
 import CustomImage from '../../../components/CustomImage';
 import { Search } from '../../../constant/images/Friends';
-import { boldFontFamily } from '../../../constant/fonts';
+import { boldFontFamily, defaultFontFamily } from '../../../constant/fonts';
 import Text from '../../../components/MyText';
 import { useEffect } from 'react';
 import Modal from 'react-native-modal';
@@ -21,23 +21,20 @@ import Modal from 'react-native-modal';
 import CloseIcon, { Close } from '../../../constant/images/Close';
 import PopupModal from '../../../components/PopupModal';
 
-const AddFriendsScreen = ({ searchList, handleAddConfirmButton }) => {
+const AddFriendsScreen = ({
+  searchList,
+  handleAddConfirmButton,
+  handleSearchButton,
+  handleAddButton,
+  closePopup,
+  openPopup,
+  isPopupVisible,
+  addUser,
+  searchId,
+  setSearchId,
+}) => {
   const ref = useRef();
-  const [searchId, setSearchId] = useState();
-  const [isPopupVisible, setIsPopupVisible] = useState(false);
-  const [addUser, setAddUser] = useState({ id: -1, name: '' });
 
-  const openPopup = () => {
-    setIsPopupVisible(true);
-  };
-  const closePopup = () => {
-    setIsPopupVisible(false);
-  };
-
-  const handleAddButton = (id, name) => {
-    setIsPopupVisible(!isPopupVisible);
-    setAddUser({ id, name });
-  };
   // useEffect(() => {
   //   if (isPopupVisible) {
   //   }
@@ -48,14 +45,14 @@ const AddFriendsScreen = ({ searchList, handleAddConfirmButton }) => {
       <View style={styles.itemContainer}>
         <View style={styles.flexDirection}>
           <View style={styles.flexDirection}>
-            <CustomImage style={styles.userImg} source={item.image} />
+            <CustomImage style={styles.userImg} source={{ uri: item.image }} />
             <View>
               <Text style={styles.userName}>{item.name}</Text>
-              <Text style={styles.userId}>{item.id}</Text>
+              <Text style={styles.userId}>{item.loginId}</Text>
             </View>
           </View>
           <TouchableWithoutFeedback
-            onPress={() => handleAddButton(item.id, item.name)}
+            onPress={() => handleAddButton(item.loginId, item.name)}
           >
             <View style={styles.addButtonWrapper}>
               <Text style={styles.addButtonText}>추가</Text>
@@ -86,9 +83,14 @@ const AddFriendsScreen = ({ searchList, handleAddConfirmButton }) => {
             placeholderTextColor={descriptionColor}
             onChangeText={setSearchId}
             value={searchId}
+            style={{fontFamily: defaultFontFamily, flex: 1, alignItems: 'center'}}
             ref={ref}
           />
-          <CustomImage source={Search} style={styles.searchIcon} />
+          <TouchableWithoutFeedback
+            onPress={() => handleSearchButton(searchId)}
+          >
+            <CustomImage source={Search} style={styles.searchIcon} />
+          </TouchableWithoutFeedback>
         </View>
         <FlatList
           data={searchList}
@@ -111,11 +113,12 @@ const styles = StyleSheet.create({
   searchInput: {
     marginTop: 25,
     marginBottom: 15,
-    paddingVertical: 16,
+    paddingVertical: Platform.OS === 'ios' ? 16 : 8,
     paddingHorizontal: 16,
     backgroundColor: '#f5f5f5',
     borderRadius: 10,
     flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'space-between',
   },
   searchIcon: {
@@ -143,6 +146,7 @@ const styles = StyleSheet.create({
     width: 42,
     height: 42,
     marginRight: 13,
+    borderRadius: 50,
   },
   flexDirection: {
     flexDirection: 'row',

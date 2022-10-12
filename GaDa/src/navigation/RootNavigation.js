@@ -34,6 +34,7 @@ import CreateWalkwayContainer from '../domain/Feed/container/CreateWalkwayContai
 import ModifyPWContainer from '../domain/Auth/container/ModifyPWContainer';
 import MyRecordContainer from '../domain/Record/container/MyRecordContainer';
 import DetailPinContainer from '../domain/Pin/container/DetailPinContainer';
+import { boldFontFamily } from '../constant/fonts';
 
 const createPinScreen = {
   CreatePin: CreatePinContainer,
@@ -117,6 +118,7 @@ const RootNavigation = () => {
         cardStyle: { backgroundColor: '#fff', opacity: 1 },
         headerTitleStyle: {
           fontSize: 16,
+          fontFamily: boldFontFamily,
         },
         headerStyle: {
           elevation: 0,
@@ -152,9 +154,9 @@ const RootNavigation = () => {
           options={({ route }) => {
             const { params } = route;
             const { images, ver, body } = params;
-            if (ver === 'pin') {
+            if (ver === 'pin' || ver === 'profile' ) {
               return {
-                title: 'pin',
+                title: '상세 이미지',
                 headerShown: true,
                 headerLeft: () => <BackButton />,
                 headerRight: () => (

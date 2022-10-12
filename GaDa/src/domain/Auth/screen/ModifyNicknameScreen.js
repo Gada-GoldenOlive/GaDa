@@ -1,5 +1,14 @@
-import { StyleSheet, View } from 'react-native';
+import {
+  Platform,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View,
+  KeyboardAvoidingView,
+  NativeModules,
+} from 'react-native';
+
 import React from 'react';
+import { useState, useEffect } from 'react';
 import CustomImage from '../../../components/CustomImage';
 import { DefaultProfile } from '../../../constant/images/Sample';
 import Writing from '../../../constant/images/Writing';
@@ -7,41 +16,160 @@ import { bottomShadowStyle } from '../../../constant/styles';
 import MyTextInput from '../../../components/MyTextInput';
 import CustomButton from '../../../components/CustomButton';
 import { getNicknameIsValid } from '../../../function';
+import ImageCropPicker from 'react-native-image-crop-picker';
+import { useDispatch } from 'react-redux';
+import { setImageFile, setProfileImage } from '../../../redux/modules/images';
+import CameraSelectModal from '../../../components/CameraSelectModal';
+import {
+  getBlob,
+  getParam,
+  getPreSignedUrl,
+  uploadImageToS3,
+} from '../../../function/image';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+
 const ModifyNicknameScreen = ({
   image,
+  setImage,
   nicknameChange,
   nickname,
   handlePress,
   isValid,
+  isChanged,
+  navigation,
 }) => {
-  console.log({image});
+  const { StatusBarManager } = NativeModules;
+  const [statusBarHeight, setStatusBarHeight] = useState(0);
+
+  useEffect(() => {
+    Platform.OS === 'ios' &&
+      StatusBarManager.getHeight(statusBarFrameData => {
+        setStatusBarHeight(statusBarFrameData.height);
+      });
+  }, []);
+
+  const baseCameraOption = {
+    mediaType: 'photo',
+    includeBase64: true,
+    cropping: true,
+    cropperCancelText: '취소',
+    cropperChooseText: '선택',
+    freeStyleCropEnabled: true,
+    loadingLabelText: '',
+  };
+  const baseImageLibraryOption = {
+    mediaType: 'photo',
+    includeBase64: true,
+    // multiple: true,
+    // maxFiles: 10,
+    forceJpg: true,
+    loadingLabelText: '',
+  };
+
+  const iosOptions = {
+    height: 1000,
+    width: 1000,
+  };
+  const dispatch = useDispatch();
+  const [cameraVisible, setCameraVisible] = useState(false);
+
+  const openCamera = () => {
+    ImageCropPicker.openCamera(
+      Platform.OS === 'ios'
+        ? { ...baseCameraOption, ...iosOptions }
+        : baseCameraOption,
+    ).then(async image => {
+      const uri = `data:${image.mime};base64,${image.data}`;
+      setImage(uri);
+      dispatch(setImageFile(image));
+      cancelModal();
+    });
+  };
+
+  const openImageLibrary = () => {
+    ImageCropPicker.openPicker(
+      Platform.OS === 'ios'
+        ? { ...baseImageLibraryOption, ...iosOptions }
+        : baseImageLibraryOption,
+    ).then(image => {
+      const uri = `data:${image.mime};base64,${image.data}`;
+      setImage(uri);
+      dispatch(setImageFile(image));
+      const imageList = [];
+      imageList.push({ imageData: image, image: image.path });
+
+      navigation.navigate('DetailImage', {
+        idx: 0,
+        images: imageList,
+        ver: 'profile',
+      });
+      cancelModal();
+    });
+  };
+
+  const openModal = () => {
+    setCameraVisible(true);
+  };
+  const cancelModal = () => {
+    setCameraVisible(false);
+  };
+
+  const setImages = items => {
+    dispatch(setProfileImage(items));
+  };
+
   return (
-    <View style={styles.container}>
-      <View style={styles.topContainer}>
-        {image !== null && image !== '' ? (
-          <CustomImage source={{ uri: image }} style={styles.image} />
-        ) : (
-          <CustomImage source={DefaultProfile} style={styles.image} />
-        )}
-        <View style={styles.writeWrapper}>
-          <CustomImage source={Writing} style={styles.writing} />
+    <KeyboardAvoidingView
+      style={{ flex: 1, backgroundColor: 'white' }}
+      keyboardVerticalOffset={statusBarHeight + 44}
+      behavior={Platform.OS === 'ios' && 'padding'}
+    >
+      <KeyboardAwareScrollView
+        style={{ flex: 1 }}
+        bounces={false}
+        scrollEnabled
+        enableOnAndroid
+        enableAutomaticScroll
+        keyboardShouldPersistTaps
+        extraScrollHeight={Platform.OS === 'android' ? 100 : -100}
+      >
+        <View style={styles.container}>
+          <View style={styles.topContainer}>
+            {image !== null && image !== '' ? (
+              <CustomImage source={{ uri: image }} style={styles.image} />
+            ) : (
+              <CustomImage source={DefaultProfile} style={styles.image} />
+            )}
+
+            <TouchableWithoutFeedback onPress={openModal}>
+              <View style={styles.writeWrapper}>
+                <CustomImage source={Writing} style={styles.writing} />
+              </View>
+            </TouchableWithoutFeedback>
+          </View>
+          <View style={styles.textInputWrapper}>
+            <MyTextInput
+              placeholder="닉네임을 입력하세요"
+              style={styles.title}
+              onChangeText={nicknameChange}
+              value={nickname}
+            />
+          </View>
         </View>
-      </View>
-      <View style={styles.textInputWrapper}>
-        <MyTextInput
-          placeholder="닉네임을 입력하세요"
-          style={styles.title}
-          onChangeText={nicknameChange}
-          value={nickname}
-        />
-      </View>
+      </KeyboardAwareScrollView>
       <CustomButton
         title="설정 완료"
         style={styles.button}
         handlePress={handlePress}
-        clickable={isValid}
+        clickable={isChanged}
       />
-    </View>
+      <CameraSelectModal
+        isVisible={cameraVisible}
+        openCamera={openCamera}
+        openImageLibrary={openImageLibrary}
+        cancelModal={cancelModal}
+      />
+    </KeyboardAvoidingView>
   );
 };
 

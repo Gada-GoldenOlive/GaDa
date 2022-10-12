@@ -1,7 +1,6 @@
 import {
   Alert,
   StyleSheet,
-  Text,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
@@ -27,6 +26,7 @@ import { useSelector } from 'react-redux';
 import WalkEnd from '../../../components/WalkEnd';
 import PinListModal from '../../../components/PinListModal';
 import { getDistanceFromLatLonInKm } from '../../../function';
+import Text from '../../../components/MyText';
 
 const HomeScreen = ({
   geoLocation,
@@ -152,7 +152,7 @@ const HomeScreen = ({
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       <WebView
         // source={{ uri: 'https://ga-da-goldenolive.vercel.app' }}
-        source={{ uri: 'https://93d6-2001-2d8-e926-8ad3-6cc0-2489-7e79-3315.jp.ngrok.io' }}
+        source={{ uri: 'https://4bc6-110-8-134-126.jp.ngrok.io' }}
         injectedJavaScript={INJECTED_JAVASCRIPT}
         ref={ref}
         javaScriptEnabled

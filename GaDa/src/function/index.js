@@ -57,86 +57,95 @@ export const getRandomImage = (width = 150, height = 150) => {
   return randomImage;
 };
 
-
 export const AddComma = num => {
   const regexp = /\B(?=(\d{3})+(?!\d))/g;
   return num.toString().replace(regexp, ',');
 };
 
 export const getNicknameIsNotValid = (nickname = '') => {
-  console.log(nickname)
-  if(nickname.length > 17 || nickname.length < 2) {
-    return true
+  console.log(nickname);
+  if (nickname.length > 17 || nickname.length < 2) {
+    return true;
   }
   const reg = /[`~!@#$%^&*()_|+\-=?;:'"<>\{\}\[\]\\\/ ]/gim;
   const result = reg.test(nickname);
-  return result
-}
+  return result;
+};
 
-export const getIDIsNotValid = (id) => {
-  if(id.length > 20 || (id.length > 0 && id.length < 6)) {
-    return true
+export const getIDIsNotValid = id => {
+  if (id.length > 20 || (id.length > 0 && id.length < 6)) {
+    return true;
   }
   const korean = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
- 
+
   const result = korean.test(id);
-  return result
-}
+  return result;
+};
 
-
-export const getPWIsNotValid = (pw) => {
-  if(pw.length > 20 || (pw.length > 0 && pw.length < 6)) {
-    return true
+export const getPWIsNotValid = pw => {
+  if (pw.length > 20 || (pw.length > 0 && pw.length < 6)) {
+    return true;
   }
   const korean = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
- 
-  const result = korean.test(pw);
-  return result
-}
 
-export const getDistance = ({distance = 0, unit = 'm' }) => {
-  if(unit === 'm') {
+  const result = korean.test(pw);
+  return result;
+};
+
+export const getDistance = ({ distance = 0, unit = 'm' }) => {
+  if (unit === 'm') {
     const regexp = /\B(?=(\d{3})+(?!\d))/g;
-    return distance.toString().replace(regexp, ',')
+    return distance.toString().replace(regexp, ',');
   } else {
-    const str = String( distance / 1000); 
+    const str = String(distance / 1000);
     return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
   }
 };
 
 export const getHour = (time = 0) => {
-
-  if(time === 0) {
-    return '0분'
+  if (time === 0) {
+    return '0분';
   }
   var h = Math.floor(time / 60);
-  var m = Math.floor(time % 60 );
+  var m = Math.floor(time % 60);
 
-  var hDisplay = h > 0 ? h + "시간" : "";
-  var mDisplay = m > 0 ? m + "분" : "";
-  return hDisplay + mDisplay; 
-
-}
-
-export const getDistanceFromLatLonInKm = ({lat1,lng1,lat2,lng2}) =>  {
-  const deg2rad = deg => {
-      return deg * (Math.PI/180)
+  var hDisplay = h > 0 ? h + '시간' : '';
+  var mDisplay = m > 0 ? m + '분' : '';
+  return hDisplay + mDisplay;
+};
+export const getGoalHour = (time = 0) => {
+  if (time === 0) {
+    return [0, 0];
   }
+  var h = Math.floor(time / 60);
+  var m = Math.floor(time % 60);
+
+  var hDisplay = h > 0 ? h : '';
+  var mDisplay = m > 0 ? m : '';
+  return [hDisplay, mDisplay];
+};
+
+export const getDistanceFromLatLonInKm = ({ lat1, lng1, lat2, lng2 }) => {
+  const deg2rad = deg => {
+    return deg * (Math.PI / 180);
+  };
 
   const R = 6371; // Radius of the earth in km
-  const dLat = deg2rad(lat2-lat1);  // deg2rad below
-  const dLon = deg2rad(lng2-lng1);
-  const a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon/2) * Math.sin(dLon/2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  const dLat = deg2rad(lat2 - lat1); // deg2rad below
+  const dLon = deg2rad(lng2 - lng1);
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(deg2rad(lat1)) *
+      Math.cos(deg2rad(lat2)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   const d = R * c; // Distance in km
   return d;
-}
+};
 
-
-export const getDate = (time) => {
+export const getDate = time => {
   console.log(time);
 
-  return moment(time).format('YYYY.MM.DD')
-  
-
-}
+  return moment(time).format('YYYY.MM.DD');
+};

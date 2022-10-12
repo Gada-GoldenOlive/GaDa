@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setLoginId, setUserId } from '../../../redux/modules/user';
 import { getUsersCheckedId } from '../../../APIs/user';
 import { getIDIsNotValid } from '../../../function';
+import SignInFrame from '../components/SignInFrame';
 
 const IDContainer = ({ navigation }) => {
   const [isWrong, setIsWrong] = useState(true);
@@ -60,6 +61,8 @@ const IDContainer = ({ navigation }) => {
       handleIdChange={handleIdChange}
     />
   );
+  
+
 };
 
 export default IDContainer;
