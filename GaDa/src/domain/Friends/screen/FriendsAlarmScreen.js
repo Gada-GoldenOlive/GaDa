@@ -24,7 +24,7 @@ const FriendsAlarmScreen = ({
       <View style={styles.itemContainer}>
         <View style={styles.flexDirection}>
           <View style={styles.flexDirection}>
-            <CustomImage style={styles.userImg} source={image} />
+            <CustomImage style={styles.userImg} source={{ uri: image }} />
             <View>
               <Text style={styles.userName}>{name}</Text>
               <Text style={styles.userId}>{loginId}</Text>
@@ -53,7 +53,7 @@ const FriendsAlarmScreen = ({
   };
   return (
     <View style={styles.container}>
-      {alarmList.length > 0 ? (
+      {alarmList?.length > 0 ? (
         <FlatList
           data={alarmList}
           renderItem={(item, index) => renderItem(item, index)}
@@ -100,6 +100,7 @@ const styles = StyleSheet.create({
     width: 42,
     height: 42,
     marginRight: 13,
+    borderRadius: 50,
   },
   flexDirection: {
     flexDirection: 'row',

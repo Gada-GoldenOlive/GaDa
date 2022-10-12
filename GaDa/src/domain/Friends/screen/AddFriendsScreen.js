@@ -45,7 +45,7 @@ const AddFriendsScreen = ({
       <View style={styles.itemContainer}>
         <View style={styles.flexDirection}>
           <View style={styles.flexDirection}>
-            <CustomImage style={styles.userImg} source={item.image} />
+            <CustomImage style={styles.userImg} source={{ uri: item.image }} />
             <View>
               <Text style={styles.userName}>{item.name}</Text>
               <Text style={styles.userId}>{item.loginId}</Text>
@@ -144,6 +144,7 @@ const styles = StyleSheet.create({
     width: 42,
     height: 42,
     marginRight: 13,
+    borderRadius: 50,
   },
   flexDirection: {
     flexDirection: 'row',
