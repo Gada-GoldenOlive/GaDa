@@ -29,6 +29,7 @@ import Text from '../../../components/MyText';
 const RecordScreen = ({
   userData,
   myWalks,
+  badgeList,
   recentWalks,
   handleNavigate,
   handleNaivigateGoal,
@@ -91,7 +92,7 @@ const RecordScreen = ({
               </View>
             </TouchableWithoutFeedback>
           </View>
-          <Badge />
+          <Badge badgeList={badgeList} />
         </View>
         {recentWalks.length >= 1 && (
           <View style={styles.recentContainer}>
@@ -107,7 +108,6 @@ const RecordScreen = ({
             <RecentWalk recentWalks={recentWalks} />
           </View>
         )}
-
         <View style={styles.myWalkContainer}>
           <View style={styles.recentTitleContainer}>
             <Text style={styles.recentTitle}>작성한 산책로</Text>
@@ -155,7 +155,6 @@ const styles = StyleSheet.create({
     fontSize: boldFontSize,
     color: blackColor,
     marginRight: 8,
-    
   },
   goalWriting: {
     width: 24,

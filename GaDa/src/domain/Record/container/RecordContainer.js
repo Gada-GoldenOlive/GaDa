@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserDetail } from '../../../APIs/user';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Spinner from 'react-native-loading-spinner-overlay';
 import defaultAxios from '../../../APIs';
 import { getBadgeList } from '../../../APIs/badge';
 import { getMyWalkList } from '../../../APIs/walkway';
@@ -20,9 +21,10 @@ const RecordContainer = ({ navigation, route }) => {
   const [recentWalks, setRecentWalks] = useState([]);
   const [goalInfo, setGoalInfo] = useState({});
   const [badgeList, setBadgeList] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const dispatch = useDispatch();
-  console.log( {userId, loginId})
+
   const fetchData = async () => {
     const res = await getUserDetail(userId);
     const { user = {} } = res;
@@ -42,14 +44,15 @@ const RecordContainer = ({ navigation, route }) => {
 
   const getBadge = async () => {
     const res = await getBadgeList();
-    console.log(res);
+    if(res){
+      const {userBadges} = res;
+      setBadgeList(userBadges);
+    }
   };
 
   const getRecentWalks = async () => {
     const res = await getMyWalkList(0);
     if (res) {
-      console.log(res);
-      //setMyWalks(walks);
       setRecentWalks(res);
     }
   };
@@ -72,7 +75,7 @@ const RecordContainer = ({ navigation, route }) => {
     navigation.navigate('SettingPage');
   };
   const handleNavigateBadge = () => {
-    navigation.navigate('BadgeList');
+    navigation.navigate('BadgeList', {badgeList});
   };
   const handleNavigateRecent = () => {
     navigation.navigate('Recent', { recentWalks: recentWalks });
@@ -86,11 +89,14 @@ const RecordContainer = ({ navigation, route }) => {
   }, []);
 
   useEffect(() => {
+    setLoading(true);
     if (userId !== '') {
       getBadge();
-      //getMyWalks()
+      getMyWalks()
       getRecentWalks();
     }
+    console.log(loading)
+    setLoading(false);
   }, [userId]);
 
   useEffect(() => {
@@ -98,11 +104,13 @@ const RecordContainer = ({ navigation, route }) => {
       fetchData();
     }
   }, [params]);
-  return (
+  return loading ? <Spinner visible /> : (
     <RecordScreen
+      loading={loading}
       userData={userData}
       myWalks={myWalks}
       recentWalks={recentWalks}
+      badgeList={badgeList}
       handleNavigate={handleNavigate}
       handleNaivigateGoal={handleNaivigateGoal}
       handleNavigateSetting={handleNavigateSetting}

@@ -2,9 +2,11 @@ import React from 'react';
 import GettingWalkwayScreen from '../screen/GettingWalkwayScreen';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { getMyWalkList } from '../../../APIs/walkway';
 
 const GettingWalkwayContainer = ({ navigation, route }) => {
   const [walkways, setWalkways] = useState([]);
+  const [isClickable, setIsClickable] = useState(false);
   
   const fetchData = async () => {
     const res = await getMyWalkList(1);
@@ -22,7 +24,7 @@ const GettingWalkwayContainer = ({ navigation, route }) => {
     fetchData();
   },[]);
 
-  return <GettingWalkwayScreen handleClick={handleClick} walkways={walkways}/>;
+  return <GettingWalkwayScreen handleClick={handleClick} walkways={walkways} isClickable={isClickable}/>;
 };
 
 export default GettingWalkwayContainer;

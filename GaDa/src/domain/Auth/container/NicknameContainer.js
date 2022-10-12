@@ -11,6 +11,7 @@ import { checkNickname, createUser } from '../../../APIs/user';
 import defaultAxios from '../../../APIs';
 import { useState } from 'react';
 import RNRestart from 'react-native-restart';
+import jwtDecode from 'jwt-decode';
 
 const NicknameContainer = ({ navigation }) => {
   
@@ -57,7 +58,9 @@ const NicknameContainer = ({ navigation }) => {
       const res = await createUser(userBody);
       const { accessToken, refreshToken } = res;
       if (loginId !== null) {
-        storeInLocalStorage(accessToken, refreshToken);
+        await storeInLocalStorage(accessToken, refreshToken);
+        const { sub: user_id } = jwtDecode(accessToken);
+        await setIdInLocalStorage(user_id);
         dispatch(setIsAuthenticated(true));
         reloadApp();
       }
