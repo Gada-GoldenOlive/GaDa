@@ -39,20 +39,19 @@ const SignInScreen = ({
   }, []);
 
   return (
-      <KeyboardAvoidingView
-        style={{ flex: 1 }}
-        keyboardVerticalOffset={statusBarHeight}
-        behavior={Platform.OS === 'ios' && 'padding'}
-      >
-        <View style={styles.container}>
-          <CustomImage source={SignInBackground} style={styles.background} />
-          <View style={styles.liner} />
-          <View style={styles.topContainer}>
-            <View style={styles.titleWrapper}>
-              <Text style={styles.title}>장애물 없는</Text>
-              <Text style={styles.emphasis}>편안한 산책여정</Text>
-              <Text style={styles.title}>즐기기</Text>
-            </View>
+    <KeyboardAvoidingView
+      style={{ flex: 1, backgroundColor: 'black' }}
+      keyboardVerticalOffset={statusBarHeight + 44}
+      behavior={Platform.OS === 'ios' && 'padding'}
+    >
+      <View style={styles.container}>
+        <CustomImage source={SignInBackground} style={styles.background} />
+        <View style={styles.liner} />
+        <View style={styles.topContainer}>
+          <View style={styles.titleWrapper}>
+            <Text style={styles.title}>장애물 없는</Text>
+            <Text style={styles.emphasis}>편안한 산책여정</Text>
+            <Text style={styles.title}>즐기기</Text>
           </View>
         </View>
         <View style={styles.centerContainer}>
@@ -146,6 +145,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flex: 1,
     paddingTop: 48,
+    paddingBottom: 30,
   },
   textInput: {
     borderBottomColor: 'white',
@@ -155,7 +155,8 @@ const styles = StyleSheet.create({
   bottomContainer: {
     paddingHorizontal: 16,
     justifyContent: 'center',
-    backgroundColor: 'rgba(0,0,0,0)'
+    backgroundColor: 'rgba(0,0,0,0)',
+    marginBottom: Platform.OS === 'ios' ? 44 : 20,
   },
   loginButton: {
     width: '100%',
