@@ -11,7 +11,7 @@ import { getMyReviewList } from '../../../APIs/review';
 import { setUser } from '../../../redux/modules/user';
 
 const RecordContainer = ({ navigation, route }) => {
-  const {params = {}} = route;
+  const { params = {} } = route;
 
   const [userData, setUserData] = useState({});
   const [userId, setUserId] = useState('');
@@ -24,14 +24,21 @@ const RecordContainer = ({ navigation, route }) => {
   const dispatch = useDispatch();
 
   const fetchData = async () => {
-    const res = await getUserDetail();
+    const res = await getUserDetail(userId);
     console.log(res);
     const { user } = res;
     if (user) {
       setUserData(user);
       setUserId(user.id);
       setGoalInfo({ goalTime: user.goalTime, goalDistance: user.goalDistance });
-      dispatch(setUser({id: user.id, loginId: user.loginId, nickname: user.name, image: user.image}));
+      dispatch(
+        setUser({
+          id: user.id,
+          loginId: user.loginId,
+          nickname: user.name,
+          image: user.image,
+        }),
+      );
     }
   };
 
@@ -89,10 +96,10 @@ const RecordContainer = ({ navigation, route }) => {
   }, [userId]);
 
   useEffect(() => {
-    if(params.refresh){
+    if (params.refresh) {
       fetchData();
     }
-  }, [params])
+  }, [params]);
   return (
     <RecordScreen
       userData={userData}

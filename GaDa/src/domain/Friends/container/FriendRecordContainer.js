@@ -1,26 +1,34 @@
-import { StyleSheet, } from 'react-native';
+import { StyleSheet } from 'react-native';
 import React from 'react';
 import { useState } from 'react';
 import { SampleImage3 } from '../../../constant/images/Sample';
 import FriendRecordScreen from '../screen/FriendRecordScreen';
 import { useEffect } from 'react';
+import { getUserDetail, getUserList } from '../../../APIs/user';
 
-const res = {
-  name: '상암동 정호연',
-  image: SampleImage3,
-  totalTime: 7,
-  totalDistance: 10090,
-  id: 4940,
-};
+// const res = {
+//   name: '상암동 정호연',
+//   image: SampleImage3,
+//   totalTime: 7,
+//   totalDistance: 10090,
+//   id: 4940,
+// };
 
 const FriendRecordContainer = ({ navigation, route }) => {
   const { params } = route;
-  const { id, rank } = params;
+  const { id: friendId, rank } = params;
 
   const [loading, setLoading] = useState(false);
   const [dataList, setDataList] = useState([]);
 
   const [isPopupVisible, setIsPopupVisible] = useState(false);
+
+  const [userData, setUserData] = useState({});
+  const [userId, setUserId] = useState('');
+
+  const [myWalks, setMyWalks] = useState([]);
+  const [recentWalks, setRecentWalks] = useState([]);
+  const [goalInfo, setGoalInfo] = useState({});
 
   const openPopup = () => {
     setIsPopupVisible(true);
@@ -31,8 +39,19 @@ const FriendRecordContainer = ({ navigation, route }) => {
 
   const fetchRecordData = async () => {
     setLoading(true);
-    // const res = await
-    setDataList(res);
+    // const res = await getUserList(friendId);
+    // if (res) {
+    //   console.log(res);
+    //   setDataList(res);
+    // }
+    const res = await getUserDetail(friendId);
+    console.log(res);
+    const { user } = res;
+    if (user) {
+      setUserData(user);
+      setUserId(user.id);
+      setGoalInfo({ goalTime: user.goalTime, goalDistance: user.goalDistance });
+    }
     setLoading(false);
   };
 
@@ -69,6 +88,10 @@ const FriendRecordContainer = ({ navigation, route }) => {
         openPopup={openPopup}
         closePopup={closePopup}
         handleConfirmButton={handleConfirmButton}
+        userData={userData}
+        userId={userId}
+        myWalks={myWalks}
+        goalInfo={goalInfo}
       />
     )
   );

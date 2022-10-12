@@ -1,4 +1,4 @@
-import { StyleSheet, } from 'react-native';
+import { StyleSheet } from 'react-native';
 import React from 'react';
 import FriendsAlarmScreen from '../screen/FriendsAlarmScreen';
 import { useState } from 'react';
@@ -9,9 +9,9 @@ import {
 } from '../../../constant/images/Sample';
 import { useEffect } from 'react';
 import { useCallback } from 'react';
-import { getAlarmList } from '../../../APIs/user';
+import { getAlarmList, modifyFriend } from '../../../APIs/user';
 
-const res = [
+const hi = [
   {
     name: '만두전골',
     image: SampleImage2,
@@ -71,16 +71,18 @@ const FriendsAlarmContainer = () => {
 
   const fetchAlarmList = async () => {
     const res = await getAlarmList();
-    if(res){
-      const {requests} = res;
+    if (res) {
+      const { requests } = res;
       setAlarmList(requests);
     }
   };
 
-  const handleAcceptButton = id => {
+  const handleAcceptButton = async id => {
+    await modifyFriend(id, 'ACCEPTED');
     console.log('accept', id);
   };
-  const handleRefuseButton = id => {
+  const handleRefuseButton = async id => {
+    await modifyFriend(id, 'REJECTED');
     console.log('refuse', id);
   };
 

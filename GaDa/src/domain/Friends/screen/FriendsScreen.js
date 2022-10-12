@@ -71,7 +71,7 @@ const FriendsScreen = ({
               (item, index) =>
                 index < 3 && (
                   <TouchableWithoutFeedback
-                    onPress={() => handleNavigate(item.id, index)}
+                    onPress={() => handleNavigate(item.userId, index)}
                     key={`${item.id}-${index}`}
                   >
                     <View>
@@ -225,6 +225,7 @@ const styles = StyleSheet.create({
     width: 42,
     height: 42,
     marginRight: 10,
+    borderRadius: 50,
   },
   top3Text: {
     fontFamily: boldFontFamily,
@@ -276,6 +277,7 @@ const styles = StyleSheet.create({
     width: 34,
     height: 34,
     marginRight: 14,
+    borderRadius: 50,
   },
   bodyText: {
     fontFamily: boldFontFamily,
@@ -306,6 +308,6 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     position: 'absolute',
     top: 3,
-    right: 3
+    right: 3,
   },
 });

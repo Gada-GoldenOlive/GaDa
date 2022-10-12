@@ -118,9 +118,8 @@ const styles = StyleSheet.create({
     color: 'white',
     fontFamily: boldFontFamily,
   },
-  nullContainer:{
+  nullContainer: {
     paddingTop: 24,
-    alignItems: 'center'
-
-  }
+    alignItems: 'center',
+  },
 });

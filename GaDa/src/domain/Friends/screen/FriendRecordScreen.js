@@ -28,6 +28,7 @@ import MyWalkwayList from '../../Record/components/MyWalkwayList';
 import { AddComma } from '../../../function';
 import PopupModal from '../../../components/PopupModal';
 import { useState } from 'react';
+import { PinSample1, PinSample2 } from '../../../constant/images/PinSample';
 
 const FriendRecordScreen = ({
   dataList,
@@ -38,9 +39,27 @@ const FriendRecordScreen = ({
   openPopup,
   closePopup,
   handleConfirmButton,
+  userData,
+  userId,
+  myWalks,
+  goalInfo,
 }) => {
-  const { id, name, image, totalTime, totalDistance } = dataList;
+  // const { id, name, image, totalTime, totalDistance } = dataList;
+  const {
+    id,
+    loginId,
+    image,
+    name,
+    pinCount,
+    badgeCount,
+    goalDistance,
+    goalTime,
+    totalDistance,
+    totalTime,
+  } = userData;
+  const goal = { loginId, goalDistance, goalTime, totalDistance, totalTime };
 
+  console.log(image);
   const RenderUserInfo = () => {
     return (
       <>
@@ -60,7 +79,7 @@ const FriendRecordScreen = ({
               <CustomImage source={image} style={styles.userImg} />
               <View>
                 <Text style={styles.userName}>{name}</Text>
-                <Text style={styles.userId}>{id}</Text>
+                <Text style={styles.userId}>{loginId}</Text>
               </View>
             </View>
             <View>
@@ -119,7 +138,7 @@ const FriendRecordScreen = ({
         </TouchableWithoutFeedback>
 
         <View style={{ marginTop: -7 }}>
-          <Goal />
+          <Goal goal={goal} />
         </View>
       </View>
     );
@@ -146,7 +165,27 @@ const FriendRecordScreen = ({
     );
   };
 
-  return <MyWalkwayList ListHeaderComponent={ListHeaderComponent} />;
+  return (
+    <MyWalkwayList
+      ListHeaderComponent={ListHeaderComponent}
+      myWalks={[
+        {
+          name: '마포구 마포나루길 산책길',
+          time: 60,
+          distance: 1250,
+          rating: 4.5,
+          image: PinSample1,
+        },
+        {
+          name: '성동구 서울숲로 산책길',
+          time: 30,
+          distance: 500,
+          rating: 5,
+          image: PinSample2,
+        },
+      ]}
+    />
+  );
 };
 
 export default FriendRecordScreen;
@@ -154,7 +193,7 @@ export default FriendRecordScreen;
 const styles = StyleSheet.create({
   container: {
     // flex: 1,
-    // marginHorizontal: 16,
+    marginHorizontal: 16,
   },
   userInfoContainer: {
     paddingVertical: 20.5,
@@ -175,6 +214,7 @@ const styles = StyleSheet.create({
     width: 42,
     height: 42,
     marginRight: 13,
+    borderRadius: 50,
   },
   flexDirection: {
     flexDirection: 'row',
