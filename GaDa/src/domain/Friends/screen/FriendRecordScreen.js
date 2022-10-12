@@ -59,7 +59,7 @@ const FriendRecordScreen = ({
     totalTime,
   } = userData;
   const goal = { loginId, goalDistance, goalTime, totalDistance, totalTime };
-  const { userId: id } = useSelector(state => state.user);
+  const { userId: myId } = useSelector(state => state.user);
 
   const RenderUserInfo = () => {
     return (
@@ -87,12 +87,12 @@ const FriendRecordScreen = ({
                   }}
                 >
                   <Text style={styles.userName}>{name}</Text>
-                  <MyTag userId={userId} id={id} />
+                  <MyTag userId={userId} id={myId} />
                 </View>
                 <Text style={styles.userId}>{loginId}</Text>
               </View>
             </View>
-            {userId !== id && (
+            {userId !== myId && (
               <View>
                 <TouchableWithoutFeedback onPress={handleDeleteButton}>
                   <CustomImage source={Trash} style={styles.trashIcon} />

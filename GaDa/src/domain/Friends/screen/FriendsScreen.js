@@ -63,7 +63,7 @@ const FriendsScreen = ({
               (item, index) =>
                 index < 3 && (
                   <TouchableWithoutFeedback
-                    onPress={() => handleNavigate(item.userId, index)}
+                    onPress={() => handleNavigate(item.userId, index, item.id)}
                     key={`${item.id}-${index}`}
                   >
                     <View>
@@ -125,7 +125,7 @@ const FriendsScreen = ({
                 index >= 3 && (
                   <TouchableWithoutFeedback
                     key={`${item}-${index}`}
-                    onPress={() => handleNavigate(item.id, index)}
+                    onPress={() => handleNavigate(item.userId, index, item.id)}
                   >
                     <View key={index} style={[styles.bodyWrapper]}>
                       <View style={styles.bodyInnerWrapper}>

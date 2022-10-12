@@ -98,6 +98,6 @@ export const modifyFriend = async (id, status) => {
   const res = await axios
     .patch(`/users/friends/${id}`, { status })
     .then(({ data }) => data)
-    .catch(e => console.log('hi', e.response.data));
+    .catch(e => console.log(e.response.data));
   return res;
 };

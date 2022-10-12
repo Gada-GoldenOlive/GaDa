@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { SampleImage3 } from '../../../constant/images/Sample';
 import FriendRecordScreen from '../screen/FriendRecordScreen';
 import { useEffect } from 'react';
-import { getUserDetail, getUserList } from '../../../APIs/user';
+import { getUserDetail, getUserList, modifyFriend } from '../../../APIs/user';
 import { getMyReviewList } from '../../../APIs/review';
 
 // const res = {
@@ -17,7 +17,7 @@ import { getMyReviewList } from '../../../APIs/review';
 
 const FriendRecordContainer = ({ navigation, route }) => {
   const { params } = route;
-  const { id: friendId, rank } = params;
+  const { id, rank, friendId } = params;
 
   const [loading, setLoading] = useState(false);
   const [dataList, setDataList] = useState([]);
@@ -40,7 +40,7 @@ const FriendRecordContainer = ({ navigation, route }) => {
 
   const fetchRecordData = async () => {
     setLoading(true);
-    const res = await getUserDetail(friendId);
+    const res = await getUserDetail(id);
     console.log(res);
     const { user } = res;
     if (user) {
@@ -51,7 +51,7 @@ const FriendRecordContainer = ({ navigation, route }) => {
     setLoading(false);
 
     setLoading(true);
-    const res_walk = await getMyReviewList(userId);
+    const res_walk = await getMyReviewList(id);
     if (res_walk) {
       const { feeds } = res_walk;
       setMyWalks(feeds);
@@ -60,14 +60,17 @@ const FriendRecordContainer = ({ navigation, route }) => {
   };
 
   const handleDeleteButton = () => {
-    console.log('delete');
     setIsPopupVisible(!isPopupVisible);
   };
   const handleViewMoreButton = () => {
     console.log('viewMore');
     navigation.navigate('MyRecord');
   };
-  handleConfirmButton = () => {
+  handleConfirmButton = async () => {
+    console.log(friendId, 'delete');
+    console.log(userId);
+    await modifyFriend(friendId, 'DELETE');
+
     console.log('confirm');
   };
 

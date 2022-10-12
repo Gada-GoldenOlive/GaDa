@@ -25,9 +25,8 @@ const FriendsContainer = ({ navigation, route }) => {
   const handleNavigateFriendsAlarm = () => {
     navigation.navigate('friendsAlarm');
   };
-  const handleNavigate = (id, idx) => {
-    console.log(idx, id);
-    navigation.navigate('FriendRecord', { id, rank: idx + 1 });
+  const handleNavigate = (id, idx, friendId) => {
+    navigation.navigate('FriendRecord', { id, rank: idx + 1, friendId });
   };
 
   useEffect(() => {
