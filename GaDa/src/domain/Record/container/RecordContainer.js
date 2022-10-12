@@ -1,7 +1,7 @@
-import React, { useState, useSelector } from 'react';
+import React, { useState } from 'react';
 import RecordScreen from '../screen/RecordScreen';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getUserDetail } from '../../../APIs/user';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import defaultAxios from '../../../APIs';
@@ -11,10 +11,10 @@ import { getMyReviewList } from '../../../APIs/review';
 import { setUser } from '../../../redux/modules/user';
 
 const RecordContainer = ({ navigation, route }) => {
-  const { params = {} } = route;
-
+  const {params = {}} = route;
+  const {userId, loginId } = useSelector(state => state.user);
   const [userData, setUserData] = useState({});
-  const [userId, setUserId] = useState('');
+  //const [userId, setUserId] = useState('');
 
   const [myWalks, setMyWalks] = useState([]);
   const [recentWalks, setRecentWalks] = useState([]);
@@ -22,14 +22,12 @@ const RecordContainer = ({ navigation, route }) => {
   const [badgeList, setBadgeList] = useState([]);
 
   const dispatch = useDispatch();
-
+  console.log( {userId, loginId})
   const fetchData = async () => {
     const res = await getUserDetail(userId);
-    console.log(res);
-    const { user } = res;
+    const { user = {} } = res;
     if (user) {
       setUserData(user);
-      setUserId(user.id);
       setGoalInfo({ goalTime: user.goalTime, goalDistance: user.goalDistance });
       dispatch(
         setUser({
