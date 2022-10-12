@@ -41,7 +41,7 @@ const SignInScreen = ({
   return (
     <KeyboardAvoidingView
       style={{ flex: 1, backgroundColor: 'black' }}
-      keyboardVerticalOffset={statusBarHeight + 44}
+      // keyboardVerticalOffset={statusBarHeight}
       behavior={Platform.OS === 'ios' && 'padding'}
     >
       <View style={styles.container}>
@@ -76,24 +76,23 @@ const SignInScreen = ({
           />
         </View>
         <View style={styles.bottomContainer}>
-        {isWrong && (
-          <Text style={styles.error}>
-            *존재하지 않는 아이디/비밀번호 입니다
-          </Text>
-        )}
-        <TouchableWithoutFeedback onPress={handleNavigate}>
-          <View style={styles.loginButton}>
-            <Text style={styles.loginText}>로그인</Text>
-          </View>
-        </TouchableWithoutFeedback>
-        <TouchableWithoutFeedback onPress={handleNavigateSignUp}>
-          <View style={styles.signupButton}>
-            <Text style={styles.signupText}>회원가입</Text>
-          </View>
-        </TouchableWithoutFeedback>
+          {isWrong && (
+            <Text style={styles.error}>
+              *존재하지 않는 아이디/비밀번호 입니다
+            </Text>
+          )}
+          <TouchableWithoutFeedback onPress={handleNavigate}>
+            <View style={styles.loginButton}>
+              <Text style={styles.loginText}>로그인</Text>
+            </View>
+          </TouchableWithoutFeedback>
+          <TouchableWithoutFeedback onPress={handleNavigateSignUp}>
+            <View style={styles.signupButton}>
+              <Text style={styles.signupText}>회원가입</Text>
+            </View>
+          </TouchableWithoutFeedback>
+        </View>
       </View>
-      </View>
-
     </KeyboardAvoidingView>
   );
 };
