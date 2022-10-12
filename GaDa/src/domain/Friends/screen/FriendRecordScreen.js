@@ -29,6 +29,8 @@ import { AddComma } from '../../../function';
 import PopupModal from '../../../components/PopupModal';
 import { useState } from 'react';
 import { PinSample1, PinSample2 } from '../../../constant/images/PinSample';
+import { useSelector } from 'react-redux';
+import MyTag from '../components/MyTag';
 
 const FriendRecordScreen = ({
   dataList,
@@ -46,7 +48,6 @@ const FriendRecordScreen = ({
 }) => {
   // const { id, name, image, totalTime, totalDistance } = dataList;
   const {
-    id,
     loginId,
     image,
     name,
@@ -58,8 +59,8 @@ const FriendRecordScreen = ({
     totalTime,
   } = userData;
   const goal = { loginId, goalDistance, goalTime, totalDistance, totalTime };
+  const { userId: id } = useSelector(state => state.user);
 
-  console.log(image);
   const RenderUserInfo = () => {
     return (
       <>
@@ -78,15 +79,26 @@ const FriendRecordScreen = ({
             <View style={styles.flexDirection}>
               <CustomImage source={{ uri: image }} style={styles.userImg} />
               <View>
-                <Text style={styles.userName}>{name}</Text>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Text style={styles.userName}>{name}</Text>
+                  <MyTag userId={userId} id={id} />
+                </View>
                 <Text style={styles.userId}>{loginId}</Text>
               </View>
             </View>
-            <View>
-              <TouchableWithoutFeedback onPress={handleDeleteButton}>
-                <CustomImage source={Trash} style={styles.trashIcon} />
-              </TouchableWithoutFeedback>
-            </View>
+            {userId !== id && (
+              <View>
+                <TouchableWithoutFeedback onPress={handleDeleteButton}>
+                  <CustomImage source={Trash} style={styles.trashIcon} />
+                </TouchableWithoutFeedback>
+              </View>
+            )}
           </View>
         </View>
       </>

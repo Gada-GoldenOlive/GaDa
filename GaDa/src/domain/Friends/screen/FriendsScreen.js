@@ -25,6 +25,7 @@ import {
 } from '../../../constant/colors';
 import { AddComma } from '../../../function';
 import { useSelector } from 'react-redux';
+import MyTag from '../components/MyTag';
 
 const FriendsScreen = ({
   friendList = [],
@@ -34,16 +35,7 @@ const FriendsScreen = ({
   handleNavigate,
 }) => {
   const { userId: id } = useSelector(state => state.user);
-  const MyTag = ({ userId }) => {
-    console.log(userId, id);
-    return (
-      userId === id && (
-        <View style={styles.myTagWrapper}>
-          <Text style={styles.myTagText}>MY</Text>
-        </View>
-      )
-    );
-  };
+
   return (
     <ScrollView
       style={styles.container}
@@ -84,7 +76,7 @@ const FriendsScreen = ({
                           />
                           <Text style={styles.top3Text}>{item.name}</Text>
                           {/* MyTag 기준 있어야함. 내꺼일 때! */}
-                          <MyTag userId={item.userId} />
+                          <MyTag userId={item.userId} id={id} />
                         </View>
                         <Text>
                           <Text style={styles.top3Text}>
@@ -284,20 +276,7 @@ const styles = StyleSheet.create({
     fontSize: defaultFontSize,
     color: defaultColor,
   },
-  myTagWrapper: {
-    paddingHorizontal: 5.5,
-    paddingVertical: 1,
 
-    borderRadius: 15,
-    backgroundColor: 'black',
-
-    marginLeft: 5,
-  },
-  myTagText: {
-    fontFamily: mediumFontFamily,
-    fontSize: 10,
-    color: 'white',
-  },
   alarmWrapper: {
     marginRight: 13,
   },
