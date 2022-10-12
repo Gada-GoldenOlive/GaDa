@@ -63,7 +63,7 @@ const GoalSettingScreen = ({
                 time === null ? '목표 달성시간을 입력하세요' : time.toString()
               }
             />
-            <Text style={styles.description}>(시간)</Text>
+            <Text style={styles.description}>(분)</Text>
           </View>
           <View style={styles.wrapper}>
             <MyTextInput
