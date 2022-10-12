@@ -3,9 +3,6 @@ import RecordScreen from '../screen/RecordScreen';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserDetail } from '../../../APIs/user';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import Spinner from 'react-native-loading-spinner-overlay';
-import defaultAxios from '../../../APIs';
 import { getBadgeList } from '../../../APIs/badge';
 import { getMyWalkList } from '../../../APIs/walkway';
 import { getMyReviewList } from '../../../APIs/review';
@@ -84,19 +81,23 @@ const RecordContainer = ({ navigation, route }) => {
     navigation.navigate('MyRecord');
   };
 
+  const fetchAllData = async () => {
+    
+    setLoading(true);
+    await  Promise.all([getBadge(), getMyWalks(), getRecentWalks()])
+    setLoading(false)
+  }
+
   useEffect(() => {
     fetchData();
   }, []);
 
   useEffect(() => {
-    setLoading(true);
     if (userId !== '') {
-      getBadge();
-      getMyWalks()
-      getRecentWalks();
+      fetchAllData();
+     
     }
-    console.log(loading)
-    setLoading(false);
+   
   }, [userId]);
 
   useEffect(() => {
@@ -104,7 +105,7 @@ const RecordContainer = ({ navigation, route }) => {
       fetchData();
     }
   }, [params]);
-  return loading ? <Spinner visible /> : (
+  return  (
     <RecordScreen
       loading={loading}
       userData={userData}

@@ -5,6 +5,7 @@ import {
   View,
 } from 'react-native';
 import React from 'react';
+import Spinner from 'react-native-loading-spinner-overlay';
 import CustomImage from '../../../components/CustomImage';
 import Profile from '../components/Profile';
 import Writing from '../../../constant/images/Writing';
@@ -30,6 +31,7 @@ const RecordScreen = ({
   userData,
   myWalks,
   badgeList,
+  loading,
   recentWalks,
   handleNavigate,
   handleNaivigateGoal,
@@ -116,7 +118,7 @@ const RecordScreen = ({
       </View>
     );
   };
-  return (
+  return loading ? <Spinner visible /> : (
     <View
       style={styles.container}
       bounces={false}
