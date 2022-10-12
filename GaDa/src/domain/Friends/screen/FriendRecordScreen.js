@@ -76,7 +76,7 @@ const FriendRecordScreen = ({
         <View style={styles.userInfoContainer}>
           <View style={styles.flexDirection}>
             <View style={styles.flexDirection}>
-              <CustomImage source={image} style={styles.userImg} />
+              <CustomImage source={{ uri: image }} style={styles.userImg} />
               <View>
                 <Text style={styles.userName}>{name}</Text>
                 <Text style={styles.userId}>{loginId}</Text>
@@ -102,7 +102,7 @@ const FriendRecordScreen = ({
           <View style={styles.flexDirection}>
             <Text style={styles.rankText}>{rank}.</Text>
             <CustomImage
-              source={image}
+              source={{ uri: image }}
               style={[styles.userImg, { marginRight: 10 }]}
             />
             <Text style={styles.rankUserName}>{name}</Text>
@@ -168,22 +168,7 @@ const FriendRecordScreen = ({
   return (
     <MyWalkwayList
       ListHeaderComponent={ListHeaderComponent}
-      myWalks={[
-        {
-          name: '마포구 마포나루길 산책길',
-          time: 60,
-          distance: 1250,
-          rating: 4.5,
-          image: PinSample1,
-        },
-        {
-          name: '성동구 서울숲로 산책길',
-          time: 30,
-          distance: 500,
-          rating: 5,
-          image: PinSample2,
-        },
-      ]}
+      myWalks={myWalks}
     />
   );
 };

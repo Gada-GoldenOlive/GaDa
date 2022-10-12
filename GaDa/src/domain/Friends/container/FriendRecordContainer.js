@@ -5,6 +5,7 @@ import { SampleImage3 } from '../../../constant/images/Sample';
 import FriendRecordScreen from '../screen/FriendRecordScreen';
 import { useEffect } from 'react';
 import { getUserDetail, getUserList } from '../../../APIs/user';
+import { getMyReviewList } from '../../../APIs/review';
 
 // const res = {
 //   name: '상암동 정호연',
@@ -39,11 +40,6 @@ const FriendRecordContainer = ({ navigation, route }) => {
 
   const fetchRecordData = async () => {
     setLoading(true);
-    // const res = await getUserList(friendId);
-    // if (res) {
-    //   console.log(res);
-    //   setDataList(res);
-    // }
     const res = await getUserDetail(friendId);
     console.log(res);
     const { user } = res;
@@ -51,6 +47,14 @@ const FriendRecordContainer = ({ navigation, route }) => {
       setUserData(user);
       setUserId(user.id);
       setGoalInfo({ goalTime: user.goalTime, goalDistance: user.goalDistance });
+    }
+    setLoading(false);
+
+    setLoading(true);
+    const res_walk = await getMyReviewList(userId);
+    if (res_walk) {
+      const { feeds } = res_walk;
+      setMyWalks(feeds);
     }
     setLoading(false);
   };
