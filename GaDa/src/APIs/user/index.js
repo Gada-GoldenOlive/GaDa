@@ -22,6 +22,7 @@ export const getUserList = async loginId => {
 };
 
 export const updateUserInfo = async (id, userData) => {
+  console.log({id, userData})
   const res = await axios
     .patch(`/users/${id}`, { ...userData })
     .then(({ data }) => data)

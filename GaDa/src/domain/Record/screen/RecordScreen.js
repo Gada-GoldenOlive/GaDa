@@ -39,6 +39,7 @@ const RecordScreen = ({
   handleNavigateBadge,
   handleNavigateRecent,
   handleNavigateMyRecord,
+  handleNavigateLikeReviews,
 }) => {
   const {
     id,
@@ -59,6 +60,7 @@ const RecordScreen = ({
       <View style={styles.container}>
         <View style={styles.profileContainer}>
           <Profile
+            handleNavigateLikeReviews={handleNavigateLikeReviews}
             handleNavigateSetting={handleNavigateSetting}
             profile={profile}
           />
@@ -80,7 +82,7 @@ const RecordScreen = ({
                   tintColor={descriptionColorVer2}
                 />
               </View>
-    </TouchableWithoutFeedback>*/}
+            </TouchableWithoutFeedback>*/}
           </View>
           <Goal goal={goal} />
         </View>

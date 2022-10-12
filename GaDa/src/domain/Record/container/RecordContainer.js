@@ -9,8 +9,8 @@ import { getMyReviewList } from '../../../APIs/review';
 import { setUser } from '../../../redux/modules/user';
 
 const RecordContainer = ({ navigation, route }) => {
-  const {params = {}} = route;
-  const {userId, loginId } = useSelector(state => state.user);
+  const { params = {} } = route;
+  const { userId, loginId } = useSelector(state => state.user);
   const [userData, setUserData] = useState({});
   //const [userId, setUserId] = useState('');
 
@@ -41,9 +41,23 @@ const RecordContainer = ({ navigation, route }) => {
 
   const getBadge = async () => {
     const res = await getBadgeList();
-    if(res){
-      const {userBadges} = res;
+    if (res) {
+      const { userBadges } = res;
       setBadgeList(userBadges);
+      /*
+     "userBadges": [
+    {
+      "badge": {
+        "title": "string",
+        "image": "string",
+        "category": "WALKWAY",
+        "code": "1_THREE",
+        "status": "DELETE"
+      },
+      "status": "string"
+    }
+  ]
+    */
     }
   };
 
@@ -72,7 +86,7 @@ const RecordContainer = ({ navigation, route }) => {
     navigation.navigate('SettingPage');
   };
   const handleNavigateBadge = () => {
-    navigation.navigate('BadgeList', {badgeList});
+    navigation.navigate('BadgeList', { badgeList });
   };
   const handleNavigateRecent = () => {
     navigation.navigate('Recent', { recentWalks: recentWalks });
@@ -81,12 +95,15 @@ const RecordContainer = ({ navigation, route }) => {
     navigation.navigate('MyRecord');
   };
 
+  const handleNavigateLikeReviews = () => {
+    navigation.navigate('LikeReviews');
+  };
+
   const fetchAllData = async () => {
-    
     setLoading(true);
-    await  Promise.all([getBadge(), getMyWalks(), getRecentWalks()])
-    setLoading(false)
-  }
+    await Promise.all([getBadge(), getMyWalks(), getRecentWalks()]);
+    setLoading(false);
+  };
 
   useEffect(() => {
     fetchData();
@@ -95,9 +112,7 @@ const RecordContainer = ({ navigation, route }) => {
   useEffect(() => {
     if (userId !== '') {
       fetchAllData();
-     
     }
-   
   }, [userId]);
 
   useEffect(() => {
@@ -105,13 +120,14 @@ const RecordContainer = ({ navigation, route }) => {
       fetchData();
     }
   }, [params]);
-  return  (
+  return (
     <RecordScreen
       loading={loading}
       userData={userData}
       myWalks={myWalks}
-      recentWalks={recentWalks}
       badgeList={badgeList}
+      recentWalks={recentWalks}
+      handleNavigateLikeReviews={handleNavigateLikeReviews}
       handleNavigate={handleNavigate}
       handleNaivigateGoal={handleNaivigateGoal}
       handleNavigateSetting={handleNavigateSetting}

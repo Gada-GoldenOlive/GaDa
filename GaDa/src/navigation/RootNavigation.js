@@ -25,11 +25,11 @@ import FriendRecordContainer from '../domain/Friends/container/FriendRecordConta
 
 // mypage
 import BadgeListContainer from '../domain/Record/container/BadgeListContainer';
+import LikeReviewsContainer from '../domain/Record/container/LikeReviewsContainer';
 
 // feed
 import GettingWalkwayContainer from '../domain/Feed/container/GettingWalkwayContainer';
 import DetailFeedContainer from '../domain/Feed/container/DetailFeedContainer';
-import { View } from 'react-native';
 import CreateWalkwayContainer from '../domain/Feed/container/CreateWalkwayContainer';
 import ModifyPWContainer from '../domain/Auth/container/ModifyPWContainer';
 import MyRecordContainer from '../domain/Record/container/MyRecordContainer';
@@ -73,13 +73,14 @@ const friendRecordScreen = {
   FriendRecord: FriendRecordContainer,
 };
 
-const modifyScreens = [
+const myPageScreens = [
   {
     name: 'ModifyNickname',
     screen: ModifyNicknameContainer,
     title: '프로필 수정',
   },
   { name: 'ModifyPW', screen: ModifyPWContainer, title: '비밀번호 재설정' },
+  {name: 'LikeReviews', screen: LikeReviewsContainer, title: '좋아요한 게시글'},
 ];
 
 const badgeListScreen = {
@@ -172,7 +173,7 @@ const RootNavigation = () => {
           }}
         />
       ))}
-      {modifyScreens.map(({ name, screen, title}) => {
+      {myPageScreens.map(({ name, screen, title}) => {
         return (
           <RootStack.Screen
             key={name}

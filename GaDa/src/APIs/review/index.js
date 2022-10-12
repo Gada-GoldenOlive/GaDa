@@ -70,3 +70,11 @@ export const getDetailFeed = async reviewId => {
   return res;
 };
 
+export const getLikeReviews = async () => {
+  const res = await axios
+  .get(`/reviews/like-reviews`)
+  .then(({data}) => data)
+  .catch(handleNetworkError);
+  return res;
+}
+

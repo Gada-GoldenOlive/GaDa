@@ -6,8 +6,8 @@ import { getMyWalkList } from '../../../APIs/walkway';
 
 const GettingWalkwayContainer = ({ navigation, route }) => {
   const [walkways, setWalkways] = useState([]);
-  const [isClickable, setIsClickable] = useState(false);
-  
+  const [clickable, setClickable] = useState(false);
+
   const fetchData = async () => {
     const res = await getMyWalkList(1);
     if (res) {
@@ -24,7 +24,7 @@ const GettingWalkwayContainer = ({ navigation, route }) => {
     fetchData();
   },[]);
 
-  return <GettingWalkwayScreen handleClick={handleClick} walkways={walkways} isClickable={isClickable}/>;
+  return <GettingWalkwayScreen handleClick={handleClick} walkways={walkways} clickable={clickable}/>;
 };
 
 export default GettingWalkwayContainer;
