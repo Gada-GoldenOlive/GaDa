@@ -9,18 +9,28 @@ import LinearGradient from 'react-native-linear-gradient';
 import { windowHeight, windowWidth } from '../constant/styles';
 import { useSelector } from 'react-redux';
 import { getDistance } from '../function';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 const WalkEnd = ({
   pinNum: prevNum = 0,
   isVisible = false,
   onPress,
   walkData,
+  title = null,
+  buttonText = null,
 }) => {
   const { time, distance, finishStatus, walkwayId, userId } = walkData;
   const hour = Math.floor(time / 3600);
   const min = Math.floor((time - hour * 3600) / 60);
   const sec = Math.floor(time - hour * 3600 - min * 60);
-  const { pinNum } = useSelector(state => state.status);
+  const { pinNum: reduxPinNum } = useSelector(state => state.status);
+  const [pinNum, setPinNum] = useState(reduxPinNum);
+  useEffect(() => {
+    if(prevNum){
+      setPinNum(prevNum);
+    }
+  })
   const timeString = `${hour}:${min}:${sec}`;
   return (
     isVisible && (
@@ -30,15 +40,15 @@ const WalkEnd = ({
           style={styles.linear}
         />
         <View style={styles.informationContainer}>
-          <Text style={styles.closeText}>산책이 종료되었습니다</Text>
+          <Text style={styles.closeText}>{title ? title : "산책이 종료되었습니다"}</Text>
           <View style={styles.kmContainer}>
             <Text style={styles.kmNum}>{getDistance({distance, unit: 'm'})}</Text>
             <Text style={styles.km}>m</Text>
           </View>
           <View style={styles.bottomContainer}>
             <View style={styles.bottomWrapper}>
-              <Text style={styles.description}>시간</Text>
-              <Text style={styles.value}>{timeString}</Text>
+              <Text style={styles.description}>시간(분)</Text>
+              <Text style={styles.value}>{time}</Text>
             </View>
             <View style={styles.bottomWrapper}>
               <Text style={styles.description}>제작 핀</Text>
@@ -46,7 +56,7 @@ const WalkEnd = ({
             </View>
           </View>
         </View>
-        <CustomButton title="다음" handlePress={onPress} style={styles.button}/>
+        <CustomButton title={buttonText ? buttonText : "다음"} handlePress={onPress} style={styles.button}/>
       </View>
     )
   );

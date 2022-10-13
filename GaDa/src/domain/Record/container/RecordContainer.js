@@ -44,27 +44,21 @@ const RecordContainer = ({ navigation, route }) => {
     if (res) {
       const { userBadges } = res;
       setBadgeList(userBadges);
-      /*
-     "userBadges": [
-    {
-      "badge": {
-        "title": "string",
-        "image": "string",
-        "category": "WALKWAY",
-        "code": "1_THREE",
-        "status": "DELETE"
-      },
-      "status": "string"
-    }
-  ]
-    */
     }
   };
 
   const getRecentWalks = async () => {
     const res = await getMyWalkList(0);
+
+    /*
+    {"walks": [{"createdAt": "2022-10-12T17:55:14.461Z", "distance": 160, "finishStatus": "FINISHED", 
+    "id": "36040ddd-b16a-47f0-99b0-9a5368dcba76", "image": "https://picsum.photos/400/250/?image=481", 
+    "rate": 9.5, "title": "장한 평역 군자역 산책로"}]}
+    */
+
     if (res) {
-      setRecentWalks(res);
+      const {walks} = res;
+      setRecentWalks(walks);
     }
   };
 
@@ -122,7 +116,7 @@ const RecordContainer = ({ navigation, route }) => {
   }, [params]);
   return (
     <RecordScreen
-      loading={loading}
+      loading={false}
       userData={userData}
       myWalks={myWalks}
       badgeList={badgeList}

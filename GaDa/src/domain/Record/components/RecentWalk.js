@@ -7,43 +7,19 @@ import { mainColor } from '../../../constant/colors';
 import { getDistance } from '../../../function';
 import Text from '../../../components/MyText';
 
-const RecentWalk = ({recentWalks}) => {
-  const tempList = [
-    {
-      title: '성동구 왕십리로 산책길',
-      time: 25,
-      distance: 1249,
-      percent: 40,
-      image: PinSample1,
-    },
-    {
-      title: '성동구 왕십리로 산책길',
-      time: 25,
-      distance: 1249,
-      percent: 40,
-      image: PinSample2,
-    },
-    {
-      title: '성동구 왕십리로 산책길',
-      time: 25,
-      distance: 1249,
-      percent: 40,
-      image: PinSample1,
-    },
-  ];
+const RecentWalk = ({ recentWalks }) => {
   const renderItem = ({ item, index }) => {
-    const {distance, finishStatus, id, image, rate, time, title, userId, walkwayId} = item;
+    const { createdAt, distance, finishStatus, id, image, rate, title } = item;
 
     return (
       <View style={styles.itemContainer}>
-        <CustomImage source={{uri: image}} style={styles.backgroundImage} />
+        <CustomImage source={{ uri: image }} style={styles.backgroundImage} />
         <View style={styles.gradient} />
         <View style={styles.titleContainer}>
           <Text style={styles.title}>{title}</Text>
           <View style={styles.informationContainer}>
             <Text style={styles.information}>
-              <Text>{time}분 / </Text>
-              <Text>{getDistance({distance, unit: 'm'})}m</Text>
+              {getDistance({ distance, unit: 'm' })}m
             </Text>
           </View>
         </View>
@@ -60,7 +36,7 @@ const RecentWalk = ({recentWalks}) => {
       <FlatList
         scrollEventThrottle={16}
         showsHorizontalScrollIndicator={false}
-        data={recentWalks.slice(0,2)}
+        data={recentWalks.slice(0, 2)}
         horizontal
         disableVirtualization={false}
         contentContainerStyle={styles.itemWrapper}

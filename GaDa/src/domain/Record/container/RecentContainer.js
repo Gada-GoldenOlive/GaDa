@@ -8,7 +8,10 @@ const RecentContainer = ({ navigation, route }) => {
   const handleDetailPin = () => {
     navigation.navigate('DetailPin');
   };
-  return <RecentScreen handleDetailPin={handleDetailPin} recentWalks={recentWalks}/>;
+  const handleNavigateRestart = item => {
+    navigation.navigate('RestartWalks', {item: item});
+  }
+  return <RecentScreen handleNavigateRestart={handleNavigateRestart} recentWalks={recentWalks}/>;
 };
 
 export default RecentContainer;
