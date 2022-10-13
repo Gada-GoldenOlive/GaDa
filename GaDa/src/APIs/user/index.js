@@ -102,3 +102,11 @@ export const modifyFriend = async (id, status) => {
     .catch(e => console.log(e.response.data));
   return res;
 };
+
+export const modifyPw = async (id, userData) => {
+  const res = await axios
+  .patch(`/users/${id}`, { ...userData })
+  .then(({ data }) => data)
+  .catch(e => e.response.data.statusCode);
+return res;
+}

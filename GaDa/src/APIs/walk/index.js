@@ -9,3 +9,11 @@ export const createWalk = async walkData => {
     .catch(handleNetworkError);
   return res;
 };
+
+export const getDetailWalk = async walkId => {
+  const res = await axios
+    .get(`/walkways/walks/${walkId}`)
+    .then(({ data }) => data)
+    .catch(handleNetworkError);
+  return res;
+};

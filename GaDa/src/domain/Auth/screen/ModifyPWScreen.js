@@ -16,6 +16,8 @@ const ModifyPWScreen = ({
   check,
   checkChange,
   checkWrong,
+  changePW,
+  clickable
 }) => {
   return (
     <View style={styles.container}>
@@ -73,7 +75,8 @@ const ModifyPWScreen = ({
       <CustomButton
         style={styles.button}
         title="설정완료"
-        clickable={!currentWrong && !newWrong && !checkWrong}
+        clickable={clickable}
+        handlePress={changePW}
       />
     </View>
   );

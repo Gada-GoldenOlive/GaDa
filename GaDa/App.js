@@ -100,9 +100,8 @@ const App = () => {
     }
 
     const { access_token = '', refresh_token = '' } = await getTokens();
-    console.log(access_token)
     if (access_token !== '') {
-      defaultAxios.defaults.headers.common.Authorization = `Bearer ${access_token}`;
+      defaultAxios.defaults.headers.common.Authorization = `Bearer ${refresh_token}`;
       const { new_access_token = '', new_refresh_token = '' } =
       await refreshToken(access_token);
 
@@ -110,7 +109,7 @@ const App = () => {
         const { sub: user_id } = jwtDecode(new_access_token);
         await setIdInLocalStorage(user_id);
         dispatch(setUserId(user_id));
-        console.log({user_id})
+        console.log({new_access_token, user_id})
         dispatch(setIsAuthenticated(true));
         defaultAxios.defaults.headers.common.Authorization = `Bearer ${new_access_token}`;
         await storeInLocalStorage(new_access_token, new_refresh_token);

@@ -13,7 +13,7 @@ import { boldFontFamily, boldFontSize } from '../../../constant/fonts';
 import { getDate, getDistance } from '../../../function';
 import Text from '../../../components/MyText';
 
-const RecentScreen = ({ handleDetailPin, recentWalks }) => {
+const RecentScreen = ({ handleNavigateRestart, recentWalks }) => {
   const renderItem = ({ item, index }) => {
     const {
       distance,
@@ -29,7 +29,7 @@ const RecentScreen = ({ handleDetailPin, recentWalks }) => {
     } = item;
 
     return (
-      <TouchableWithoutFeedback onPress={handleDetailPin}>
+      <TouchableWithoutFeedback onPress={() => handleNavigateRestart(item)}>
         <View
           style={[styles.itemContainer, index % 2 === 0 && { marginEnd: 11 }]}
         >

@@ -35,6 +35,7 @@ import ModifyPWContainer from '../domain/Auth/container/ModifyPWContainer';
 import MyRecordContainer from '../domain/Record/container/MyRecordContainer';
 import DetailPinContainer from '../domain/Pin/container/DetailPinContainer';
 import { boldFontFamily } from '../constant/fonts';
+import RestartWalksContainer from '../domain/Record/container/RestartWalksContainer';
 
 const createPinScreen = {
   CreatePin: CreatePinContainer,
@@ -81,6 +82,7 @@ const myPageScreens = [
   },
   { name: 'ModifyPW', screen: ModifyPWContainer, title: '비밀번호 재설정' },
   {name: 'LikeReviews', screen: LikeReviewsContainer, title: '좋아요한 게시글'},
+  {name: 'RestartWalks', screen: RestartWalksContainer, title: ''},
 ];
 
 const badgeListScreen = {
