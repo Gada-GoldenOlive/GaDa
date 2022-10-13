@@ -79,10 +79,10 @@ const HomeScreen = ({
     window.postMessage(JSON.stringify({key : "value"}));true;
 })();`;
 
-  const handleRecordPosition = async recordPosition => {
-    // await send
-    console.log(recordPosition);
-  };
+  // const handleRecordPosition = async recordPosition => {
+  //   // await send
+  //   console.log(recordPosition);
+  // };
   const handleReceive = event => {
     const {
       nativeEvent: { data },
@@ -96,10 +96,10 @@ const HomeScreen = ({
         setPinIndex(msg.index);
         setCheckPin(checkPin * -1);
       }
-      if (msg.type === 'read') console.log({ position: msg.position });
-      if (msg.type === 'recordPosition') {
-        handleRecordPosition(recordPosition);
-      }
+      // if (msg.type === 'read') console.log({ position: msg.position });
+      // if (msg.type === 'recordPosition') {
+      //   handleRecordPosition(recordPosition);
+      // }
     }
   };
 
@@ -140,14 +140,14 @@ const HomeScreen = ({
     }
   }, [isWalking]);
 
-  console.log(
-    getDistanceFromLatLonInKm({
-      lat1: 37.52326084981643,
-      lng1: 126.9829734115683,
-      lat2: 37.52319545411705,
-      lng2: 126.9829625459926,
-    }),
-  );
+  // console.log(
+  //   getDistanceFromLatLonInKm({
+  //     lat1: 37.52326084981643,
+  //     lng1: 126.9829734115683,
+  //     lat2: 37.52319545411705,
+  //     lng2: 126.9829625459926,
+  //   }),
+  // );
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       <WebView

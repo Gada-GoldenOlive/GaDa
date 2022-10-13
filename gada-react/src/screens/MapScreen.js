@@ -61,14 +61,28 @@ const MapScreen = ({
         (position) => {
           if (ver === "watch") {
             // 현재 위치 표시를 위해 그냥 currentState 저장만
-            setCurrentState((prev) => ({
-              ...prev,
-              center: {
-                lat: position.coords.latitude, // 위도
-                lng: position.coords.longitude, // 경도
-              },
-              isLoading: false,
-            }));
+            const center = {
+              lat: position.coords.latitude, // 위도
+              lng: position.coords.longitude, // 경도
+            };
+            if (
+              getDistanceFromLatLonInKm({
+                lat1: currentState.center.lat,
+                lng1: currentState.center.lng,
+                lat2: center.lat,
+                lng2: center.lng,
+              }) *
+                1000 <
+              10
+            )
+              setCurrentState((prev) => ({
+                ...prev,
+                center: {
+                  lat: position.coords.latitude, // 위도
+                  lng: position.coords.longitude, // 경도
+                },
+                isLoading: false,
+              }));
           } else {
             // 현재 위치 저장 및 현재 위치로 이동하도록
             setState((prev) => ({
@@ -111,21 +125,9 @@ const MapScreen = ({
       }));
     }
   };
-  useEffect(() => {}, [recordPosition]);
+
   useEffect(() => {
     geoLocation();
-
-    // if (navigator.geolocation) {
-    //   // GeoLocation을 이용해서 접속 위치를 얻어옵니다
-    //   navigator.geolocation.getCurrentPosition((position) => {
-    //     alert(
-    //       JSON.stringify({
-    //         lat: position.coords.latitude, // 위도
-    //         lng: position.coords.longitude, // 경도
-    //       })
-    //     );
-    //   });
-    // }
   }, []);
 
   useEffect(() => {
@@ -152,45 +154,7 @@ const MapScreen = ({
   useEffect(() => {
     setInterval(() => {
       geoLocation("watch");
-    }, 10000);
-  });
-  useEffect(() => {
-    setInterval(() => {
-      if (
-        !isFirstRecording &&
-        getDistanceFromLatLonInKm({
-          lat1: recordPosition[recordPosition.length - 1].lat,
-          lng1: recordPosition[recordPosition.length - 1].lng,
-          lat2: currentState.center.lat,
-          lng2: currentState.center.lng,
-        }) *
-          1000 >=
-          10
-      ) {
-        // alert(
-        //   getDistanceFromLatLonInKm({
-        //     lat1: recordPosition[recordPosition.length - 1].lat,
-        //     lng1: recordPosition[recordPosition.length - 1].lng,
-        //     lat2: currentState.center.lat,
-        //     lng2: currentState.center.lng,
-        //   })
-        // );
-        // handleSubmit(
-        //   "read",
-        //   getDistanceFromLatLonInKm({
-        //     lat1: recordPosition[recordPosition.length - 1].lat,
-        //     lng1: recordPosition[recordPosition.length - 1].lng,
-        //     lat2: currentState.center.lat,
-        //     lng2: currentState.center.lng,
-        //   })
-        // );
-
-        setRecordPosition([
-          ...recordPosition,
-          { lat: currentState.center.lat, lng: currentState.center.lng },
-        ]);
-      }
-    }, 10000);
+    }, 5000);
   });
 
   const handleReceiveMessage = async () => {
@@ -319,6 +283,13 @@ const MapScreen = ({
             // setLine={setLine}
           />
         )}
+        <DrawPolyline
+          path={[
+            { lat: 37.52808864250951, lng: 126.9664946472026 },
+            { lat: 37.528100946217506, lng: 126.96620814543589 },
+            { lat: 37.52810757753854, lng: 126.96644342188938 },
+          ]}
+        />
         {/* </div> */}
         {walkwayPins !== "null" && (
           <DrawMarkers

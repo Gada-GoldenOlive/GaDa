@@ -4,9 +4,9 @@ export const createWalk = async walkData => {
   const res = await axios
     .post(`/walkways/walk`, { ...walkData })
     .then(({ data }) => {
-      return data;
+      data;
     })
-    .catch(handleNetworkError);
+    .catch(e => console.log(e.response.data));
   return res;
 };
 

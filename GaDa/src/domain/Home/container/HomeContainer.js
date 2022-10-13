@@ -14,6 +14,7 @@ import {
 import { useEffect } from 'react';
 import {
   getCurrentTime,
+  getDistanceFromLatLonInKm,
   getDuringTime,
   getIdInLocalStorage,
 } from '../../../function';
@@ -34,7 +35,7 @@ const HomeContainer = ({ navigation, route }) => {
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
   // 현재위치
-  const [coords, setCoords] = useState({ latitude: null, longitude: null });
+  const [coords, setCoords] = useState({ lat: null, lng: null });
   // 내위치 리스트
   const [locationList, setLocationList] = useState([]);
   // 기록 시작
@@ -69,6 +70,7 @@ const HomeContainer = ({ navigation, route }) => {
   const [startPoint, setStartPoint] = useState({});
   const [nowPins, setNowPins] = useState([]);
   const [isWalkwayFocused, setIsWalkwayFocused] = useState(false);
+  const [tmpNewRecord, setTmpNewRecord] = useState(null);
   const { userId } = useSelector(state => state.user);
   const geoLocation = ref => {
     Geolocation.getCurrentPosition(
@@ -78,7 +80,6 @@ const HomeContainer = ({ navigation, route }) => {
 
         setLatitude(latitude);
         setLongitude(longitude);
-        handleConnection(ref, CURRENTPOS); // 웹에 현재 위치 보내기
       },
       error => {
         console.log(error.code, error.message);
@@ -87,35 +88,57 @@ const HomeContainer = ({ navigation, route }) => {
     );
   };
 
+  useEffect(() => {
+    console.log({ beforeRecord, tmpNewRecord });
+    if (tmpNewRecord !== null) {
+      let updateFlag = true;
+      // 시작
+      let dist;
+
+      if (beforeRecord !== null) {
+        // console.log(beforeRecord, newRecord);
+
+        // const dist = getDistance(beforeRecord, newRecord, 0.1);
+
+        dist = getDistanceFromLatLonInKm({
+          lat1: beforeRecord.lat,
+          lng1: beforeRecord.lng,
+          lat2: tmpNewRecord.lat,
+          lng2: tmpNewRecord.lng,
+        });
+
+        console.log(dist * 1000);
+        if (dist * 1000 < 30) {
+          updateFlag = false;
+        }
+      }
+      if (updateFlag) {
+        setCoords(tmpNewRecord);
+        setBeforeRecord(tmpNewRecord);
+        setLocationList(locationList => [...locationList, tmpNewRecord]);
+        dispatch(setCurrentPosition(tmpNewRecord));
+      }
+    }
+  }, [tmpNewRecord]);
+
   const recordPosition = () => {
+    console.log('너냐');
     const newId = Geolocation.getCurrentPosition(
       position => {
         if (position) {
-          let updateFlag = true;
+          // let updateFlag = true;
           const newRecord = {
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
           };
-          // 시작
-          if (beforeRecord !== null) {
-            // console.log(beforeRecord, newRecord);
-            const dist = getDistance(beforeRecord, newRecord, 0.1);
-            // if (dist < 50) {
-            //   updateFlag = false;
-            // }
-          }
-          if (updateFlag) {
-            setCoords(newRecord);
-            setBeforeRecord(newRecord);
-            setLocationList(locationList => [...locationList, newRecord]);
-            dispatch(setCurrentPosition(newRecord));
-          }
+
+          setTmpNewRecord(newRecord);
         }
       },
       err => {
         console.log(err.message);
       },
-      { enableHighAccuracy: false },
+      { enableHighAccuracy: true, accuracy: { ios: 'best' } },
     );
 
     setRecording(true);
@@ -227,9 +250,10 @@ const HomeContainer = ({ navigation, route }) => {
   const resetData = () => {
     console.log('reset');
     setLocationList([]);
-    setCoords({ latitude: null, longitude: null });
+    setCoords({ lat: null, lng: null });
     setRecording(false);
     setBeforeRecord(null);
+    setTmpNewRecord(null);
     setIsVisible(false);
     setSelectedItem({});
     setIsInformationVisible(false);
@@ -277,7 +301,8 @@ const HomeContainer = ({ navigation, route }) => {
       if (recording && !loading) {
         recordPosition();
       }
-    }, 1000);
+    }, 5000);
+    // if (!recording) clearInterval(interval);
   }, [recording]);
 
   useEffect(() => {
