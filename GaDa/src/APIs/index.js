@@ -28,6 +28,7 @@ export const handleNetworkError = async error => {
         await storeInLocalStorage(new_access_token, new_refresh_token);
       }
     } else {
+      reloadApp();
     }
     return null;
   }

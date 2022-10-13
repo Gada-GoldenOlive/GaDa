@@ -25,8 +25,9 @@ const FeedItemList = ({
   type = 'feed',
   handleDetailFeed,
   headerComponent,
-
   feedList,
+  clickItem,
+  selectedItem, 
 }) => {
   /*
 {"address": "서울특별시 용산구 서빙고로", "distance": 9550, "images": [], "like": false, 
@@ -36,10 +37,11 @@ const FeedItemList = ({
   "walkwayTitle": "박물관 보행로 산책로"}, 
 "time": 440, "walkwayImage": "https://picsum.photos/400/250/?image=481"}
 */
+
   const renderItem = ({ item, index }) => {
 
     return type === 'recent' ? (
-      <GettingWalkwayItem item={item} index={index} />
+      <GettingWalkwayItem item={item} index={index} clickItem={clickItem} selectedItem={selectedItem} />
     ) : (
       <FeedItem item={item} index={index} handleDetailFeed={handleDetailFeed} />
     );

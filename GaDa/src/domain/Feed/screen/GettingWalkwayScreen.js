@@ -17,7 +17,13 @@ import CustomButton from '../../../components/CustomButton';
 import FeedItemList from '../components/FeedItemList';
 import Text from '../../../components/MyText';
 
-const GettingWalkwayScreen = ({ handleClick, walkways, clickable }) => {
+const GettingWalkwayScreen = ({
+  handleClick,
+  walkways,
+  clickable,
+  clickItem,
+  selectedItem,
+}) => {
   const headerComponent = () => {
     return (
       <View style={styles.container}>
@@ -29,8 +35,19 @@ const GettingWalkwayScreen = ({ handleClick, walkways, clickable }) => {
   };
   return (
     <View style={styles.container}>
-      <FeedItemList type="recent" headerComponent={headerComponent}/>
-      <CustomButton title='가져오기' style={styles.button} clickable={clickable}/>
+      <FeedItemList
+        type="recent"
+        headerComponent={headerComponent}
+        feedList={walkways}
+        clickItem={clickItem}
+        selectedItem={selectedItem}
+      />
+      <CustomButton
+        title="가져오기"
+        style={styles.button}
+        clickable={clickable}
+        handlePress={handleClick}
+      />
     </View>
   );
 };
@@ -82,8 +99,8 @@ const styles = StyleSheet.create({
     letterSpacing: -0.36,
     color: 'white',
   },
-  button:{
+  button: {
     position: 'absolute',
     bottom: 0,
-  }
+  },
 });

@@ -3,23 +3,30 @@ import React from 'react';
 import WritingFrame from '../../../components/WritingFrame';
 
 const CreateWalkwayScreen = ({
-  title = '어쩌구저쩌구',
-  content = '내용입니다',
+  walkwayTitle = '',
+  content = '',
   titleTextChange,
   contentTextChange,
-  address = '서대문구 서대문로',
+  item,
+  rate,
+  setRate,
 }) => {
+  const {createdAt, distance, finishStatus, id, image,pinCount, time, title, walkwayId} = item;
+  
   return (
     <WritingFrame
       titlePlaceHolder="제목"
       contentPlaceholder="내용"
       buttonTitle="업로드"
-      title={title}
+      title={walkwayTitle}
       content={content}
       titleTextChange={titleTextChange}
       contentTextChange={contentTextChange}
-      address={address}
+      address={title}
       type="walkway"
+      rate={rate}
+      setRate={setRate}
+
     />
   );
 };

@@ -93,6 +93,10 @@ const RecordContainer = ({ navigation, route }) => {
     navigation.navigate('LikeReviews');
   };
 
+  const handleDetailFeed = id => {
+    navigation.navigate('DetailFeed', { id });
+  };
+
   const fetchAllData = async () => {
     setLoading(true);
     await Promise.all([getBadge(), getMyWalks(), getRecentWalks()]);
@@ -128,6 +132,7 @@ const RecordContainer = ({ navigation, route }) => {
       handleNavigateBadge={handleNavigateBadge}
       handleNavigateRecent={handleNavigateRecent}
       handleNavigateMyRecord={handleNavigateMyRecord}
+      handleDetailFeed={handleDetailFeed}
     />
   );
 };
