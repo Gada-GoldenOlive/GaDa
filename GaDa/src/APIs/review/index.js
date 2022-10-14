@@ -1,8 +1,9 @@
 import axios, { handleNetworkError } from '../index';
 
 export const createReview = async reviewData => {
+  console.log({reviewData})
   const res = await axios
-    .post(`/review`, { ...reviewData })
+    .post(`/reviews`, { ...reviewData })
     .then(({ data }) => {
       return data;
     })
@@ -72,9 +73,28 @@ export const getDetailFeed = async reviewId => {
 
 export const getLikeReviews = async () => {
   const res = await axios
-  .get(`/reviews/like-reviews`)
-  .then(({data}) => data)
-  .catch(handleNetworkError);
+    .get(`/reviews/like-reviews`)
+    .then(({ data }) => data)
+    .catch(handleNetworkError);
   return res;
-}
+};
 
+export const createLikedReview = async reviewId => {
+  const res = await axios
+    .post(`/reviews/likes`, { reviewId: reviewId })
+    .then(({ data }) => {
+      return data;
+    })
+    .catch(handleNetworkError);
+  return res;
+};
+
+export const deleteLikedReview = async reviewId => {
+  const res = await axios
+    .delete(`/reviews/likes/${reviewId}`)
+    .then(({ data }) => {
+      return { code: 201 };
+    })
+    .catch(handleNetworkError);
+  return res;
+};

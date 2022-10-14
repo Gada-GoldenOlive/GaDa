@@ -12,7 +12,7 @@ const RecentWalk = ({ recentWalks }) => {
     const { createdAt, distance, finishStatus, id, image, rate, title } = item;
 
     return (
-      <View style={styles.itemContainer}>
+      <View style={[styles.itemContainer, index === 0 && {marginStart: 16}]}>
         <CustomImage source={{ uri: image }} style={styles.backgroundImage} />
         <View style={styles.gradient} />
         <View style={styles.titleContainer}>
@@ -36,7 +36,7 @@ const RecentWalk = ({ recentWalks }) => {
       <FlatList
         scrollEventThrottle={16}
         showsHorizontalScrollIndicator={false}
-        data={recentWalks.slice(0, 2)}
+        data={recentWalks.slice(0, 4)}
         horizontal
         disableVirtualization={false}
         contentContainerStyle={styles.itemWrapper}
@@ -59,8 +59,7 @@ const styles = StyleSheet.create({
   },
   itemContainer: {
     width: 236,
-    height: 132,
-    marginStart: 16,
+    marginEnd: 16,
     justifyContent: 'space-between',
   },
   backgroundImage: {

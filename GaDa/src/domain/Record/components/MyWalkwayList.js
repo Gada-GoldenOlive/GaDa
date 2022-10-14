@@ -16,59 +16,73 @@ import {
   blackColor,
   borderColor,
 } from '../../../constant/colors';
-import { getDistance } from '../../../function';
+import { getDistance, getHour } from '../../../function';
 import Text from '../../../components/MyText';
 
 const ListFooterComponent = () => {
   return <View style={{ height: 30 }} />;
 };
-const MyWalkwayList = ({ ListHeaderComponent, myWalks = {} }) => {
-  const myinfo = { image: MyImageS, name: '산책와 뽀삐' };
-  const tempList = [
-    {
-      name: '마포구 마포나루길 산책길',
-      time: 60,
-      distance: 1250,
-      rating: 4.5,
-      image: PinSample1,
-    },
-    {
-      name: '성동구 서울숲로 산책길',
-      time: 30,
-      distance: 500,
-      rating: 5,
-      image: PinSample2,
-    },
-  ];
-
-  const tempList2 = [];
+const MyWalkwayList = ({
+  ListHeaderComponent,
+  myWalks = [],
+  handleDetailFeed,
+}) => {
   const renderItem = ({ item, index }) => {
-    const { name, time, distance, rating, image } = item;
+    console.log(item);
+    // image는 뭔아이디야
+    const {
+      address,
+      content,
+      createdAt,
+      distance,
+      id,
+      images,
+      like,
+      star,
+      time,
+      title,
+      updatedAt,
+      userImage,
+      userName,
+      vehicle,
+      walkwayId,
+      walkwayImage,
+      walkwayTitle,
+    } = item;
     return (
-      <View style={styles.itemContainer}>
-        <CustomImage style={styles.backgroundImage} source={image} />
-        <View style={styles.gradient} />
-        <View style={styles.titleContainer}>
-          <CustomImage source={myinfo.image} style={styles.myImage} />
-          <View style={styles.titleWrapper}>
-            <Text style={styles.name}>{myinfo.name}</Text>
-            <CustomRating
-              score={rating}
-              size={11}
-              readOnly
-              starMargin={2.6}
-              tintColor="white"
-            />
+      <TouchableWithoutFeedback onPress={() => handleDetailFeed(id)}>
+        <View style={styles.itemContainer}>
+          <CustomImage
+            style={styles.backgroundImage}
+            source={{ uri: walkwayImage }}
+          />
+          <View style={styles.gradient} />
+          <View style={styles.titleContainer}>
+            <CustomImage source={{ uri: userImage }} style={styles.myImage} />
+            <View style={styles.titleWrapper}>
+              <Text style={styles.name}>{userName}</Text>
+              <CustomRating
+                score={star}
+                size={11}
+                readOnly
+                starMargin={2.6}
+                tintColor="white"
+              />
+            </View>
+          </View>
+          <View style={styles.informationContainer}>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.information}>
+              <Text style={styles.information}>
+                소요시간: {getHour(time)}/{' '}
+              </Text>
+              <Text style={styles.information}>
+                거리: {getDistance({ distance, unit: 'm' })}m{' '}
+              </Text>
+            </Text>
           </View>
         </View>
-        <View style={styles.informationContainer}>
-          <Text style={styles.title}>{name}</Text>
-          <Text style={styles.information}>
-            <Text>소요시간: {time / 60}시간 / </Text>
-            <Text>거리: {getDistance({ distance, unit: 'm' })}m </Text>
-          </Text>
-        </View>
-      </View>
+      </TouchableWithoutFeedback>
     );
   };
   return (
@@ -77,7 +91,7 @@ const MyWalkwayList = ({ ListHeaderComponent, myWalks = {} }) => {
         <FlatList
           scrollEventThrottle={16}
           showsVerticalScrollIndicator={false}
-          data={tempList}
+          data={myWalks}
           bounces={false}
           disableVirtualization={false}
           renderItem={({ item, index }) => renderItem({ item, index })}
@@ -144,6 +158,7 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     marginEnd: 9,
+    borderRadius: 100,
   },
   titleWrapper: {},
   name: {
