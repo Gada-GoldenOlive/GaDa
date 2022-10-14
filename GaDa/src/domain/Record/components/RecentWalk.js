@@ -36,7 +36,7 @@ const RecentWalk = ({ recentWalks }) => {
       <FlatList
         scrollEventThrottle={16}
         showsHorizontalScrollIndicator={false}
-        data={recentWalks.slice(0, 2)}
+        data={recentWalks.slice(0, 4)}
         horizontal
         disableVirtualization={false}
         contentContainerStyle={styles.itemWrapper}
@@ -59,7 +59,6 @@ const styles = StyleSheet.create({
   },
   itemContainer: {
     width: 236,
-    height: 132,
     marginEnd: 16,
     justifyContent: 'space-between',
   },

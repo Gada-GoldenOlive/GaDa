@@ -110,7 +110,7 @@ const RecordScreen = ({
                 </View>
               </TouchableWithoutFeedback>
             </View>
-            <RecentWalk recentWalks={recentWalks.slice(0, 5)} />
+            <RecentWalk recentWalks={recentWalks} />
           </View>
         )}
         <View style={styles.myWalkContainer}>
