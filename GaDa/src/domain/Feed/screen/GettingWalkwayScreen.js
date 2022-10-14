@@ -99,8 +99,4 @@ const styles = StyleSheet.create({
     letterSpacing: -0.36,
     color: 'white',
   },
-  button: {
-    position: 'absolute',
-    bottom: 0,
-  },
 });

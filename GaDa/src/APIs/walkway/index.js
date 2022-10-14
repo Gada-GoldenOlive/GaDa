@@ -47,15 +47,23 @@ export const deleteWalkway = async id => {
 };
 
 
-export const getMyWalkList = async option => {
-  /* rate는 (실제 이동한 거리/산책로의 거리) * 100 / userId는 산책로 작성자가 아닌, 산책기록을 남긴 유저 / 
-  option이 0이면 산책로 정보와 함께 전체 walk 목록 리턴(최근활동), 
-  1이면 time, distance에 유저 기록과 함께 아직 리뷰가 없는 walk 목록 리턴(산책로가져오기) / 
-  option을 주지 않으면 최근활동 */
-  
+export const getMyWalkList = async (page = 1, limit = 10) => {
+/*
+  rate는 (실제 이동한 거리/산책로의 거리) * 100
+userId는 산책로 작성자가 아닌, 산책기록을 남긴 유저이고 distance, time은 walkway의 정보page는 page index, 1부터 시작 (default: 1)
+limit는 한 페이지 내의 아이템 수 (default: 10)
+*/
   const res = await axios
-  .get(`/walkways/walks?option=${option}`)
+  .get(`/walkways/walks?page=${page}&limt=${limit}`)
   .then(({data}) =>  data)
   .catch(handleNetworkError)
   return res;
 };
+
+export const getNoReviewWalks = async () => {
+  const res = await axios
+  .get(`/walkways/no-review-walks`)
+  .then(({data}) => data)
+  .catch(handleNetworkError)
+  return res;
+}

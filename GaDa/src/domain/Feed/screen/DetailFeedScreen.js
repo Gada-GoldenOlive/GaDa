@@ -25,11 +25,10 @@ import CustomButton from '../../../components/CustomButton';
 import { getDistance, getHour } from '../../../function';
 import Text from '../../../components/MyText';
 
-const DetailFeedScreen = ({ feedInfo }) => {
+const DetailFeedScreen = ({ feedInfo, feedLike, feedId, handleNavigate }) => {
   const {
     address,
     content,
-    createdAt,
     distance,
     id,
     images = [],
@@ -45,6 +44,7 @@ const DetailFeedScreen = ({ feedInfo }) => {
     walkwayImage,
     walkwayTitle,
   } = feedInfo;
+  console.log(address);
   return (
     <View style={styles.container}>
       <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
@@ -73,7 +73,7 @@ const DetailFeedScreen = ({ feedInfo }) => {
                 )}
                 <Text style={styles.userName}>{userName}</Text>
               </View>
-              <FeedBookmark />
+              <FeedBookmark like={feedLike} id={feedId} />
             </View>
             <View style={styles.bottomWrapper}>
               <View style={styles.bottomInfo}>
@@ -93,7 +93,7 @@ const DetailFeedScreen = ({ feedInfo }) => {
           </View>
         </View>
         <View style={styles.bottomContainer}>
-          <ReviewImageList images={images} />
+          <ReviewImageList images={images} handleNavigate={handleNavigate}/>
           <View style={styles.contentContainer}>
             <Text style={styles.content}>{content}</Text>
             <View style={styles.locationWrapper}>

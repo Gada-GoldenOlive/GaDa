@@ -20,8 +20,7 @@ const FeedItem = ({ item, index, handleDetailFeed }) => {
   "walkwayImage": "https://picsum.photos/400/250/?image=481",
    "walkwayTitle": "박물관 보행로 산책로"}
 */
-
-  const { address,content, createdAt, distance, id, images,like, star, time, title, updatedAt, 
+  const { address,content, createdAt, distance, id, images, like, star, time, title, updatedAt, 
   userImage, userName, vehicle, walkwayId, walkwayImage, walkwayTitle } = item;
   return (
     <TouchableWithoutFeedback onPress={() => handleDetailFeed(id)}>
@@ -42,7 +41,7 @@ const FeedItem = ({ item, index, handleDetailFeed }) => {
                 />
               </View>
             </View>
-            <FeedBookmark />
+            <FeedBookmark like={like} id={id}/>
           </View>
         </View>
         <CustomImage source={{uri: walkwayImage}} style={styles.headerImage} />

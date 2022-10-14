@@ -30,7 +30,7 @@ const GettingWalkwayItem = ({ item, index, clickItem, selectedItem }) => {
     fetchData();
     setLoading(false);
   }, []);
-  console.log(selectedItem)
+
   useEffect(() => {
     if (selectedItem === walkInfo) {
       setIsClicked(true);
@@ -56,7 +56,7 @@ const GettingWalkwayItem = ({ item, index, clickItem, selectedItem }) => {
         <CustomImage
           style={styles.background}
           source={{ uri: image }}
-          resizemode="cover"
+          resizeMode="cover"
         />
         <View style={styles.gradient} />
         <TouchableWithoutFeedback onPress={() => clickItem(walkInfo)}>

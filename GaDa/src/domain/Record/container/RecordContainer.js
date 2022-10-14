@@ -48,7 +48,7 @@ const RecordContainer = ({ navigation, route }) => {
   };
 
   const getRecentWalks = async () => {
-    const res = await getMyWalkList(0);
+    const res = await getMyWalkList();
 
     /*
     {"walks": [{"createdAt": "2022-10-12T17:55:14.461Z", "distance": 160, "finishStatus": "FINISHED", 
