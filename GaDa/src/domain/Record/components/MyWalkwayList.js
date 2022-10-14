@@ -28,7 +28,7 @@ const MyWalkwayList = ({
   handleDetailFeed,
 }) => {
   const renderItem = ({ item, index }) => {
-    console.log(item);
+
     // image는 뭔아이디야
     const {
       address,

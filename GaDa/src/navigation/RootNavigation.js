@@ -170,7 +170,7 @@ const RootNavigation = () => {
             } else {
              
               return {
-                title: '상세 이미지임',
+                title: '상세 이미지',
                 headerShown: true,
                 headerLeft: null,
                 headerRight: () => <CloseButton />,
