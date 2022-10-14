@@ -7,18 +7,49 @@ import { useEffect } from 'react';
 
 const LikeReviewsContainer = ({ navigation, route }) => {
   const [reviewList, setReviewList] = useState([]);
+  const [page, setPage] = useState(1);
+  const [isDataLoading, setIsDataLoading] = useState(false);
+  const [isLast, setIsLast] = useState(false);
+
   const fetchData = async () => {
-    const res = await getLikeReviews();
+    const res = await getLikeReviews(1);
     if (res) {
-      const { feeds } = res;
+      const { feeds, links } = res;
+      const { next } = links;
+      if (next === '') setIsLast(true);
       setReviewList(feeds);
+      setPage(2);
     }
+  };
+
+  const handleLoadMore = async () => {
+    if (!isDataLoading) {
+      if (isLast) return null;
+      setIsDataLoading(true);
+
+      const res = await getLikeReviews(page);
+      if (res) {
+        const { feeds, links } = res;
+        const { next } = links;
+        if (next === '') setIsLast(true);
+        setReviewList(cur => cur.concat(feeds));
+        setPage(page + 1);
+      }
+      setIsDataLoading(false);
+      return null;
+    }
+    return null;
   };
 
   useEffect(() => {
     fetchData();
   }, []);
-  return <LikeReviewsScreen reviewList={reviewList} />;
+  return (
+    <LikeReviewsScreen
+      reviewList={reviewList}
+      handleLoadMore={handleLoadMore}
+    />
+  );
 };
 
 export default LikeReviewsContainer;

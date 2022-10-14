@@ -40,7 +40,8 @@ const RecordScreen = ({
   handleNavigateRecent,
   handleNavigateMyRecord,
   handleNavigateLikeReviews,
-  handleDetailFeed
+  handleDetailFeed,
+  handleLoadMore
 }) => {
   const {
     id,
@@ -127,7 +128,7 @@ const RecordScreen = ({
       bounces={false}
       showsVerticalScrollIndicator={false}
     >
-      <MyWalkwayList ListHeaderComponent={header} myWalks={myWalks} handleDetailFeed={handleDetailFeed} />
+      <MyWalkwayList ListHeaderComponent={header} myWalks={myWalks} handleDetailFeed={handleDetailFeed} handleLoadMore={handleLoadMore}/>
     </View>
   );
 };

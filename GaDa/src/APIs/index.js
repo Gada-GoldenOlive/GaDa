@@ -36,6 +36,14 @@ export const handleNetworkError = async error => {
 const defaultAxios = axios.create({
   baseURL: defaultURL,
 });
+export const getNextData = async url => {
+  const urlList = url.split(defaultURL);
+  const res = await defaultAxios
+  .get(defaultURL + urlList[1])
+  .then(({ data }) => data)
+  .catch(handleNetworkError);
+  return res;
+}
 
 // 이게 필요할까?
 export const checkServerHealthState = async () => {

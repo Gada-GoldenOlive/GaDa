@@ -13,7 +13,7 @@ import { boldFontFamily, boldFontSize } from '../../../constant/fonts';
 import { getDate, getDistance } from '../../../function';
 import Text from '../../../components/MyText';
 
-const RecentScreen = ({ handleNavigateRestart, recentWalks }) => {
+const RecentScreen = ({ handleNavigateRestart, recentWalks, handleLoadMore }) => {
   const renderItem = ({ item, index }) => {
     const {
       distance,
@@ -102,6 +102,7 @@ const RecentScreen = ({ handleNavigateRestart, recentWalks }) => {
         data={recentWalks}
         bounces={false}
         disableVirtualization={false}
+        onEndReached={handleLoadMore}
         renderItem={({ item, index }) => renderItem({ item, index })}
         onEndReachedThreshold={0.7}
         keyExtractor={(item, index) => `${item}-${index}`}
