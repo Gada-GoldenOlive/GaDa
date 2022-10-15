@@ -28,7 +28,7 @@ export const getWalkwayInfo = async ({ id, lat = 0, lng = 0 }) => {
       return data;
     })
     .catch(handleNetworkError);
-    return res;
+  return res;
 };
 export const updateWalkway = async (id, walkwayData) => {
   const res = await axios
@@ -45,6 +45,7 @@ export const deleteWalkway = async id => {
     .catch(handleNetworkError);
   return res;
 };
+
 
 
 export const getMyWalkList = async (page = 1) => {

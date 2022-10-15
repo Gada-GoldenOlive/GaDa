@@ -17,16 +17,17 @@ import LinearGradient from 'react-native-linear-gradient';
 import Pin from '../../../constant/images/Pin';
 import { bottomShadowStyle } from '../../../constant/styles';
 import { useNavigation } from '@react-navigation/core';
-import { getWalkwayList } from '../../../APIs/walkway';
+import { getWalkwayInfo, getWalkwayList } from '../../../APIs/walkway';
 import WalkwayListComponent from '../components/WalkwayListComponent';
 import WalkwayOverview from '../components/WalkwayOverview';
 import SubmitButton from '../../../components/SubmitButton';
 import Stop from '../../../constant/images/Stop';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import WalkEnd from '../../../components/WalkEnd';
 import PinListModal from '../../../components/PinListModal';
 import { getDistanceFromLatLonInKm } from '../../../function';
 import Text from '../../../components/MyText';
+import { setCurrentPosition } from '../../../redux/modules/status';
 
 const HomeScreen = ({
   geoLocation,
@@ -57,13 +58,19 @@ const HomeScreen = ({
   startModalVisible,
   openStartModal,
   closeStartModal,
+  setIsVisible,
+  setListIsVisible,
+  setSelectedItem,
+  setCurrentPos,
+  currentPos,
 }) => {
   const ref = useRef();
+  const dispatch = useDispatch();
   const [markerPos, setMarkerPos] = useState({
     lat: 0,
     lng: 0,
   });
-  const [currentPos, setCurrentPos] = useState({});
+
   const [submitPosPinIsVisible, setSubmitPinPosIsVisible] = useState();
   const [walkwayList, setWalkwayList] = useState([]);
   const [pinIndex, setPinIndex] = useState(0);
@@ -75,14 +82,43 @@ const HomeScreen = ({
   const closePinModal = () => {
     setPinModalIsVisible(false);
   };
+  const [isCurrentPosClicked, setIsCurrentPosClicked] = useState(false);
+
   const INJECTED_JAVASCRIPT = `(function() {
     window.postMessage(JSON.stringify({key : "value"}));true;
 })();`;
 
-  const handleRecordPosition = async recordPosition => {
-    // await send
-    console.log(recordPosition);
+  // const handleRecordPosition = async recordPosition => {
+  //   // await send
+  //   console.log(recordPosition);
+  // };
+
+  const { isRestart, restartWalkway, currentPosition } = useSelector(
+    state => state.status,
+  );
+
+  const handleRestart = async () => {
+    const res = await getWalkwayInfo({
+      id: restartWalkway.walkwayId,
+      lat: currentPosition.lat,
+      lng: currentPosition.lng,
+    });
+
+    setIsVisible(true);
+    setListIsVisible(false);
+    setSelectedItem(res?.walkway);
   };
+  useEffect(() => {
+    if (isRestart) {
+      handleRestart();
+    }
+  }, [isRestart]);
+  useEffect(() => {
+    if (isRestart && Object.keys(selectedItem).length > 0) {
+      console.log('restart');
+      handleConnection(ref, 'restartWalkway');
+    }
+  }, [selectedItem]);
   const handleReceive = event => {
     const {
       nativeEvent: { data },
@@ -90,16 +126,23 @@ const HomeScreen = ({
 
     if (data !== 'undefined') {
       const msg = JSON.parse(data);
-      if (msg.type === 'currentPos') setCurrentPos(msg.position);
+      if (msg.type === 'currentPos') {
+        if (isRestart) {
+          setCurrentPos(selectedItem.startPoint); // currentPos를 바꿔서 지도 focus 바꿀 수 있음 (화면 전환시)
+        } else {
+          setCurrentPos(msg.position);
+        }
+        dispatch(setCurrentPosition(msg.position));
+      }
       if (msg.type === 'pinPos') setMarkerPos(msg.position);
       if (msg.type === 'clickPin') {
         setPinIndex(msg.index);
         setCheckPin(checkPin * -1);
       }
       if (msg.type === 'read') console.log({ position: msg.position });
-      if (msg.type === 'recordPosition') {
-        handleRecordPosition(recordPosition);
-      }
+      // if (msg.type === 'recordPosition') {
+      //   handleRecordPosition(recordPosition);
+      // }
     }
   };
 
@@ -129,7 +172,11 @@ const HomeScreen = ({
 
   useEffect(() => {
     if (currentPos.lat !== 0 && currentPos.lng !== 0) {
-      getWalkway(currentPos);
+      if (!isCurrentPosClicked) {
+        getWalkway(currentPos);
+      } else {
+        setIsCurrentPosClicked(false);
+      }
     }
   }, [currentPos]);
   useEffect(() => {
@@ -140,14 +187,10 @@ const HomeScreen = ({
     }
   }, [isWalking]);
 
-  console.log(
-    getDistanceFromLatLonInKm({
-      lat1: 37.52326084981643,
-      lng1: 126.9829734115683,
-      lat2: 37.52319545411705,
-      lng2: 126.9829625459926,
-    }),
-  );
+  const handleClickCurrentPosButton = () => {
+    setIsCurrentPosClicked(true);
+    handleConnection(ref, 'currentPos');
+  };
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       <WebView
@@ -191,9 +234,7 @@ const HomeScreen = ({
         </TouchableWithoutFeedback>
       )}
       {isWalking && (
-        <TouchableWithoutFeedback
-          onPress={() => handleConnection(ref, 'currentPos')}
-        >
+        <TouchableWithoutFeedback onPress={handleClickCurrentPosButton}>
           <View style={styles.currentPosIconWrapper}>
             <CustomImage
               style={styles.currentPosIcon}
