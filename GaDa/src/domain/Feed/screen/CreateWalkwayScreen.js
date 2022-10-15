@@ -129,83 +129,95 @@ const CreateWalkwayScreen = ({
               )}
             </View>
           </TouchableWithoutFeedback>
-          <View style={styles.writingContainer}>
-            <View style={styles.titleWrapper}>
-              <MyTextInput
-                placeholder="제목"
-                style={styles.title}
-                onChangeText={titleTextChange}
-                value={walkwayTitle}
-              />
-            </View>
-            <CustomImage source={Writing} style={styles.writing} />
+        </View>
+        <View style={styles.writingContainer}>
+          <View style={styles.titleWrapper}>
             <MyTextInput
-              placeholder={'본문'}
-              style={[
-                styles.multiLine,
-                { borderBottomWidth: 0, multiLine: 114 },
-              ]}
+              placeholder="제목"
+              style={styles.title}
+              onChangeText={titleTextChange}
+              value={walkwayTitle}
+            />
+          </View>
+          <CustomImage source={Writing} style={styles.writing} />
+          <View
+            style={{
+              minHeight: 200,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'flex-start',
+            }}
+          >
+            <MyTextInput
+              placeholder={'산책로에 대해 설명해주세요'}
+              style={[styles.multiLine, { borderBottomWidth: 0 }]}
+              multiline
               onChangeText={contentTextChange}
               value={content}
             />
-            <View style={styles.cameraContainer}>
-              <TouchableWithoutFeedback onPress={openModal}>
-                <View style={styles.cameraWrapper}>
-                  <CustomImage style={styles.camera} source={Camera} />
+          </View>
+          <View style={styles.cameraContainer}>
+            <TouchableWithoutFeedback onPress={openModal}>
+              <View style={styles.cameraWrapper}>
+                <CustomImage style={styles.camera} source={Camera} />
+              </View>
+            </TouchableWithoutFeedback>
+            <ReviewImageList images={walkwayImages} handleNavigate={null} />
+          </View>
+          <View style={styles.bottomContainer}>
+            <View style={styles.informationContainer}>
+              <CustomRating
+                style={styles.rating}
+                size={40}
+                score={rate}
+                onPress={setRate}
+                starMargin={(windowWidth - 34 - 34 - 200) / 5}
+                tintColor={buttonColor}
+              />
+              <View style={styles.informationWrapper}>
+                <View
+                  style={[
+                    styles.information,
+                    {
+                      borderEndColor: descriptionColorVer2,
+                      borderEndWidth: 0.4,
+                    },
+                  ]}
+                >
+                  <Text style={styles.informationTitle}>거리</Text>
+                  <Text style={styles.num}>
+                    {getDistance({ distance: distance, unit: 'm' })}
+                  </Text>
+                  <Text style={styles.informationDescription}>(m)</Text>
                 </View>
-              </TouchableWithoutFeedback>
-              <ReviewImageList images={walkwayImages} handleNavigate={null} />
+                <View
+                  style={[
+                    styles.information,
+                    {
+                      borderStartColor: descriptionColorVer2,
+                      borderStartWidth: 0.6,
+                    },
+                  ]}
+                >
+                  <Text style={styles.informationTitle}>시간</Text>
+                  <Text style={styles.num}>{time}</Text>
+                  <Text style={styles.informationDescription}>(분)</Text>
+                </View>
+              </View>
             </View>
-            <View style={styles.bottomContainer}>
-              <View style={styles.informationContainer}>
-                <CustomRating
-                  style={styles.rating}
-                  size={40}
-                  score={rate}
-                  onPress={setRate}
-                  starMargin={(windowWidth - 34 - 34 - 200) / 5}
-                  tintColor={buttonColor}
-                />
-                <View style={styles.informationWrapper}>
-                  <View
-                    style={[
-                      styles.information,
-                      {
-                        borderEndColor: descriptionColorVer2,
-                        borderEndWidth: 0.4,
-                      },
-                    ]}
-                  >
-                    <Text style={styles.informationTitle}>거리</Text>
-                    <Text style={styles.num}>
-                      {getDistance({ distance: distance, unit: 'm' })}
-                    </Text>
-                    <Text style={styles.informationDescription}>(m)</Text>
-                  </View>
-                  <View
-                    style={[
-                      styles.information,
-                      {
-                        borderStartColor: descriptionColorVer2,
-                        borderStartWidth: 0.6,
-                      },
-                    ]}
-                  >
-                    <Text style={styles.informationTitle}>시간</Text>
-                    <Text style={styles.num}>{time}</Text>
-                    <Text style={styles.informationDescription}>(분)</Text>
-                  </View>
-                </View>
-              </View>
-              <View style={styles.locateWrapper}>
-                <CustomImage source={Locate} style={styles.locate} />
-                <Text style={styles.location}>{title}</Text>
-              </View>
+            <View style={styles.locateWrapper}>
+              <CustomImage source={Locate} style={styles.locate} />
+              <Text style={styles.location}>{title}</Text>
             </View>
           </View>
         </View>
+        {/* </View> */}
       </ScrollView>
-      <CustomButton title="등록하기" clickable={clickable} handlePress={handlePress}/>
+      <CustomButton
+        title="작성완료"
+        clickable={clickable}
+        handlePress={handlePress}
+      />
       <CameraSelectModal
         isVisible={isVisible}
         openCamera={openCamera}
