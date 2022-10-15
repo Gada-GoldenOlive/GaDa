@@ -96,7 +96,7 @@ const HomeContainer = ({ navigation, route }) => {
   };
 
   useEffect(() => {
-    console.log({ beforeRecord, tmpNewRecord });
+    // console.log({ beforeRecord, tmpNewRecord });
     if (tmpNewRecord !== null) {
       let updateFlag = true;
       // 시작
@@ -129,7 +129,7 @@ const HomeContainer = ({ navigation, route }) => {
   }, [tmpNewRecord]);
 
   const recordPosition = () => {
-    console.log('너냐');
+    // console.log('너냐');
     const newId = Geolocation.getCurrentPosition(
       position => {
         if (position) {
@@ -160,11 +160,11 @@ const HomeContainer = ({ navigation, route }) => {
       pins = nowPins;
       start = startPoint;
     } else if (ver === 'restartWalkway') {
-      console.log({ selectedItem });
+      // console.log({ selectedItem });
       path = selectedItem.path;
       pins = selectedItem.pinCount;
       start = selectedItem.startPoint;
-      console.log({ path, pins, start, name: selectedItem.title });
+      // console.log({ path, pins, start, name: selectedItem.title });
     }
     const generateOnMessageFunction = data =>
       `(function() {

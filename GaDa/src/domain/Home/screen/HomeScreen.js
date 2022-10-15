@@ -175,6 +175,7 @@ const HomeScreen = ({
       if (!isCurrentPosClicked) {
         getWalkway(currentPos);
       } else {
+        // 현재 위치 눌렀을 때는 getWalkway 하지 않음
         setIsCurrentPosClicked(false);
       }
     }
@@ -194,8 +195,8 @@ const HomeScreen = ({
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       <WebView
-        // source={{ uri: 'https://ga-da-goldenolive.vercel.app' }}
-        source={{ uri: 'https://4bc6-110-8-134-126.jp.ngrok.io' }}
+        source={{ uri: 'https://ga-da-goldenolive.vercel.app' }}
+        // source={{ uri: 'https://4bc6-110-8-134-126.jp.ngrok.io' }}
         injectedJavaScript={INJECTED_JAVASCRIPT}
         ref={ref}
         javaScriptEnabled
