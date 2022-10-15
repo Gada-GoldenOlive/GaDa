@@ -20,6 +20,10 @@ const RecordContainer = ({ navigation, route }) => {
   const [badgeList, setBadgeList] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const [page, setPage] = useState(1);
+  const [isDataLoading, setIsDataLoading] = useState(false);
+  const [isLast, setIsLast] = useState(false);
+
   const dispatch = useDispatch();
 
   const fetchData = async () => {
@@ -48,7 +52,7 @@ const RecordContainer = ({ navigation, route }) => {
   };
 
   const getRecentWalks = async () => {
-    const res = await getMyWalkList();
+    const res = await getMyWalkList(1);
 
     /*
     {"walks": [{"createdAt": "2022-10-12T17:55:14.461Z", "distance": 160, "finishStatus": "FINISHED", 
@@ -57,18 +61,40 @@ const RecordContainer = ({ navigation, route }) => {
     */
 
     if (res) {
-      const {walks} = res;
+      const { walks } = res;
       setRecentWalks(walks);
     }
   };
 
   const getMyWalks = async () => {
-    const res = await getMyReviewList(userId);
+    const res = await getMyReviewList(userId, page);
     if (res) {
-      const { feeds } = res;
+      const { feeds, links } = res;
+      const { next } = links;
+      if (next === '') setIsLast(true);
       setMyWalks(feeds);
+      setPage(2);
     }
   };
+  const handleLoadMore = async () => {
+    if (!isDataLoading) {
+      if (isLast) return null;
+      setIsDataLoading(true);
+
+      const res = await getMyReviewList(userId, page);
+      if (res) {
+        const { feeds, links } = res;
+        const { next } = links;
+        if (next === '') setIsLast(true);
+        setMyWalks(cur => cur.concat(feeds));
+        setPage(page + 1);
+      }
+      setIsDataLoading(false);
+      return null;
+    }
+    return null;
+  };
+
   const handleNavigate = ({}) => {
     navigation.navigate('SignIn');
   };
@@ -83,7 +109,7 @@ const RecordContainer = ({ navigation, route }) => {
     navigation.navigate('BadgeList', { badgeList });
   };
   const handleNavigateRecent = () => {
-    navigation.navigate('Recent', { recentWalks: recentWalks });
+    navigation.navigate('Recent');
   };
   const handleNavigateMyRecord = () => {
     navigation.navigate('MyRecord');
@@ -133,6 +159,7 @@ const RecordContainer = ({ navigation, route }) => {
       handleNavigateRecent={handleNavigateRecent}
       handleNavigateMyRecord={handleNavigateMyRecord}
       handleDetailFeed={handleDetailFeed}
+      handleLoadMore={handleLoadMore}
     />
   );
 };

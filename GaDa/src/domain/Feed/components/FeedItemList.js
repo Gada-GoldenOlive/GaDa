@@ -31,6 +31,7 @@ const FeedItemList = ({
   selectedItem, 
   refreshing,
   onRefresh,
+  handleLoadMore,
 }) => {
 
   const renderItem = ({ item, index }) => {
@@ -53,6 +54,7 @@ const FeedItemList = ({
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
+        onEndReached={handleLoadMore}
         ItemSeparatorComponent={ItemSeparatorComponent}
         renderItem={({ item, index }) => renderItem({ item, index })}
         onEndReachedThreshold={0.7}

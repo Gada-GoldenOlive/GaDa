@@ -26,9 +26,9 @@ const MyWalkwayList = ({
   ListHeaderComponent,
   myWalks = [],
   handleDetailFeed,
+  handleLoadMore,
 }) => {
   const renderItem = ({ item, index }) => {
-
     // image는 뭔아이디야
     const {
       address,
@@ -99,6 +99,7 @@ const MyWalkwayList = ({
           keyExtractor={(item, index) => `${item.id}-${index}`}
           ListHeaderComponent={ListHeaderComponent}
           ListFooterComponent={ListFooterComponent}
+          onEndReached={handleLoadMore}
         />
       ) : (
         <ScrollView>
