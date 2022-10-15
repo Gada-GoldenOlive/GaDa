@@ -102,7 +102,7 @@ const MyWalkwayList = ({
           onEndReached={handleLoadMore}
         />
       ) : (
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.container}>
             <ListHeaderComponent />
             <View style={styles.nullContainer}>
@@ -127,6 +127,7 @@ export default MyWalkwayList;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingBottom: 20,
   },
   itemContainer: {
     height: 184,

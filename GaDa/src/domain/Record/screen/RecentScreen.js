@@ -13,7 +13,11 @@ import { boldFontFamily, boldFontSize } from '../../../constant/fonts';
 import { getDate, getDistance } from '../../../function';
 import Text from '../../../components/MyText';
 
-const RecentScreen = ({ handleNavigateRestart, recentWalks, handleLoadMore }) => {
+const RecentScreen = ({
+  handleNavigateRestart,
+  recentWalks,
+  handleLoadMore,
+}) => {
   const renderItem = ({ item, index }) => {
     const {
       distance,
@@ -165,6 +169,7 @@ const styles = StyleSheet.create({
     fontFamily: boldFontFamily,
   },
   name: {
+    marginTop: 9,
     color: blackColor,
     fontSize: boldFontSize,
     fontFamily: boldFontFamily,
