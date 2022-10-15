@@ -68,10 +68,10 @@ const FriendRecordContainer = ({ navigation, route }) => {
   };
   handleConfirmButton = async () => {
     console.log(friendId, 'delete');
-    console.log(userId);
-    await modifyFriend(friendId, 'DELETE');
 
-    console.log('confirm');
+    await modifyFriend(friendId, 'DELETE');
+    closePopup();
+    navigation.navigate('Friends', { refresh: {} });
   };
 
   useEffect(() => {

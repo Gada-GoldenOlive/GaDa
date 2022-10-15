@@ -33,6 +33,10 @@ const FriendsContainer = ({ navigation, route }) => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    fetchData();
+  }, [route.params?.refresh]);
+
   return (
     <FriendsScreen
       friendList={friendList}
