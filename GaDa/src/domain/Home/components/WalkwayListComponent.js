@@ -23,6 +23,7 @@ import { boldFontFamily, mediumFontFamily } from '../../../constant/fonts';
 import { useEffect } from 'react';
 import { getWalkwayPinList } from '../../../APIs/pin';
 import { compose } from 'redux';
+import CreateWalkwayButton from './CreateWalkwayButton';
 
 const WIDTH = 204;
 const HEIGHT = 116;
@@ -37,6 +38,7 @@ const WalkwayListComponent = ({
   setStartPoint,
   setNowPins,
   nowPath,
+  openStartModal,
 }) => {
   const [focusedIndex, setFocusedIndex] = useState(1);
   const scrollX = React.useRef(new Animated.Value(0)).current;
@@ -44,7 +46,9 @@ const WalkwayListComponent = ({
 
   const list = [{ key: 'empty-left' }, ...prevList, { key: 'empty-right' }];
 
+  const [loading, setLoading] = useState(true);
   const getPinList = async id => {
+    setLoading(true);
     const pin = await getWalkwayPinList(id);
 
     if (pin) {
@@ -72,6 +76,10 @@ const WalkwayListComponent = ({
     }
   };
   const renderItem = ({ item, index }) => {
+    if (index === prevList.length - 1) {
+      // 산책로 제작 버튼이 나머지 다 로딩된 후 뜨게 하기 위해서
+      setLoading(false);
+    }
     if (!item.title) return <View style={{ width: EMPTY_ITEM_SIZE }} />;
 
     const { id, address, title, pinCount } = item;
@@ -185,7 +193,8 @@ const WalkwayListComponent = ({
           renderToHardwareTextureAndroid
           contentContainerStyle={{
             alignItems: 'center',
-            paddingVertical: 10,
+            marginTop: 18,
+            marginBottom: 10,
             backgroundColor: 'rgba(0,0,0,0)',
             justifyContent: 'center',
           }}
@@ -273,6 +282,7 @@ const WalkwayListComponent = ({
         onSwipeLeft={goRight}
         config={config}
       >
+        {!loading && <CreateWalkwayButton openStartModal={openStartModal} />}
         {renderList()}
       </GestureRecognizer>
     </View>

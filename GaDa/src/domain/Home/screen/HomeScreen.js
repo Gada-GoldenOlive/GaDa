@@ -192,6 +192,7 @@ const HomeScreen = ({
     setIsCurrentPosClicked(true);
     handleConnection(ref, 'currentPos');
   };
+
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       <WebView
@@ -244,6 +245,7 @@ const HomeScreen = ({
           </View>
         </TouchableWithoutFeedback>
       )}
+
       <WalkwayListComponent
         list={walkwayList}
         selectedItem={selectedItem}
@@ -255,7 +257,9 @@ const HomeScreen = ({
         setNowPins={setNowPins}
         setIsWalkwayFocused={setIsWalkwayFocused}
         nowPath={nowPath}
+        openStartModal={openStartModal} // 산책로 제작을 위해
       />
+
       <WalkwayOverview
         walkWay={selectedItem}
         isVisible={isVisible}
