@@ -14,8 +14,14 @@ import { blackColor } from '../../../constant/colors';
 import FilteringButton from '../../../components/FilteringButton';
 import FeedItemList from '../components/FeedItemList';
 
-const FeedScreen = ({ feedList, handleGettingWalkway, handleDetailFeed }) => {
-
+const FeedScreen = ({
+  feedList,
+  onRefresh,
+  refreshing,
+  handleGettingWalkway,
+  handleDetailFeed,
+  handleLoadMore,
+}) => {
   const headerComponent = () => {
     return (
       <View style={styles.topContainer}>
@@ -39,7 +45,10 @@ const FeedScreen = ({ feedList, handleGettingWalkway, handleDetailFeed }) => {
         headerComponent={headerComponent}
         handleDetailFeed={handleDetailFeed}
         feedList={feedList}
+        refreshing={refreshing}
+        onRefresh={onRefresh}
         type="feed"
+        handleLoadMore={handleLoadMore}
       />
     </View>
   );

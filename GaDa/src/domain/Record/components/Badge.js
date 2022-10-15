@@ -26,8 +26,9 @@ const Badge = ({ badgeList = [] }) => {
         ...tempList,
         ...Array(4 - tempList.length).fill({badge: {}}),
       ];
+
     }
-    setAchieveList(tempList);
+    setAchieveList(tempList.splice(0,4));
   }, [badgeList]);
 
   // {badge : {image, title}, status}

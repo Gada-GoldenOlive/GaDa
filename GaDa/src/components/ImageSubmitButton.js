@@ -8,9 +8,11 @@ import { blackColor, emphasisColorVer2 } from '../constant/colors';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   setImageFile,
+  setImageFileList,
   setPinImage,
   setProfileImage,
   setUploadImagesChanged,
+  setWalkwayImages,
 } from '../redux/modules/images';
 import { useState } from 'react';
 import { useEffect } from 'react';
@@ -20,6 +22,7 @@ import { s3 } from '../constant/setting';
 const HeaderImageSubmitButton = props => {
   const { imageList, ver, body } = props;
   const [eachUrl, setEachUrl] = useState('');
+  const {walkwayImages, imageFileList} = useSelector(state => state.images);
 
   const navigation = useNavigation();
 
@@ -46,6 +49,19 @@ const HeaderImageSubmitButton = props => {
       imageList.forEach(async item => {
         dispatch(setImageFile(item.imageData));
       });
+      navigation.pop();
+    } else if (ver === 'review') {
+      const list = [];
+      const fileList = [];
+
+      imageList.forEach(async image => {
+        const uri = `data:${image.imageData.mime};base64,${image.imageData.data}`;
+        list.push({url: uri})
+        fileList.push(image.imageData);
+      });
+      
+      dispatch(setWalkwayImages([...walkwayImages, ...list]));
+      dispatch(setImageFileList([...imageFileList, ...fileList]));
       navigation.pop();
     }
   };

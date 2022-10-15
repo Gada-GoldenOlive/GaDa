@@ -58,8 +58,8 @@ const authScreens = [
   },
   {
     name: 'MyRecord',
-    screen: MyRecordContainer
-  }
+    screen: MyRecordContainer,
+  },
 ];
 const signInScreen = {
   SignIn: SignInContainer,
@@ -81,8 +81,12 @@ const myPageScreens = [
     title: '프로필 수정',
   },
   { name: 'ModifyPW', screen: ModifyPWContainer, title: '비밀번호 재설정' },
-  {name: 'LikeReviews', screen: LikeReviewsContainer, title: '좋아요한 게시글'},
-  {name: 'RestartWalks', screen: RestartWalksContainer, title: ''},
+  {
+    name: 'LikeReviews',
+    screen: LikeReviewsContainer,
+    title: '좋아요한 게시글',
+  },
+  { name: 'RestartWalks', screen: RestartWalksContainer, title: '' },
 ];
 
 const badgeListScreen = {
@@ -99,13 +103,12 @@ const detailFeedScreens = [
     name: 'DetailFeed',
     screen: DetailFeedContainer,
   },
-  { name: 'DetailPin', screen: DetailPinContainer, },
-]
+  { name: 'DetailPin', screen: DetailPinContainer },
+];
 
 const createWalkwayScreen = {
   CreateWalkway: CreateWalkwayContainer,
 };
-
 
 const RootStack = createStackNavigator();
 const RootNavigation = () => {
@@ -138,7 +141,6 @@ const RootNavigation = () => {
         ...createPinScreen,
       }).map(([name, component]) => (
         <RootStack.Screen
-          key={name}
           name={name}
           component={component}
           options={{
@@ -156,7 +158,7 @@ const RootNavigation = () => {
           options={({ route }) => {
             const { params } = route;
             const { images, ver, body } = params;
-            if (ver === 'pin' || ver === 'profile' ) {
+            if (ver === 'pin' || ver === 'profile' || ver === 'review') {
               return {
                 title: '상세 이미지',
                 headerShown: true,
@@ -165,17 +167,19 @@ const RootNavigation = () => {
                   <ImageSubmitButton imageList={images} body={body} ver={ver} />
                 ),
               };
+            } else {
+             
+              return {
+                title: '상세 이미지',
+                headerShown: true,
+                headerLeft: null,
+                headerRight: () => <CloseButton />,
+              };
             }
-            return {
-              title: '상세 이미지',
-              headerShown: true,
-              headerLeft: null,
-              headerRight: () => <CloseButton />,
-            };
           }}
         />
       ))}
-      {myPageScreens.map(({ name, screen, title}) => {
+      {myPageScreens.map(({ name, screen, title }) => {
         return (
           <RootStack.Screen
             key={name}
@@ -318,8 +322,6 @@ const RootNavigation = () => {
           }}
         />
       ))}
-
-
 
       <RootStack.Screen name="BottomTab" component={BottomTab} />
     </RootStack.Navigator>

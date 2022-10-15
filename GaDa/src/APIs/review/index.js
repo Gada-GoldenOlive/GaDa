@@ -1,8 +1,9 @@
 import axios, { handleNetworkError } from '../index';
 
 export const createReview = async reviewData => {
+  console.log({ reviewData });
   const res = await axios
-    .post(`/review`, { ...reviewData })
+    .post(`/reviews`, { ...reviewData })
     .then(({ data }) => {
       return data;
     })
@@ -46,19 +47,21 @@ export const deleteReview = async id => {
   return res;
 };
 
-export const getMyReviewList = async userId => {
+export const getMyReviewList = async (userId, page = 1) => {
   const res = await axios
-    .get(`/reviews/feeds?userId=${userId}`)
+    .get(`/reviews/feeds/${userId}?page=${page}&limit=10`)
     .then(({ data }) => data)
     .catch(e => console.log(e.response));
   return res;
 };
 
-export const getFeeds = async () => {
+export const getFeeds = async (order = 'LATEST', lat, lng, page) => {
   const res = await axios
-    .get(`/reviews/feeds/`)
+    .get(
+      `/reviews/feeds?order=${order}&lat=${lat}&lng=${lng}&page=${page}&limit=10`,
+    )
     .then(({ data }) => data)
-    .catch(e => console.log(e.response.data));
+    .catch(handleNetworkError);
   return res;
 };
 
@@ -70,11 +73,30 @@ export const getDetailFeed = async reviewId => {
   return res;
 };
 
-export const getLikeReviews = async () => {
+export const getLikeReviews = async (page = 1) => {
   const res = await axios
-  .get(`/reviews/like-reviews`)
-  .then(({data}) => data)
-  .catch(handleNetworkError);
+    .get(`/reviews/like-reviews?page=${page}&limit=10`)
+    .then(({ data }) => data)
+    .catch(handleNetworkError);
   return res;
-}
+};
 
+export const createLikedReview = async reviewId => {
+  const res = await axios
+    .post(`/reviews/likes`, { reviewId: reviewId })
+    .then(({ data }) => {
+      return data;
+    })
+    .catch(handleNetworkError);
+  return res;
+};
+
+export const deleteLikedReview = async reviewId => {
+  const res = await axios
+    .delete(`/reviews/likes/${reviewId}`)
+    .then(({ data }) => {
+      return { code: 201 };
+    })
+    .catch(handleNetworkError);
+  return res;
+};
