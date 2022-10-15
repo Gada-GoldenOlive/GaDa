@@ -180,10 +180,16 @@ const MapScreen = ({
         setIsStartWalkClicked(true);
       } else if (event.data.type === "stopWalk") {
         setIsStartWalkClicked(false);
-        handleSubmit("recordPosition", recordPosition);
+      } else if (event.data.type === "restartWalkway") {
+        setWalkwayPath(event.data.path);
+        setWalkwayPins(event.data.pins);
+        setPathStartPoint(event.data.startPoint);
       }
     });
   };
+  useEffect(() => {
+    // alert(JSON.stringify(walkwayPath));
+  }, [walkwayPath]);
 
   // 각 버튼 클릭시 실행할 것들
   useEffect(() => {
@@ -283,13 +289,13 @@ const MapScreen = ({
             // setLine={setLine}
           />
         )}
-        <DrawPolyline
+        {/* <DrawPolyline
           path={[
             { lat: 37.52808864250951, lng: 126.9664946472026 },
             { lat: 37.528100946217506, lng: 126.96620814543589 },
             { lat: 37.52810757753854, lng: 126.96644342188938 },
           ]}
-        />
+        /> */}
         {/* </div> */}
         {walkwayPins !== "null" && (
           <DrawMarkers

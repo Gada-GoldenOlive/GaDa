@@ -2,7 +2,7 @@ import axios, { handleNetworkError } from '../index';
 
 export const createWalk = async walkData => {
   const res = await axios
-    .post(`/walkways/walk`, { ...walkData })
+    .post(`/walkways/walks`, { ...walkData })
     .then(({ data }) => {
       data;
     })

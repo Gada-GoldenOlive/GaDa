@@ -8,6 +8,7 @@ import {
   setBottomTabVisible,
   setCurrentPosition,
   setEndTime,
+  setIsRestart,
   setIsWalking,
   setPinNum,
 } from '../../../redux/modules/status';
@@ -23,6 +24,7 @@ import { get } from 'react-native/Libraries/Utilities/PixelRatio';
 import { createWalk } from '../../../APIs/walk';
 import { setUserId } from '../../../redux/modules/user';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getWalkwayInfo } from '../../../APIs/walkway';
 
 // * 현재위치
 // 일정 시간 후 주기적으로 반복해서 geoLocation 해주기!
@@ -32,6 +34,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const CURRENTPOS = 'currentPos';
 
 const HomeContainer = ({ navigation, route }) => {
+  const [currentPos, setCurrentPos] = useState({});
+
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
   // 현재위치
@@ -59,7 +63,9 @@ const HomeContainer = ({ navigation, route }) => {
   // start modal
   const [startModalVisible, setStartModalVisible] = useState(false);
   // 생성한 핀 개수
-  const { pinNum } = useSelector(state => state.status);
+  const { pinNum, currentPosition, isRestart } = useSelector(
+    state => state.status,
+  );
   const [loading, setLoading] = useState(false);
   const { isAuthenticated } = useSelector(state => state.user);
   const dispatch = useDispatch();
@@ -72,6 +78,7 @@ const HomeContainer = ({ navigation, route }) => {
   const [isWalkwayFocused, setIsWalkwayFocused] = useState(false);
   const [tmpNewRecord, setTmpNewRecord] = useState(null);
   const { userId } = useSelector(state => state.user);
+
   const geoLocation = ref => {
     Geolocation.getCurrentPosition(
       position => {
@@ -152,6 +159,12 @@ const HomeContainer = ({ navigation, route }) => {
       path = nowPath;
       pins = nowPins;
       start = startPoint;
+    } else if (ver === 'restartWalkway') {
+      console.log({ selectedItem });
+      path = selectedItem.path;
+      pins = selectedItem.pinCount;
+      start = selectedItem.startPoint;
+      console.log({ path, pins, start, name: selectedItem.title });
     }
     const generateOnMessageFunction = data =>
       `(function() {
@@ -166,16 +179,21 @@ const HomeContainer = ({ navigation, route }) => {
         path: path,
         pins: pins,
         startPoint: start,
+        name: selectedItem.title,
       }),
     );
   };
 
   const closeModal = () => {
+    if (isRestart) {
+      setCurrentPos(currentPosition);
+    }
     setIsVisible(false);
     setListIsVisible(true);
   };
 
   const handleClickItem = item => {
+    // console.log({ item });
     setIsVisible(true);
     setListIsVisible(false);
     setSelectedItem(item);
@@ -186,7 +204,9 @@ const HomeContainer = ({ navigation, route }) => {
   };
   const handleClickWalkway = () => {
     setIsInformationVisible(true);
-    closeModal();
+    // closeModal();
+    setIsVisible(false);
+    setListIsVisible(true);
   };
 
   const startWalk = () => {
@@ -194,6 +214,7 @@ const HomeContainer = ({ navigation, route }) => {
     dispatch(setStartTime(res));
     setIsVisible(false);
     setListIsVisible(false);
+    dispatch(setIsRestart(false));
     setIsInformationVisible(false);
     setRecording(true);
     dispatch(setIsWalking(true));
@@ -245,6 +266,7 @@ const HomeContainer = ({ navigation, route }) => {
     setWalkData(nowWalk);
 
     const res2 = await createWalk(nowWalk);
+    setCurrentPos(currentPosition);
   };
 
   const resetData = () => {
@@ -347,6 +369,11 @@ const HomeContainer = ({ navigation, route }) => {
       startModalVisible={startModalVisible}
       openStartModal={openStartModal}
       closeStartModal={closeStartModal}
+      setIsVisible={setIsVisible}
+      setListIsVisible={setListIsVisible}
+      setSelectedItem={setSelectedItem}
+      setCurrentPos={setCurrentPos}
+      currentPos={currentPos}
     />
   );
 };
