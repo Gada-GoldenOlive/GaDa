@@ -1,18 +1,12 @@
 import {
   ScrollView,
   StyleSheet,
-  Text,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import React from 'react';
-import CenterModal from '../../../components/CenterModal';
-import WalkEnd from '../../../components/WalkEnd';
+import Spinner from 'react-native-loading-spinner-overlay';
 import CustomImage from '../../../components/CustomImage';
-import { MapImage, Sample } from '../../../constant/images/Temp';
-import { windowHeight, windowWidth } from '../../../constant/styles';
-import CustomButton from '../../../components/CustomButton';
-import { MyS } from '../../../constant/images/Sample';
 import Profile from '../components/Profile';
 import Writing from '../../../constant/images/Writing';
 import {
@@ -31,33 +25,47 @@ import Badge from '../components/Badge';
 import { Arrow, ArrowBlack } from '../../../constant/images/Arrow';
 import RecentWalk from '../components/RecentWalk';
 import MyWalkwayList from '../components/MyWalkwayList';
+import Text from '../../../components/MyText';
 
 const RecordScreen = ({
   userData,
+  myWalks,
+  badgeList,
+  loading,
+  recentWalks,
   handleNavigate,
   handleNaivigateGoal,
   handleNavigateSetting,
   handleNavigateBadge,
   handleNavigateRecent,
   handleNavigateMyRecord,
+  handleNavigateLikeReviews,
+  handleDetailFeed,
+  handleLoadMore
 }) => {
   const {
     id,
     loginId,
     image,
     name,
-    pinCOunt,
+    pinCount,
     badgeCount,
     goalDistance,
     goalTime,
     totalDistance,
     totalTime,
   } = userData;
+  const profile = { loginId, image, name };
+  const goal = { loginId, goalDistance, goalTime, totalDistance, totalTime };
   const header = () => {
     return (
       <View style={styles.container}>
         <View style={styles.profileContainer}>
-          <Profile handleNavigateSetting={handleNavigateSetting} />
+          <Profile
+            handleNavigateLikeReviews={handleNavigateLikeReviews}
+            handleNavigateSetting={handleNavigateSetting}
+            profile={profile}
+          />
         </View>
         <View style={styles.goalContainer}>
           <View style={styles.goalTitleContainer}>
@@ -67,7 +75,7 @@ const RecordScreen = ({
                 <CustomImage source={Writing} style={styles.goalWriting} />
               </TouchableWithoutFeedback>
             </View>
-            <TouchableWithoutFeedback onPress={handleNavigateMyRecord}>
+            {/*<TouchableWithoutFeedback onPress={handleNavigateMyRecord}>
               <View style={styles.moreWrapper}>
                 <Text>전체보기</Text>
                 <CustomImage
@@ -76,9 +84,9 @@ const RecordScreen = ({
                   tintColor={descriptionColorVer2}
                 />
               </View>
-            </TouchableWithoutFeedback>
+            </TouchableWithoutFeedback>*/}
           </View>
-          <Goal />
+          <Goal goal={goal} />
         </View>
         <View style={styles.badgeContainer}>
           <View style={styles.badgeTitleContainer}>
@@ -90,21 +98,22 @@ const RecordScreen = ({
               </View>
             </TouchableWithoutFeedback>
           </View>
-          <Badge />
+          <Badge badgeList={badgeList} />
         </View>
-        <View style={styles.recentContainer}>
-          <View style={styles.recentTitleContainer}>
-            <Text style={styles.recentTitle}>최근 활동</Text>
-            <TouchableWithoutFeedback onPress={handleNavigateRecent}>
-              <View style={styles.recentMoreWrapper}>
-                <Text style={styles.recentMore}>더보기</Text>
-                <CustomImage style={styles.moreImage} source={ArrowBlack} />
-              </View>
-            </TouchableWithoutFeedback>
+        {recentWalks.length >= 1 && (
+          <View style={styles.recentContainer}>
+            <View style={styles.recentTitleContainer}>
+              <Text style={styles.recentTitle}>최근 활동</Text>
+              <TouchableWithoutFeedback onPress={handleNavigateRecent}>
+                <View style={styles.recentMoreWrapper}>
+                  <Text style={styles.recentMore}>더보기</Text>
+                  <CustomImage style={styles.moreImage} source={ArrowBlack} />
+                </View>
+              </TouchableWithoutFeedback>
+            </View>
+            <RecentWalk recentWalks={recentWalks} />
           </View>
-          <RecentWalk />
-        </View>
-
+        )}
         <View style={styles.myWalkContainer}>
           <View style={styles.recentTitleContainer}>
             <Text style={styles.recentTitle}>작성한 산책로</Text>
@@ -113,13 +122,13 @@ const RecordScreen = ({
       </View>
     );
   };
-  return (
+  return loading ? <Spinner visible /> : (
     <View
       style={styles.container}
       bounces={false}
       showsVerticalScrollIndicator={false}
     >
-      <MyWalkwayList ListHeaderComponent={header}/>
+      <MyWalkwayList ListHeaderComponent={header} myWalks={myWalks} handleDetailFeed={handleDetailFeed} handleLoadMore={handleLoadMore}/>
     </View>
   );
 };
@@ -132,11 +141,11 @@ const styles = StyleSheet.create({
   },
   profileContainer: {
     marginTop: 16,
-    // paddingHorizontal: 16,
+    paddingHorizontal: 16,
   },
   goalContainer: {
     marginTop: 35,
-   // paddingHorizontal: 16,
+    paddingHorizontal: 16,
   },
   goalTitleContainer: {
     flexDirection: 'row',
@@ -207,7 +216,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 14,
 
-    // paddingHorizontal: 16,
+    paddingHorizontal: 16,
   },
   recentTitle: {
     color: blackColor,
@@ -224,6 +233,5 @@ const styles = StyleSheet.create({
   },
   myWalkContainer: {
     marginTop: 30,
-    marginBottom: 60,
   },
 });

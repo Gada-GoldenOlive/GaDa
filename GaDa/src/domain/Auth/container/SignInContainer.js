@@ -6,15 +6,15 @@ import { checkLogin, getUserLogin } from '../../../APIs/user';
 import Toast from 'react-native-toast-message';
 import { useDispatch } from 'react-redux';
 import { setIsAuthenticated, setUserId } from '../../../redux/modules/user';
-import { setIdInLocalStorage, storeAccessToken, storeInLocalStorage } from '../../../function';
 import jwtDecode from 'jwt-decode';
 import defaultAxios from '../../../APIs';
-
+import { storeInLocalStorage } from '../../../function';
 const SignInContainer = ({ navigation }) => {
   const [userId, setId] = useState('');
   const [pw, setPw] = useState('');
-
+  
   const [isWrong, setIsWrong] = useState(false);
+  const [clickable, setClickable] = useState(false);
   const dispatch = useDispatch();
   const handleNavigateSignUp = () => {
     navigation.navigate('ID');
@@ -29,36 +29,55 @@ const SignInContainer = ({ navigation }) => {
   };
   const checkLogin = async () => {
     const res = await getUserLogin({ id: userId, pw: pw });
-    const { access_token } = res;
-    if (access_token !== null) {
-      saveTokenDataInLocalAndAxios(access_token)
-      handleNavigate();
-    } else {
-      console.log(res)
+    console.log(res);
+    if(res.statusCode){
+      setIsWrong(true);
     }
+    else{
+      setIsWrong(false);
+      const { accessToken, refreshToken } = res;
+
+      if (accessToken !== null) {
+        saveTokenDataInLocalAndAxios(accessToken, refreshToken)
+        handleNavigate();
+      } else {
+        console.log(res);
+      }
+
+    }
+
   };
 
-  const saveTokenDataInLocalAndAxios = async (accessToken) => {
-    await storeAccessToken(accessToken);
+  const saveTokenDataInLocalAndAxios = async (accessToken, refreshToken) => {
+    await storeInLocalStorage(accessToken, refreshToken);
     dispatch(setIsAuthenticated(true));
-    const { user_id: userId } = jwtDecode(accessToken);
+    const { sub: userId } = jwtDecode(accessToken);
     dispatch(setUserId(userId));
-    console.log(accessToken, userId)
     defaultAxios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
 
   };
 
+  useEffect(() => {
+    if(userId.length > 6 && pw.length > 6){
+      setClickable(true);
+    } else {
+      setClickable(false);
+    }
+  }, [userId, pw])
 
   return (
     <SignInScreen
       id={userId}
       pw={pw}
+      clickable={clickable}
       setId={setId}
       setPw={setPw}
+      isWrong={isWrong}
       handleNavigate={checkLogin}
       handleNavigateSignUp={handleNavigateSignUp}
     />
   );
+
 };
 
 export default SignInContainer;

@@ -79,11 +79,11 @@ const PinInformation = ({
               </Text>
             </View>
             <View style={styles.bottomContainer}>
-              <TouchableWithoutFeedback>
+             {/* <TouchableWithoutFeedback>
                 <View style={styles.bottomWrapper}>
                   <Text style={styles.bottomText}>주소복사</Text>
                 </View>
-              </TouchableWithoutFeedback>
+                </TouchableWithoutFeedback>*/}
             </View>
           </View>
         </View>

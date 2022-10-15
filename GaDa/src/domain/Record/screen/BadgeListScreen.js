@@ -1,13 +1,13 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { ScrollView, StyleSheet, View,  } from 'react-native'
 import React from 'react'
 import BadgeList from '../components/BadgeList'
 import { boldFontFamily } from '../../../constant/fonts'
 import { blackColor } from '../../../constant/colors'
-const BadgeListScreen = () => {
+const BadgeListScreen = ({badgeList}) => {
   return (
-    <ScrollView style={styles.container} bounces={false} showsVerticalScrollIndicator={false} >
-        <BadgeList />
-    </ScrollView>
+    <View style={styles.container} >
+        <BadgeList badgeList={badgeList}/>
+    </View>
   )
 }
 

@@ -3,6 +3,7 @@ import {
   createStackNavigator,
 } from '@react-navigation/stack';
 import React from 'react';
+import { boldFontFamily } from '../constant/fonts';
 import HomeContainer from '../domain/Home/container/HomeContainer';
 
 const Stack = createStackNavigator();
@@ -18,6 +19,7 @@ const HomeNavigator = () => {
         cardStyle: { backgroundColor: 'white' },
         headerTitleStyle: {
           fontSize: 16,
+          fontFamily: boldFontFamily,
         },
         headerStyle: {
           elevation: 0,

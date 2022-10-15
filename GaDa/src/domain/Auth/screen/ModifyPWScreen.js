@@ -1,9 +1,10 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import React from 'react';
 import { boldFontFamily, boldFontSize } from '../../../constant/fonts';
 import MyTextInput from '../../../components/MyTextInput';
 import { blackColor, errorColor } from '../../../constant/colors';
 import CustomButton from '../../../components/CustomButton';
+import Text from '../../../components/MyText';
 
 const ModifyPWScreen = ({
   current,
@@ -15,6 +16,8 @@ const ModifyPWScreen = ({
   check,
   checkChange,
   checkWrong,
+  changePW,
+  clickable
 }) => {
   return (
     <View style={styles.container}>
@@ -72,7 +75,8 @@ const ModifyPWScreen = ({
       <CustomButton
         style={styles.button}
         title="설정완료"
-        clickable={!currentWrong && !newWrong && !checkWrong}
+        clickable={clickable}
+        handlePress={changePW}
       />
     </View>
   );

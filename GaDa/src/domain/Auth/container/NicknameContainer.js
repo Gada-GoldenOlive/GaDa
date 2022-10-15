@@ -1,50 +1,82 @@
-import { View, Text } from 'react-native';
 import React, { useEffect } from 'react';
 import NicknameScreen from '../screen/NicknameScreen';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsAuthenticated, setNickname } from '../../../redux/modules/user';
-import { setIdInLocalStorage } from '../../../function';
-import { createUser } from '../../../APIs/user';
+import {
+  getNicknameIsNotValid,
+  setIdInLocalStorage,
+  storeInLocalStorage,
+} from '../../../function';
+import { checkNickname, createUser } from '../../../APIs/user';
+import defaultAxios from '../../../APIs';
+import { useState } from 'react';
+import RNRestart from 'react-native-restart';
+import jwtDecode from 'jwt-decode';
 
 const NicknameContainer = ({ navigation }) => {
-  const { nickname, userId, pw } = useSelector(state => state.user);
+  
+  const reloadApp = () => RNRestart.Restart();
+  const { loginId, pw } = useSelector(state => state.user);
+  const [name, setName] = useState('');
+  const [isValid, setIsValid] = useState(false);
+  const [duplicated, setDuplicated] = useState(false);
+  const [isOK, setIsOK] = useState('');
   const dispatch = useDispatch();
+
   const handleNicknameChange = text => {
     dispatch(setNickname(text));
+    setName(text);
+    const res = getNicknameIsNotValid(text);
+    if (res) {
+      setIsValid(false);
+    } else {
+      setIsValid(true);
+    }
+    setIsOK(false);
+    setDuplicated(false);
   };
 
+  const handleCheckDuplicate = async() => {
+    const res = await checkNickname(name);
+    if(res){
+      const {isValid} = res;
+      setIsOK(isValid);
+      setDuplicated(!isValid);
+    }
+
+  }
   const login = async () => {
-    if (nickname.length >= 1) {
+   
       const userBody = {
-        userId: userId,
+        loginId: loginId,
         password: pw,
-        name: nickname,
+        name: name,
         image: '',
       };
-      const res = await createUser(userBody);
-      const id = res?.id ? res?.id : null;
-      if (id !== null) {
-        setIdInLocalStorage(id);
-        dispatch(setIsAuthenticated(true));
-        handleNavigate();
-      }
-    }
-  };
-  const handleNavigate = () => {
-    dispatch(setIsAuthenticated(true));
+      delete defaultAxios.defaults.headers.common.Authorization;
 
-    navigation.reset({
-      index: 0,
-      routes: [{ name: 'BottomTab' }],
-    });
+      const res = await createUser(userBody);
+      const { accessToken, refreshToken } = res;
+      if (loginId !== null) {
+        await storeInLocalStorage(accessToken, refreshToken);
+        const { sub: user_id } = jwtDecode(accessToken);
+        await setIdInLocalStorage(user_id);
+        dispatch(setIsAuthenticated(true));
+        reloadApp();
+      }
+    
   };
   useEffect(() => {
     dispatch(setNickname(''));
   }, []);
   return (
     <NicknameScreen
-      nickname={nickname}
+      isValid={isValid}
+      isOK={isOK}
+      name={name}
+      duplicated={duplicated}
       handleNavigate={login}
+      handleCheckDuplicate={handleCheckDuplicate}
       handleNicknameChange={handleNicknameChange}
     />
   );

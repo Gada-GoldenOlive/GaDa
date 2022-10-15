@@ -73,20 +73,33 @@ const DetailImage = ({ route }) => {
   const BigDatailImage = props => {
     const { item, index } = props;
     const { image } = item;
-
-    return (
-      <View style={{ marginTop: 0 }}>
-        <View style={styles.topContainer}>
-          <CustomImage
-            style={styles.reviewImage}
-            source={{ uri: image }}
-            resizeMode="contain"
-          />
+    if (ver === 'walkwayImages') {
+      const { id, url } = item;
+      return (
+        <View style={{ marginTop: 0 }}>
+          <View style={styles.topContainer}>
+            <CustomImage
+              style={styles.reviewImage}
+              source={{ uri: url }}
+              resizeMode="contain"
+            />
+          </View>
         </View>
-      </View>
-    );
+      );
+    } else {
+      return (
+        <View style={{ marginTop: 0 }}>
+          <View style={styles.topContainer}>
+            <CustomImage
+              style={styles.reviewImage}
+              source={{ uri: image }}
+              resizeMode="contain"
+            />
+          </View>
+        </View>
+      );
+    }
   };
-
   const BottomImages = props => {
     const { item, index } = props;
     const { image } = item;
@@ -96,20 +109,38 @@ const DetailImage = ({ route }) => {
       bigScroll.current.scrollToIndex({ index: page });
       bottomScroll.current.scrollToIndex({ index: page });
     };
-    return (
-      <TouchableWithoutFeedback
-        style={styles.imageList}
-        onPress={() => {
-          handleClick(index);
-        }}
-      >
-        <CustomImage
-          style={styles.smallImage}
-          source={{ uri: image }}
-          resizeMode="cover"
-        />
-      </TouchableWithoutFeedback>
-    );
+    if (ver === 'walkwayImages') {
+      const { id, url } = item;
+      return (
+        <TouchableWithoutFeedback
+          style={styles.imageList}
+          onPress={() => {
+            handleClick(index);
+          }}
+        >
+          <CustomImage
+            style={styles.smallImage}
+            source={{ uri: url }}
+            resizeMode="cover"
+          />
+        </TouchableWithoutFeedback>
+      );
+    } else {
+      return (
+        <TouchableWithoutFeedback
+          style={styles.imageList}
+          onPress={() => {
+            handleClick(index);
+          }}
+        >
+          <CustomImage
+            style={styles.smallImage}
+            source={{ uri: image }}
+            resizeMode="cover"
+          />
+        </TouchableWithoutFeedback>
+      );
+    }
   };
   const handleOnLayout = () => {
     bigScroll.current.scrollToIndex({ index: idx, animated: false });
@@ -132,7 +163,7 @@ const DetailImage = ({ route }) => {
         onMomentumScrollEnd={onScrollEnd}
       />
 
-      {ver !== undefined && (
+      {ver !== 'walkwayImages' && (
         <TouchableWithoutFeedback
           onPress={() => handlePressEdit(images[currentIdx])}
         >

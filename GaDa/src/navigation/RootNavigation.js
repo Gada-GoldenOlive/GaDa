@@ -25,15 +25,17 @@ import FriendRecordContainer from '../domain/Friends/container/FriendRecordConta
 
 // mypage
 import BadgeListContainer from '../domain/Record/container/BadgeListContainer';
+import LikeReviewsContainer from '../domain/Record/container/LikeReviewsContainer';
 
 // feed
 import GettingWalkwayContainer from '../domain/Feed/container/GettingWalkwayContainer';
 import DetailFeedContainer from '../domain/Feed/container/DetailFeedContainer';
-import { View } from 'react-native';
 import CreateWalkwayContainer from '../domain/Feed/container/CreateWalkwayContainer';
 import ModifyPWContainer from '../domain/Auth/container/ModifyPWContainer';
 import MyRecordContainer from '../domain/Record/container/MyRecordContainer';
 import DetailPinContainer from '../domain/Pin/container/DetailPinContainer';
+import { boldFontFamily } from '../constant/fonts';
+import RestartWalksContainer from '../domain/Record/container/RestartWalksContainer';
 
 const createPinScreen = {
   CreatePin: CreatePinContainer,
@@ -56,8 +58,8 @@ const authScreens = [
   },
   {
     name: 'MyRecord',
-    screen: MyRecordContainer
-  }
+    screen: MyRecordContainer,
+  },
 ];
 const signInScreen = {
   SignIn: SignInContainer,
@@ -72,13 +74,19 @@ const friendRecordScreen = {
   FriendRecord: FriendRecordContainer,
 };
 
-const modifyScreens = [
+const myPageScreens = [
   {
     name: 'ModifyNickname',
     screen: ModifyNicknameContainer,
     title: '프로필 수정',
   },
   { name: 'ModifyPW', screen: ModifyPWContainer, title: '비밀번호 재설정' },
+  {
+    name: 'LikeReviews',
+    screen: LikeReviewsContainer,
+    title: '좋아요한 게시글',
+  },
+  { name: 'RestartWalks', screen: RestartWalksContainer, title: '' },
 ];
 
 const badgeListScreen = {
@@ -95,13 +103,12 @@ const detailFeedScreens = [
     name: 'DetailFeed',
     screen: DetailFeedContainer,
   },
-  { name: 'DetailPin', screen: DetailPinContainer, },
-]
+  { name: 'DetailPin', screen: DetailPinContainer },
+];
 
 const createWalkwayScreen = {
   CreateWalkway: CreateWalkwayContainer,
 };
-
 
 const RootStack = createStackNavigator();
 const RootNavigation = () => {
@@ -116,6 +123,7 @@ const RootNavigation = () => {
         cardStyle: { backgroundColor: '#fff', opacity: 1 },
         headerTitleStyle: {
           fontSize: 16,
+          fontFamily: boldFontFamily,
         },
         headerStyle: {
           elevation: 0,
@@ -133,7 +141,6 @@ const RootNavigation = () => {
         ...createPinScreen,
       }).map(([name, component]) => (
         <RootStack.Screen
-          key={name}
           name={name}
           component={component}
           options={{
@@ -151,26 +158,28 @@ const RootNavigation = () => {
           options={({ route }) => {
             const { params } = route;
             const { images, ver, body } = params;
-            if (ver === 'pin') {
+            if (ver === 'pin' || ver === 'profile' || ver === 'review') {
               return {
-                title: 'pin',
+                title: '상세 이미지',
                 headerShown: true,
                 headerLeft: () => <BackButton />,
                 headerRight: () => (
                   <ImageSubmitButton imageList={images} body={body} ver={ver} />
                 ),
               };
+            } else {
+             
+              return {
+                title: '상세 이미지',
+                headerShown: true,
+                headerLeft: null,
+                headerRight: () => <CloseButton />,
+              };
             }
-            return {
-              title: '상세 이미지',
-              headerShown: true,
-              headerLeft: null,
-              headerRight: () => <CloseButton />,
-            };
           }}
         />
       ))}
-      {modifyScreens.map(({ name, screen, title}) => {
+      {myPageScreens.map(({ name, screen, title }) => {
         return (
           <RootStack.Screen
             key={name}
@@ -313,8 +322,6 @@ const RootNavigation = () => {
           }}
         />
       ))}
-
-
 
       <RootStack.Screen name="BottomTab" component={BottomTab} />
     </RootStack.Navigator>

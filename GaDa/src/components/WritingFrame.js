@@ -37,6 +37,8 @@ const WritingFrame = ({
   image = '',
   handlePress,
   type = 'pin',
+  rate=0,
+  setRate=() => {},
 }) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -113,6 +115,7 @@ const WritingFrame = ({
     console.log(items);
     dispatch(setPinImage(items));
   };
+  
 
   return (
     <View style={styles.contianer}>
@@ -159,9 +162,9 @@ const WritingFrame = ({
                 <View style={styles.informationContainer}>
                   <CustomRating
                     style={styles.rating}
-                    readonly
                     size={40}
-                    score={4}
+                    score={rate}
+                    onPress={setRate}
                     starMargin={(windowWidth - 34 - 34 - 200) / 5}
                     tintColor={buttonColor}
                   />

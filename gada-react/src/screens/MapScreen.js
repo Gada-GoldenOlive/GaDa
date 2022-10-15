@@ -14,6 +14,7 @@ import PinPosSubmitButton from "./components/PinPosSubmitButton";
 import "./css/MapScreen.css";
 import { getDistance } from "geolib";
 import AddPin from "../constant/images/AddPin";
+import { getDistanceFromLatLonInKm } from "../functions";
 
 const MapScreen = ({
   currentPosition,
@@ -27,6 +28,7 @@ const MapScreen = ({
   const [isAddPinClicked, setIsAddPinClicked] = useState(false);
   const [isSubmitPinPosClicked, setIsSubmitPinPosClicked] = useState(false);
   const [isStartWalkClicked, setIsStartWalkClicked] = useState(false);
+  const [recordPosition, setRecordPosition] = useState([]);
   //console.log(line.getLength());
   let timer;
   const handlePolylineDrag = (map) => {
@@ -38,8 +40,8 @@ const MapScreen = ({
 
   const [state, setState] = useState({
     center: {
-      lat: 37.54699,
-      lng: 127.09598,
+      lat: null,
+      lng: null,
     },
     errMsg: null,
     isLoading: true,
@@ -48,6 +50,7 @@ const MapScreen = ({
   const [walkwayPath, setWalkwayPath] = useState("null");
   const [walkwayPins, setWalkwayPins] = useState("null");
   const [pathStartPoint, setPathStartPoint] = useState("null");
+  const [isFirstRecording, setIsFirstRecording] = useState(true);
 
   const [movingCurrentList, setMovingCurrentList] = useState();
 
@@ -58,14 +61,28 @@ const MapScreen = ({
         (position) => {
           if (ver === "watch") {
             // 현재 위치 표시를 위해 그냥 currentState 저장만
-            setCurrentState((prev) => ({
-              ...prev,
-              center: {
-                lat: position.coords.latitude, // 위도
-                lng: position.coords.longitude, // 경도
-              },
-              isLoading: false,
-            }));
+            const center = {
+              lat: position.coords.latitude, // 위도
+              lng: position.coords.longitude, // 경도
+            };
+            if (
+              getDistanceFromLatLonInKm({
+                lat1: currentState.center.lat,
+                lng1: currentState.center.lng,
+                lat2: center.lat,
+                lng2: center.lng,
+              }) *
+                1000 <
+              10
+            )
+              setCurrentState((prev) => ({
+                ...prev,
+                center: {
+                  lat: position.coords.latitude, // 위도
+                  lng: position.coords.longitude, // 경도
+                },
+                isLoading: false,
+              }));
           } else {
             // 현재 위치 저장 및 현재 위치로 이동하도록
             setState((prev) => ({
@@ -108,10 +125,24 @@ const MapScreen = ({
       }));
     }
   };
+
   useEffect(() => {
     geoLocation();
-    //autoGeoLocation();
   }, []);
+
+  useEffect(() => {
+    if (
+      currentState.center.lat !== null &&
+      currentState.center.lng !== null &&
+      isFirstRecording
+    ) {
+      // alert("hi");
+      setRecordPosition([
+        { lat: currentState.center.lat, lng: currentState.center.lng },
+      ]);
+      setIsFirstRecording(false);
+    }
+  }, [currentState]);
 
   useEffect(() => {
     if (isGeolocation) {
@@ -149,9 +180,16 @@ const MapScreen = ({
         setIsStartWalkClicked(true);
       } else if (event.data.type === "stopWalk") {
         setIsStartWalkClicked(false);
+      } else if (event.data.type === "restartWalkway") {
+        setWalkwayPath(event.data.path);
+        setWalkwayPins(event.data.pins);
+        setPathStartPoint(event.data.startPoint);
       }
     });
   };
+  useEffect(() => {
+    // alert(JSON.stringify(walkwayPath));
+  }, [walkwayPath]);
 
   // 각 버튼 클릭시 실행할 것들
   useEffect(() => {
@@ -166,13 +204,7 @@ const MapScreen = ({
       setIsAddPinClicked(false);
     }
   }, [isSubmitPinPosClicked]);
-  // useEffect(() => {
-  //   if (isSubmitPinPosClicked && isAddPinClicked) {
-  //     handleSubmit("pinPos", state.center);
-  //     setIsSubmitPinPosClicked(false);
-  //     setIsAddPinClicked(false);
-  //   }
-  // }, [isSubmitPinPosClicked]);
+
   useEffect(() => {
     if (
       walkwayPath !== "null" &&
@@ -180,8 +212,6 @@ const MapScreen = ({
       !isCurrentPosClicked
     ) {
       setState((prev) => ({ ...prev, center: pathStartPoint }));
-
-      //setPathStartPoint(walkwayPath[0]);
     }
     setIsCurrentPosClicked(false);
   }, [walkwayPath, pathStartPoint]);
@@ -191,11 +221,6 @@ const MapScreen = ({
       //setIsStartWalkClicked(false);
     }
   }, [isStartWalkClicked]);
-  // useEffect(() => {
-  //   if (walkwayPins !== "null") {
-  //     //alert(JSON.stringify(walkwayPins[0].location));
-  //   }
-  // }, [walkwayPins]);
 
   // websocket 계속 받기
   useEffect(() => {
@@ -264,6 +289,13 @@ const MapScreen = ({
             // setLine={setLine}
           />
         )}
+        {/* <DrawPolyline
+          path={[
+            { lat: 37.52808864250951, lng: 126.9664946472026 },
+            { lat: 37.528100946217506, lng: 126.96620814543589 },
+            { lat: 37.52810757753854, lng: 126.96644342188938 },
+          ]}
+        /> */}
         {/* </div> */}
         {walkwayPins !== "null" && (
           <DrawMarkers

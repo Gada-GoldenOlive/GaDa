@@ -8,12 +8,14 @@ import {
   setBottomTabVisible,
   setCurrentPosition,
   setEndTime,
+  setIsRestart,
   setIsWalking,
   setPinNum,
 } from '../../../redux/modules/status';
 import { useEffect } from 'react';
 import {
   getCurrentTime,
+  getDistanceFromLatLonInKm,
   getDuringTime,
   getIdInLocalStorage,
 } from '../../../function';
@@ -21,6 +23,8 @@ import { setStartTime } from '../../../redux/modules/status';
 import { get } from 'react-native/Libraries/Utilities/PixelRatio';
 import { createWalk } from '../../../APIs/walk';
 import { setUserId } from '../../../redux/modules/user';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getWalkwayInfo } from '../../../APIs/walkway';
 
 // * 현재위치
 // 일정 시간 후 주기적으로 반복해서 geoLocation 해주기!
@@ -30,10 +34,12 @@ import { setUserId } from '../../../redux/modules/user';
 const CURRENTPOS = 'currentPos';
 
 const HomeContainer = ({ navigation, route }) => {
+  const [currentPos, setCurrentPos] = useState({});
+
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
   // 현재위치
-  const [coords, setCoords] = useState({ latitude: null, longitude: null });
+  const [coords, setCoords] = useState({ lat: null, lng: null });
   // 내위치 리스트
   const [locationList, setLocationList] = useState([]);
   // 기록 시작
@@ -57,7 +63,9 @@ const HomeContainer = ({ navigation, route }) => {
   // start modal
   const [startModalVisible, setStartModalVisible] = useState(false);
   // 생성한 핀 개수
-  const { pinNum } = useSelector(state => state.status);
+  const { pinNum, currentPosition, isRestart } = useSelector(
+    state => state.status,
+  );
   const [loading, setLoading] = useState(false);
   const { isAuthenticated } = useSelector(state => state.user);
   const dispatch = useDispatch();
@@ -68,7 +76,9 @@ const HomeContainer = ({ navigation, route }) => {
   const [startPoint, setStartPoint] = useState({});
   const [nowPins, setNowPins] = useState([]);
   const [isWalkwayFocused, setIsWalkwayFocused] = useState(false);
+  const [tmpNewRecord, setTmpNewRecord] = useState(null);
   const { userId } = useSelector(state => state.user);
+
   const geoLocation = ref => {
     Geolocation.getCurrentPosition(
       position => {
@@ -77,7 +87,6 @@ const HomeContainer = ({ navigation, route }) => {
 
         setLatitude(latitude);
         setLongitude(longitude);
-        handleConnection(ref, CURRENTPOS); // 웹에 현재 위치 보내기
       },
       error => {
         console.log(error.code, error.message);
@@ -86,35 +95,57 @@ const HomeContainer = ({ navigation, route }) => {
     );
   };
 
+  useEffect(() => {
+    console.log({ beforeRecord, tmpNewRecord });
+    if (tmpNewRecord !== null) {
+      let updateFlag = true;
+      // 시작
+      let dist;
+
+      if (beforeRecord !== null) {
+        // console.log(beforeRecord, newRecord);
+
+        // const dist = getDistance(beforeRecord, newRecord, 0.1);
+
+        dist = getDistanceFromLatLonInKm({
+          lat1: beforeRecord.lat,
+          lng1: beforeRecord.lng,
+          lat2: tmpNewRecord.lat,
+          lng2: tmpNewRecord.lng,
+        });
+
+        console.log(dist * 1000);
+        if (dist * 1000 < 30) {
+          updateFlag = false;
+        }
+      }
+      if (updateFlag) {
+        setCoords(tmpNewRecord);
+        setBeforeRecord(tmpNewRecord);
+        setLocationList(locationList => [...locationList, tmpNewRecord]);
+        dispatch(setCurrentPosition(tmpNewRecord));
+      }
+    }
+  }, [tmpNewRecord]);
+
   const recordPosition = () => {
+    console.log('너냐');
     const newId = Geolocation.getCurrentPosition(
       position => {
         if (position) {
-          let updateFlag = true;
+          // let updateFlag = true;
           const newRecord = {
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
           };
-          // 시작
-          if (beforeRecord !== null) {
-            // console.log(beforeRecord, newRecord);
-            const dist = getDistance(beforeRecord, newRecord, 0.1);
-            // if (dist < 50) {
-            //   updateFlag = false;
-            // }
-          }
-          if (updateFlag) {
-            setCoords(newRecord);
-            setBeforeRecord(newRecord);
-            setLocationList(locationList => [...locationList, newRecord]);
-            dispatch(setCurrentPosition(newRecord));
-          }
+
+          setTmpNewRecord(newRecord);
         }
       },
       err => {
         console.log(err.message);
       },
-      { enableHighAccuracy: false },
+      { enableHighAccuracy: true, accuracy: { ios: 'best' } },
     );
 
     setRecording(true);
@@ -128,6 +159,12 @@ const HomeContainer = ({ navigation, route }) => {
       path = nowPath;
       pins = nowPins;
       start = startPoint;
+    } else if (ver === 'restartWalkway') {
+      console.log({ selectedItem });
+      path = selectedItem.path;
+      pins = selectedItem.pinCount;
+      start = selectedItem.startPoint;
+      console.log({ path, pins, start, name: selectedItem.title });
     }
     const generateOnMessageFunction = data =>
       `(function() {
@@ -142,16 +179,21 @@ const HomeContainer = ({ navigation, route }) => {
         path: path,
         pins: pins,
         startPoint: start,
+        name: selectedItem.title,
       }),
     );
   };
 
   const closeModal = () => {
+    if (isRestart) {
+      setCurrentPos(currentPosition);
+    }
     setIsVisible(false);
     setListIsVisible(true);
   };
 
   const handleClickItem = item => {
+    // console.log({ item });
     setIsVisible(true);
     setListIsVisible(false);
     setSelectedItem(item);
@@ -162,7 +204,9 @@ const HomeContainer = ({ navigation, route }) => {
   };
   const handleClickWalkway = () => {
     setIsInformationVisible(true);
-    closeModal();
+    // closeModal();
+    setIsVisible(false);
+    setListIsVisible(true);
   };
 
   const startWalk = () => {
@@ -170,6 +214,7 @@ const HomeContainer = ({ navigation, route }) => {
     dispatch(setStartTime(res));
     setIsVisible(false);
     setListIsVisible(false);
+    dispatch(setIsRestart(false));
     setIsInformationVisible(false);
     setRecording(true);
     dispatch(setIsWalking(true));
@@ -211,25 +256,26 @@ const HomeContainer = ({ navigation, route }) => {
     dispatch(setIsWalking(false));
     const time = getDuringTime();
     const dis = finishRecord().toFixed(2);
-    console.log({ res, dis });
     const nowWalk = {
       time: time,
       distance: dis / 10,
+      pinCount: pinNum,
       finishStatus: status,
       walkwayId: selectedItem.id,
-      userId: userId,
     };
     setWalkData(nowWalk);
 
     const res2 = await createWalk(nowWalk);
+    setCurrentPos(currentPosition);
   };
 
   const resetData = () => {
     console.log('reset');
     setLocationList([]);
-    setCoords({ latitude: null, longitude: null });
+    setCoords({ lat: null, lng: null });
     setRecording(false);
     setBeforeRecord(null);
+    setTmpNewRecord(null);
     setIsVisible(false);
     setSelectedItem({});
     setIsInformationVisible(false);
@@ -254,18 +300,17 @@ const HomeContainer = ({ navigation, route }) => {
   };
 
   const getAccess = async () => {
-    const {access_token} = await getAccess();
-    return access_token
-  }
-   useEffect(() => {
-     const res = getAccess();
-     if (res === '') {
-       navigation.reset({
-         index: 0,
-         routes: [{ name: 'SignIn' }],
-       });
-     }
-   }, [isAuthenticated]);
+    const access_token = await AsyncStorage.getItem('access_token');
+    if (access_token === null) {
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'SignIn' }],
+      });
+    }
+  };
+  useEffect(() => {
+    getAccess();
+  }, [isAuthenticated]);
   useEffect(() => {
     // walkEnd일때 안보여야하고 information visible일때 안보여야한다
     const tabVisible = !walkEnd && !isInformationVisible;
@@ -278,7 +323,8 @@ const HomeContainer = ({ navigation, route }) => {
       if (recording && !loading) {
         recordPosition();
       }
-    }, 1000);
+    }, 5000);
+    // if (!recording) clearInterval(interval);
   }, [recording]);
 
   useEffect(() => {
@@ -323,6 +369,11 @@ const HomeContainer = ({ navigation, route }) => {
       startModalVisible={startModalVisible}
       openStartModal={openStartModal}
       closeStartModal={closeStartModal}
+      setIsVisible={setIsVisible}
+      setListIsVisible={setListIsVisible}
+      setSelectedItem={setSelectedItem}
+      setCurrentPos={setCurrentPos}
+      currentPos={currentPos}
     />
   );
 };

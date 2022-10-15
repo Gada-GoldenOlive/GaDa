@@ -6,21 +6,27 @@ import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 import WalkEnd from '../../../components/WalkEnd';
 import CustomImage from '../../../components/CustomImage';
-import { FeedS, MyS } from '../../../constant/images/Sample';
 import { windowHeight, windowWidth } from '../../../constant/styles';
 import Writing from '../../../constant/images/Writing';
 import Text from '../../../components/MyText';
-import { boldFontFamily } from '../../../constant/fonts';
+import { boldFontFamily, montBoldFontFamily } from '../../../constant/fonts';
 import { blackColor } from '../../../constant/colors';
 import FilteringButton from '../../../components/FilteringButton';
 import FeedItemList from '../components/FeedItemList';
 
-const FeedScreen = ({handleGettingWalkway, handleDetailFeed}) => {
-  return (
-    <ScrollView style={styles.container} bounces={false} showsVerticalScrollIndicator={false}>
+const FeedScreen = ({
+  feedList,
+  onRefresh,
+  refreshing,
+  handleGettingWalkway,
+  handleDetailFeed,
+  handleLoadMore,
+}) => {
+  const headerComponent = () => {
+    return (
       <View style={styles.topContainer}>
         <Text style={styles.title}>피드</Text>
-        <FilteringButton />
+        {/* <FilteringButton />*/}
         <TouchableWithoutFeedback onPress={handleGettingWalkway}>
           <View style={styles.writeWrapper}>
             <CustomImage
@@ -31,8 +37,20 @@ const FeedScreen = ({handleGettingWalkway, handleDetailFeed}) => {
           </View>
         </TouchableWithoutFeedback>
       </View>
-      <FeedItemList handleDetailFeed={handleDetailFeed}/>
-    </ScrollView>
+    );
+  };
+  return (
+    <View style={styles.container}>
+      <FeedItemList
+        headerComponent={headerComponent}
+        handleDetailFeed={handleDetailFeed}
+        feedList={feedList}
+        refreshing={refreshing}
+        onRefresh={onRefresh}
+        type="feed"
+        handleLoadMore={handleLoadMore}
+      />
+    </View>
   );
 };
 
@@ -69,5 +87,4 @@ const styles = StyleSheet.create({
     paddingBottom: 11,
     paddingStart: 16,
   },
-  
 });

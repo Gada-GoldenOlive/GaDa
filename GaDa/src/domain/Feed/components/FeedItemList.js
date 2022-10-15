@@ -1,8 +1,7 @@
 import {
   FlatList,
+  RefreshControl,
   StyleSheet,
-  Text,
-  TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import React from 'react';
@@ -23,63 +22,39 @@ import GettingWalkwayItem from './GettingWalkwayItem';
 const ItemSeparatorComponent = () => {
   return <View style={{ height: 1 }} />;
 };
-const FeedItemList = ({type = 'feed', handleDetailFeed}) => {
-  const dataList = [
-    {
-      user: { image: null, name: '부산 갈매기' },
-      score: 5,
-      liked: false,
-      image: null,
-      name: '수영구 광안해변로 산책길',
-      time: 60,
-      distance: 125,
-      id: 0,
-    },
-    {
-      user: { image: null, name: '부산 갈매기' },
-      score: 5,
-      liked: false,
-      image: null,
-      name: '수영구 광안해변로 산책길',
-      time: 60,
-      distance: 1.25,
-      id: 1
-    },
-    {
-      user: { image: null, name: '부산 갈매기' },
-      score: 5,
-      liked: false,
-      image: null,
-      name: '수영구 광안해변로 산책길',
-      time: 60,
-      distance: 1.25,
-      id: 2,
-    },
-    {
-      user: { image: null, name: '부산 갈매기' },
-      score: 5,
-      liked: false,
-      image: null,
-      name: '수영구 광안해변로 산책길',
-      time: 60,
-      distance: 1.25,
-      id: 3,
-    },
-  ];
+const FeedItemList = ({
+  type = 'feed',
+  handleDetailFeed,
+  headerComponent,
+  feedList,
+  clickItem,
+  selectedItem, 
+  refreshing,
+  onRefresh,
+  handleLoadMore,
+}) => {
+
   const renderItem = ({ item, index }) => {
-   return type === 'recent' ? (
-    <GettingWalkwayItem item={item} index={index}/>
-   ) : <FeedItem item={item} index={index} handleDetailFeed={handleDetailFeed}/>
-   
+
+    return type === 'recent' ? (
+      <GettingWalkwayItem item={item} index={index} clickItem={clickItem} selectedItem={selectedItem} />
+    ) : (
+      <FeedItem item={item} index={index} handleDetailFeed={handleDetailFeed} />
+    );
   };
   return (
     <View style={styles.container}>
       <FlatList
         scrollEventThrottle={16}
         showsVerticalScrollIndicator={false}
-        data={dataList}
+        data={feedList}
         bounces={false}
+        ListHeaderComponent={headerComponent}
         disableVirtualization={false}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+        onEndReached={handleLoadMore}
         ItemSeparatorComponent={ItemSeparatorComponent}
         renderItem={({ item, index }) => renderItem({ item, index })}
         onEndReachedThreshold={0.7}
@@ -95,6 +70,4 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-
-
 });

@@ -6,33 +6,69 @@ import { mediumFontFamily } from '../constant/fonts';
 import { blackColor, emphasisColorVer2 } from '../constant/colors';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { setPinImage, setUploadImagesChanged } from '../redux/modules/images';
-import { createNewMessage } from '../APIs/Chat';
+import {
+  setImageFile,
+  setImageFileList,
+  setPinImage,
+  setProfileImage,
+  setUploadImagesChanged,
+  setWalkwayImages,
+} from '../redux/modules/images';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { getParam } from '../function/image';
+import { s3 } from '../constant/setting';
 
 const HeaderImageSubmitButton = props => {
   const { imageList, ver, body } = props;
+  const [eachUrl, setEachUrl] = useState('');
+  const {walkwayImages, imageFileList} = useSelector(state => state.images);
+
   const navigation = useNavigation();
 
   const dispatch = useDispatch();
-  const { bodyPhotoCount, bodyPhotoImages } = useSelector(({ images }) => ({
-    bodyPhotoCount: images.bodyPhotoCount,
-    bodyPhotoImages: images.bodyPhotoImages,
-  }));
 
-  const handleClick = () => {
+  const handleClick = async () => {
     if (ver === 'pin') {
       // pin
       imageList.forEach(async item => {
-        const uri = `data:${item.imageData.mime};base64,${item.imageData.data}`;
-        const setImages = items => {
-          dispatch(setPinImage(items));
+        const param = await getParam(item);
+
+        s3.upload(param, (err, data) => {
+          if (err) {
+            console.log('image upload err: ' + err);
+            return;
+          }
+          const imgTag = `${data.Location}`;
+          dispatch(setPinImage(imgTag));
           dispatch(setUploadImagesChanged(true));
-        };
-        setImages(uri);
+        });
       });
+      navigation.pop();
+    } else if (ver === 'profile') {
+      imageList.forEach(async item => {
+        dispatch(setImageFile(item.imageData));
+      });
+      navigation.pop();
+    } else if (ver === 'review') {
+      const list = [];
+      const fileList = [];
+
+      imageList.forEach(async image => {
+        const uri = `data:${image.imageData.mime};base64,${image.imageData.data}`;
+        list.push({url: uri})
+        fileList.push(image.imageData);
+      });
+      
+      dispatch(setWalkwayImages([...walkwayImages, ...list]));
+      dispatch(setImageFileList([...imageFileList, ...fileList]));
       navigation.pop();
     }
   };
+
+  useEffect(() => {
+    //getURL();
+  }, []);
   return (
     <TouchableWithoutFeedback onPress={handleClick}>
       <View style={styles.textButton} {...props}>

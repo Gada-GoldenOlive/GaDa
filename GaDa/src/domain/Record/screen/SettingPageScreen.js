@@ -10,12 +10,12 @@ import {
 import { boldFontFamily, boldFontSize } from '../../../constant/fonts';
 import Text from '../../../components/MyText';
 
-const SettingPageScreen = ({handleNaigateNickname, handleNavigatePW}) => {
+const SettingPageScreen = ({handleNaigateNickname, handleNavigatePW, handleLogout, handleSignOut}) => {
   return (
     <View style={styles.container}>
       <TouchableWithoutFeedback onPress={handleNaigateNickname}>
         <View style={styles.buttonContainer}>
-          <Text style={styles.buttonTitle}>이름 / 닉네임 설정</Text>
+          <Text style={styles.buttonTitle}>프로필 수정</Text>
           <CustomImage style={styles.arrow} source={ArrowBlack} />
         </View>
       </TouchableWithoutFeedback>
@@ -25,7 +25,13 @@ const SettingPageScreen = ({handleNaigateNickname, handleNavigatePW}) => {
           <CustomImage style={styles.arrow} source={ArrowBlack} />
         </View>
       </TouchableWithoutFeedback>
-      <TouchableWithoutFeedback onPress={handleNaigateNickname}>
+      <TouchableWithoutFeedback onPress={handleLogout}>
+        <View style={styles.buttonContainer}>
+          <Text style={styles.buttonTitle}>로그아웃</Text>
+          <CustomImage style={styles.arrow} source={ArrowBlack} />
+        </View>
+      </TouchableWithoutFeedback>
+      <TouchableWithoutFeedback onPress={handleSignOut}>
         <View style={styles.buttonContainer}>
           <Text style={styles.buttonTitle}>회원 탈퇴</Text>
           <CustomImage style={styles.arrow} source={ArrowBlack} />

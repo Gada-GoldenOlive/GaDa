@@ -1,4 +1,4 @@
-import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
+import { Platform, StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import React from 'react';
 import { buttonColor } from '../constant/colors';
 import { boldFontFamily } from '../constant/fonts';
@@ -14,7 +14,6 @@ const CustomButton = ({
   style: containerStyle = null,
   textStyle = null,
 }) => {
-  console.log(clickable)
   return (
     <View style={[styles.container, containerStyle]}>
       <TouchableWithoutFeedback onPress={clickable ? handlePress : null}>
@@ -31,17 +30,19 @@ export default CustomButton;
 const styles = StyleSheet.create({
   container: {
     width: windowWidth,
-    paddingBottom: 33,
+    paddingBottom: Platform.OS ==='ios' ? 44 : 14.5,
     backgroundColor: 'white',
     paddingTop: 14.5,
     paddingHorizontal: 16,
-    justifyContent: 'flex-start',
+    // justifyContent: 'flex-start',
     ...topShadowStyle,
+   // position: 'absolute',
+    // bottom: 0,
   },
   wrapper: {
     backgroundColor: buttonColor,
     borderRadius: 8,
-    paddingVertical: 17,
+    height: 55,
     alignItems: 'center',
     justifyContent: 'center',
   },

@@ -2,35 +2,17 @@ import axios, { handleNetworkError } from '../index';
 
 export const createWalk = async walkData => {
   const res = await axios
-    .post(`/walks`, { ...walkData })
+    .post(`/walkways/walks`, { ...walkData })
     .then(({ data }) => {
-      return data;
+      data;
     })
-    .catch(handleNetworkError);
+    .catch(e => console.log(e.response.data));
   return res;
 };
 
-export const getWalkList = async () => {
+export const getDetailWalk = async walkId => {
   const res = await axios
-    .get(`/walks`)
-    .then(({ data }) => {
-      return data;
-    })
-    .catch(handleNetworkError);
-  return res;
-};
-
-export const updateWalk = async (id, walkData) => {
-  const res = await axios
-    .patch(`/walks/${id}`, { ...walkData })
-    .then(({ data }) => data)
-    .catch(handleNetworkError);
-  return res;
-};
-
-export const deleteWalk = async id => {
-  const res = await axios
-    .delete(`/walks/${id}`)
+    .get(`/walkways/walks/${walkId}`)
     .then(({ data }) => data)
     .catch(handleNetworkError);
   return res;

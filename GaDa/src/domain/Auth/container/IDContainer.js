@@ -1,48 +1,59 @@
-import { View, Text } from 'react-native';
 import React, { useEffect } from 'react';
 import IDScreen from '../screen/IDScreen';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setUserId } from '../../../redux/modules/user';
+import { setLoginId, setUserId } from '../../../redux/modules/user';
 import { getUsersCheckedId } from '../../../APIs/user';
+import { getIDIsNotValid } from '../../../function';
+import SignInFrame from '../components/SignInFrame';
 
 const IDContainer = ({ navigation }) => {
   const [isWrong, setIsWrong] = useState(true);
-  const { userId } = useSelector(state => state.user);
+ const [id, setId] = useState('');
   const [first, setFirst] = useState(true);
-  const [changed, setChanged] = useState(false)
+  const [changed, setChanged] = useState(false);
+  const [isNotValid, setIsNotValid] = useState(true);
 
   const dispatch = useDispatch();
   const handleIdChange = idText => {
-    dispatch(setUserId(idText));
-    setChanged(true)
+    setId(idText)
+    if(getIDIsNotValid(idText)){
+      setIsNotValid(true);
+    }else {
+      setIsNotValid(false);
+    }
+    setChanged(true);
   };
   const handleNavigate = () => {
     if (!isWrong) {
+      dispatch(setLoginId(id))
       navigation.navigate('PW');
     }
   };
 
   const checkId = async () => {
-    const res = await getUsersCheckedId(userId);
-    console.log(res);
-    const { isValid } = res;
-    if (isValid) {
-      setIsWrong(false);
-    } else if(!isValid){
-      setIsWrong(true)
+    const res = await getUsersCheckedId(id);
+    console.log(res, id)
+    if(res){
+      const {isValid} = res;
+      setIsWrong(!isValid);
     }
-    setChanged(false)
+    setChanged(false);
     setFirst(false);
   };
   useEffect(() => {
-    dispatch(setUserId(''));
+    dispatch(setLoginId(''));
   }, []);
+
+  useEffect(() => {
+    console.log(id);
+  }, [id])
 
   return (
     <IDScreen
       isWrong={isWrong}
-      userId={userId}
+      isNotValid={isNotValid}
+      loginId={id}
       first={first}
       checkId={checkId}
       changed={changed}
@@ -50,6 +61,8 @@ const IDContainer = ({ navigation }) => {
       handleIdChange={handleIdChange}
     />
   );
+  
+
 };
 
 export default IDContainer;

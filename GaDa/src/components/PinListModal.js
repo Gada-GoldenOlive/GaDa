@@ -46,8 +46,8 @@ const PinListModal = ({
 
   const renderItem = ({ item, index }) => {
     const { title, content, image } = item;
-    console.log(image);
-    console.log('hh', image === 'undefined');
+    // console.log(image);
+    // console.log('hh', image === 'undefined');
     const isFocused = selectIndex === index;
     const sampleImage = index % 2 === 0 ? PinSample1 : PinSample2;
     return (

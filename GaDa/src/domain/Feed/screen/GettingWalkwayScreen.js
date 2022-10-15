@@ -2,7 +2,6 @@ import {
   FlatList,
   ScrollView,
   StyleSheet,
-  Text,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
@@ -16,23 +15,39 @@ import { windowWidth } from '../../../constant/styles';
 import SubmitButton from '../../../components/SubmitButton';
 import CustomButton from '../../../components/CustomButton';
 import FeedItemList from '../components/FeedItemList';
+import Text from '../../../components/MyText';
 
-const GettingWalkwayScreen = ({handleClick}) => {
+const GettingWalkwayScreen = ({
+  handleClick,
+  walkways,
+  clickable,
+  clickItem,
+  selectedItem,
+}) => {
+  const headerComponent = () => {
+    return (
+      <View style={styles.container}>
+        <View style={styles.topContainer}>
+          <Text style={styles.title}>내가 다녀온 산책로</Text>
+        </View>
+      </View>
+    );
+  };
   return (
     <View style={styles.container}>
-      <ScrollView style={styles.container}  bounces={false} showsVerticalScrollIndicator={false} >
-        <View style={styles.container}>
-          <View style={styles.topContainer}>
-            <Text style={styles.title}>내가 다녀온 산책로</Text>
-          </View>
-          <FeedItemList type="recent" />
-        </View>
-      </ScrollView>
-      <TouchableWithoutFeedback onPress={handleClick}> 
-        <View style={styles.buttonWrapper}>
-          <Text style={styles.text}>가져오기</Text>
-        </View>
-      </TouchableWithoutFeedback>
+      <FeedItemList
+        type="recent"
+        headerComponent={headerComponent}
+        feedList={walkways}
+        clickItem={clickItem}
+        selectedItem={selectedItem}
+      />
+      <CustomButton
+        title="가져오기"
+        style={styles.button}
+        clickable={clickable}
+        handlePress={handleClick}
+      />
     </View>
   );
 };

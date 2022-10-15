@@ -1,9 +1,10 @@
-import { StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
+import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import React from 'react';
 import { boldFontFamily } from '../constant/fonts';
 import { blackColor, borderColor, defaultColor } from '../constant/colors';
 import { windowHeight, windowWidth } from '../constant/styles';
 import Modal from 'react-native-modal';
+import Text from './MyText';
 
 const BottomUpmodal = ({
   isVisible,

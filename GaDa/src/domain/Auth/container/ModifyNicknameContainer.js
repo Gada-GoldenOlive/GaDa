@@ -1,37 +1,93 @@
-import { View, Text } from 'react-native';
 import React from 'react';
 import ModifyNicknameScreen from '../screen/ModifyNicknameScreen';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { getNicknameIsNotValid } from '../../../function';
+import { checkNickname, updateUserInfo } from '../../../APIs/user';
+import { useDispatch, useSelector } from 'react-redux';
+import { setNickname, setUserImage } from '../../../redux/modules/user';
+import { getParam } from '../../../function/image';
+import { s3 } from '../../../constant/setting';
+import { setImageFile } from '../../../redux/modules/images';
 
-const ModifyNicknameContainer = ({}) => {
-  const [nickname, setNickname] = useState('');
-
+const ModifyNicknameContainer = ({ navigation, route }) => {
+  const { nickname, userId, userImage } = useSelector(state => state.user);
+  const { imageFile } = useSelector(state => state.images);
+  const [newNickname, setNewNickname] = useState(nickname);
+  const [image, setImage] = useState(userImage);
   const [isValid, setIsValid] = useState(true);
+  const [isChanged, setIsChanged] = useState(false);
+  const dispatch = useDispatch();
+
   const nicknameChange = text => {
-    setNickname(text);
+    setNewNickname(text);
+    nicknameCheck(text);
   };
-  const nicknameCheck = () => {
-    const result = getNicknameIsNotValid({nickname});
+  const nicknameCheck = text => {
+    const result = getNicknameIsNotValid(text);
     // 결과가 true면 중복이라는 소리임
-   if(result){
-    setIsValid(false)
-   } else{
-    setIsValid(true)
-   }
+    if (result) {
+      setIsValid(false);
+    } else {
+      handleCheckDuplicate(text)
+      setIsValid(true);
+      setIsChanged(true);
+    }
+  };
+
+  const handleCheckDuplicate = async(text) => {
+    const res = await checkNickname(text);
+    if(res){
+      const {isValid: valid} = res;
+      setIsValid(valid);
+    }
+
+  }
+
+  const handlePress = async () => {
+    if (imageFile !== null) {
+      const param = await getParam(imageFile);
+      s3.upload(param, async (err, data) => {
+        if (err) {
+          console.log('image upload err: ' + err);
+          return;
+        }
+        const imgTag = `${data.Location}`;
+        data.image = imgTag;
+        dispatch(setUserImage(imgTag));
+        await updateUserInfo(userId, { image: imgTag });
+      });
+    }
+    if (nickname !== newNickname) {
+      dispatch(setNickname(newNickname));
+      await updateUserInfo(userId, { name: newNickname });
+    }
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'BottomTab' }],
+    });
   };
 
   useEffect(() => {
-    nicknameCheck(nickname)
-    console.log(nickname, isValid)
-  }, [nickname])
+    if (image !== userImage) {
+      setIsChanged(true);
+    }
+  }, [image]);
+
+  useEffect(() => {
+    setImageFile(null);
+  }, []);
+
   return (
     <ModifyNicknameScreen
-      nickname={nickname}
+      nickname={newNickname}
       nicknameChange={nicknameChange}
-      nicknameCheck={nicknameCheck}
+      handlePress={handlePress}
+      setImage={setImage}
       isValid={isValid}
+      isChanged={isChanged}
+      image={image}
+      navigation={navigation}
     />
   );
 };

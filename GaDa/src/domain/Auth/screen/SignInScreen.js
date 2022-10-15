@@ -1,4 +1,12 @@
-import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
+import {
+  KeyboardAvoidingView,
+  NativeModules,
+  Platform,
+  SafeAreaView,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 import React from 'react';
 import CustomImage from '../../../components/CustomImage';
 import SignInBackground from '../../../constant/images/SignIn';
@@ -6,60 +14,86 @@ import Text from '../../../components/MyText';
 import { boldFontFamily, thinFontFamily } from '../../../constant/fonts';
 import MyTextInput from '../../../components/MyTextInput';
 import { buttonColor } from '../../../constant/colors';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const SignInScreen = ({
   id,
   pw,
   setId,
   setPw,
+  clickable,
+  isWrong,
   handleNavigateSignUp,
   handleNavigate,
 }) => {
+  const [statusBarHeight, setStatusBarHeight] = useState(0);
+  const { StatusBarManager } = NativeModules;
+
+  useEffect(() => {
+    Platform.OS === 'ios' &&
+      StatusBarManager.getHeight(statusBarFrameData => {
+        setStatusBarHeight(statusBarFrameData.height);
+      });
+  }, []);
+
   return (
-    <View style={styles.container}>
-      <CustomImage source={SignInBackground} style={styles.background} />
-      <View style={styles.liner} />
-      <View style={styles.topContainer}>
-        <View style={styles.titleWrapper}>
-          <Text style={styles.title}>장애물 없는</Text>
-          <Text style={styles.emphasis}>편안한 산책여정</Text>
-          <Text style={styles.title}>즐기기</Text>
+    <KeyboardAvoidingView
+      style={{ flex: 1, backgroundColor: 'black' }}
+      // keyboardVerticalOffset={statusBarHeight}
+      behavior={Platform.OS === 'ios' && 'padding'}
+    >
+      <View style={styles.container}>
+        <CustomImage source={SignInBackground} style={styles.background} />
+        <View style={styles.liner} />
+        <View style={styles.topContainer}>
+          <View style={styles.titleWrapper}>
+            <Text style={styles.title}>장애물 없는</Text>
+            <Text style={styles.emphasis}>편안한 산책여정</Text>
+            <Text style={styles.title}>즐기기</Text>
+          </View>
+        </View>
+        <View style={styles.centerContainer}>
+          <MyTextInput
+            placeholder="아이디"
+            style={[
+              styles.textInput,
+              id.length >= 1 && { borderBottomColor: buttonColor },
+            ]}
+            onChangeText={setId}
+            value={id}
+          />
+          <MyTextInput
+            placeholder="비밀번호"
+            style={[
+              styles.textInput,
+              pw.length >= 1 && { borderBottomColor: buttonColor },
+            ]}
+            onChangeText={setPw}
+            value={pw}
+            secureTextEntry={true}
+          />
+        </View>
+        <View style={styles.bottomContainer}>
+          {isWrong && (
+            <Text style={styles.error}>
+              *존재하지 않는 아이디/비밀번호 입니다
+            </Text>
+          )}
+          <TouchableWithoutFeedback onPress={handleNavigate}>
+            <View style={styles.loginButton}>
+              <Text style={styles.loginText}>로그인</Text>
+            </View>
+          </TouchableWithoutFeedback>
+          <TouchableWithoutFeedback onPress={handleNavigateSignUp}>
+            <View style={styles.signupButton}>
+              <Text style={styles.signupText}>회원가입</Text>
+            </View>
+          </TouchableWithoutFeedback>
         </View>
       </View>
-      <View style={styles.centerContainer}>
-        <MyTextInput
-          placeholder="아이디"
-          style={[
-            styles.textInput,
-            id.length >= 1 && { borderBottomColor: buttonColor },
-          ]}
-          onChangeText={setId}
-          value={id}
-        />
-        <MyTextInput
-          placeholder="비밀번호"
-          style={[
-            styles.textInput,
-            pw.length >= 1 && { borderBottomColor: buttonColor },
-          ]}
-          onChangeText={setPw}
-          value={pw}
-          secureTextEntry={true}
-        />
-      </View>
-      <View style={styles.bottomContainer}>
-        <TouchableWithoutFeedback onPress={handleNavigate}>
-          <View style={styles.loginButton}>
-            <Text style={styles.loginText}>로그인</Text>
-          </View>
-        </TouchableWithoutFeedback>
-        <TouchableWithoutFeedback onPress={handleNavigateSignUp}>
-          <View style={styles.signupButton}>
-            <Text style={styles.signupText}>회원가입</Text>
-          </View>
-        </TouchableWithoutFeedback>
-      </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -69,9 +103,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'space-between',
+    //height: windowHeight,
+    //height: windowHeight,
   },
   background: {
     flex: 1,
+    height: '100%',
     position: 'absolute',
   },
   liner: {
@@ -79,10 +116,13 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     backgroundColor: 'rgba(0,0,0,0.4)',
+    //backgroundColor: 'red'
   },
   topContainer: {
-    paddingTop: 122,
+    flex: 1,
     paddingHorizontal: 16,
+    paddingTop: 48,
+    justifyContent: 'center',
   },
   titleWrapper: {},
   title: {
@@ -101,16 +141,21 @@ const styles = StyleSheet.create({
   },
   centerContainer: {
     paddingHorizontal: 16,
-    // paddingTop: 75.5,
+    justifyContent: 'center',
+    flex: 1,
+    paddingTop: 48,
+    paddingBottom: 30,
   },
   textInput: {
     borderBottomColor: 'white',
-    paddingTop: 44.5,
+    //paddingTop: 44.5,
     color: 'white',
   },
   bottomContainer: {
     paddingHorizontal: 16,
-    paddingBottom: 51,
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0,0,0,0)',
+    marginBottom: Platform.OS === 'ios' ? 44 : 20,
   },
   loginButton: {
     width: '100%',
@@ -138,5 +183,9 @@ const styles = StyleSheet.create({
     color: buttonColor,
     fontFamily: boldFontFamily,
     fontSize: 18,
+  },
+  error: {
+    color: 'white',
+    // marginBottom: 23,
   },
 });

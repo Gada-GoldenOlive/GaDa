@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import React from 'react';
 import AddFriendsScreen from '../screen/AddFriendsScreen';
 import { useState } from 'react';
@@ -8,6 +8,7 @@ import {
   SampleImage2,
   SampleImage3,
 } from '../../../constant/images/Sample';
+import { addFriend, getUserList } from '../../../APIs/user';
 
 const friendsList = [
   {
@@ -65,12 +66,34 @@ const friendsList = [
 
 const AddFriendsContainer = () => {
   const [searchList, setSearchList] = useState();
-  const fetchSearchResults = () => {
-    setSearchList(friendsList);
+  const [searchId, setSearchId] = useState();
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
+  const [addUser, setAddUser] = useState({ id: -1, name: '' });
+
+  const fetchSearchResults = async id => {
+    const res = await getUserList(id);
+    console.log(res.users);
+    const { users } = res;
+    setSearchList(users);
   };
-  const handleAddConfirmButton = () => {
-    console.log('click');
+  const handleSearchButton = searchId => {
+    fetchSearchResults(searchId);
   };
+  const handleAddConfirmButton = async () => {
+    await addFriend(addUser.id);
+    closePopup();
+  };
+  const handleAddButton = (id, name) => {
+    setIsPopupVisible(!isPopupVisible);
+    setAddUser({ id, name });
+  };
+  const openPopup = () => {
+    setIsPopupVisible(true);
+  };
+  const closePopup = () => {
+    setIsPopupVisible(false);
+  };
+
   useEffect(() => {
     fetchSearchResults();
   }, []);
@@ -79,6 +102,14 @@ const AddFriendsContainer = () => {
     <AddFriendsScreen
       searchList={searchList}
       handleAddConfirmButton={handleAddConfirmButton}
+      handleSearchButton={handleSearchButton}
+      handleAddButton={handleAddButton}
+      closePopup={closePopup}
+      openPopup={openPopup}
+      isPopupVisible={isPopupVisible}
+      addUser={addUser}
+      searchId={searchId}
+      setSearchId={setSearchId}
     />
   );
 };

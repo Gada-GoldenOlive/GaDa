@@ -1,14 +1,13 @@
 import {
   ScrollView,
   StyleSheet,
-  Text,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import React from 'react';
 import CustomImage from '../../../components/CustomImage';
 import { MapImage } from '../../../constant/images/Temp';
-import { DefaultProfile } from '../../../constant/images/Sample';
+import { DefaultProfile, thumbnail1 } from '../../../constant/images/Sample';
 import { windowHeight, windowWidth } from '../../../constant/styles';
 import FeedBookmark from '../../../components/FeedBookmark';
 import StarIcon from '../../../constant/images/Star';
@@ -23,62 +22,92 @@ import ReviewImageList from '../components/ReviewImageList';
 import Pin from '../../../constant/images/Pin';
 import Locate from '../../../constant/images/Locate';
 import CustomButton from '../../../components/CustomButton';
+import { getDistance, getHour } from '../../../function';
+import Text from '../../../components/MyText';
 
-const DetailFeedScreen = ({ id }) => {
+const DetailFeedScreen = ({ feedInfo, feedLike, feedId, handleNavigate }) => {
+  const {
+    address,
+    content,
+    distance,
+    id,
+    images = [],
+    like,
+    star,
+    time,
+    title,
+    updatedAt,
+    userImage,
+    userName,
+    vehicle,
+    walkwayId,
+    walkwayImage,
+    walkwayTitle,
+  } = feedInfo;
+  console.log(address);
   return (
     <View style={styles.container}>
-      <ScrollView  bounces={false} showsVerticalScrollIndicator={false}>
+      <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
         <View style={styles.topContainer}>
-          <CustomImage style={styles.background} source={MapImage} />
+          {walkwayImage !== '' ? (
+            <CustomImage
+              style={styles.background}
+              source={{ uri: walkwayImage }}
+            />
+          ) : (
+            <CustomImage style={styles.background} source={thumbnail1} />
+          )}
           <View style={styles.topInformationContainer}>
             <View style={styles.topWrapper}>
               <View style={styles.userWrapper}>
-                <CustomImage style={styles.userImage} source={DefaultProfile} />
-                <Text style={styles.userName}>userName</Text>
+                {userImage !== '' ? (
+                  <CustomImage
+                    style={styles.userImage}
+                    source={{ uri: userImage }}
+                  />
+                ) : (
+                  <CustomImage
+                    style={styles.userImage}
+                    source={DefaultProfile}
+                  />
+                )}
+                <Text style={styles.userName}>{userName}</Text>
               </View>
-              <FeedBookmark />
+              <FeedBookmark like={feedLike} id={feedId} />
             </View>
             <View style={styles.bottomWrapper}>
               <View style={styles.bottomInfo}>
-                <Text style={styles.title}>
-                  길이름이 엄청 길다면? 어떻게 될까? 아직 부족하다 더 길게
-                  해보자 오호 두줄로 넘어간다
-                </Text>
-                <Text style={styles.description}>
-                  소요시간 : 2시간 / 거리 : 1.25km
-                </Text>
+                <Text style={styles.title}>{title}</Text>
+                <Text style={styles.description}>{`소요시간 : ${getHour(
+                  time,
+                )} / 거리 : ${getDistance({
+                  distance: distance,
+                  unit: 'km',
+                })}km`}</Text>
               </View>
               <View style={styles.score}>
                 <CustomImage style={styles.star} source={StarIcon} />
-                <Text style={styles.scoreNum}>4.0</Text>
+                <Text style={styles.scoreNum}>{star}</Text>
               </View>
             </View>
           </View>
         </View>
         <View style={styles.bottomContainer}>
-          <ReviewImageList />
+          <ReviewImageList images={images} handleNavigate={handleNavigate}/>
           <View style={styles.contentContainer}>
-            <Text style={styles.content}>
-              내용입니다dajfklaj;dklfjakd
-              adkfjslkdjfsdkfls;djlfkajdl;kfja;kldfja;lkdsjfakl;djs;flakdjfkaljsdkfljskldjfskldjfksldjfklsjdfklsjdkflsjdklfajdlkfjad
-              adlkfjsaldfjslkd sdkfjskldㄴㅇ러ㅏsdfjkasld sdkfjs sdklfjskld
-              sdlkfjskdl sdlkfjskldf sdlkfjslkd 미;어라ㅣ멍라ㅣ머이ㅏ러마얼;마ㅣ
-              skdjfla;mdlfkaj;dsㅁ아러ㅣㄴㅇ ㄹㅁ아ㅣ러니ㅏ어림ㅇ
-              ㄹ미ㅏ어림;ㄴㅇㄹ머;이
-              ㅁ이ㅏ러마ㅣㅇ러ㅏatListContaineradlkfjaldkfj
-            </Text>
+            <Text style={styles.content}>{content}</Text>
             <View style={styles.locationWrapper}>
               <CustomImage style={styles.pin} source={Locate} />
-              <Text style={styles.location}>서대문구 서대문로</Text>
+              <Text style={styles.location}>{address}</Text>
             </View>
           </View>
         </View>
       </ScrollView>
-        <TouchableWithoutFeedback>
-          <View style={styles.buttonWrapper}>
-            <Text style={styles.text}>경로시작</Text>
-          </View>
-        </TouchableWithoutFeedback>
+      <TouchableWithoutFeedback>
+        <View style={styles.buttonWrapper}>
+          <Text style={styles.text}>산책시작</Text>
+        </View>
+      </TouchableWithoutFeedback>
     </View>
   );
 };
@@ -117,6 +146,7 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     marginEnd: 9,
+    borderRadius: 100,
   },
   userName: {
     color: 'white',

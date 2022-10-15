@@ -28,9 +28,9 @@ const BottomTab = () => {
       }).map(([name, component]) => (
         <Tab.Screen
           options={{ unmountOnBlur: true }}
-          // listeners={({ navigation }) => ({
-          //   blur: () => navigation.setParams({ screen: undefined }),
-          // })}
+          listeners={({ navigation }) => ({
+            blur: () => navigation.setParams({ screen: undefined }),
+          })}
           key={name}
           name={name}
           component={component}

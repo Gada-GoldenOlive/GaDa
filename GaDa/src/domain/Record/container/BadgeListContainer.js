@@ -1,11 +1,11 @@
-import { View, Text } from 'react-native'
-import React from 'react'
-import BadgeListScreen from '../screen/BadgeListScreen'
+import React from 'react';
+import BadgeListScreen from '../screen/BadgeListScreen';
 
-const BadgeListContainer = ({navigation}) => {
-  return (
-<BadgeListScreen />
-  )
-}
+const BadgeListContainer = ({ navigation, route }) => {
+  const { params = {} } = route;
+  const { badgeList } = params;
 
-export default BadgeListContainer
+  return <BadgeListScreen badgeList={badgeList} />;
+};
+
+export default BadgeListContainer;

@@ -1,31 +1,57 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import React from 'react';
 import { windowWidth } from '../../../constant/styles';
-import { boldFontFamily, mediumFontFamily } from '../../../constant/fonts';
+import { boldFontFamily, defaultFontFamily, mediumFontFamily } from '../../../constant/fonts';
 import {
   buttonColor,
   descriptionColorVer2,
   mainColor,
 } from '../../../constant/colors';
+import { getDistance, getGoalHour, getHour } from '../../../function';
+import Text from '../../../components/MyText';
 
-const Goal = () => {
+const Goal = ({ goal }) => {
+  const { loginId, goalDistance, goalTime, totalDistance, totalTime } = goal;
   return (
     <View style={styles.container}>
       <View style={styles.wrapper}>
         <Text style={styles.title}>시간</Text>
+
         <Text style={styles.value}>
-          <Text style={styles.num}>0</Text>
-          <Text style={styles.value}>분</Text>
+          {getGoalHour(totalTime)[0] !== '' && (
+            <Text>
+              <Text style={styles.num}>{getGoalHour(totalTime)[0]}</Text>
+              <Text style={styles.value}>시간 </Text>
+            </Text>
+          )}
+          {getGoalHour(totalTime)[1] !== '' && (
+            <Text style={{fontFamily: defaultFontFamily}}>
+              <Text style={styles.num}>{getGoalHour(totalTime)[1]}</Text>
+              <Text style={styles.value}>분</Text>
+            </Text>
+          )}
         </Text>
-        <Text style={styles.goal}>목표 미설정</Text>
+        {goalTime === null ? (
+          <Text style={styles.goal}>목표 미설정</Text>
+        ) : (
+          <Text style={styles.goal}>목표 : {getHour(goalTime)}</Text>
+        )}
       </View>
       <View style={styles.wrapper}>
         <Text style={styles.title}>거리</Text>
         <Text style={styles.value}>
-          <Text style={styles.num}>0</Text>
+          <Text style={styles.num}>
+            {getDistance({ distance: totalDistance, unit: 'm' })}
+          </Text>
           <Text style={styles.value}>m</Text>
         </Text>
-        <Text style={styles.goal}>목표 미설정</Text>
+        {goalDistance === null ? (
+          <Text style={styles.goal}>목표 미설정</Text>
+        ) : (
+          <Text style={styles.goal}>
+            목표 : {getDistance({ distance: goalDistance, unit: 'm' })}m
+          </Text>
+        )}
       </View>
     </View>
   );
@@ -57,11 +83,14 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   value: {
-    color: buttonColor,
+    color: mainColor,
     fontFamily: boldFontFamily,
+    fontSize: 20,
   },
   num: {
+    color: mainColor,
     fontSize: 30,
+    color: buttonColor,
   },
   goal: {
     color: descriptionColorVer2,
