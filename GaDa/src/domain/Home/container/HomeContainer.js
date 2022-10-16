@@ -26,6 +26,7 @@ import { createWalk } from '../../../APIs/walk';
 import { setUserId } from '../../../redux/modules/user';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getWalkwayInfo } from '../../../APIs/walkway';
+import { set } from 'react-native-reanimated';
 
 // * 현재위치
 // 일정 시간 후 주기적으로 반복해서 geoLocation 해주기!
@@ -186,7 +187,6 @@ const HomeContainer = ({ navigation, route }) => {
         pins: pins,
         startPoint: start,
         name: selectedItem.title,
-        detailAddress: locationList.length > 0 ? locationList[0] : null,
       }),
     );
   };
@@ -261,9 +261,6 @@ const HomeContainer = ({ navigation, route }) => {
   };
 
   const handleNavigateCreate = () => {
-    if (!getDetailAddress) {
-      console.log(detailAddress);
-    }
     navigation.navigate('CreateWalkway', {
       item: {
         ...walkData,
