@@ -62,10 +62,9 @@ const MapScreen = ({
   };
   const searchAddrFromCoords = (coords, handleAddress) => {
     // 좌표로 행정동 주소 정보를 요청합니다
-    geocoder.coord2RegionCode(coords.lng, coords.lat, (res) => {
-      setDetailAddress(res);
-      alert(coords);
-    });
+    geocoder.coord2RegionCode(coords.lng, coords.lat, (res) =>
+      setDetailAddress(res)
+    );
   };
 
   const geoLocation = (ver = "null") => {
@@ -142,10 +141,6 @@ const MapScreen = ({
 
   useEffect(() => {
     geoLocation();
-    searchAddrFromCoords(
-      { lat: 37.52808864250951, lng: 126.9664946472026 },
-      (res) => alert(res)
-    );
   }, []);
 
   useEffect(() => {
@@ -203,7 +198,6 @@ const MapScreen = ({
         setWalkwayPins(event.data.pins);
         setPathStartPoint(event.data.startPoint);
       } else if (event.data.type === "detailAddress") {
-        alert("hi");
         searchAddrFromCoords(event.data.coords, handleAddress);
       }
     });
