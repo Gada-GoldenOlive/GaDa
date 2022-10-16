@@ -54,18 +54,18 @@ const MapScreen = ({
 
   const [movingCurrentList, setMovingCurrentList] = useState();
 
-  // const [map, setMap] = useState();
-  // const [detailAddress, setDetailAddress] = useState();
-  // const geocoder = new window.kakao.maps.services.Geocoder();
-  // const handleAddress = () => {
-  //   handleSubmit("detailAddress", detailAddress);
-  // };
-  // const searchAddrFromCoords = (coords, handleAddress) => {
-  //   // 좌표로 행정동 주소 정보를 요청합니다
-  //   geocoder.coord2RegionCode(coords.lng, coords.lat, (res) =>
-  //     setDetailAddress(res)
-  //   );
-  // };
+  const [map, setMap] = useState();
+  const [detailAddress, setDetailAddress] = useState();
+  const geocoder = new window.kakao.maps.services.Geocoder();
+  const handleAddress = () => {
+    handleSubmit("detailAddress", detailAddress);
+  };
+  const searchAddrFromCoords = (coords, handleAddress) => {
+    // 좌표로 행정동 주소 정보를 요청합니다
+    geocoder.coord2RegionCode(coords.lng, coords.lat, (res) =>
+      setDetailAddress(res)
+    );
+  };
 
   const geoLocation = (ver = "null") => {
     if (navigator.geolocation) {
@@ -197,10 +197,9 @@ const MapScreen = ({
         setWalkwayPath(event.data.path);
         setWalkwayPins(event.data.pins);
         setPathStartPoint(event.data.startPoint);
+      } else if (event.data.type === "detailAddress") {
+        searchAddrFromCoords(event.data.coords, handleAddress);
       }
-      // else if (event.data.type === "detailAddress") {
-      //   searchAddrFromCoords(event.data.coords, handleAddress);
-      // }
     });
   };
   useEffect(() => {
@@ -274,7 +273,7 @@ const MapScreen = ({
         // onTileLoaded={(map) => handlePolylineDrag(map)}
         onCenterChanged={(map) => handlePolylineDrag(map)}
         // onRightClick={(map) => <DrawPolylineFromKakao map={map} />}
-        // onCreate={setMap()}
+        onCreate={setMap()}
       >
         {/* 현재 위치 */}
         {/* <GeoLocationMarker setCenter={setCenter} /> */}

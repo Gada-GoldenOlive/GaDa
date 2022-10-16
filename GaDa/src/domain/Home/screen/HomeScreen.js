@@ -67,9 +67,9 @@ const HomeScreen = ({
   openEndShareModal,
   closeEndShareModal,
   handleNavigateCreate,
-  // getDetailAddress,
-  // setGetDetailAddress,
-  // setDetailAddress,
+  getDetailAddress,
+  setGetDetailAddress,
+  setDetailAddress,
 }) => {
   const ref = useRef();
   const dispatch = useDispatch();
@@ -91,11 +91,11 @@ const HomeScreen = ({
   };
   const [isCurrentPosClicked, setIsCurrentPosClicked] = useState(false);
 
-  // useEffect(() => {
-  //   if (getDetailAddress) {
-  //     handleConnection(ref, 'detailAddress');
-  //   }
-  // }, [getDetailAddress]);
+  useEffect(() => {
+    if (getDetailAddress) {
+      handleConnection(ref, 'detailAddress');
+    }
+  }, [getDetailAddress]);
 
   const INJECTED_JAVASCRIPT = `(function() {
     window.postMessage(JSON.stringify({key : "value"}));true;
@@ -159,9 +159,10 @@ const HomeScreen = ({
         setCheckPin(checkPin * -1);
       }
       if (msg.type === 'read') console.log({ position: msg.position });
-      // if (msg.type === 'recordPosition') {
-      //   handleRecordPosition(recordPosition);
-      // }
+      if (msg.type === 'detailAddress') {
+        setDetailAddress(msg.detailAddress);
+        setGetDetailAddress(false);
+      }
     }
   };
 
