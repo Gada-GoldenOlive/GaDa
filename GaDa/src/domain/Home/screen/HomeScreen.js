@@ -92,6 +92,7 @@ const HomeScreen = ({
   const [isCurrentPosClicked, setIsCurrentPosClicked] = useState(false);
 
   useEffect(() => {
+    console.log({ getDetailAddress });
     if (getDetailAddress) {
       handleConnection(ref, 'detailAddress');
     }
@@ -160,6 +161,7 @@ const HomeScreen = ({
       }
       if (msg.type === 'read') console.log({ position: msg.position });
       if (msg.type === 'detailAddress') {
+        console.log('오긴 해?');
         setDetailAddress(msg.detailAddress);
         setGetDetailAddress(false);
       }

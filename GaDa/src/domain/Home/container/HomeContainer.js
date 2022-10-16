@@ -158,6 +158,7 @@ const HomeContainer = ({ navigation, route }) => {
   };
 
   const handleConnection = (ref, ver) => {
+    console.log(ver);
     var path = [];
     var pins = [];
     var start = {};
