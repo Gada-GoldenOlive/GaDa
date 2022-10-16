@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createReview } from '../../../APIs/review';
 import { createWalk } from '../../../APIs/walk';
+import { createWalkway } from '../../../APIs/walkway';
 import { s3 } from '../../../constant/setting';
 import { getParam } from '../../../function/image';
 import {
@@ -16,6 +17,7 @@ const CreateWalkwayContainer = ({ navigation, route }) => {
   const { params = {} } = route;
   const { item = {} } = params;
   const { walkwayImages, imageFileList } = useSelector(state => state.images);
+  const { isCreate } = useSelector(state => state.status);
 
   const [walkwayTitle, setTitle] = useState(item.title);
   const [content, setContent] = useState('');
@@ -33,6 +35,19 @@ const CreateWalkwayContainer = ({ navigation, route }) => {
       walkId: 'cd031c7d-e69f-4bd2-bbd9-f6a14a13ed74',
     };
   });
+  const [walkData, setWalkData] = useState(() => ({
+    title: '',
+    address: '',
+    distance: 0,
+    time: 0,
+    path: [
+      {
+        lat: 0,
+        lng: 0,
+      },
+    ],
+    image: '',
+  }));
 
   const titleTextChange = text => {
     setTitle(text);
@@ -42,15 +57,28 @@ const CreateWalkwayContainer = ({ navigation, route }) => {
   };
 
   const changeBody = () => {
-    setRequestBody(prev => {
-      const res = { ...prev };
-      res.title = walkwayTitle;
-      res.star = rate;
-      res.images = imageList;
-      res.content = content;
-      res.walkId = item.id;
-      return res;
-    });
+    if (isCreate) {
+      setWalkData(prev => {
+        const res = { ...prev };
+        res.title = walkwayTitle;
+        res.address = rate;
+        res.distance = item.distance;
+        res.time = item.time;
+        res.path = item.locationList;
+        res.image = imageList;
+        return res;
+      });
+    } else {
+      setRequestBody(prev => {
+        const res = { ...prev };
+        res.title = walkwayTitle;
+        res.star = rate;
+        res.images = imageList;
+        res.content = content;
+        res.walkId = item.id;
+        return res;
+      });
+    }
   };
 
   const createImages = async () => {
@@ -76,16 +104,32 @@ const CreateWalkwayContainer = ({ navigation, route }) => {
       navigation.goBack();
     }
   };
+
+  const handleCreateWalkway = async () => {
+    console.log({ walkData });
+    const res = await createWalkway(walkData);
+    if (res?.isValid) {
+      navigation.goBack();
+    }
+  };
   const handlePress = () => {
     if (imageFileList.length > 0) {
       createImages();
     } else {
-      handleCreateReview();
+      if (isCreate) {
+        handleCreateWalkway();
+      } else {
+        handleCreateReview();
+      }
     }
   };
 
   useEffect(() => {
-    changeBody();
+    if (isCreate) {
+      handleCreateWalkway();
+    } else {
+      changeBody();
+    }
   }, [walkwayTitle, rate, imageList, item, content]);
 
   useEffect(() => {

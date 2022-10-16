@@ -54,6 +54,19 @@ const MapScreen = ({
 
   const [movingCurrentList, setMovingCurrentList] = useState();
 
+  // const [map, setMap] = useState();
+  // const [detailAddress, setDetailAddress] = useState();
+  // const geocoder = new window.kakao.maps.services.Geocoder();
+  // const handleAddress = () => {
+  //   handleSubmit("detailAddress", detailAddress);
+  // };
+  // const searchAddrFromCoords = (coords, handleAddress) => {
+  //   // 좌표로 행정동 주소 정보를 요청합니다
+  //   geocoder.coord2RegionCode(coords.lng, coords.lat, (res) =>
+  //     setDetailAddress(res)
+  //   );
+  // };
+
   const geoLocation = (ver = "null") => {
     if (navigator.geolocation) {
       // GeoLocation을 이용해서 접속 위치를 얻어옵니다
@@ -185,6 +198,9 @@ const MapScreen = ({
         setWalkwayPins(event.data.pins);
         setPathStartPoint(event.data.startPoint);
       }
+      // else if (event.data.type === "detailAddress") {
+      //   searchAddrFromCoords(event.data.coords, handleAddress);
+      // }
     });
   };
   useEffect(() => {
@@ -258,6 +274,7 @@ const MapScreen = ({
         // onTileLoaded={(map) => handlePolylineDrag(map)}
         onCenterChanged={(map) => handlePolylineDrag(map)}
         // onRightClick={(map) => <DrawPolylineFromKakao map={map} />}
+        // onCreate={setMap()}
       >
         {/* 현재 위치 */}
         {/* <GeoLocationMarker setCenter={setCenter} /> */}

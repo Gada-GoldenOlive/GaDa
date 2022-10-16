@@ -32,6 +32,7 @@ import { getDistance } from '../../../function';
 import { boldFontFamily, mediumFontFamily } from '../../../constant/fonts';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import ReviewImageList from '../components/ReviewImageList';
+import Upload from '../../../constant/images/Upload';
 const CreateWalkwayScreen = ({
   navigation,
   walkwayTitle = '',

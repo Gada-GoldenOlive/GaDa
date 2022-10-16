@@ -7,6 +7,7 @@ const SET_CURRENT_POSITION = 'status/SET_CURRENT_POSITION';
 const SET_PIN_NUM = 'status/SET_PIN_NUM';
 const SET_IS_RESTART = 'status/IS_RESTART';
 const SET_RESTART_WALKWAY = 'statue/RESTART_WALKWAY';
+const SET_IS_CREATE = 'statue/IS_CREATE';
 
 // action 생성 함수
 export const setBottomTabVisible = boolean => ({
@@ -49,6 +50,11 @@ export const setRestartWalkway = value => ({
   value,
 });
 
+export const setIsCreate = boolean => ({
+  type: SET_IS_CREATE,
+  boolean,
+});
+
 // reducer initial state
 const initialState = {
   bottomTabVisible: true,
@@ -59,6 +65,7 @@ const initialState = {
   pinNum: 0,
   isRestart: false,
   restartWalkway: [],
+  isCreate: false,
 };
 
 // reducer
@@ -103,6 +110,11 @@ export default function status(state = initialState, action) {
       return {
         ...state,
         restartWalkway: action.value,
+      };
+    case SET_IS_CREATE:
+      return {
+        ...state,
+        isCreate: action.boolean,
       };
     default:
       return state;

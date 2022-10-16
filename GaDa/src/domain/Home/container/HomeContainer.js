@@ -8,6 +8,7 @@ import {
   setBottomTabVisible,
   setCurrentPosition,
   setEndTime,
+  setIsCreate,
   setIsRestart,
   setIsWalking,
   setPinNum,
@@ -25,6 +26,7 @@ import { createWalk } from '../../../APIs/walk';
 import { setUserId } from '../../../redux/modules/user';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getWalkwayInfo } from '../../../APIs/walkway';
+import { set } from 'react-native-reanimated';
 
 // * 현재위치
 // 일정 시간 후 주기적으로 반복해서 geoLocation 해주기!
@@ -58,14 +60,14 @@ const HomeContainer = ({ navigation, route }) => {
   const [endModalVisible, setEndModalVisible] = useState(false);
   // 산책 종료 모달 visible
   const [walkEnd, setWalkEnd] = useState(false);
+  // 산책로 제작에서 산책 종료 후 공유하시겠어요 모달 visible
+  const [endShareModalVisible, setEndShareModalVisible] = useState(false);
+
   // walk data
   const [walkData, setWalkData] = useState({});
   // start modal
   const [startModalVisible, setStartModalVisible] = useState(false);
-  // 생성한 핀 개수
-  const { pinNum, currentPosition, isRestart } = useSelector(
-    state => state.status,
-  );
+
   const [loading, setLoading] = useState(false);
   const { isAuthenticated } = useSelector(state => state.user);
   const dispatch = useDispatch();
@@ -78,6 +80,11 @@ const HomeContainer = ({ navigation, route }) => {
   const [isWalkwayFocused, setIsWalkwayFocused] = useState(false);
   const [tmpNewRecord, setTmpNewRecord] = useState(null);
   const { userId } = useSelector(state => state.user);
+
+  // redux 정보
+  const { pinNum, currentPosition, isRestart, isCreate } = useSelector(
+    state => state.status,
+  );
 
   const geoLocation = ref => {
     Geolocation.getCurrentPosition(
@@ -114,7 +121,7 @@ const HomeContainer = ({ navigation, route }) => {
           lng2: tmpNewRecord.lng,
         });
 
-        console.log(dist * 1000);
+        // console.log(dist * 1000);
         if (dist * 1000 < 30) {
           updateFlag = false;
         }
@@ -187,6 +194,7 @@ const HomeContainer = ({ navigation, route }) => {
   const closeModal = () => {
     if (isRestart) {
       setCurrentPos(currentPosition);
+      dispatch(setIsRestart(false));
     }
     setIsVisible(false);
     setListIsVisible(true);
@@ -214,7 +222,7 @@ const HomeContainer = ({ navigation, route }) => {
     dispatch(setStartTime(res));
     setIsVisible(false);
     setListIsVisible(false);
-    dispatch(setIsRestart(false));
+    // dispatch(setIsRestart(false)); -> resetData에서 함
     setIsInformationVisible(false);
     setRecording(true);
     dispatch(setIsWalking(true));
@@ -223,10 +231,18 @@ const HomeContainer = ({ navigation, route }) => {
 
   const stopWalk = () => {
     endWalk('UNFINISHED');
+
     console.log('stopWalk');
     setWalkEnd(true);
+    // openEndShareModal();
+
     closeEndModal();
   };
+  useEffect(() => {
+    if (isCreate && walkEnd) {
+      openEndShareModal();
+    }
+  }, [walkEnd]);
 
   const openEndModal = () => {
     setEndModalVisible(true);
@@ -236,10 +252,33 @@ const HomeContainer = ({ navigation, route }) => {
     setIsVisible(false);
   };
 
+  const openEndShareModal = () => {
+    console.log('hi');
+    setEndShareModalVisible(true);
+  };
+  const closeEndShareModal = () => {
+    setEndShareModalVisible(false);
+  };
+
+  const handleNavigateCreate = () => {
+    navigation.navigate('CreateWalkway', {
+      item: {
+        ...walkData,
+        path: locationList,
+        title: '',
+        image: '',
+      },
+    });
+  };
+
+  // 산책로 제작시 상세주소를 받기 위해
+  const [getDetailAddress, setGetDetailAddress] = useState(false);
+  const [detailAddress, setDetailAddress] = useState('');
   const finishRecord = () => {
     setRecording(false);
     console.log({ locationList });
     if (locationList.length >= 1) {
+      setGetDetailAddress(true);
       return getDistance(
         locationList[0],
         locationList[locationList.length - 1],
@@ -256,6 +295,7 @@ const HomeContainer = ({ navigation, route }) => {
     dispatch(setIsWalking(false));
     const time = getDuringTime();
     const dis = finishRecord().toFixed(2);
+
     const nowWalk = {
       time: time,
       distance: dis / 10,
@@ -265,7 +305,10 @@ const HomeContainer = ({ navigation, route }) => {
     };
     setWalkData(nowWalk);
 
-    const res2 = await createWalk(nowWalk);
+    if (!isCreate) {
+      const res2 = await createWalk(nowWalk);
+    }
+
     setCurrentPos(currentPosition);
   };
 
@@ -281,10 +324,12 @@ const HomeContainer = ({ navigation, route }) => {
     setIsInformationVisible(false);
     setListIsVisible(true);
     setEndModalVisible(false);
+    setEndShareModalVisible(false);
     setWalkEnd(false);
     setWalkData({});
     dispatch(setPinNum(0));
     dispatch(setIsWalking(false));
+    dispatch(setIsCreate(false));
   };
 
   const openStartModal = () => {
@@ -308,6 +353,13 @@ const HomeContainer = ({ navigation, route }) => {
       });
     }
   };
+
+  const reset = async () => {
+    const res = await getIdInLocalStorage();
+
+    dispatch(setUserId(res));
+  };
+
   useEffect(() => {
     getAccess();
   }, [isAuthenticated]);
@@ -328,16 +380,14 @@ const HomeContainer = ({ navigation, route }) => {
   }, [recording]);
 
   useEffect(() => {
+    reset();
     resetData();
   }, []);
-  const reset = async () => {
-    const res = await getIdInLocalStorage();
 
-    dispatch(setUserId(res));
-  };
   useEffect(() => {
     reset();
-  }, []);
+    resetData();
+  }, [route.params?.refresh]);
 
   return (
     <HomeScreen
@@ -374,6 +424,13 @@ const HomeContainer = ({ navigation, route }) => {
       setSelectedItem={setSelectedItem}
       setCurrentPos={setCurrentPos}
       currentPos={currentPos}
+      endShareModalVisible={endShareModalVisible}
+      closeEndShareModal={closeEndShareModal}
+      openEndShareModal={openEndShareModal}
+      handleNavigateCreate={handleNavigateCreate}
+      getDetailAddress={getDetailAddress}
+      setGetDetailAddress={setGetDetailAddress}
+      setDetailAddress={setDetailAddress}
     />
   );
 };
