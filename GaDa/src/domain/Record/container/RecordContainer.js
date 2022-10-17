@@ -10,6 +10,7 @@ import { setUser } from '../../../redux/modules/user';
 import { getNextData } from '../../../APIs';
 import { badgePopup } from '../../../function';
 import { setBadges } from '../../../redux/modules/status';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const RecordContainer = ({ navigation, route }) => {
   const { params = {} } = route;
@@ -151,9 +152,8 @@ const RecordContainer = ({ navigation, route }) => {
       fetchData();
     }
   }, [params]);
-  return (
+  return loading ? <Spinner visible /> : (
     <RecordScreen
-      loading={loading}
       userData={userData}
       myWalks={myWalks}
       badgeList={badgeList}
