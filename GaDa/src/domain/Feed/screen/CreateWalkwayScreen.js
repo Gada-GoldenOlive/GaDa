@@ -128,16 +128,18 @@ const CreateWalkwayScreen = ({
       cancelModal();
     });
   };
-
   const openImageLibraryForThumbnail = () => {
     ImageCropPicker.openPicker(
       Platform.OS === 'ios'
-        ? { ...baseImageLibraryOption, ...iosOptions, multiple: false }
-        : { baseImageLibraryOption, multiple: false },
+        ? { ...baseImageLibraryOption, ...iosOptions }
+        : {...baseImageLibraryOption, multiple: false},
     ).then(image => {
-      let imageList = [];
-      imageList.push({ imageData: image, image: image.path });
+      const uri = `data:${image.mime};base64,${image.data}`;
       dispatch(setIsThumbnail(true));
+      
+      const imageList = [];
+      imageList.push({ imageData: image, image: image.path });
+
       navigation.navigate('DetailImage', {
         idx: 0,
         images: imageList,
@@ -145,6 +147,7 @@ const CreateWalkwayScreen = ({
       });
       cancelModal();
     });
+
   };
 
   const openModal = () => {

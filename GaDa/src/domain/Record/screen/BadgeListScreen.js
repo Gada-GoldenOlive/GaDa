@@ -16,7 +16,6 @@ export default BadgeListScreen
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 16,
-    paddingTop: 43.8,
     flex: 1,
   },
   title:{
