@@ -11,6 +11,7 @@ import { useEffect } from 'react';
 import { useCallback } from 'react';
 import { getAlarmList, modifyFriend } from '../../../APIs/user';
 import { refresh } from '@react-native-community/netinfo';
+import BackButton from '../../../components/BackButton';
 
 const hi = [
   {
@@ -66,7 +67,7 @@ const hi = [
   },
 ];
 
-const FriendsAlarmContainer = () => {
+const FriendsAlarmContainer = ({ navigation, route }) => {
   const [alarmList, setAlarmList] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -97,8 +98,17 @@ const FriendsAlarmContainer = () => {
       .catch(() => setRefreshing(false));
   }, []);
 
+  const handleNavigate = () => {
+    navigation.navigate('Friends', { refresh: {} });
+  };
+
   useEffect(() => {
     fetchAlarmList();
+  }, []);
+  useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => <BackButton handlePress={handleNavigate} />,
+    });
   }, []);
 
   return (

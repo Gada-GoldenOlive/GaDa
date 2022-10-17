@@ -75,7 +75,7 @@ const ModifyNicknameContainer = ({ navigation, route }) => {
   }, [image]);
 
   useEffect(() => {
-    setImageFile(null);
+    dispatch(setImageFile(null));
   }, []);
 
   return (

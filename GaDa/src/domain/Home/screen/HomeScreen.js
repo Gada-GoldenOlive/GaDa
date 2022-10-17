@@ -28,6 +28,7 @@ import PinListModal from '../../../components/PinListModal';
 import { getDistanceFromLatLonInKm } from '../../../function';
 import Text from '../../../components/MyText';
 import { setCurrentPosition } from '../../../redux/modules/status';
+import BadgeModal from '../../../components/BadgeModal';
 
 const HomeScreen = ({
   geoLocation,
@@ -70,6 +71,7 @@ const HomeScreen = ({
   // getDetailAddress,
   // setGetDetailAddress,
   // setDetailAddress,
+  badges,
 }) => {
   const ref = useRef();
   const dispatch = useDispatch();
@@ -338,7 +340,14 @@ const HomeScreen = ({
         closeModal={closePinModal}
         selectedIndex={pinIndex}
         address={selectedItem.address}
+        handleRestart={handleRestart}
       />
+      {badges.length > 0 &&
+        badges.map((item, index) => {
+          const { badge } = item;
+          const { image } = badge;
+          return <BadgeModal data={item} key={image} />;
+        })}
     </View>
   );
 };

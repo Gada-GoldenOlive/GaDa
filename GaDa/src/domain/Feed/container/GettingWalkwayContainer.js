@@ -2,7 +2,7 @@ import React from 'react';
 import GettingWalkwayScreen from '../screen/GettingWalkwayScreen';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { getMyWalkList, getNoReviewWalks } from '../../../APIs/walkway';
+import { getNoReviewWalks } from '../../../APIs/walkway';
 
 const GettingWalkwayContainer = ({ navigation, route }) => {
   const [walkways, setWalkways] = useState([]);
@@ -18,7 +18,7 @@ const GettingWalkwayContainer = ({ navigation, route }) => {
   };
 
   const handleClick = () => {
-    navigation.navigate('CreateWalkway', { item: selectedItem });
+    navigation.navigate('CreateWalkway', {item: selectedItem, type: 'review'});
   };
 
   const clickItem = item => {

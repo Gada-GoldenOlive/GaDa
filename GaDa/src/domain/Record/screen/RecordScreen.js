@@ -26,6 +26,8 @@ import { Arrow, ArrowBlack } from '../../../constant/images/Arrow';
 import RecentWalk from '../components/RecentWalk';
 import MyWalkwayList from '../components/MyWalkwayList';
 import Text from '../../../components/MyText';
+import CenterModal from '../../../components/CenterModal';
+import BadgeModal from '../../../components/BadgeModal';
 
 const RecordScreen = ({
   userData,
@@ -33,6 +35,7 @@ const RecordScreen = ({
   badgeList,
   loading,
   recentWalks,
+  badges,
   handleNavigate,
   handleNaivigateGoal,
   handleNavigateSetting,
@@ -41,7 +44,8 @@ const RecordScreen = ({
   handleNavigateMyRecord,
   handleNavigateLikeReviews,
   handleDetailFeed,
-  handleLoadMore
+  handleLoadMore,
+  badge,
 }) => {
   const {
     id,
@@ -56,6 +60,7 @@ const RecordScreen = ({
     totalTime,
   } = userData;
   const profile = { loginId, image, name };
+  console.log(profile);
   const goal = { loginId, goalDistance, goalTime, totalDistance, totalTime };
   const header = () => {
     return (
@@ -122,13 +127,26 @@ const RecordScreen = ({
       </View>
     );
   };
-  return loading ? <Spinner visible /> : (
+  return loading ? (
+    <Spinner visible />
+  ) : (
     <View
       style={styles.container}
       bounces={false}
       showsVerticalScrollIndicator={false}
     >
-      <MyWalkwayList ListHeaderComponent={header} myWalks={myWalks} handleDetailFeed={handleDetailFeed} handleLoadMore={handleLoadMore}/>
+      <MyWalkwayList
+        ListHeaderComponent={header}
+        myWalks={myWalks}
+        handleDetailFeed={handleDetailFeed}
+        handleLoadMore={handleLoadMore}
+      />
+      {badges.length > 0 &&
+        badges.map((item, index) => {
+          const { badge } = item;
+          const {image} = badge
+          return <BadgeModal data={item} key={image} />;
+        })}
     </View>
   );
 };

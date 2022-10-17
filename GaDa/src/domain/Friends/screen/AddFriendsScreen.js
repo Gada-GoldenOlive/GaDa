@@ -20,18 +20,22 @@ import Modal from 'react-native-modal';
 
 import CloseIcon, { Close } from '../../../constant/images/Close';
 import PopupModal from '../../../components/PopupModal';
+import BadgeModal from '../../../components/BadgeModal';
 
 const AddFriendsScreen = ({
   searchList,
   handleAddConfirmButton,
+  handleCheckConfirmButton,
   handleSearchButton,
   handleAddButton,
   closePopup,
-  openPopup,
+  closeCheckPopup,
   isPopupVisible,
+  isCheckPopupVisible,
   addUser,
   searchId,
   setSearchId,
+  badges,
 }) => {
   const ref = useRef();
 
@@ -40,6 +44,7 @@ const AddFriendsScreen = ({
   //   }
   // }, [isPopupVisible]);
 
+  console.log(isCheckPopupVisible);
   const renderItem = ({ item, index }) => {
     return (
       <View style={styles.itemContainer}>
@@ -65,6 +70,16 @@ const AddFriendsScreen = ({
   return (
     <>
       <PopupModal
+        isPopupVisible={isCheckPopupVisible}
+        closePopup={closeCheckPopup}
+        handleConfirmButton={handleCheckConfirmButton}
+        content={{
+          title: `친구추가 신청이\n완료되었습니다`,
+          description: ``,
+          button: '확인',
+        }}
+      />
+      <PopupModal
         isPopupVisible={isPopupVisible}
         closePopup={closePopup}
         handleConfirmButton={handleAddConfirmButton}
@@ -83,7 +98,11 @@ const AddFriendsScreen = ({
             placeholderTextColor={descriptionColor}
             onChangeText={setSearchId}
             value={searchId}
-            style={{fontFamily: defaultFontFamily, flex: 1, alignItems: 'center'}}
+            style={{
+              fontFamily: defaultFontFamily,
+              flex: 1,
+              alignItems: 'center',
+            }}
             ref={ref}
           />
           <TouchableWithoutFeedback
@@ -99,6 +118,12 @@ const AddFriendsScreen = ({
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: 100 }}
         />
+        {badges.length > 0 &&
+          badges.map((item, index) => {
+            const { badge } = item;
+            const { image } = badge;
+            return <BadgeModal data={item} key={image} />;
+          })}
       </View>
     </>
   );

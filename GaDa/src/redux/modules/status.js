@@ -6,9 +6,10 @@ const SET_IS_WALKING = 'status/IS_WALKING';
 const SET_CURRENT_POSITION = 'status/SET_CURRENT_POSITION';
 const SET_PIN_NUM = 'status/SET_PIN_NUM';
 const SET_IS_RESTART = 'status/SET_IS_RESTART';
-const SET_RESTART_WALKWAY = 'statue/SET_RESTART_WALKWAY';
+const SET_RESTART_WALKWAY = 'status/SET_RESTART_WALKWAY';
 const SET_IS_CREATE = 'status/SET_IS_CREATE';
 const SET_TEMP_WALKWAY_DATA = 'status/SET_TEMP_WALKWAY_DATA';
+const SET_BADGES = 'status/SET_BADGES';
 
 // action 생성 함수
 export const setBottomTabVisible = boolean => ({
@@ -61,6 +62,11 @@ export const setTempWalkwayData = value => ({
   value,
 });
 
+export const setBadges = value => ({
+  type: SET_BADGES,
+  value,
+});
+
 // reducer initial state
 const initialState = {
   bottomTabVisible: true,
@@ -73,6 +79,7 @@ const initialState = {
   restartWalkway: [],
   isCreate: false,
   tempWalkwayData: {},
+  badges: [],
 };
 
 // reducer
@@ -127,6 +134,11 @@ export default function status(state = initialState, action) {
       return {
         ...state,
         tempWalkwayData: action.value,
+      };
+    case SET_BADGES:
+      return {
+        ...state,
+        badges: action.value,
       };
     default:
       return state;

@@ -5,7 +5,6 @@ import {
   View,
 } from 'react-native';
 import React from 'react';
-import WritingFrame from '../../../components/WritingFrame';
 import MyTextInput from '../../../components/MyTextInput';
 import CustomImage from '../../../components/CustomImage';
 import Writing from '../../../constant/images/Writing';

@@ -2,6 +2,8 @@ import React from 'react';
 import GoalSettingScreen from '../screen/GoalSettingScreen';
 import { useState } from 'react';
 import { updateUserInfo } from '../../../APIs/user';
+import { setBadges } from '../../../redux/modules/status';
+import { useDispatch } from 'react-redux';
 
 const GoalSettingContainer = ({ route, navigation }) => {
   const { params = {} } = route;
@@ -9,6 +11,7 @@ const GoalSettingContainer = ({ route, navigation }) => {
   const { goalTime, goalDistance } = goalInfo;
   const [time, setTime] = useState(goalTime);
   const [distance, setDistance] = useState(goalDistance);
+  const dispatch = useDispatch();
 
   const timeChange = text => {
     setTime(text);
@@ -22,24 +25,14 @@ const GoalSettingContainer = ({ route, navigation }) => {
       goalDistance: Number(distance),
       goalTime: Number(time),
     });
-    console.log(res);
+    if(res){
+      const { achieves = [] } = res;
+      if (achieves.length > 0) {
+        dispatch(setBadges(achieves));
+      }
+    }
     navigation.navigate('Record', {refresh: {}});
   };
-  /*
-          <MyTextInput
-          placeholder="새 비밀번호 입력(6글자 이상)"
-          style={[
-            styles.textinput,
-            (newWrong || checkWrong) && {
-              borderBottomColor: errorColor,
-              borderBottomWidth: 2,
-            },
-          ]}
-          onChangeText={newChange}
-          value={newText}
-          secureTextEntry={true}
-        />
-   */
   return (
     <GoalSettingScreen
       time={time}

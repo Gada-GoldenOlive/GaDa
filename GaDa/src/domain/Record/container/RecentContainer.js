@@ -1,6 +1,7 @@
 import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { getNextData } from '../../../APIs';
 import { getMyWalkList } from '../../../APIs/walkway';
 import RecentScreen from '../screen/RecentScreen';
 
@@ -9,10 +10,8 @@ const RecentContainer = ({ navigation, route }) => {
   const [page, setPage] = useState(1);
   const [isDataLoading, setIsDataLoading] = useState(false);
   const [isLast, setIsLast] = useState(false);
+  const [nextUrl, setNextUrl] = useState('');
 
-  const handleDetailPin = () => {
-    navigation.navigate('DetailPin');
-  };
   const handleNavigateRestart = item => {
     navigation.navigate('RestartWalks', {item: item});
   }
@@ -29,21 +28,23 @@ const RecentContainer = ({ navigation, route }) => {
       const { walks, links } = res;
       const { next } = links;
       if (next === '') setIsLast(true);
+      setNextUrl(next);
       setRecentWalks(walks);
       setPage(2);
     }
   };
   
+
   const handleLoadMore = async () => {
     if (!isDataLoading) {
       if (isLast) return null;
       setIsDataLoading(true);
-
-      const res = await getMyWalkList(userId, page);
+      const res = await getNextData(nextUrl);
       if (res) {
         const { walks, links } = res;
         const { next } = links;
         if (next === '') setIsLast(true);
+        setNextUrl(next);
         setRecentWalks(cur => cur.concat(walks));
         setPage(page + 1);
       }
@@ -52,6 +53,7 @@ const RecentContainer = ({ navigation, route }) => {
     }
     return null;
   };
+
 
   useEffect(() => {
     getRecentWalks();

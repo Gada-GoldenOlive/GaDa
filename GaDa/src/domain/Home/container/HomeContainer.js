@@ -5,6 +5,7 @@ import Geolocation from '@react-native-community/geolocation';
 import HomeScreen from '../screen/HomeScreen';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  setBadges,
   setBottomTabVisible,
   setCurrentPosition,
   setEndTime,
@@ -67,6 +68,10 @@ const HomeContainer = ({ navigation, route }) => {
   const [walkData, setWalkData] = useState({});
   // start modal
   const [startModalVisible, setStartModalVisible] = useState(false);
+
+  // 받은 배지
+  const { badges } = useSelector(state => state.status);
+
 
   const [loading, setLoading] = useState(false);
   const { isAuthenticated } = useSelector(state => state.user);
@@ -431,6 +436,7 @@ const HomeContainer = ({ navigation, route }) => {
       getDetailAddress={getDetailAddress}
       setGetDetailAddress={setGetDetailAddress}
       setDetailAddress={setDetailAddress}
+      badges={badges}
     />
   );
 };

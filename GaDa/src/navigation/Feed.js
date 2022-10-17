@@ -42,9 +42,9 @@ const FeedNavigator = () => {
           name={name}
           component={component}
           options={{
-            title: '',
-            headerLeft : () => <Text style={{marginStart: 10}}>Instagram</Text> ,
-            headerRight: () => <FeedBookmark />
+            title: '피드',
+            headerLeft : null,
+            headerRight: null,
           }}
         />
       ))}
