@@ -126,6 +126,7 @@ const CreateWalkwayContainer = ({ navigation, route }) => {
   const handleCreateWalkway = async () => {
     console.log({ walkData });
     const res = await createWalkway(walkData);
+
     const resWalk = await createWalk({
       time: walkData.time,
       distance: walkData.distance,
@@ -133,13 +134,14 @@ const CreateWalkwayContainer = ({ navigation, route }) => {
       finishStatus: 'UNFINISHED',
       walkwayId: res.id,
     });
+
     const forFeed = {
       title: walkData.title,
       vehicle: 'walk',
       star: rate,
       content,
       images: imageList,
-      // walkId: resWalk.id,
+      walkId: resWalk.id,
     };
     dispatch(setTempWalkwayData(forFeed));
 
