@@ -33,7 +33,6 @@ const RecordScreen = ({
   userData,
   myWalks,
   badgeList,
-  loading,
   recentWalks,
   badges,
   handleNavigate,
@@ -127,9 +126,7 @@ const RecordScreen = ({
       </View>
     );
   };
-  return loading ? (
-    <Spinner visible />
-  ) : (
+  return (
     <View
       style={styles.container}
       bounces={false}
@@ -144,7 +141,7 @@ const RecordScreen = ({
       {badges.length > 0 &&
         badges.map((item, index) => {
           const { badge } = item;
-          const {image} = badge
+          const { image } = badge;
           return <BadgeModal data={item} key={image} />;
         })}
     </View>

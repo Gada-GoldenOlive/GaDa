@@ -23,11 +23,14 @@ export const handleNetworkError = async error => {
       const { new_access_token = '', new_refresh_token = '' } =
         await refreshToken(access_token);
       console.log(new_access_token);
-      if (new_access_token && new_refresh_token) {
+      if (new_access_token !== '' && new_refresh_token !== '') {
         defaultAxios.defaults.headers.common.Authorization = `Bearer ${new_access_token}`;
         await storeInLocalStorage(new_access_token, new_refresh_token);
       }
     } else {
+
+      delete defaultAxios.defaults.headers.common.Authorization;
+      removeInLocalStorage();
       reloadApp();
     }
   } else {

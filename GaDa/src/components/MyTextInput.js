@@ -17,6 +17,7 @@ const MyTextInput = forwardRef((props, ref) => {
       placeholderTextColor={descriptionColorVer2}
       {...restProps}
       ref={ref}
+      returnKeyType="done"
     />
   );
 });
