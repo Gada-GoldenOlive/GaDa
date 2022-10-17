@@ -26,8 +26,9 @@ import { get } from 'react-native/Libraries/Utilities/PixelRatio';
 import { createWalk } from '../../../APIs/walk';
 import { setUserId } from '../../../redux/modules/user';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getWalkwayInfo } from '../../../APIs/walkway';
+import { getWalkwayInfo, updateWalkway } from '../../../APIs/walkway';
 import { set } from 'react-native-reanimated';
+import { createReview } from '../../../APIs/review';
 
 // * 현재위치
 // 일정 시간 후 주기적으로 반복해서 geoLocation 해주기!
@@ -72,7 +73,6 @@ const HomeContainer = ({ navigation, route }) => {
   // 받은 배지
   const { badges } = useSelector(state => state.status);
 
-
   const [loading, setLoading] = useState(false);
   const { isAuthenticated } = useSelector(state => state.user);
   const dispatch = useDispatch();
@@ -87,9 +87,8 @@ const HomeContainer = ({ navigation, route }) => {
   const { userId } = useSelector(state => state.user);
 
   // redux 정보
-  const { pinNum, currentPosition, isRestart, isCreate } = useSelector(
-    state => state.status,
-  );
+  const { pinNum, currentPosition, isRestart, isCreate, tempWalkwayData } =
+    useSelector(state => state.status);
 
   const geoLocation = ref => {
     Geolocation.getCurrentPosition(
@@ -243,11 +242,6 @@ const HomeContainer = ({ navigation, route }) => {
 
     closeEndModal();
   };
-  useEffect(() => {
-    if (isCreate && walkEnd) {
-      openEndShareModal();
-    }
-  }, [walkEnd]);
 
   const openEndModal = () => {
     setEndModalVisible(true);
@@ -267,6 +261,7 @@ const HomeContainer = ({ navigation, route }) => {
 
   const handleNavigateCreate = () => {
     console.log(locationList);
+    // openEndShareModal();
     navigation.navigate('CreateWalkway', {
       item: {
         ...walkData,
@@ -275,6 +270,17 @@ const HomeContainer = ({ navigation, route }) => {
         image: '',
       },
     });
+  };
+
+  const handleShareButton = async () => {
+    const walkway = tempWalkwayData.walkwayforUpdate;
+    const feed = tempWalkwayData.forFeed;
+    const id = walkway.id;
+
+    console.log({ ...walkway, status: 'NORMAL' });
+    await updateWalkway(id, { ...walkway, status: 'NORMAL' });
+    await createReview(feed);
+    closeEndShareModal();
   };
 
   // 산책로 제작시 상세주소를 받기 위해
@@ -335,7 +341,7 @@ const HomeContainer = ({ navigation, route }) => {
     setWalkData({});
     dispatch(setPinNum(0));
     dispatch(setIsWalking(false));
-    // dispatch(setIsCreate(false));
+    dispatch(setIsCreate(false));
   };
 
   const openStartModal = () => {
@@ -395,6 +401,12 @@ const HomeContainer = ({ navigation, route }) => {
     resetData();
   }, [route.params?.refresh]);
 
+  useEffect(() => {
+    if (route.params?.endShareModal) {
+      openEndShareModal();
+    }
+  }, [route.params?.endShareModal]);
+
   return (
     <HomeScreen
       geoLocation={geoLocation}
@@ -438,6 +450,7 @@ const HomeContainer = ({ navigation, route }) => {
       setGetDetailAddress={setGetDetailAddress}
       setDetailAddress={setDetailAddress}
       badges={badges}
+      handleShareButton={handleShareButton}
     />
   );
 };

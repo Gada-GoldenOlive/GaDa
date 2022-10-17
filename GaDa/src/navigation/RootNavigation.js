@@ -143,6 +143,7 @@ const RootNavigation = () => {
         <RootStack.Screen
           key={name}
           name={name}
+          key={name}
           component={component}
           options={{
             title: '핀 작성하기',

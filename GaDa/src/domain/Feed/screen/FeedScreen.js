@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingBottom: 21,
-    paddingTop: 3,
+    paddingTop: 20,
   },
   title: {
     fontFamily: boldFontFamily,

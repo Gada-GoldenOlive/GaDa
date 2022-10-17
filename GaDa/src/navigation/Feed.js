@@ -42,8 +42,8 @@ const FeedNavigator = () => {
           name={name}
           component={component}
           options={{
-            title: '피드',
-            headerLeft : null,
+            title: '',
+            headerLeft: null,
             headerRight: null,
           }}
         />
