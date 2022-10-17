@@ -168,7 +168,6 @@ const RootNavigation = () => {
                 ),
               };
             } else {
-             
               return {
                 title: '상세 이미지',
                 headerShown: true,
@@ -314,10 +313,12 @@ const RootNavigation = () => {
           name={name}
           component={component}
           options={({ route }) => {
+            const { params = {} } = route;
+            const { type = 'create' } = params;
             return {
               headerShown: true,
               headerLeft: () => <BackButton />,
-              headerTitle: '산책로 등록',
+              headerTitle: type === 'create' ? '산책로 등록' : '리뷰',
             };
           }}
         />

@@ -153,7 +153,7 @@ const RecordContainer = ({ navigation, route }) => {
   }, [params]);
   return (
     <RecordScreen
-      loading={false}
+      loading={loading}
       userData={userData}
       myWalks={myWalks}
       badgeList={badgeList}

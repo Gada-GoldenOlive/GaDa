@@ -1,6 +1,7 @@
 import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { getNextData } from '../../../APIs';
 import { getMyWalkList } from '../../../APIs/walkway';
 import RecentScreen from '../screen/RecentScreen';
 

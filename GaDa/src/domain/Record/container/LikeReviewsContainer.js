@@ -46,6 +46,10 @@ const LikeReviewsContainer = ({ navigation, route }) => {
   };
 
 
+  const handleDetailFeed = id => {
+    navigation.navigate('DetailFeed', { id });
+  };
+
 
   
 
@@ -56,6 +60,7 @@ const LikeReviewsContainer = ({ navigation, route }) => {
     <LikeReviewsScreen
       reviewList={reviewList}
       handleLoadMore={handleLoadMore}
+      handleDetailFeed={handleDetailFeed}
     />
   );
 };
