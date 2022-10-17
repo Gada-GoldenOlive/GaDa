@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createReview } from '../../../APIs/review';
 import { createWalk } from '../../../APIs/walk';
-import { createWalkway } from '../../../APIs/walkway';
+import { createWalkway, getAddressByCoords } from '../../../APIs/walkway';
 import { s3 } from '../../../constant/setting';
 import { getParam } from '../../../function/image';
 import {
@@ -21,7 +21,7 @@ const CreateWalkwayContainer = ({ navigation, route }) => {
   const { item = {} } = params;
   const { walkwayImages, imageFileList, thumbnailImage, thumbnailFile } =
     useSelector(state => state.images);
-  const { isCreate, tempWalkwayData } = useSelector(state => state.status);
+  const { isCreate } = useSelector(state => state.status);
 
   const [walkwayTitle, setTitle] = useState(item.title);
   const [content, setContent] = useState('');
@@ -56,6 +56,27 @@ const CreateWalkwayContainer = ({ navigation, route }) => {
     setContent(text);
   };
 
+  const fetchAddress = async () => {
+    const res = await getAddressByCoords({
+      x: item.path[0].lng,
+      y: item.path[0].lat,
+    });
+
+    const data = res.documents[0];
+    const { address, road_address: roadAddress } = data;
+
+    if (roadAddress === null) {
+      setWalkData(prev => ({
+        ...prev,
+        address: address.address_name,
+      }));
+    } else {
+      setWalkData(prev => ({
+        ...prev,
+        address: roadAddress.address_name,
+      }));
+    }
+  };
   const changeBody = () => {
     if (isCreate) {
       console.log('뭐야');
@@ -144,7 +165,6 @@ const CreateWalkwayContainer = ({ navigation, route }) => {
       walkId: resWalk.id,
     };
     dispatch(setTempWalkwayData(forFeed));
-    console.log({ tempWalkwayData });
 
     navigation.navigate('Home', { refresh: {} });
   };
@@ -218,6 +238,7 @@ const CreateWalkwayContainer = ({ navigation, route }) => {
     dispatch(setImageFileList([]));
     dispatch(setThumbnailImage(''));
     dispatch(setThumbnailFile(''));
+    fetchAddress();
   }, []);
 
   return (
