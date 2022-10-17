@@ -26,10 +26,12 @@ import {
 import { AddComma } from '../../../function';
 import { useSelector } from 'react-redux';
 import MyTag from '../components/MyTag';
+import BadgeModal from '../../../components/BadgeModal';
 
 const FriendsScreen = ({
   friendList = [],
   unreadExist,
+  badges,
   handleNavigateAddFriends,
   handleNavigateFriendsAlarm,
   handleNavigate,
@@ -158,6 +160,12 @@ const FriendsScreen = ({
           </View>
         </View>
       )}
+      {badges.length > 0 &&
+        badges.map((item, index) => {
+          const { badge } = item;
+          const { image } = badge;
+          return <BadgeModal data={item} key={image} />;
+        })}
     </ScrollView>
   );
 };

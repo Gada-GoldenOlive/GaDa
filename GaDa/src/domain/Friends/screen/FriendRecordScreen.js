@@ -45,6 +45,7 @@ const FriendRecordScreen = ({
   userId,
   myWalks,
   goalInfo,
+  handleLoadMore
 }) => {
   // const { id, name, image, totalTime, totalDistance } = dataList;
   const {
@@ -182,6 +183,7 @@ const FriendRecordScreen = ({
     <MyWalkwayList
       ListHeaderComponent={ListHeaderComponent}
       myWalks={myWalks}
+      handleLoadMore={handleLoadMore}
     />
   );
 };

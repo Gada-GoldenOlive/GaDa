@@ -4,16 +4,23 @@ import FriendsScreen from '../screen/FriendsScreen';
 import { getIdInLocalStorage } from '../../../function';
 import { useState } from 'react';
 import { getUserFriends } from '../../../APIs/user';
+import { useDispatch, useSelector } from 'react-redux';
+import { setBadges } from '../../../redux/modules/status';
 
 const FriendsContainer = ({ navigation, route }) => {
   const [friendList, setFriendList] = useState([]);
   const [unreadExist, setUnreadExist] = useState(false);
+  const { badges } = useSelector(state => state.status);
+
+  const dispatch = useDispatch();
 
   const fetchData = async () => {
     const res = await getUserFriends();
     if (res) {
-      console.log(res);
-      const { friends, is_exist_unread_request: unread } = res;
+      const { friends, is_exist_unread_request: unread, achieves = [] } = res;
+      if (achieves.length > 0) {
+        dispatch(setBadges(achieves));
+      }
       setFriendList(friends);
       setUnreadExist(unread);
     }
@@ -35,6 +42,7 @@ const FriendsContainer = ({ navigation, route }) => {
 
   return (
     <FriendsScreen
+      badges={badges}
       friendList={friendList}
       unreadExist={unreadExist}
       handleNavigateAddFriends={handleNavigateAddFriends}

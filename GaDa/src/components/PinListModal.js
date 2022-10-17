@@ -7,6 +7,7 @@ import {
   View,
 } from 'react-native';
 import Modal from 'react-native-modal';
+import moment from 'moment';
 import Text from './MyText';
 import { boldFontFamily, boldFontSize } from '../constant/fonts';
 import {
@@ -25,7 +26,10 @@ import Writing from '../constant/images/Writing';
 import Delete from '../constant/images/Delete';
 import { Sample } from '../constant/images/Temp';
 import { getRandomImage } from '../function';
-import { PinSample2, PinSample1 } from '../constant/images/PinSample';
+import { thumbnail1 } from '../constant/images/Sample';
+import { useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/core';
+import { deletePin } from '../APIs/pin';
 
 const ItemSeparatorComponent = () => {
   return <View style={styles.separator} />;
@@ -37,21 +41,63 @@ const PinListModal = ({
   dataList = [],
   selectedIndex,
   address,
+  handleRestart,
 }) => {
+  const navigation = useNavigation();
   const [selectIndex, setSelectIndex] = useState(selectedIndex);
+  const { userId: myId } = useSelector(state => state.user);
 
+  const handlePress = (id, index) => {
+    setSelectIndex(index);
+    navigation.navigate('DetailPin', { id: id, index: index });
+  };
+
+  const modifyPin = async (item, index) => {
+    const {
+      content,
+      createdAt,
+      id,
+      image,
+      location,
+      title,
+      updatedAt,
+      userId,
+      walkwayId,
+    } = item;
+    if (userId !== myId) {  
+      navigation.navigate('DetailPin', { id, id, index, index });
+    } else {
+      navigation.navigate('CreatePin', {
+        prevData: { pinId: id, title, content, image },
+        type: 'modify',
+      });
+    }
+  };
+
+  const handleDeletePin = async id => {
+    await deletePin(id);
+    handleRestart();
+
+  } 
   useEffect(() => {
     setSelectIndex(selectedIndex);
   }, [selectedIndex]);
 
   const renderItem = ({ item, index }) => {
-    const { title, content, image } = item;
-    // console.log(image);
-    // console.log('hh', image === 'undefined');
+    const {
+      content,
+      createdAt,
+      id,
+      image,
+      location,
+      title,
+      updatedAt,
+      userId,
+      walkwayId,
+    } = item;
     const isFocused = selectIndex === index;
-    const sampleImage = index % 2 === 0 ? PinSample1 : PinSample2;
     return (
-      <TouchableWithoutFeedback onPress={() => setSelectIndex(index)}>
+      <TouchableWithoutFeedback onPress={() => handlePress(id, index)}>
         <View
           style={[
             styles.itemContainer,
@@ -78,13 +124,23 @@ const PinListModal = ({
                 <Text style={styles.num}>핀{index + 1}</Text>
               </View>
             </View>
-            <View style={styles.iconContainer}>
-              <CustomImage
-                source={Writing}
-                style={[styles.icon, { marginEnd: 20 }]}
-              />
-              <CustomImage source={Delete} style={styles.icon} />
-            </View>
+
+            { (
+              <View style={styles.iconContainer}>
+                <TouchableWithoutFeedback onPress={() => modifyPin(item, index)}>
+                  <CustomImage
+                    source={Writing}
+                    style={[styles.icon, { marginEnd: 20 }]}
+                  />
+                </TouchableWithoutFeedback>
+                {userId === myId && (
+                  <TouchableWithoutFeedback onPress={() => handleDeletePin(id)}>
+                  <CustomImage source={Delete} style={styles.icon} />
+                </TouchableWithoutFeedback>
+                )}
+                
+              </View>
+            )}
           </View>
           <View style={styles.contentContainer}>
             <Text style={styles.title}>{title}</Text>
@@ -93,8 +149,13 @@ const PinListModal = ({
           {image !== 'undefined' && image !== null ? (
             <CustomImage source={{ uri: image }} style={styles.image} />
           ) : (
-            <CustomImage source={sampleImage} style={styles.image} />
+            <CustomImage source={thumbnail1} style={styles.image} />
           )}
+          <View style={styles.dateWrapper}>
+            <Text style={styles.photoDate}>
+              {moment(updatedAt).format('YY-MM-DD')}
+            </Text>
+          </View>
         </View>
       </TouchableWithoutFeedback>
     );
@@ -233,5 +294,17 @@ const styles = StyleSheet.create({
     paddingVertical: 32,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  dateWrapper: {
+    position: 'absolute',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    right: 15,
+    bottom: 31,
+    paddingVertical: 2,
+    paddingHorizontal: 4,
+  },
+  photoDate: {
+    color: 'white',
+    fontSize: 12,
   },
 });

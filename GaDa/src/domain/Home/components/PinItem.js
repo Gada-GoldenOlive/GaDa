@@ -1,4 +1,4 @@
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import React from 'react';
 import {
   blackColor,
@@ -9,23 +9,30 @@ import { boldFontFamily } from '../../../constant/fonts';
 import CustomImage from '../../../components/CustomImage';
 import { Sample } from '../../../constant/images/Temp';
 import Text from '../../../components/MyText';
+import { useNavigation } from '@react-navigation/core';
 const PinItem = ({ item, index }) => {
+  const navigation = useNavigation();
   const { id, title, content, image, location, userId } = item;
+  const handleNavigate = () => {
+    navigation.navigate('DetailPin', { id: id, index: index });
+  };
   return (
-    <View style={styles.container}>
-      <View style={styles.wrapper}>
-        <View style={styles.circle} />
-        <View style={styles.textWrapper}>
-          <Text style={styles.index}>{index + 1}번째 핀</Text>
-          <Text style={styles.text}>: {title}</Text>
+    <TouchableWithoutFeedback onPress={handleNavigate}>
+      <View style={styles.container}>
+        <View style={styles.wrapper}>
+          <View style={styles.circle} />
+          <View style={styles.textWrapper}>
+            <Text style={styles.index}>{index + 1}번째 핀</Text>
+            <Text style={styles.text}>: {title}</Text>
+          </View>
+          {image !== 'undefined' ? (
+            <CustomImage source={{ uri: image }} style={styles.image} />
+          ) : (
+            <CustomImage source={Sample} style={styles.image} />
+          )}
         </View>
-        {image !== 'undefined' ? (
-          <CustomImage source={{ uri: image }} style={styles.image} />
-        ) : (
-          <CustomImage source={Sample} style={styles.image} />
-        )}
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 };
 

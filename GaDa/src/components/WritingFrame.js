@@ -17,7 +17,7 @@ import CustomButton from './CustomButton';
 import { boldFontFamily, mediumFontFamily } from '../constant/fonts';
 import Text from './MyText';
 import CameraSelectModal from './CameraSelectModal';
-import { setPinImage } from '../redux/modules/images';
+import { setImageFile } from '../redux/modules/images';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import { useNavigation } from '@react-navigation/core';
 import Writing from '../constant/images/Writing';
@@ -25,6 +25,7 @@ import Locate from '../constant/images/Locate';
 import { useDispatch } from 'react-redux';
 import Camera from '../constant/images/Camera';
 import CustomRating from './CustomRating';
+import BadgeModal from './BadgeModal';
 const WritingFrame = ({
   title = '',
   content = '',
@@ -36,9 +37,8 @@ const WritingFrame = ({
   buttonTitle = '',
   image = '',
   handlePress,
-  type = 'pin',
-  rate=0,
-  setRate=() => {},
+  setImage,
+  type,
 }) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -67,6 +67,7 @@ const WritingFrame = ({
   };
 
   const [isVisible, setIsVisible] = useState(false);
+
   const openCamera = () => {
     ImageCropPicker.openCamera(
       Platform.OS === 'ios'
@@ -74,10 +75,8 @@ const WritingFrame = ({
         : baseCameraOption,
     ).then(images => {
       const uri = `data:${images.mime};base64,${images.data}`;
-      // console.log(images.assets[0]);
-      //
-      // console.log({ uri });
-      setImages(uri);
+      setImage(uri);
+      dispatch(setImageFile(image));
       cancelModal();
     });
   };
@@ -87,18 +86,17 @@ const WritingFrame = ({
       Platform.OS === 'ios'
         ? { ...baseImageLibraryOption, ...iosOptions }
         : baseImageLibraryOption,
-    ).then(images => {
-      let imageList = [];
-      imageList.push({ imageData: images, image: images.path });
+    ).then(image => {
+      const uri = `data:${image.mime};base64,${image.data}`;
+      setImage(uri);
+      dispatch(setImageFile(image));
+      const imageList = [];
+      imageList.push({ imageData: image, image: image.path });
 
       navigation.navigate('DetailImage', {
         idx: 0,
         images: imageList,
         ver: 'pin',
-        // handlePress: {
-        //   setImage: setStylistImg,
-        //   setImageChanged: setIsImgChanged,
-        // },
       });
       cancelModal();
     });
@@ -111,15 +109,13 @@ const WritingFrame = ({
     setIsVisible(false);
   };
 
-  const setImages = items => {
-    console.log(items);
-    dispatch(setPinImage(items));
-  };
-  
-
   return (
     <View style={styles.contianer}>
-      <ScrollView style={styles.contianer}  bounces={false} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        style={styles.contianer}
+        bounces={false}
+        showsVerticalScrollIndicator={false}
+      >
         <View>
           <TouchableWithoutFeedback onPress={openModal}>
             <View style={styles.imageContainer}>
@@ -142,51 +138,19 @@ const WritingFrame = ({
             <CustomImage source={Writing} style={styles.writing} />
             <MyTextInput
               placeholder={contentPlaceholder}
-              style={[
-                styles.multiLine,
-                type === 'walkway' && { borderBottomWidth: 0, multiLine: 114 },
-              ]}
+              style={styles.multiLine}
               multiline
               onChangeText={contentTextChange}
               value={content}
             />
-            {type === 'walkway' && (
-              <TouchableWithoutFeedback>
-                <View style={styles.cameraWrapper}>
-                  <CustomImage style={styles.camera} source={Camera} />
+            {type === 'create' && (
+              <View style={styles.bottomContainer}>
+                <View style={styles.locateWrapper}>
+                  <CustomImage source={Locate} style={styles.locate} />
+                  <Text style={styles.location}>{address}</Text>
                 </View>
-              </TouchableWithoutFeedback>
-            )}
-            <View style={styles.bottomContainer}>
-              {type === 'walkway' && (
-                <View style={styles.informationContainer}>
-                  <CustomRating
-                    style={styles.rating}
-                    size={40}
-                    score={rate}
-                    onPress={setRate}
-                    starMargin={(windowWidth - 34 - 34 - 200) / 5}
-                    tintColor={buttonColor}
-                  />
-                  <View style={styles.informationWrapper}>
-                    <View style={[styles.information, {borderEndColor: descriptionColorVer2, borderEndWidth: 0.4}]}>
-                      <Text style={styles.informationTitle}>거리</Text>
-                      <Text style={styles.num}>11</Text>
-                      <Text style={styles.informationDescription}>(m)</Text>
-                    </View>
-                    <View style={[styles.information, {borderStartColor: descriptionColorVer2, borderStartWidth:0.6 }]}>
-                      <Text style={styles.informationTitle}>시간</Text>
-                      <Text style={styles.num}>11</Text>
-                      <Text style={styles.informationDescription}>(분)</Text>
-                    </View>
-                  </View>
-                </View>
-              )}
-              <View style={styles.locateWrapper}>
-                <CustomImage source={Locate} style={styles.locate} />
-                <Text style={styles.location}>{address}</Text>
               </View>
-            </View>
+            )}
           </View>
         </View>
       </ScrollView>
@@ -256,42 +220,42 @@ const styles = StyleSheet.create({
     borderTopColor: borderColorVer2,
     borderTopWidth: 1,
   },
-  rating:{
+  rating: {
     marginStart: 18,
     marginTop: 21.5,
   },
-  informationWrapper:{
+  informationWrapper: {
     flexDirection: 'row',
     backgroundColor: 'rgb(90,90,90)',
     paddingVertical: 8,
     flex: 1,
     marginVertical: 27,
   },
-  information:{
+  information: {
     flexDirection: 'row',
     flex: 1,
     paddingHorizontal: 38,
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   informationTitle: {
-    color: 'rgb(215,215,215)'
+    color: 'rgb(215,215,215)',
   },
-  num:{
+  num: {
     fontFamily: boldFontFamily,
     fontSize: 22,
-    color: 'white'
+    color: 'white',
   },
-  informationDescription:{
+  informationDescription: {
     color: 'white',
     fontSize: 10,
-    fontFamily: mediumFontFamily
+    fontFamily: mediumFontFamily,
   },
   locateWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    marginBottom: 61.5
+    marginBottom: 61.5,
   },
   locate: {
     width: 24,
