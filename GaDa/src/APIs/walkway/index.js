@@ -67,3 +67,19 @@ export const getNoReviewWalks = async () => {
     .catch(handleNetworkError);
   return res;
 };
+
+// 좌표로 주소 반환
+export const getAddressByCoords = async ({ x, y }) => {
+  const res = await axios
+    .get(
+      `https://dapi.kakao.com/v2/local/geo/coord2address.json?x=${x}&y=${y}`,
+      {
+        headers: {
+          Authorization: `KakaoAK 680e8cc029c747e85c8bb3f8f2874da8`,
+        },
+      },
+    )
+    .then(({ data }) => data)
+    .catch(e => console.log(e.response.data));
+  return res;
+};
