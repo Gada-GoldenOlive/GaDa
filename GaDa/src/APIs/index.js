@@ -17,9 +17,6 @@ export const handleNetworkError = async error => {
     // 인증관련 에러
     console.log(status);
     if (status === 401 || status === 403) {
-      removeInLocalStorage();
-      reloadApp();
-
       const access_token = await AsyncStorage.getItem('access_token');
       defaultAxios.defaults.headers.common.Authorization = `Bearer ${access_token}`;
 
