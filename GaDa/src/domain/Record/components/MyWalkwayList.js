@@ -127,7 +127,7 @@ export default MyWalkwayList;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingBottom: 20,
+    // paddingBottom: 20,
   },
   itemContainer: {
     height: 184,
