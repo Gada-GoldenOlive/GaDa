@@ -6,6 +6,7 @@ import React, {
   useCallback,
 } from 'react';
 import { PermissionsAndroid, StyleSheet, useColorScheme } from 'react-native';
+import RNRestart from 'react-native-restart';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import RootNavigation from './src/navigation/RootNavigation';
@@ -16,12 +17,17 @@ import store from './src/redux/store';
 // SplashScreen 추가
 import SplashScreen from 'react-native-splash-screen';
 import { setIsAuthenticated, setUserId } from './src/redux/modules/user';
-import { setIdInLocalStorage, storeInLocalStorage } from './src/function';
+import {
+  removeInLocalStorage,
+  setIdInLocalStorage,
+  storeInLocalStorage,
+} from './src/function';
 import { refreshToken, verifyToken } from './src/APIs/JWT';
 import jwtDecode from 'jwt-decode';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import defaultAxios from './src/APIs';
 import { reloadApp } from './src/function/error';
+import { requestLocationAccuracy } from 'react-native-permissions';
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
@@ -38,6 +44,7 @@ const App = () => {
   useEffect(() => {
     if (Platform.OS === 'android') {
       requestCameraPermission();
+      requestLocationAccuracy;
     }
   }, []);
   const requestCameraPermission = async () => {
@@ -102,22 +109,24 @@ const App = () => {
     const { access_token = '', refresh_token = '' } = await getTokens();
     if (access_token !== '') {
       defaultAxios.defaults.headers.common.Authorization = `Bearer ${refresh_token}`;
-      const { new_access_token = '', new_refresh_token = '' } =
-      await refreshToken(access_token);
-
-      if (new_access_token && new_refresh_token) {
+      const { new_access_token, new_refresh_token } = await refreshToken(
+        access_token,
+      );
+      console.log({ new_access_token, new_refresh_token });
+      if (new_access_token !== '' && new_refresh_token != '') {
         const { sub: user_id } = jwtDecode(new_access_token);
         await setIdInLocalStorage(user_id);
         dispatch(setUserId(user_id));
-        console.log({new_access_token, user_id})
+        console.log({ new_access_token, user_id });
         dispatch(setIsAuthenticated(true));
         defaultAxios.defaults.headers.common.Authorization = `Bearer ${new_access_token}`;
         await storeInLocalStorage(new_access_token, new_refresh_token);
       } else {
+        removeInLocalStorage();
+        RNRestart.Restart();
         //reloadApp();
       }
     } else {
-      
       reloadApp();
     }
     /*

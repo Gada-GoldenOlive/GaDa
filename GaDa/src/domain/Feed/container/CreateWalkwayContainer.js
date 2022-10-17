@@ -13,7 +13,7 @@ import {
   setThumbnailImage,
   setThumbnailFile,
 } from '../../../redux/modules/images';
-import { setTempWalkwayData } from '../../../redux/modules/status';
+import { setBadges, setTempWalkwayData } from '../../../redux/modules/status';
 import CreateWalkwayScreen from '../screen/CreateWalkwayScreen';
 
 const CreateWalkwayContainer = ({ navigation, route }) => {
@@ -148,27 +148,40 @@ const CreateWalkwayContainer = ({ navigation, route }) => {
     console.log({ walkData });
     const res = await createWalkway(walkData);
 
-    const resWalk = await createWalk({
-      time: walkData.time,
-      distance: walkData.distance,
-      pinCount: item.pinCount,
-      finishStatus: 'UNFINISHED',
-      walkwayId: res.id,
-    });
-
-    const walkwayforUpdate = {
-      ...walkData,
-      id: res.id,
-    };
-    const forFeed = {
-      title: walkData.title,
-      // vehicle: 'walk',
-      star: rate,
-      content,
-      images: imageList,
-      walkId: resWalk.id,
-    };
-    dispatch(setTempWalkwayData({ walkwayforUpdate, forFeed }));
+    if (res) {
+      const { achieves = [] } = res;
+      if (achieves.length > 0) {
+        dispatch(setBadges(achieves));
+      }
+      const resWalk = await createWalk({
+        time: walkData.time,
+        distance: walkData.distance,
+        pinCount: item.pinCount,
+        finishStatus: 'UNFINISHED',
+        walkwayId: res.id,
+      });
+  
+      if (resWalk) {
+        const { achieves = [] } = resWalk;
+        if (achieves.length > 0) {
+          dispatch(setBadges(achieves));
+        }
+      }
+  
+      const walkwayforUpdate = {
+        ...walkData,
+        id: res.id,
+      };
+      const forFeed = {
+        title: walkData.title,
+        // vehicle: 'walk',
+        star: rate,
+        content,
+        images: imageList,
+        walkId: resWalk.id,
+      };
+      dispatch(setTempWalkwayData({ walkwayforUpdate, forFeed }));
+    }
 
     navigation.navigate('Home', { refresh: {}, endShareModal: true });
   };

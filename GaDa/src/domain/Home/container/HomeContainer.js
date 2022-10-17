@@ -375,6 +375,7 @@ const HomeContainer = ({ navigation, route }) => {
   useEffect(() => {
     getAccess();
   }, [isAuthenticated]);
+
   useEffect(() => {
     // walkEnd일때 안보여야하고 information visible일때 안보여야한다
     const tabVisible = !walkEnd && !isInformationVisible;

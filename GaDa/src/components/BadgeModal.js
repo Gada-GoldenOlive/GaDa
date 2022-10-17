@@ -20,7 +20,9 @@ const BadgeModal = ({ data }) => {
 
   const closeModal = () => {
     setVisible(false);
-    badges.shift();
+    badges.pop();
+    console.log(badges);
+    
   };
   const renderMainBody = () => {
     return (

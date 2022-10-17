@@ -36,7 +36,7 @@ const BadgeList = ({ badgeList }) => {
   const renderItem = ({ item, index }) => {
     const { badge, status } = item;
     const { image, title } = badge;
-
+    console.log(image)
     return status === 'NON_ACHIEVE' ? (
       <View style={styles.itemContaier}>
         <CustomImage style={styles.image} source={defaultImage} />
