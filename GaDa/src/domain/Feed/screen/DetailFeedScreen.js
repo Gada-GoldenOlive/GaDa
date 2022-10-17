@@ -25,7 +25,7 @@ import CustomButton from '../../../components/CustomButton';
 import { getDistance, getHour } from '../../../function';
 import Text from '../../../components/MyText';
 
-const DetailFeedScreen = ({ feedInfo, feedLike, feedId, handleNavigate }) => {
+const DetailFeedScreen = ({ feedInfo, feedLike, feedId, handleNavigate, onPress }) => {
   const {
     address,
     content,
@@ -103,7 +103,7 @@ const DetailFeedScreen = ({ feedInfo, feedLike, feedId, handleNavigate }) => {
           </View>
         </View>
       </ScrollView>
-      <TouchableWithoutFeedback>
+      <TouchableWithoutFeedback onPress={onPress}>
         <View style={styles.buttonWrapper}>
           <Text style={styles.text}>산책시작</Text>
         </View>
