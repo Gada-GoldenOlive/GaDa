@@ -123,8 +123,7 @@ const App = () => {
         await storeInLocalStorage(new_access_token, new_refresh_token);
       } else {
         removeInLocalStorage();
-        RNRestart.Restart();
-        //reloadApp();
+        reloadApp();
       }
     } else {
       reloadApp();
