@@ -1,9 +1,4 @@
-import {
-  FlatList,
-  RefreshControl,
-  StyleSheet,
-  View,
-} from 'react-native';
+import { FlatList, RefreshControl, StyleSheet, View } from 'react-native';
 import React from 'react';
 import CustomImage from '../../../components/CustomImage';
 import CustomRating from '../../../components/CustomRating';
@@ -28,16 +23,19 @@ const FeedItemList = ({
   headerComponent,
   feedList,
   clickItem,
-  selectedItem, 
+  selectedItem,
   refreshing,
   onRefresh,
   handleLoadMore,
 }) => {
-
   const renderItem = ({ item, index }) => {
-
     return type === 'recent' ? (
-      <GettingWalkwayItem item={item} index={index} clickItem={clickItem} selectedItem={selectedItem} />
+      <GettingWalkwayItem
+        item={item}
+        index={index}
+        clickItem={clickItem}
+        selectedItem={selectedItem}
+      />
     ) : (
       <FeedItem item={item} index={index} handleDetailFeed={handleDetailFeed} />
     );
@@ -48,7 +46,7 @@ const FeedItemList = ({
         scrollEventThrottle={16}
         showsVerticalScrollIndicator={false}
         data={feedList}
-        bounces={false}
+        bounces={true}
         ListHeaderComponent={headerComponent}
         disableVirtualization={false}
         refreshControl={

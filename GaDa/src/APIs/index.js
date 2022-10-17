@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import { useDispatch } from 'react-redux';
-import { storeInLocalStorage } from '../function';
+import { removeInLocalStorage, storeInLocalStorage } from '../function';
 import { reloadApp } from '../function/error';
 import { setIsAuthenticated, setUserId } from '../redux/modules/user';
 import { refreshToken } from './JWT';
@@ -17,6 +17,9 @@ export const handleNetworkError = async error => {
     // 인증관련 에러
     console.log(status);
     if (status === 401 || status === 403) {
+      removeInLocalStorage();
+      reloadApp();
+
       const access_token = await AsyncStorage.getItem('access_token');
       defaultAxios.defaults.headers.common.Authorization = `Bearer ${access_token}`;
 
@@ -28,9 +31,12 @@ export const handleNetworkError = async error => {
         await storeInLocalStorage(new_access_token, new_refresh_token);
       }
     } else {
+      reloadApp();
     }
-    return null;
+  } else {
+    reloadApp();
   }
+  return null;
 };
 
 const defaultAxios = axios.create({
@@ -39,11 +45,11 @@ const defaultAxios = axios.create({
 export const getNextData = async url => {
   const urlList = url.split(defaultURL);
   const res = await defaultAxios
-  .get(defaultURL + urlList[1])
-  .then(({ data }) => data)
-  .catch(handleNetworkError);
+    .get(defaultURL + urlList[1])
+    .then(({ data }) => data)
+    .catch(handleNetworkError);
   return res;
-}
+};
 
 // 이게 필요할까?
 export const checkServerHealthState = async () => {

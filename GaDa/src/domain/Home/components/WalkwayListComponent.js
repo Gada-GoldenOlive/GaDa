@@ -76,10 +76,6 @@ const WalkwayListComponent = ({
     }
   };
   const renderItem = ({ item, index }) => {
-    if (index === prevList.length - 1) {
-      // 산책로 제작 버튼이 나머지 다 로딩된 후 뜨게 하기 위해서
-      setLoading(false);
-    }
     if (!item.title) return <View style={{ width: EMPTY_ITEM_SIZE }} />;
 
     const { id, address, title, pinCount } = item;
@@ -211,7 +207,13 @@ const WalkwayListComponent = ({
           )}
           // onViewableItemsChanged={_onViewableItemsChanged}
           scrollEventThrottle={16}
-          renderItem={renderItem}
+          renderItem={(item, index) => {
+            if (index === prevList.length - 1) {
+              // 산책로 제작 버튼이 나머지 다 로딩된 후 뜨게 하기 위해서
+              setLoading(false);
+            }
+            return renderItem(item, index);
+          }}
         />
         <ExpandingDots
           data={prevList}

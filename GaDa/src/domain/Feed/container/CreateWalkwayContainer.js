@@ -79,7 +79,6 @@ const CreateWalkwayContainer = ({ navigation, route }) => {
   };
   const changeBody = () => {
     if (isCreate) {
-      console.log('뭐야');
       setWalkData(prev => ({
         ...prev,
         title: walkwayTitle,
@@ -180,10 +179,8 @@ const CreateWalkwayContainer = ({ navigation, route }) => {
       createImages();
     } else {
       if (isCreate) {
-        console.log('장난?');
         handleCreateWalkway();
       } else {
-        console.log('봐라');
         handleCreateReview();
       }
     }
@@ -201,11 +198,11 @@ const CreateWalkwayContainer = ({ navigation, route }) => {
   }, [thumbnail]);
 
   useEffect(() => {
-    console.log(
-      imageList.length,
-      imageFileList.length,
-      requestBody.images.length,
-    );
+    // console.log(
+    //   imageList.length,
+    //   imageFileList.length,
+    //   requestBody.images.length,
+    // );
     if (
       requestBody.images.length === imageFileList.length &&
       clickable &&
@@ -215,7 +212,6 @@ const CreateWalkwayContainer = ({ navigation, route }) => {
     }
   }, [requestBody.images]);
   useEffect(() => {
-    console.log('너냐');
     if (thumbnailFile !== '' && walkData.image !== '' && clickable) {
       handleCreateWalkway();
     }

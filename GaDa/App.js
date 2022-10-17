@@ -46,7 +46,7 @@ const App = () => {
         PermissionsAndroid.PERMISSIONS.CAMERA,
         {
           title: '카메라 접근 권한 허용',
-          message: 'StyleRecipe가 카메라 접근 권한을 요청합니다.',
+          message: 'GaDa가 카메라 접근 권한을 요청합니다.',
           buttonNegative: '취소',
           buttonPositive: '확인',
         },
@@ -103,13 +103,13 @@ const App = () => {
     if (access_token !== '') {
       defaultAxios.defaults.headers.common.Authorization = `Bearer ${refresh_token}`;
       const { new_access_token = '', new_refresh_token = '' } =
-      await refreshToken(access_token);
+        await refreshToken(access_token);
 
       if (new_access_token && new_refresh_token) {
         const { sub: user_id } = jwtDecode(new_access_token);
         await setIdInLocalStorage(user_id);
         dispatch(setUserId(user_id));
-        console.log({new_access_token, user_id})
+        console.log({ new_access_token, user_id });
         dispatch(setIsAuthenticated(true));
         defaultAxios.defaults.headers.common.Authorization = `Bearer ${new_access_token}`;
         await storeInLocalStorage(new_access_token, new_refresh_token);
@@ -117,7 +117,6 @@ const App = () => {
         //reloadApp();
       }
     } else {
-      
       reloadApp();
     }
     /*
