@@ -141,6 +141,7 @@ const RootNavigation = () => {
         ...createPinScreen,
       }).map(([name, component]) => (
         <RootStack.Screen
+          key={name}
           name={name}
           component={component}
           options={{
