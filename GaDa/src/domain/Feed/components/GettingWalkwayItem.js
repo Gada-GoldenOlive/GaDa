@@ -52,24 +52,26 @@ const GettingWalkwayItem = ({ item, index, clickItem, selectedItem }) => {
 
   return (
     !loading && (
-      <View style={styles.itemContainer}>
-        <CustomImage
-          style={styles.background}
-          source={{ uri: image }}
-          resizeMode="cover"
-        />
-        <View style={styles.gradient} />
-        <TouchableWithoutFeedback onPress={() => clickItem(walkInfo)}>
+      <TouchableWithoutFeedback onPress={() => clickItem(walkInfo)}>
+        <View style={styles.itemContainer}>
+          <CustomImage
+            style={styles.background}
+            source={{ uri: image }}
+            resizeMode="cover"
+          />
+          <View style={styles.gradient} />
+
           <CustomImage source={clickImage} style={styles.check} />
-        </TouchableWithoutFeedback>
-        <View style={styles.bottomContainer}>
-          <Text style={styles.name}>{title}</Text>
-          <Text style={styles.description}>
-            소요시간: {time}분 / 거리 {getDistance({ distance, unit: 'm' })}m /
-            핀 5개
-          </Text>
+
+          <View style={styles.bottomContainer}>
+            <Text style={styles.name}>{title}</Text>
+            <Text style={styles.description}>
+              소요시간: {time}분 / 거리 {getDistance({ distance, unit: 'm' })}m
+              / 핀 5개
+            </Text>
+          </View>
         </View>
-      </View>
+      </TouchableWithoutFeedback>
     )
   );
 };

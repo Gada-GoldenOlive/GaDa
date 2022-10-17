@@ -26,37 +26,24 @@ const BadgeList = ({ badgeList }) => {
    * USER = 회원가입 완료! (FIRST)
    */
 
-   const statusType = { 'ACHIEVE': 1, 'NON_ACHIEVE': 0};
-   const sortList = (a, b) => {
-     return statusType[b.status] - statusType[a.status];
-   };
-   let sortedList = [...badgeList];
-   sortedList.sort(sortList);
- 
-
-
+  const statusType = { ACHIEVE: 1, NON_ACHIEVE: 0 };
+  const sortList = (a, b) => {
+    return statusType[b.status] - statusType[a.status];
+  };
+  let sortedList = [...badgeList];
+  sortedList.sort(sortList);
 
   const renderItem = ({ item, index }) => {
     const { badge, status } = item;
     const { image, title } = badge;
 
     return status === 'NON_ACHIEVE' ? (
-      <View
-        style={[
-          styles.itemContaier,
-          index % 3 !== 2 && { marginEnd: (windowWidth - 32 - 285) / 2 },
-        ]}
-      >
+      <View style={styles.itemContaier}>
         <CustomImage style={styles.image} source={defaultImage} />
         <Text style={styles.text}>{title}</Text>
       </View>
     ) : (
-      <View
-        style={[
-          styles.itemContaier,
-          index % 3 !== 2 && { marginEnd: (windowWidth - 32 - 285) / 2 },
-        ]}
-      >
+      <View style={styles.itemContaier}>
         <CustomImage style={styles.image} source={{ uri: image }} />
         <Text style={styles.text}>{title}</Text>
       </View>
@@ -69,7 +56,7 @@ const BadgeList = ({ badgeList }) => {
         numColumns={3}
         renderItem={renderItem}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 100 }}
+        contentContainerStyle={{ paddingBottom: 100, justifyContent: 'space-between' , backgroundColor: 'pink'}}
       />
     </View>
   );
@@ -82,9 +69,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   itemContaier: {
-    width: 95,
     marginBottom: 49,
     alignItems: 'center',
+    width: (windowWidth - 32) / 3,
+
   },
   image: {
     width: 90,
