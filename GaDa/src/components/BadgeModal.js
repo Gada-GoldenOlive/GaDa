@@ -12,9 +12,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setBadges } from '../redux/modules/status';
 
 const BadgeModal = ({ data }) => {
-  const {badge} = data;
+  const { badge } = data;
   const { title, image } = badge;
-  const {badges} = useSelector(state => state.status);
+  const { badges } = useSelector(state => state.status);
   const [visible, setVisible] = useState(true);
   const dispatch = useDispatch();
 
@@ -22,7 +22,6 @@ const BadgeModal = ({ data }) => {
     setVisible(false);
     badges.pop();
     console.log(badges);
-    
   };
   const renderMainBody = () => {
     return (

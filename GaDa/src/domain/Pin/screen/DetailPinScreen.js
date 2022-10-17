@@ -76,10 +76,8 @@ const DetailPinScreen = ({
       </View>
       {badges.length > 0 &&
         badges.map(item => {
-          console.log(item);
-          return <BadgeModal data={item} key={item}/>;
-        })
-        }
+          return <BadgeModal data={item} key={item} />;
+        })}
     </View>
   );
 };

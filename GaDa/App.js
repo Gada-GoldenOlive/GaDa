@@ -122,9 +122,9 @@ const App = () => {
         defaultAxios.defaults.headers.common.Authorization = `Bearer ${new_access_token}`;
         await storeInLocalStorage(new_access_token, new_refresh_token);
       } else {
+        delete defaultAxios.defaults.headers.common.Authorization;
         removeInLocalStorage();
-        RNRestart.Restart();
-        //reloadApp();
+        reloadApp();
       }
     } else {
       reloadApp();
