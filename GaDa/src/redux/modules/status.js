@@ -72,7 +72,7 @@ const initialState = {
   isRestart: false,
   restartWalkway: [],
   isCreate: false,
-  tempWalywayData: {},
+  tempWalkwayData: {},
 };
 
 // reducer
@@ -126,7 +126,7 @@ export default function status(state = initialState, action) {
     case SET_TEMP_WALKWAY_DATA:
       return {
         ...state,
-        tempWalywayData: action.value,
+        tempWalkwayData: action.value,
       };
     default:
       return state;

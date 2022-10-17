@@ -21,7 +21,7 @@ const CreateWalkwayContainer = ({ navigation, route }) => {
   const { item = {} } = params;
   const { walkwayImages, imageFileList, thumbnailImage, thumbnailFile } =
     useSelector(state => state.images);
-  const { isCreate } = useSelector(state => state.status);
+  const { isCreate, tempWalkwayData } = useSelector(state => state.status);
 
   const [walkwayTitle, setTitle] = useState(item.title);
   const [content, setContent] = useState('');
@@ -137,13 +137,14 @@ const CreateWalkwayContainer = ({ navigation, route }) => {
 
     const forFeed = {
       title: walkData.title,
-      vehicle: 'walk',
+      // vehicle: 'walk',
       star: rate,
       content,
       images: imageList,
       walkId: resWalk.id,
     };
     dispatch(setTempWalkwayData(forFeed));
+    console.log({ tempWalkwayData });
 
     navigation.navigate('Home', { refresh: {} });
   };

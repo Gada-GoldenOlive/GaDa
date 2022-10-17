@@ -82,9 +82,8 @@ const HomeContainer = ({ navigation, route }) => {
   const { userId } = useSelector(state => state.user);
 
   // redux 정보
-  const { pinNum, currentPosition, isRestart, isCreate } = useSelector(
-    state => state.status,
-  );
+  const { pinNum, currentPosition, isRestart, isCreate, tempWalkwayData } =
+    useSelector(state => state.status);
 
   const geoLocation = ref => {
     Geolocation.getCurrentPosition(
@@ -259,7 +258,7 @@ const HomeContainer = ({ navigation, route }) => {
   const closeEndShareModal = () => {
     setEndShareModalVisible(false);
   };
-
+  console.log(tempWalkwayData);
   const handleNavigateCreate = () => {
     console.log(locationList);
     navigation.navigate('CreateWalkway', {
