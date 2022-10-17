@@ -56,7 +56,7 @@ const BadgeList = ({ badgeList }) => {
         numColumns={3}
         renderItem={renderItem}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 100, justifyContent: 'space-between' , backgroundColor: 'pink'}}
+        contentContainerStyle={{ paddingBottom: 100, justifyContent: 'space-between', paddingTop: 47}}
       />
     </View>
   );
