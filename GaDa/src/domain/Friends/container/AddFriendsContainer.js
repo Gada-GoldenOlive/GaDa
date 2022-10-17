@@ -12,17 +12,18 @@ import { addFriend, getUserList } from '../../../APIs/user';
 import { useDispatch, useSelector } from 'react-redux';
 import { setBadges } from '../../../redux/modules/status';
 
-const AddFriendsContainer = () => {
+const AddFriendsContainer = ({ navigation }) => {
   const [searchList, setSearchList] = useState();
   const [searchId, setSearchId] = useState();
   const [isPopupVisible, setIsPopupVisible] = useState(false);
+  const [isCheckPopupVisible, setIsCheckPopupVisible] = useState(false);
   const [addUser, setAddUser] = useState({ id: -1, name: '' });
   const { badges } = useSelector(state => state.status);
   const dispatch = useDispatch();
 
   const fetchSearchResults = async id => {
     const res = await getUserList(id);
-    console.log(res.users);
+    // console.log(res.users);
     const { users } = res;
     setSearchList(users);
   };
@@ -38,9 +39,15 @@ const AddFriendsContainer = () => {
       }
     }
     closePopup();
+    openCheckPopup();
+  };
+  const handleCheckConfirmButton = () => {
+    closeCheckPopup();
+    navigation.navigate('Friends');
   };
   const handleAddButton = (id, name) => {
-    setIsPopupVisible(!isPopupVisible);
+    // setIsPopupVisible(!isPopupVisible);
+    openPopup();
     setAddUser({ id, name });
   };
   const openPopup = () => {
@@ -48,6 +55,14 @@ const AddFriendsContainer = () => {
   };
   const closePopup = () => {
     setIsPopupVisible(false);
+  };
+
+  const openCheckPopup = () => {
+    console.log('들어와');
+    setIsCheckPopupVisible(true);
+  };
+  const closeCheckPopup = () => {
+    setIsCheckPopupVisible(false);
   };
 
   useEffect(() => {
@@ -58,11 +73,13 @@ const AddFriendsContainer = () => {
     <AddFriendsScreen
       searchList={searchList}
       handleAddConfirmButton={handleAddConfirmButton}
+      handleCheckConfirmButton={handleCheckConfirmButton}
       handleSearchButton={handleSearchButton}
       handleAddButton={handleAddButton}
       closePopup={closePopup}
-      openPopup={openPopup}
+      closeCheckPopup={closeCheckPopup}
       isPopupVisible={isPopupVisible}
+      isCheckPopupVisible={isCheckPopupVisible}
       addUser={addUser}
       searchId={searchId}
       badges={badges}

@@ -40,6 +40,10 @@ const FriendsContainer = ({ navigation, route }) => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    fetchData();
+  }, [route.params?.refresh]);
+
   return (
     <FriendsScreen
       badges={badges}
