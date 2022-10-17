@@ -5,9 +5,10 @@ const SET_END_TIME = 'status/END_TIME';
 const SET_IS_WALKING = 'status/IS_WALKING';
 const SET_CURRENT_POSITION = 'status/SET_CURRENT_POSITION';
 const SET_PIN_NUM = 'status/SET_PIN_NUM';
-const SET_IS_RESTART = 'status/IS_RESTART';
-const SET_RESTART_WALKWAY = 'statue/RESTART_WALKWAY';
-const SET_IS_CREATE = 'statue/IS_CREATE';
+const SET_IS_RESTART = 'status/SET_IS_RESTART';
+const SET_RESTART_WALKWAY = 'statue/SET_RESTART_WALKWAY';
+const SET_IS_CREATE = 'status/SET_IS_CREATE';
+const SET_TEMP_WALKWAY_DATA = 'status/SET_TEMP_WALKWAY_DATA';
 
 // action 생성 함수
 export const setBottomTabVisible = boolean => ({
@@ -55,6 +56,11 @@ export const setIsCreate = boolean => ({
   boolean,
 });
 
+export const setTempWalkwayData = value => ({
+  type: SET_TEMP_WALKWAY_DATA,
+  value,
+});
+
 // reducer initial state
 const initialState = {
   bottomTabVisible: true,
@@ -66,6 +72,7 @@ const initialState = {
   isRestart: false,
   restartWalkway: [],
   isCreate: false,
+  tempWalywayData: {},
 };
 
 // reducer
@@ -115,6 +122,11 @@ export default function status(state = initialState, action) {
       return {
         ...state,
         isCreate: action.boolean,
+      };
+    case SET_TEMP_WALKWAY_DATA:
+      return {
+        ...state,
+        tempWalywayData: action.value,
       };
     default:
       return state;

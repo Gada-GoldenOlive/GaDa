@@ -13,6 +13,7 @@ import {
   setThumbnailImage,
   setThumbnailFile,
 } from '../../../redux/modules/images';
+import { setTempWalkwayData } from '../../../redux/modules/status';
 import CreateWalkwayScreen from '../screen/CreateWalkwayScreen';
 
 const CreateWalkwayContainer = ({ navigation, route }) => {
@@ -125,6 +126,23 @@ const CreateWalkwayContainer = ({ navigation, route }) => {
   const handleCreateWalkway = async () => {
     console.log({ walkData });
     const res = await createWalkway(walkData);
+    const resWalk = await createWalk({
+      time: walkData.time,
+      distance: walkData.distance,
+      pinCount: item.pinCount,
+      finishStatus: 'UNFINISHED',
+      walkwayId: res.id,
+    });
+    const forFeed = {
+      title: walkData.title,
+      vehicle: 'walk',
+      star: rate,
+      content,
+      images: imageList,
+      // walkId: resWalk.id,
+    };
+    dispatch(setTempWalkwayData(forFeed));
+
     navigation.navigate('Home', { refresh: {} });
   };
   const handlePress = () => {
