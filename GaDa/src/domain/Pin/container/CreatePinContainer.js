@@ -80,7 +80,7 @@ const CreatePinContainer = ({ navigation, route }) => {
       };
       const { pinId } = prevData;
       const res = await updatePin(pinId, pinData);
-      console.log({res})
+
       if(res !== null){
         navigation.pop();
       navigation.goBack();
@@ -115,7 +115,6 @@ const CreatePinContainer = ({ navigation, route }) => {
         content: prevContent,
         image: prevImage,
       } = prevData;
-      console.log(prevData);
       setPinTitle(prevTitle);
       setContent(prevContent);
       setImage(prevImage);

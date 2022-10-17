@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import { useDispatch } from 'react-redux';
-import { storeInLocalStorage } from '../function';
+import { removeInLocalStorage, storeInLocalStorage } from '../function';
 import { reloadApp } from '../function/error';
 import { setIsAuthenticated, setUserId } from '../redux/modules/user';
 import { refreshToken } from './JWT';
@@ -23,11 +23,14 @@ export const handleNetworkError = async error => {
       const { new_access_token = '', new_refresh_token = '' } =
         await refreshToken(access_token);
       console.log(new_access_token);
-      if (new_access_token && new_refresh_token) {
+      if (new_access_token !== '' && new_refresh_token !== '') {
         defaultAxios.defaults.headers.common.Authorization = `Bearer ${new_access_token}`;
         await storeInLocalStorage(new_access_token, new_refresh_token);
       }
     } else {
+      delete defaultAxios.defaults.headers.common.Authorization;
+      removeInLocalStorage();
+      reloadApp();
     }
     return null;
   }
