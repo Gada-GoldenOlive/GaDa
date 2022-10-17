@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     color: mainColor,
     fontFamily: boldFontFamily,
     fontSize: 20,
-    flexDirection: 'row',
+    alignSelf: 'flex-end',
   },
   num: {
     color: mainColor,
