@@ -25,7 +25,7 @@ const RecentWalk = ({ recentWalks }) => {
         </View>
         <View style={styles.bottomContainer}>
           <View style={styles.bottomWrapper}>
-            <Text style={styles.percent}>{rate}%</Text>
+            <Text style={styles.percent}>{rate!== null ? rate : 0}%</Text>
           </View>
         </View>
       </View>

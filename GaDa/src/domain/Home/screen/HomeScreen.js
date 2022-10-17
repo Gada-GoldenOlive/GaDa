@@ -192,12 +192,14 @@ const HomeScreen = ({
   }, [nowPins]);
 
   useEffect(() => {
-    if (currentPos.lat !== 0 && currentPos.lng !== 0) {
-      if (!isCurrentPosClicked) {
-        getWalkway(currentPos);
-      } else {
-        // 현재 위치 눌렀을 때는 getWalkway 하지 않음
-        setIsCurrentPosClicked(false);
+    if (currentPos !== undefined) {
+      if (currentPos.lat !== 0 && currentPos.lng !== 0) {
+        if (!isCurrentPosClicked) {
+          getWalkway(currentPos);
+        } else {
+          // 현재 위치 눌렀을 때는 getWalkway 하지 않음
+          setIsCurrentPosClicked(false);
+        }
       }
     }
   }, [currentPos]);

@@ -43,7 +43,7 @@ const RecentScreen = ({
             <View style={styles.gradient} />
             <View style={styles.bottomWrapper}>
               <View style={styles.percentWrapper}>
-                <Text style={styles.percent}>{rate}%</Text>
+                <Text style={styles.percent}>{rate !== null ? rate : 0}%</Text>
               </View>
               <Text style={styles.distance}>
                 {getDistance({ distance, unit: 'm' })}m
