@@ -83,11 +83,11 @@ const CreateWalkwayContainer = ({ navigation, route }) => {
       setWalkData(prev => ({
         ...prev,
         title: walkwayTitle,
-        // star: rate,
         distance: item.distance,
         time: item.time,
         path: item.path,
         image: thumbnailImage,
+        status: 'PRIVATE',
       }));
     } else {
       setRequestBody(prev => {
@@ -156,6 +156,10 @@ const CreateWalkwayContainer = ({ navigation, route }) => {
       walkwayId: res.id,
     });
 
+    const walkwayforUpdate = {
+      ...walkData,
+      id: res.id,
+    };
     const forFeed = {
       title: walkData.title,
       // vehicle: 'walk',
@@ -164,9 +168,9 @@ const CreateWalkwayContainer = ({ navigation, route }) => {
       images: imageList,
       walkId: resWalk.id,
     };
-    dispatch(setTempWalkwayData(forFeed));
+    dispatch(setTempWalkwayData({ walkwayforUpdate, forFeed }));
 
-    navigation.navigate('Home', { refresh: {} });
+    navigation.navigate('Home', { refresh: {}, endShareModal: true });
   };
   const handlePress = () => {
     if (thumbnailFile !== '') {

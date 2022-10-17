@@ -71,9 +71,7 @@ const HomeScreen = ({
   openEndShareModal,
   closeEndShareModal,
   handleNavigateCreate,
-  // getDetailAddress,
-  // setGetDetailAddress,
-  // setDetailAddress,
+  handleShareButton,
   badges,
 }) => {
   const ref = useRef();
@@ -357,8 +355,13 @@ const HomeScreen = ({
       <CenterModal
         isVisible={endShareModalVisible}
         closeModal={closeEndShareModal}
-        handleConfirm={resetData}
-        renderMainBody={shareModalBody}
+        handleConfirm={handleShareButton} // 공유하기
+        secondHandleConfirm={resetData}
+        // renderMainBody={shareModalBody}
+        mainText="산책을 공유하시겠어요?"
+        content={`공유한 산책로는 피드 및 지도에\n등록되며, 다른 사용자들이 이 산책로를\n체험할 수 있습니다.`}
+        buttonText="공유하기"
+        secondButtonText="아니요"
       />
       <PinListModal
         dataList={nowPins}

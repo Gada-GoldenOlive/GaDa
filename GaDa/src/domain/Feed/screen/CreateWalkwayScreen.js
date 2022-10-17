@@ -125,7 +125,7 @@ const CreateWalkwayScreen = ({
       dispatch(setThumbnailImage(uri));
       dispatch(setThumbnailFile(image));
 
-      cancelModal();
+      cancelThumbnailModal();
     });
   };
 
@@ -143,7 +143,7 @@ const CreateWalkwayScreen = ({
         images: imageList,
         ver: 'review',
       });
-      cancelModal();
+      cancelThumbnailModal();
     });
   };
 

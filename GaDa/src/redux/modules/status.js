@@ -9,6 +9,7 @@ const SET_IS_RESTART = 'status/SET_IS_RESTART';
 const SET_RESTART_WALKWAY = 'status/SET_RESTART_WALKWAY';
 const SET_IS_CREATE = 'status/SET_IS_CREATE';
 const SET_TEMP_WALKWAY_DATA = 'status/SET_TEMP_WALKWAY_DATA';
+
 const SET_BADGES = 'status/SET_BADGES';
 
 // action 생성 함수
