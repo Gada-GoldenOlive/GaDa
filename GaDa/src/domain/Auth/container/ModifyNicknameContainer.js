@@ -53,7 +53,6 @@ const ModifyNicknameContainer = ({ navigation, route }) => {
           return;
         }
         const imgTag = `${data.Location}`;
-        data.image = imgTag;
         dispatch(setUserImage(imgTag));
         await updateUserInfo(userId, { image: imgTag });
       });

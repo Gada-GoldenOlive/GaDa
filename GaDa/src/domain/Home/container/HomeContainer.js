@@ -243,11 +243,6 @@ const HomeContainer = ({ navigation, route }) => {
 
     closeEndModal();
   };
-  useEffect(() => {
-    if (isCreate && walkEnd) {
-      openEndShareModal();
-    }
-  }, [walkEnd]);
 
   const openEndModal = () => {
     setEndModalVisible(true);
@@ -267,6 +262,7 @@ const HomeContainer = ({ navigation, route }) => {
 
   const handleNavigateCreate = () => {
     console.log(locationList);
+    openEndShareModal();
     navigation.navigate('CreateWalkway', {
       item: {
         ...walkData,

@@ -73,6 +73,7 @@ const styles = StyleSheet.create({
     width: windowWidth,
     paddingStart: 24,
     paddingTop: Platform.OS === 'android' ? 33 : 133,
+    zIndex: 999
   },
   informationContainer: {},
   closeText: {

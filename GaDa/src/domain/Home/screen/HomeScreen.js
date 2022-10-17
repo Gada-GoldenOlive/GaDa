@@ -31,6 +31,7 @@ import { setCurrentPosition } from '../../../redux/modules/status';
 import BadgeModal from '../../../components/BadgeModal';
 import { descriptionColor } from '../../../constant/colors';
 import CloseIcon from '../../../constant/images/Close';
+import CreateWalkwayButton from '../components/CreateWalkwayButton';
 
 const HomeScreen = ({
   geoLocation,
@@ -310,6 +311,7 @@ const HomeScreen = ({
         openStartModal={openStartModal} // 산책로 제작을 위해
       />
 
+      {!isWalking && <CreateWalkwayButton openStartModal={openStartModal} />}
       <WalkwayOverview
         walkWay={selectedItem}
         isVisible={isVisible}

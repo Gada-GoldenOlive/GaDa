@@ -282,7 +282,6 @@ const WalkwayListComponent = ({
         onSwipeLeft={goRight}
         config={config}
       >
-        {!loading && <CreateWalkwayButton openStartModal={openStartModal} />}
         {renderList()}
       </GestureRecognizer>
     </View>
