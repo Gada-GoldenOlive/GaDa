@@ -261,6 +261,7 @@ const HomeContainer = ({ navigation, route }) => {
   };
 
   const handleNavigateCreate = () => {
+    console.log(locationList);
     navigation.navigate('CreateWalkway', {
       item: {
         ...walkData,
@@ -329,7 +330,7 @@ const HomeContainer = ({ navigation, route }) => {
     setWalkData({});
     dispatch(setPinNum(0));
     dispatch(setIsWalking(false));
-    dispatch(setIsCreate(false));
+    // dispatch(setIsCreate(false));
   };
 
   const openStartModal = () => {

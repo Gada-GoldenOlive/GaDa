@@ -6,6 +6,9 @@ const SET_WALKWAY_IMAGES = 'images/SET_WALKWAY_IMAGES';
 const SET_PROFILE_IMAGE = 'images/SET_PROFILE_IMAGE';
 const SET_IMAGE_FILE = 'images/SET_IMAGE_FILE';
 const SET_IMAGE_FILE_LIST = 'images/SET_IMAGE_FILE_LIST';
+const SET_THUMBNAIL_IMAGE = 'images/SET_THUMBNAIL_IMAGE';
+const SET_THUMBNAIL_FILE = 'images/SET_THUMBNAIL_FILE';
+const SET_IS_THUMBNAIL = 'images/SET_IS_THUMBNAIL';
 
 // action 생성 함수
 export const setPinImage = value => ({
@@ -40,6 +43,19 @@ export const setImageFileList = value => ({
   value,
 });
 
+export const setThumbnailImage = value => ({
+  type: SET_THUMBNAIL_IMAGE,
+  value,
+});
+export const setThumbnailFile = value => ({
+  type: SET_THUMBNAIL_FILE,
+  value,
+});
+export const setIsThumbnail = boolean => ({
+  type: SET_IS_THUMBNAIL,
+  boolean,
+});
+
 // reducer initial state
 const initialState = {
   pinImage: '',
@@ -48,6 +64,9 @@ const initialState = {
   profileImage: '',
   imageFile: null,
   imageFileList: [],
+  thumbnailImage: '',
+  thumbnailFile: '',
+  isThumbnail: false,
 };
 
 export default function images(state = initialState, action) {
@@ -81,6 +100,21 @@ export default function images(state = initialState, action) {
       return {
         ...state,
         imageFileList: action.value,
+      };
+    case SET_THUMBNAIL_IMAGE:
+      return {
+        ...state,
+        thumbnailImage: action.value,
+      };
+    case SET_THUMBNAIL_FILE:
+      return {
+        ...state,
+        thumbnailFile: action.value,
+      };
+    case SET_IS_THUMBNAIL:
+      return {
+        ...state,
+        isThumbnail: action.boolean,
       };
     case REFRESH_IMAGES:
       return initialState;

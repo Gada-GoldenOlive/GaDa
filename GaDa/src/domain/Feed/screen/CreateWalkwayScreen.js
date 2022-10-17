@@ -23,6 +23,9 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   setImageFileList,
+  setIsThumbnail,
+  setThumbnailFile,
+  setThumbnailImage,
   setWalkwayImages,
 } from '../../../redux/modules/images';
 import Camera from '../../../constant/images/Camera';
@@ -46,8 +49,12 @@ const CreateWalkwayScreen = ({
   setRate,
   imageFileList,
   handlePress,
+  address = null,
+  thumbnailImage,
+  thumbnail,
 }) => {
   const { distance, image, time, title } = item;
+  const { isCreate } = useSelector(state => state.status);
 
   const dispatch = useDispatch();
 
@@ -75,6 +82,7 @@ const CreateWalkwayScreen = ({
   };
 
   const [isVisible, setIsVisible] = useState(false);
+  const [isThumbnailVisible, setIsThumbnailVisible] = useState(false);
   const [temp, setTemp] = useState([]);
   const openCamera = () => {
     ImageCropPicker.openCamera(
@@ -107,11 +115,50 @@ const CreateWalkwayScreen = ({
     });
   };
 
+  const openCameraForThumbnail = () => {
+    ImageCropPicker.openCamera(
+      Platform.OS === 'ios'
+        ? { ...baseCameraOption, ...iosOptions }
+        : baseCameraOption,
+    ).then(async image => {
+      const uri = `data:${image.mime};base64,${image.data}`;
+      setTemp(prev => [...prev, { url: uri }]);
+      dispatch(setThumbnailImage(uri));
+      dispatch(setThumbnailFile(image));
+
+      cancelModal();
+    });
+  };
+
+  const openImageLibraryForThumbnail = () => {
+    ImageCropPicker.openPicker(
+      Platform.OS === 'ios'
+        ? { ...baseImageLibraryOption, ...iosOptions, multiple: false }
+        : { baseImageLibraryOption, multiple: false },
+    ).then(image => {
+      let imageList = [];
+      imageList.push({ imageData: image, image: image.path });
+      dispatch(setIsThumbnail(true));
+      navigation.navigate('DetailImage', {
+        idx: 0,
+        images: imageList,
+        ver: 'review',
+      });
+      cancelModal();
+    });
+  };
+
   const openModal = () => {
     setIsVisible(true);
   };
   const cancelModal = () => {
     setIsVisible(false);
+  };
+  const openThumbnailModal = () => {
+    setIsThumbnailVisible(true);
+  };
+  const cancelThumbnailModal = () => {
+    setIsThumbnailVisible(false);
   };
 
   return (
@@ -122,12 +169,15 @@ const CreateWalkwayScreen = ({
         showsVerticalScrollIndicator={false}
       >
         <View>
-          <TouchableWithoutFeedback onPress={openModal}>
+          <TouchableWithoutFeedback onPress={openThumbnailModal}>
             <View style={styles.imageContainer}>
-              <CustomImage source={{ uri: image }} style={styles.image} />
               {image === '' && (
                 <CustomImage source={Upload} style={styles.upload} />
               )}
+              <CustomImage
+                source={isCreate ? { uri: thumbnailImage } : { uri: image }}
+                style={styles.image}
+              />
             </View>
           </TouchableWithoutFeedback>
         </View>
@@ -208,7 +258,9 @@ const CreateWalkwayScreen = ({
             </View>
             <View style={styles.locateWrapper}>
               <CustomImage source={Locate} style={styles.locate} />
-              <Text style={styles.location}>{title}</Text>
+              <Text style={styles.location}>
+                {address === null ? title : address}
+              </Text>
             </View>
           </View>
         </View>
@@ -224,6 +276,12 @@ const CreateWalkwayScreen = ({
         openCamera={openCamera}
         openImageLibrary={openImageLibrary}
         cancelModal={cancelModal}
+      />
+      <CameraSelectModal
+        isVisible={isThumbnailVisible}
+        openCamera={openCameraForThumbnail}
+        openImageLibrary={openImageLibraryForThumbnail}
+        cancelModal={cancelThumbnailModal}
       />
     </View>
   );
