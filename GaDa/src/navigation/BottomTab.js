@@ -5,6 +5,7 @@ import FeedNavigator from './Feed';
 import FriendsNavigator from './Friends';
 import RecordNavigator from './Record';
 import CustomBottomTab from '../components/CustomBottomTab';
+import { View } from 'react-native';
 const Tab = createBottomTabNavigator();
 
 const bottomTabScreens = {
@@ -27,7 +28,9 @@ const BottomTab = () => {
         ...bottomTabScreens,
       }).map(([name, component]) => (
         <Tab.Screen
-          options={{ unmountOnBlur: true }}
+          options={{
+            unmountOnBlur: true,
+          }}
           listeners={({ navigation }) => ({
             blur: () => navigation.setParams({ screen: undefined }),
           })}

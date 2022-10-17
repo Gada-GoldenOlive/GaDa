@@ -3,6 +3,7 @@ import {
   createStackNavigator,
 } from '@react-navigation/stack';
 import React from 'react';
+import HeaderComponent from '../components/HeaderComponent';
 import { boldFontFamily } from '../constant/fonts';
 import FriendsContainer from '../domain/Friends/container/FriendsContainer';
 

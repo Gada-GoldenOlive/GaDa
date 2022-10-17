@@ -185,6 +185,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     borderRadius: 20,
     alignItems: 'center',
+    marginBottom: 20,
   },
   nullTitle: {
     paddingTop: 48,

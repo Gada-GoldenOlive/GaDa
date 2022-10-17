@@ -28,12 +28,15 @@ export const handleNetworkError = async error => {
         await storeInLocalStorage(new_access_token, new_refresh_token);
       }
     } else {
+
       delete defaultAxios.defaults.headers.common.Authorization;
       removeInLocalStorage();
       reloadApp();
     }
-    return null;
+  } else {
+    reloadApp();
   }
+  return null;
 };
 
 const defaultAxios = axios.create({
@@ -42,11 +45,11 @@ const defaultAxios = axios.create({
 export const getNextData = async url => {
   const urlList = url.split(defaultURL);
   const res = await defaultAxios
-  .get(defaultURL + urlList[1])
-  .then(({ data }) => data)
-  .catch(handleNetworkError);
+    .get(defaultURL + urlList[1])
+    .then(({ data }) => data)
+    .catch(handleNetworkError);
   return res;
-}
+};
 
 // 이게 필요할까?
 export const checkServerHealthState = async () => {

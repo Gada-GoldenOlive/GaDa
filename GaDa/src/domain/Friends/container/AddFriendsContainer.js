@@ -58,7 +58,6 @@ const AddFriendsContainer = ({ navigation }) => {
   };
 
   const openCheckPopup = () => {
-    console.log('들어와');
     setIsCheckPopupVisible(true);
   };
   const closeCheckPopup = () => {

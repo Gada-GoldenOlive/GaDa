@@ -4,6 +4,7 @@ import {
 } from '@react-navigation/stack';
 import React from 'react';
 import FeedBookmark from '../components/FeedBookmark';
+import HeaderComponent from '../components/HeaderComponent';
 import Text from '../components/MyText';
 import { boldFontFamily } from '../constant/fonts';
 import FeedContainer from '../domain/Feed/container/FeedContainer';
@@ -45,6 +46,7 @@ const FeedNavigator = () => {
             title: '',
             headerLeft: null,
             headerRight: null,
+            // header: () => <HeaderComponent title="피드" />,
           }}
         />
       ))}

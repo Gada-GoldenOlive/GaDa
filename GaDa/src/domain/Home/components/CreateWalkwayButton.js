@@ -37,8 +37,7 @@ const styles = StyleSheet.create({
     marginRight: 16,
     position: 'absolute',
     right: 0,
-    bottom: 180,
-
+    bottom: 170,
   },
   createWalkwayButtonWrapper: {
     flexDirection: 'row',

@@ -252,7 +252,6 @@ const HomeContainer = ({ navigation, route }) => {
   };
 
   const openEndShareModal = () => {
-    console.log('hi');
     setEndShareModalVisible(true);
   };
   const closeEndShareModal = () => {
