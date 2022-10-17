@@ -12,7 +12,7 @@ import CustomImage from '../../../components/CustomImage';
 import CurrentPosition from '../../../constant/images/CurrentPosition';
 import NewPinButton from '../../../components/NewPinButton';
 import PinPosSubmitButton from '../components/PinPosSubmitButton';
-import { mediumFontFamily } from '../../../constant/fonts';
+import { boldFontFamily, mediumFontFamily } from '../../../constant/fonts';
 import LinearGradient from 'react-native-linear-gradient';
 import Pin from '../../../constant/images/Pin';
 import { bottomShadowStyle } from '../../../constant/styles';
@@ -29,6 +29,8 @@ import { getDistanceFromLatLonInKm } from '../../../function';
 import Text from '../../../components/MyText';
 import { setCurrentPosition } from '../../../redux/modules/status';
 import BadgeModal from '../../../components/BadgeModal';
+import { descriptionColor } from '../../../constant/colors';
+import CloseIcon from '../../../constant/images/Close';
 
 const HomeScreen = ({
   geoLocation,
@@ -214,6 +216,33 @@ const HomeScreen = ({
     handleConnection(ref, 'currentPos');
   };
 
+  const shareModalBody = () => {
+    return (
+      <View style={styles.modalWrapper}>
+        <View style={styles.topContainer}>
+          <Text style={styles.titleText}>산책을 공유하시겠어요?</Text>
+          <TouchableWithoutFeedback onPress={closeModal}>
+            <CustomImage source={CloseIcon} style={styles.close} />
+          </TouchableWithoutFeedback>
+        </View>
+        <View style={styles.middleContainer}>
+          <Text
+            style={styles.content}
+          >{`공유한 산책로는 피드 및 지도에\n등록되며, 다른 사용자들이 이 산책로를 \n체험할 수 있습니다.`}</Text>
+        </View>
+        <TouchableWithoutFeedback>
+          <View style={styles.share}>
+            <Text style={styles.buttonText}>공유하기</Text>
+          </View>
+        </TouchableWithoutFeedback>
+        <TouchableWithoutFeedback onPress={closeModal}>
+          <View style={styles.share}>
+            <Text style={styles.buttonText}>아니요</Text>
+          </View>
+        </TouchableWithoutFeedback>
+      </View>
+    );
+  };
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       <WebView
@@ -323,17 +352,12 @@ const HomeScreen = ({
           pinNum={pinNum}
         />
       )}
-      {/* <CenterModal
+      <CenterModal
         isVisible={endShareModalVisible}
         closeModal={closeEndShareModal}
         handleConfirm={resetData}
-        // handleSecondConfirm={}
-        mainText={`산책을 공유하시겠어요?`}
-        content={`공유한 산책로는 피드 및 지도에\n등록되며, 다른 사용자들이 이 산책로를\n체험할 수 있습니다.`}
-        buttonText="공유하기"
-        secondButtonText="아니요"
-      /> */}
-
+        renderMainBody={shareModalBody}
+      />
       <PinListModal
         dataList={nowPins}
         isVisible={pinModalIsVisible}
@@ -432,5 +456,51 @@ const styles = StyleSheet.create({
     fontFamily: mediumFontFamily,
     fontSize: 16,
     color: 'white',
+  },
+  modalWrapper: {
+    backgroundColor: 'white',
+    width: '100%',
+    paddingTop: 30,
+    paddingBottom: 24,
+    paddingHorizontal: 18,
+    borderRadius: 15,
+    justifyContent: 'center',
+  },
+  topContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+  },
+  titleText: {
+    fontFamily: boldFontFamily,
+    fontSize: 20,
+    color: 'black',
+    lineHeight: 31,
+  },
+  close: {
+    width: 24,
+    height: 24,
+  },
+  middleContainer: {
+    marginTop: 10,
+    marginBottom: 60,
+  },
+  content: {
+    lineHeight: 20,
+    color: descriptionColor,
+  },
+  button: {
+    position: 'relative',
+    width: '100%',
+    paddingBottom: 0,
+    paddingTop: 0,
+    paddingHorizontal: 0,
+    justifyContent: 'flex-start',
+    shadowColor: 'rgba(0,0,0,0)',
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 0,
   },
 });

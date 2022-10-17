@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
+import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import React from 'react';
 
 import CustomImage from '../../../components/CustomImage';
@@ -8,6 +8,7 @@ import Add from '../../../constant/images/Add';
 import { useNavigation } from '@react-navigation/core';
 import { useDispatch } from 'react-redux';
 import { setIsCreate } from '../../../redux/modules/status';
+import Text from '../../../components/MyText';
 
 const CreateWalkwayButton = ({ openStartModal }) => {
   const dispatch = useDispatch();
