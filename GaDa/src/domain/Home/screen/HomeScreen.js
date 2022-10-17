@@ -64,6 +64,13 @@ const HomeScreen = ({
   setSelectedItem,
   setCurrentPos,
   currentPos,
+  endShareModalVisible,
+  openEndShareModal,
+  closeEndShareModal,
+  handleNavigateCreate,
+  // getDetailAddress,
+  // setGetDetailAddress,
+  // setDetailAddress,
   badges,
 }) => {
   const ref = useRef();
@@ -86,6 +93,12 @@ const HomeScreen = ({
   };
   const [isCurrentPosClicked, setIsCurrentPosClicked] = useState(false);
 
+  // useEffect(() => {
+  //   if (getDetailAddress) {
+  //     handleConnection(ref, 'detailAddress');
+  //   }
+  // }, [getDetailAddress]);
+
   const INJECTED_JAVASCRIPT = `(function() {
     window.postMessage(JSON.stringify({key : "value"}));true;
 })();`;
@@ -95,9 +108,15 @@ const HomeScreen = ({
   //   console.log(recordPosition);
   // };
 
-  const { isRestart, restartWalkway, currentPosition } = useSelector(
+  const { isRestart, restartWalkway, currentPosition, isCreate } = useSelector(
     state => state.status,
   );
+
+  // useEffect(() => {
+  //   if (walkEnd && isCreate) {
+  //     openEndShareModal();
+  //   }
+  // }, [walkEnd]);
 
   const handleRestart = async () => {
     const res = await getWalkwayInfo({
@@ -194,11 +213,12 @@ const HomeScreen = ({
     setIsCurrentPosClicked(true);
     handleConnection(ref, 'currentPos');
   };
+
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       <WebView
         source={{ uri: 'https://ga-da-goldenolive.vercel.app' }}
-        // source={{ uri: 'https://4bc6-110-8-134-126.jp.ngrok.io' }}
+        // source={{ uri: 'https://0ec9-110-8-134-126.jp.ngrok.io' }}
         injectedJavaScript={INJECTED_JAVASCRIPT}
         ref={ref}
         javaScriptEnabled
@@ -246,6 +266,7 @@ const HomeScreen = ({
           </View>
         </TouchableWithoutFeedback>
       )}
+
       <WalkwayListComponent
         list={walkwayList}
         selectedItem={selectedItem}
@@ -257,7 +278,9 @@ const HomeScreen = ({
         setNowPins={setNowPins}
         setIsWalkwayFocused={setIsWalkwayFocused}
         nowPath={nowPath}
+        openStartModal={openStartModal} // 산책로 제작을 위해
       />
+
       <WalkwayOverview
         walkWay={selectedItem}
         isVisible={isVisible}
@@ -294,11 +317,23 @@ const HomeScreen = ({
       {walkEnd && (
         <WalkEnd
           isVisible={walkEnd}
-          onPress={resetData}
+          // onPress={resetData}
+          onPress={isCreate ? handleNavigateCreate : resetData}
           walkData={walkData}
           pinNum={pinNum}
         />
       )}
+      {/* <CenterModal
+        isVisible={endShareModalVisible}
+        closeModal={closeEndShareModal}
+        handleConfirm={resetData}
+        // handleSecondConfirm={}
+        mainText={`산책을 공유하시겠어요?`}
+        content={`공유한 산책로는 피드 및 지도에\n등록되며, 다른 사용자들이 이 산책로를\n체험할 수 있습니다.`}
+        buttonText="공유하기"
+        secondButtonText="아니요"
+      /> */}
+
       <PinListModal
         dataList={nowPins}
         isVisible={pinModalIsVisible}

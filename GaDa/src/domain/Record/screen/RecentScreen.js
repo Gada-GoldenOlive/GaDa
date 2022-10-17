@@ -68,6 +68,7 @@ const RecentScreen = ({
         renderItem={({ item, index }) => renderItem({ item, index })}
         onEndReachedThreshold={0.7}
         keyExtractor={(item, index) => `${item}-${index}`}
+        contentContainerStyle={{ paddingBottom: 40 }}
       />
     </View>
   );
