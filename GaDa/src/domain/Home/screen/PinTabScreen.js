@@ -20,7 +20,7 @@ const ListFooterComponent = () => {
   return <View style={styles.footer} />;
 };
 
-const PinTabScreen = ({ pinList, reviewList, average }) => {
+const PinTabScreen = ({ pinList, reviewList, average, handleLoadMore }) => {
   const titles = ['핀', '후기'];
   const ref = React.useRef(PagerView);
   const handlePage = p => {
@@ -111,6 +111,7 @@ const PinTabScreen = ({ pinList, reviewList, average }) => {
               ListFooterComponent={ListFooterComponent}
               renderItem={({ item, index }) => renderReview({ item, index })}
               onEndReachedThreshold={0.7}
+              onEndReached={handleLoadMore}
               contentContainerStyle={styles.pinListContainer}
               keyExtractor={(item, index) => `${item.id}-${index}`}
             />

@@ -11,9 +11,9 @@ export const createReview = async reviewData => {
   return res;
 };
 
-export const getWalkwayReviewList = async id => {
+export const getWalkwayReviewList = async (id, page = 1) => {
   const res = await axios
-    .get(`/reviews/?walkwayId=${id}`)
+    .get(`/reviews/?walkwayId=${id}&page=${page}&limit=10`)
     .then(({ data }) => {
       return data;
     })

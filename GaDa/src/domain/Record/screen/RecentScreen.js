@@ -55,48 +55,6 @@ const RecentScreen = ({
       </TouchableWithoutFeedback>
     );
   };
-  const dataList = [
-    {
-      user: { image: null, name: '부산 갈매기' },
-      score: 5,
-      liked: false,
-      image: null,
-      name: '수영구 광안해변로 산책길',
-      time: 60,
-      distance: 125,
-      date: '2022.04.23',
-    },
-    {
-      user: { image: null, name: '부산 갈매기' },
-      score: 5,
-      liked: false,
-      image: null,
-      name: '수영구 광안해변로 산책길',
-      time: 60,
-      distance: 125,
-      date: '2022.04.23',
-    },
-    {
-      user: { image: null, name: '부산 갈매기' },
-      score: 5,
-      liked: false,
-      image: null,
-      name: '수영구 광안해변로 산책길',
-      time: 60,
-      distance: 125,
-      date: '2022.04.23',
-    },
-    {
-      user: { image: null, name: '부산 갈매기' },
-      score: 5,
-      liked: false,
-      image: null,
-      name: '수영구 광안해변로 산책길',
-      time: 60,
-      distance: 125,
-      date: '2022.04.23',
-    },
-  ];
   return (
     <View style={styles.container}>
       <FlatList

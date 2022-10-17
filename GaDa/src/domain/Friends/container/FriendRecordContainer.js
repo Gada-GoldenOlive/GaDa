@@ -31,6 +31,13 @@ const FriendRecordContainer = ({ navigation, route }) => {
   const [recentWalks, setRecentWalks] = useState([]);
   const [goalInfo, setGoalInfo] = useState({});
 
+  const [page, setPage] = useState(1);
+  const [isDataLoading, setIsDataLoading] = useState(false);
+  const [isLast, setIsLast] = useState(false);
+  const [nextUrl, setNextUrl] = useState('');
+
+
+
   const openPopup = () => {
     setIsPopupVisible(true);
   };
@@ -53,11 +60,38 @@ const FriendRecordContainer = ({ navigation, route }) => {
     setLoading(true);
     const res_walk = await getMyReviewList(id);
     if (res_walk) {
-      const { feeds } = res_walk;
+      const { feeds, links } = res_walk;
+      const {next} = links;
+      if(next === '') setIsLast(true);
       setMyWalks(feeds);
+      setPage(2);
+      setNextUrl(next);
     }
     setLoading(false);
   };
+
+  const handleLoadMore = async () => {
+    if (!isDataLoading) {
+      if (isLast) return null;
+      setIsDataLoading(true);
+      const res = await getNextData(nextUrl);
+      if (res) {
+        const { feeds, links } = res;
+        const { next } = links;
+        if (next === '') setIsLast(true);
+        setNextUrl(next);
+        setMyWalks(cur => cur.concat(feeds));
+        setPage(page + 1);
+      }
+      setIsDataLoading(false);
+      return null;
+    }
+    return null;
+  };
+
+
+
+
 
   const handleDeleteButton = () => {
     setIsPopupVisible(!isPopupVisible);
@@ -99,6 +133,7 @@ const FriendRecordContainer = ({ navigation, route }) => {
         userId={userId}
         myWalks={myWalks}
         goalInfo={goalInfo}
+        handleLoadMore={handleLoadMore}
       />
     )
   );

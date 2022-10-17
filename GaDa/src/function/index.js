@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import moment from 'moment';
 import store from '../redux/store';
 import { reloadApp } from './error';
+
 export const storeInLocalStorage = async (accessToken, refreshToken) => {
   await AsyncStorage.setItem('access_token', accessToken);
   await AsyncStorage.setItem('refresh_token', refreshToken);
@@ -145,7 +146,5 @@ export const getDistanceFromLatLonInKm = ({ lat1, lng1, lat2, lng2 }) => {
 };
 
 export const getDate = time => {
-  console.log(time);
-
   return moment(time).format('YYYY.MM.DD');
 };

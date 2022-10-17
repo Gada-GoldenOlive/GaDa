@@ -30,19 +30,8 @@ const HeaderImageSubmitButton = props => {
 
   const handleClick = async () => {
     if (ver === 'pin') {
-      // pin
       imageList.forEach(async item => {
-        const param = await getParam(item);
-
-        s3.upload(param, (err, data) => {
-          if (err) {
-            console.log('image upload err: ' + err);
-            return;
-          }
-          const imgTag = `${data.Location}`;
-          dispatch(setPinImage(imgTag));
-          dispatch(setUploadImagesChanged(true));
-        });
+        dispatch(setImageFile(item.imageData));
       });
       navigation.pop();
     } else if (ver === 'profile') {

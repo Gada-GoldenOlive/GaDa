@@ -1,3 +1,4 @@
 import Arrow from './Arrow.png';
 import ArrowBlack from './ArrowBlack.png';
-export { Arrow, ArrowBlack };
+import UploadArrow from './UploadArrow.png';
+export { Arrow, ArrowBlack, UploadArrow };

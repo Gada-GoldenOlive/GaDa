@@ -20,6 +20,7 @@ import Modal from 'react-native-modal';
 
 import CloseIcon, { Close } from '../../../constant/images/Close';
 import PopupModal from '../../../components/PopupModal';
+import BadgeModal from '../../../components/BadgeModal';
 
 const AddFriendsScreen = ({
   searchList,
@@ -32,6 +33,7 @@ const AddFriendsScreen = ({
   addUser,
   searchId,
   setSearchId,
+  badges,
 }) => {
   const ref = useRef();
 
@@ -83,7 +85,11 @@ const AddFriendsScreen = ({
             placeholderTextColor={descriptionColor}
             onChangeText={setSearchId}
             value={searchId}
-            style={{fontFamily: defaultFontFamily, flex: 1, alignItems: 'center'}}
+            style={{
+              fontFamily: defaultFontFamily,
+              flex: 1,
+              alignItems: 'center',
+            }}
             ref={ref}
           />
           <TouchableWithoutFeedback
@@ -99,6 +105,12 @@ const AddFriendsScreen = ({
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: 100 }}
         />
+        {badges.length > 0 &&
+          badges.map((item, index) => {
+            const { badge } = item;
+            const { image } = badge;
+            return <BadgeModal data={item} key={image} />;
+          })}
       </View>
     </>
   );
