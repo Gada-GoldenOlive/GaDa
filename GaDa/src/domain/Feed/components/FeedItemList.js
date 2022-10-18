@@ -61,8 +61,8 @@ const FeedItemList = ({
       />
     </View>
   ) : (
-    <View style={styles.nullContainer}>
-      <Text>피드가 없습니다</Text>
+    <View style={[styles.nullContainer, type === 'recent' && {paddingTop: 32}]}>
+      <Text>{type === 'feed' ? '피드가 없습니다' : '최근활동이 없습니다'}</Text>
     </View>
   );
 };
@@ -74,8 +74,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   nullContainer: {
+    flex: 1,
     width: '100%',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
   },
 });

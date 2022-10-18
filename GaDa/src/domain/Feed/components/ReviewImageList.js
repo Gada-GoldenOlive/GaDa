@@ -18,7 +18,7 @@ const ReviewImageList = ({ images = [], handleNavigate = null }) => {
     const handleClick = page => {
       bottomScroll.current.scrollToIndex({ index: page });
       if(handleNavigate) {
-        handleNavigate(images)
+        handleNavigate(images, page)
       }
 
     };

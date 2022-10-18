@@ -7,10 +7,12 @@ import { blackColor } from '../constant/colors';
 import BottomUpmodal from './BottomUpmodal';
 import Text from './MyText';
 
-const FilteringButton = ({ itemList = ['거리순', '최신순', '좋아요순'] }) => {
+const FilteringButton = ({ setOrder  }) => {
+  const itemList = [{title: '거리순', value: 'DISTANCE'}, {title: '최신순', value:'LATEST' }, {title: '좋아요순', value:  'LIKE'} ]
   const [clickedItem, setClickedItem] = useState(itemList[0]);
   const [modalVisible, setModalVisibile] = useState(false);
   const handleClick = item => {
+    const {title, value} = item;
     setClickedItem(item);
     setModalVisibile(false)
   };
@@ -22,7 +24,7 @@ const FilteringButton = ({ itemList = ['거리순', '최신순', '좋아요순']
     <View style={styles.container}>
       <TouchableWithoutFeedback onPress={handleOpenModal}>
         <View style={styles.wrapper}>
-          <Text style={styles.title}>{clickedItem}</Text>
+          <Text style={styles.title}>{clickedItem.title}</Text>
           <CustomImage style={styles.polygon} source={Polygon} />
         </View>
       </TouchableWithoutFeedback>

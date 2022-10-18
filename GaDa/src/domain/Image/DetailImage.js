@@ -17,13 +17,13 @@ import { mediumFontFamily } from '../../constant/fonts';
 const DetailImage = ({ route }) => {
   const navigation = useNavigation();
   const { params } = route;
-  const { idx, images, ver, body } = params;
+  const { idx = 0, images, ver, body } = params;
 
   const handleLoadMore = () => {};
   const bigScroll = useRef();
   const bottomScroll = useRef();
 
-  const [currentIdx, setCurrentIdx] = useState(0);
+  const [currentIdx, setCurrentIdx] = useState(idx);
   const onScrollEnd = ({ nativeEvent }) => {
     const { contentOffset } = nativeEvent;
     const viewSize = nativeEvent.layoutMeasurement;
@@ -160,6 +160,12 @@ const DetailImage = ({ route }) => {
         pagingEnabled
         renderItem={BigDatailImage}
         ref={bigScroll}
+        onScrollToIndexFailed={info => {
+          const wait = new Promise(resolve => setTimeout(resolve, 500));
+          wait.then(() => {
+            bigScroll.current?.scrollToIndex({ index: info.index, animated: true });
+          });
+        }}
         onMomentumScrollEnd={onScrollEnd}
       />
 
@@ -192,6 +198,12 @@ const DetailImage = ({ route }) => {
           renderItem={BottomImages}
           onEndReached={handleLoadMore}
           ref={bottomScroll}
+          onScrollToIndexFailed={info => {
+            const wait = new Promise(resolve => setTimeout(resolve, 500));
+            wait.then(() => {
+              bottomScroll.current?.scrollToIndex({ index: info.index, animated: true });
+            });
+          }}
         />
       </View>
     </View>

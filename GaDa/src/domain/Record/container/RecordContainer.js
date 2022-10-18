@@ -132,6 +132,9 @@ const RecordContainer = ({ navigation, route }) => {
     navigation.navigate('DetailFeed', { id });
   };
 
+  const handleNavigateHome = () => {
+    navigation.navigate('BottomTabHome')
+  }
   const fetchAllData = async () => {
     setLoading(true);
     await Promise.all([getBadge(), getMyWalks(), getRecentWalks()]);
@@ -169,6 +172,7 @@ const RecordContainer = ({ navigation, route }) => {
       handleNavigateMyRecord={handleNavigateMyRecord}
       handleDetailFeed={handleDetailFeed}
       handleLoadMore={handleLoadMore}
+      handleNavigateHome={handleNavigateHome}
     />
   );
 };
