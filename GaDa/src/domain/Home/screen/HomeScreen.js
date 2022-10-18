@@ -150,7 +150,6 @@ const HomeScreen = ({
     const {
       nativeEvent: { data },
     } = event;
-    console.log(event);
 
     if (data !== 'undefined') {
       const msg = JSON.parse(data);
@@ -249,7 +248,7 @@ const HomeScreen = ({
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       <WebView
         source={{ uri: 'https://ga-da-goldenolive.vercel.app' }}
-        // source={{ uri: 'https://0ec9-110-8-134-126.jp.ngrok.io' }}
+        //source={{ uri: 'https://0ec9-110-8-134-126.jp.ngrok.io' }}
         injectedJavaScript={INJECTED_JAVASCRIPT}
         ref={ref}
         javaScriptEnabled

@@ -35,7 +35,6 @@ const DetailPinContainer = ({ navigation, route }) => {
   };
 
   const fetchData = async () => {
-    console.log(pinId)
     const [info, res] = await Promise.all([
       getPinInfo(pinId),
       getPinComments(pinId, 1),
@@ -49,7 +48,6 @@ const DetailPinContainer = ({ navigation, route }) => {
       const { next } = links;
       if (next === '') setIsLast(true);
       setNextUrl(next);
-      console.log(comments)
       setPinComments(comments);
       setPage(2);
     }

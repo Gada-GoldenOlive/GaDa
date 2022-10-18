@@ -172,6 +172,7 @@ const PinListModal = ({
       deviceWidth={windowWidth}
       backdropColor="gray"
       backdropOpacity={0.5}
+      onBackButtonPress={() => closeModal()}
     >
       <View style={styles.modalWrapper}>
         <View style={styles.bar} />

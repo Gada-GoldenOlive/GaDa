@@ -23,7 +23,6 @@ const SettingPageContainer = ({ navigation }) => {
   };
   const handleSignOut = async () => {
     await removeInLocalStorage();
-    console.log(userId);
     await deleteUser(userId);
     dispatch(setIsAuthenticated(false));
     RNRestart.Restart();

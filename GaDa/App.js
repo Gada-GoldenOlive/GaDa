@@ -62,6 +62,7 @@ const App = () => {
         // console.log('You can use the camera');
       } else {
         // console.log('Camera permission denied');
+        // RNRestart.Restart();
       }
     } catch (err) {
       console.warn(err);
@@ -83,6 +84,7 @@ const App = () => {
         // console.log('You can use the camera');
       } else {
         // console.log('Camera permission denied');
+        //RNRestart.Restart();
       }
     } catch (err) {
       console.warn(err);
@@ -103,6 +105,7 @@ const App = () => {
   useEffect(() => {
     loadEssentialData();
   }, [loadEssentialData]);
+
 
   const getNetworkState = useCallback(async () => {
     const state = await NetInfo.fetch();
