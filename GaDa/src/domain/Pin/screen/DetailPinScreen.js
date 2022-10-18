@@ -75,14 +75,6 @@ const DetailPinScreen = ({
         keyboardVerticalOffset={statusBarHeight + 44}
         behavior={Platform.OS === 'ios' && 'padding'}
       >
-        {/* <KeyboardAwareScrollView
-        style={{ flex: 1 }}
-        bounces={false}
-        scrollEnabled
-        enableOnAndroid
-        enableAutomaticScroll
-        extraScrollHeight={Platform.OS === 'android' ? 0 : -200}
-      > */}
         <View style={styles.container}>
           <CommentList
             headerComponent={headerComponent}
@@ -109,7 +101,6 @@ const DetailPinScreen = ({
               return <BadgeModal data={item} key={item} />;
             })}
         </View>
-        {/* </KeyboardAwareScrollView> */}
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
