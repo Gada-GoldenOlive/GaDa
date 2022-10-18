@@ -60,6 +60,7 @@ const DetailFeedContainer = ({ navigation, route }) => {
         feedLike={feedLike}
         feedId={feedId}
         handleNavigate={handleNavigate}
+        onPress={onPress}
       />
     )
   );
