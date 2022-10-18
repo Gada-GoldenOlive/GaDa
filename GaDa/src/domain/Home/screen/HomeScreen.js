@@ -92,13 +92,6 @@ const HomeScreen = ({
   const closePinModal = () => {
     setPinModalIsVisible(false);
   };
-  const [isCurrentPosClicked, setIsCurrentPosClicked] = useState(false);
-
-  // useEffect(() => {
-  //   if (getDetailAddress) {
-  //     handleConnection(ref, 'detailAddress');
-  //   }
-  // }, [getDetailAddress]);
 
   const INJECTED_JAVASCRIPT = `(function() {
     window.postMessage(JSON.stringify({key : "value"}));true;
@@ -195,17 +188,8 @@ const HomeScreen = ({
   }, [nowPins]);
 
   useEffect(() => {
-    console.log(currentPos);
-
-    if (currentPos !== 'undefined') {
-      if (currentPos.lat !== 0 && currentPos.lng !== 0) {
-        if (!isCurrentPosClicked) {
-          getWalkway(currentPos);
-        } else {
-          // 현재 위치 눌렀을 때는 getWalkway 하지 않음
-          setIsCurrentPosClicked(false);
-        }
-      }
+    if (currentPos.lat !== 0 && currentPos.lng !== 0) {
+      getWalkway(currentPos);
     }
   }, [currentPos]);
   useEffect(() => {
@@ -216,10 +200,6 @@ const HomeScreen = ({
     }
   }, [isWalking]);
 
-  const handleClickCurrentPosButton = () => {
-    setIsCurrentPosClicked(true);
-    handleConnection(ref, 'currentPos');
-  };
   useEffect(() => {
     ref.current.reload();
   }, []);
@@ -297,7 +277,9 @@ const HomeScreen = ({
         </TouchableWithoutFeedback>
       )}
       {isWalking && (
-        <TouchableWithoutFeedback onPress={handleClickCurrentPosButton}>
+        <TouchableWithoutFeedback
+          onPress={() => handleConnection(ref, 'currentPos')}
+        >
           <View style={styles.currentPosIconWrapper}>
             <CustomImage
               style={styles.currentPosIcon}
