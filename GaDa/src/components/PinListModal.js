@@ -49,6 +49,7 @@ const PinListModal = ({
 
   const handlePress = (id, index) => {
     setSelectIndex(index);
+    closeModal();
     navigation.navigate('DetailPin', { id: id, index: index });
   };
 
@@ -64,7 +65,7 @@ const PinListModal = ({
       userId,
       walkwayId,
     } = item;
-    if (userId !== myId) {  
+    if (userId !== myId) {
       navigation.navigate('DetailPin', { id, id, index, index });
     } else {
       navigation.navigate('CreatePin', {
@@ -77,8 +78,7 @@ const PinListModal = ({
   const handleDeletePin = async id => {
     await deletePin(id);
     handleRestart();
-
-  } 
+  };
   useEffect(() => {
     setSelectIndex(selectedIndex);
   }, [selectedIndex]);
@@ -125,9 +125,11 @@ const PinListModal = ({
               </View>
             </View>
 
-            { (
+            {
               <View style={styles.iconContainer}>
-                <TouchableWithoutFeedback onPress={() => modifyPin(item, index)}>
+                <TouchableWithoutFeedback
+                  onPress={() => modifyPin(item, index)}
+                >
                   <CustomImage
                     source={Writing}
                     style={[styles.icon, { marginEnd: 20 }]}
@@ -135,12 +137,11 @@ const PinListModal = ({
                 </TouchableWithoutFeedback>
                 {userId === myId && (
                   <TouchableWithoutFeedback onPress={() => handleDeletePin(id)}>
-                  <CustomImage source={Delete} style={styles.icon} />
-                </TouchableWithoutFeedback>
+                    <CustomImage source={Delete} style={styles.icon} />
+                  </TouchableWithoutFeedback>
                 )}
-                
               </View>
-            )}
+            }
           </View>
           <View style={styles.contentContainer}>
             <Text style={styles.title}>{title}</Text>
