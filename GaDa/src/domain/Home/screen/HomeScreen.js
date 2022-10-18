@@ -112,6 +112,7 @@ const HomeScreen = ({
   const { isRestart, restartWalkway, currentPosition, isCreate } = useSelector(
     state => state.status,
   );
+  
 
   // useEffect(() => {
   //   if (walkEnd && isCreate) {
@@ -145,6 +146,7 @@ const HomeScreen = ({
     const {
       nativeEvent: { data },
     } = event;
+    console.log(event);
 
     if (data !== 'undefined') {
       const msg = JSON.parse(data);
@@ -193,7 +195,10 @@ const HomeScreen = ({
   }, [nowPins]);
 
   useEffect(() => {
-    if (currentPos !== undefined) {
+    console.log(currentPos);
+    
+    if (currentPos !== 'undefined') {
+      
       if (currentPos.lat !== 0 && currentPos.lng !== 0) {
         if (!isCurrentPosClicked) {
           getWalkway(currentPos);
@@ -216,6 +221,9 @@ const HomeScreen = ({
     setIsCurrentPosClicked(true);
     handleConnection(ref, 'currentPos');
   };
+  useEffect(() => {
+    ref.current.reload();
+  }, [])
 
   // const shareModalBody = () => {
   //   return (
@@ -248,11 +256,12 @@ const HomeScreen = ({
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       <WebView
         source={{ uri: 'https://ga-da-goldenolive.vercel.app' }}
-        // source={{ uri: 'https://0ec9-110-8-134-126.jp.ngrok.io' }}
+        //source={{ uri: 'https://0ec9-110-8-134-126.jp.ngrok.io' }}
         injectedJavaScript={INJECTED_JAVASCRIPT}
         ref={ref}
         javaScriptEnabled
         onMessage={handleReceive}
+        onError={e => console.log(e)}
       />
       {/* <NewPinButton handleConnection={handleConnection} ref={ref} /> */}
       {isWalking && (

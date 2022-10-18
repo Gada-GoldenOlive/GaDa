@@ -50,7 +50,7 @@ export const getUserLogin = async ({ id, pw }) => {
   const res = await axios
     .post(`/users/login/`, { loginId: id, password: pw })
     .then(({ data }) => data)
-    .catch(e => e.response.data);
+    .catch(handleNetworkError);
   return res;
 };
 
