@@ -1,4 +1,4 @@
-import { View, TouchableWithoutFeedback, LogBox } from 'react-native';
+import { View, TouchableWithoutFeedback, LogBox, Platform } from 'react-native';
 import React, { useRef, useState } from 'react';
 import { getDistance } from 'geolib';
 import Geolocation from '@react-native-community/geolocation';
@@ -156,7 +156,7 @@ const HomeContainer = ({ navigation, route }) => {
       err => {
         console.log(err.message);
       },
-      { enableHighAccuracy: true, accuracy: { ios: 'best' } },
+     { enableHighAccuracy:Platform.OS === 'ios' ? true : false, accurace: {ios : 'best'}, timeout: 20000} 
     );
 
     setRecording(true);

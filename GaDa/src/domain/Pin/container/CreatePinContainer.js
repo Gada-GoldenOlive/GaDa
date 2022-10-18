@@ -28,6 +28,7 @@ const CreatePinContainer = ({ navigation, route }) => {
   const [pinImage, setImage] = useState('');
   const [imageLink, setImageLink] = useState('');
   const [isFirst, setIsFirst] = useState(true);
+  const [clickable, setClickable] = useState(false);
   const dispatch = useDispatch();
 
   const handlePress = async () => {
@@ -125,7 +126,15 @@ const CreatePinContainer = ({ navigation, route }) => {
    if(type === 'create'){
     refreshImages();
    }
-  },[])
+  },[]);
+
+  useEffect(() => {
+    if(pinTitle !== '' && content !== '' && (imageLink !== '' || imageFile !== null)){
+      setClickable(true);
+    } else {
+      setClickable(false);
+    }
+  }, [pinTitle, imageLink, content, imageFile])
   return (
     <CreatePinScreen
       pinImage={pinImage}
@@ -138,6 +147,7 @@ const CreatePinContainer = ({ navigation, route }) => {
       address={address}
       pinTitle={pinTitle}
       type={type}
+      clickable={clickable}
     />
   );
 };

@@ -14,6 +14,7 @@ const CreatePinScreen = ({
   pinTitle,
   badges,
   type,
+  clickable,
 }) => {
   return (
     <WritingFrame
@@ -30,6 +31,7 @@ const CreatePinScreen = ({
       setImage={setImage}
       badges={badges}
       type={type}
+      clickable={clickable}
     />
   );
 };

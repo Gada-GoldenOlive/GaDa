@@ -39,6 +39,7 @@ const WritingFrame = ({
   handlePress,
   setImage,
   type,
+  clickable,
 }) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -154,7 +155,7 @@ const WritingFrame = ({
           </View>
         </View>
       </ScrollView>
-      <CustomButton title={buttonTitle} handlePress={handlePress} />
+      <CustomButton title={buttonTitle} handlePress={handlePress} clickable={clickable}/>
       <CameraSelectModal
         isVisible={isVisible}
         openCamera={openCamera}
