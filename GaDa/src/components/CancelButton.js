@@ -29,7 +29,7 @@ const CancelButton = () => {
           secondHandleConfirm={handleCancle}
           // renderMainBody={shareModalBody}
           mainText="작성을 취소하시겠어요?"
-          content={`작성 내용이 모두 사라집니다`}
+          content={`작성 내용과 산책기록이\n모두 사라집니다`}
           buttonText="계속 작성하기"
           secondButtonText="취소하기"
         />
