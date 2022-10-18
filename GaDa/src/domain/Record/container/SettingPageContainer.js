@@ -7,7 +7,7 @@ import { deleteUser } from '../../../APIs/user';
 import { setIsAuthenticated } from '../../../redux/modules/user';
 
 const SettingPageContainer = ({ navigation }) => {
-  const { userId, loginId, pw, nickname} = useSelector(state => state.user);
+  const { userId, loginId, pw, nickname } = useSelector(state => state.user);
   const dispatch = useDispatch();
   const handleNaigateNickname = () => {
     navigation.navigate('ModifyNickname');
@@ -15,21 +15,20 @@ const SettingPageContainer = ({ navigation }) => {
   const handleNavigatePW = () => {
     navigation.navigate('ModifyPW');
   };
-  const handleLogout = () => {
-    removeInLocalStorage();
+  const handleLogout = async () => {
+    await removeInLocalStorage();
+    dispatch(setIsAuthenticated(false));
     RNRestart.Restart();
     return null;
-  }
+  };
   const handleSignOut = async () => {
     await removeInLocalStorage();
-    console.log(userId)
+    console.log(userId);
     await deleteUser(userId);
     dispatch(setIsAuthenticated(false));
     RNRestart.Restart();
     return null;
-;
-
-  }
+  };
   return (
     <SettingPageScreen
       handleNaigateNickname={handleNaigateNickname}

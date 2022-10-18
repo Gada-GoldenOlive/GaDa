@@ -115,11 +115,12 @@ const App = () => {
   };
 
   const loadEssentialData = async () => {
-   
     const { access_token = '', refresh_token = '' } = await getTokens();
 
     defaultAxios.defaults.headers.common.Authorization = `Bearer ${access_token}`;
-    if (access_token !== '') {/*
+
+    if (access_token !== '') {
+      /*
       defaultAxios.defaults.headers.common.Authorization = `Bearer ${access_token}`;
       
       const { new_access_token, new_refresh_token } = await refreshToken();
@@ -137,6 +138,11 @@ const App = () => {
         removeInLocalStorage();
         RNRestart.Restart();
       }*/
+      const { sub: user_id } = jwtDecode(access_token);
+      await setIdInLocalStorage(user_id);
+      dispatch(setUserId(user_id));
+      console.log({ access_token, user_id });
+      dispatch(setIsAuthenticated(true));
     } else {
       reloadApp();
     }

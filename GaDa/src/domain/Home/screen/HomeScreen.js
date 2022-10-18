@@ -112,7 +112,7 @@ const HomeScreen = ({
   const { isRestart, restartWalkway, currentPosition, isCreate } = useSelector(
     state => state.status,
   );
-  
+  const { isAuthenticated } = useSelector(state => state.user);
 
   // useEffect(() => {
   //   if (walkEnd && isCreate) {
@@ -196,9 +196,8 @@ const HomeScreen = ({
 
   useEffect(() => {
     console.log(currentPos);
-    
+
     if (currentPos !== 'undefined') {
-      
       if (currentPos.lat !== 0 && currentPos.lng !== 0) {
         if (!isCurrentPosClicked) {
           getWalkway(currentPos);
@@ -223,7 +222,7 @@ const HomeScreen = ({
   };
   useEffect(() => {
     ref.current.reload();
-  }, [])
+  }, []);
 
   // const shareModalBody = () => {
   //   return (
@@ -319,8 +318,8 @@ const HomeScreen = ({
         nowPath={nowPath}
         openStartModal={openStartModal} // 산책로 제작을 위해
       />
-
-      {!isWalking && !walkEnd && (
+      {console.log(isAuthenticated)}
+      {!isWalking && !walkEnd && isAuthenticated && (
         <CreateWalkwayButton openStartModal={openStartModal} />
       )}
       <WalkwayOverview
