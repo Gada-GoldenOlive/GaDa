@@ -195,7 +195,7 @@ const WalkwayListComponent = ({
             justifyContent: 'center',
           }}
           keyExtractor={(item, index) => index}
-          scrollEnabled={true}
+          scrollEnabled={false}
           ref={topScroll}
           viewabilityConfig={{ itemVisiblePercentThreshold: 50 }}
           snapToInterval={WIDTH}
