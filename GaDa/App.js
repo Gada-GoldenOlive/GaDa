@@ -44,7 +44,7 @@ const App = () => {
   useEffect(() => {
     if (Platform.OS === 'android') {
       requestCameraPermission();
-      requestLocationAccuracy;
+      requestLocationAccuracy();
     }
   }, []);
   const requestCameraPermission = async () => {
@@ -109,7 +109,7 @@ const App = () => {
     const { access_token = '', refresh_token = '' } = await getTokens();
     if (access_token !== '') {
       defaultAxios.defaults.headers.common.Authorization = `Bearer ${refresh_token}`;
-      
+
       const { new_access_token, new_refresh_token } = await refreshToken(
         access_token,
       );

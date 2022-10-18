@@ -253,6 +253,9 @@ const HomeScreen = ({
         ref={ref}
         javaScriptEnabled
         onMessage={handleReceive}
+        onContentProcessDidTerminate={() => {
+          ref.current?.reload();
+        }}
       />
       {/* <NewPinButton handleConnection={handleConnection} ref={ref} /> */}
       {isWalking && (
