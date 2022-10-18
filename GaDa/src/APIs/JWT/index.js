@@ -19,7 +19,7 @@ export const verifyToken = async token => {
 };
 
 // new_access_token, new_refresh_token
-export const refreshToken = async token => {
+export const refreshToken = async () => {
   const res = await axios
     .post('/users/refresh/')
     .then(({ data }) => {

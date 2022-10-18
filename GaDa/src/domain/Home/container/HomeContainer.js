@@ -29,6 +29,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getWalkwayInfo, updateWalkway } from '../../../APIs/walkway';
 import { set } from 'react-native-reanimated';
 import { createReview } from '../../../APIs/review';
+import jwtDecode from 'jwt-decode';
 
 // * 현재위치
 // 일정 시간 후 주기적으로 반복해서 geoLocation 해주기!
@@ -261,14 +262,19 @@ const HomeContainer = ({ navigation, route }) => {
   const handleNavigateCreate = () => {
     console.log(locationList);
     // openEndShareModal();
-    navigation.navigate('CreateWalkway', {
-      item: {
-        ...walkData,
-        path: locationList,
-        title: '',
-        image: '',
-      },
-    });
+    if(locationList.length < 1) {
+      resetData();
+    } else {
+      navigation.navigate('CreateWalkway', {
+        item: {
+          ...walkData,
+          path: locationList,
+          title: '',
+          image: '',
+        },
+      });
+    }
+
   };
 
   const handleShareButton = async () => {
@@ -357,6 +363,7 @@ const HomeContainer = ({ navigation, route }) => {
 
   const getAccess = async () => {
     const access_token = await AsyncStorage.getItem('access_token');
+    console.log({ access_token, isAuthenticated });
     if (access_token === null) {
       navigation.reset({
         index: 0,
@@ -366,9 +373,14 @@ const HomeContainer = ({ navigation, route }) => {
   };
 
   const reset = async () => {
-    const res = await getIdInLocalStorage();
-
-    dispatch(setUserId(res));
+    const accessToken = await AsyncStorage.getItem('access_token');
+    console.log('home', accessToken);
+    if (accessToken !== null) {
+      const res = jwtDecode(accessToken);
+      const { sub: userId } = res;
+      dispatch(setUserId(userId));
+      await AsyncStorage.setItem('id', userId);
+    }
   };
 
   useEffect(() => {
@@ -392,7 +404,7 @@ const HomeContainer = ({ navigation, route }) => {
   }, [recording]);
 
   useEffect(() => {
-    reset();
+   reset();
     resetData();
   }, []);
 

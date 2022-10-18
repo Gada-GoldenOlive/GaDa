@@ -274,7 +274,9 @@ const WalkwayListComponent = ({
   }, [focusedIndex, list]);
 
   useEffect(() => {
-    getPinList(list[focusedIndex].id);
+    if(list.length > 2) {
+      getPinList(list[focusedIndex].id);
+    }
   }, [nowPath]);
 
   return isVisible ? (

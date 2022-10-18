@@ -123,6 +123,7 @@ const CustomBottomTab = props => {
       type: 'tabPress',
       target: key,
       canPreventDefault: true,
+      unmountOnBlur: true,
     });
 
     // if ((name === 'Mypage' || name === 'Chatting') && !isAuthenticated) {

@@ -2,36 +2,42 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import { useDispatch } from 'react-redux';
-import { removeInLocalStorage, storeInLocalStorage } from '../function';
+import {
+  removeInLocalStorage,
+  storeAccessToken,
+  storeInLocalStorage,
+} from '../function';
 import { reloadApp } from '../function/error';
 import { setIsAuthenticated, setUserId } from '../redux/modules/user';
 import { refreshToken } from './JWT';
 import defaultURL from './URL';
 
 export const handleNetworkError = async error => {
+  const dispatch = useDispatch();
   // request was made and the server responded with a status code
   if (error.response) {
     const { status } = error.response;
     // console.log(error.response);
-    console.log(error.response.data);
+    console.log('ERR', error.response.config.url);
     // 인증관련 에러
-    console.log(status);
+    console.log(error.response.data);
     if (status === 401 || status === 403) {
-      const access_token = await AsyncStorage.getItem('access_token');
-      defaultAxios.defaults.headers.common.Authorization = `Bearer ${access_token}`;
+      const refresh_token = await AsyncStorage.getItem('refresh_token');
+      console.log({ refresh_token });
+      if (refresh_token !== null) {
+        defaultAxios.defaults.headers.common.Authorization = `Bearer ${refresh_token}`;
 
-      const { new_access_token = '', new_refresh_token = '' } =
-        await refreshToken(access_token);
-      console.log(new_access_token);
-      if (new_access_token !== '' && new_refresh_token !== '') {
-        defaultAxios.defaults.headers.common.Authorization = `Bearer ${new_access_token}`;
-        await storeInLocalStorage(new_access_token, new_refresh_token);
+        const { new_access_token = '', new_refresh_token = '' } =
+          await refreshToken();
+        console.log({ new_access_token });
+
+        if (new_access_token !== '' && new_refresh_token !== '') {
+          defaultAxios.defaults.headers.common.Authorization = `Bearer ${new_access_token}`;
+          await storeInLocalStorage(new_access_token, new_refresh_token);
+          dispatch(setIsAuthenticated(true));
+          //await storeAccessToken(new_access_token);
+        }
       }
-    } else {
-
-      delete defaultAxios.defaults.headers.common.Authorization;
-      removeInLocalStorage();
-      reloadApp();
     }
   } else {
     reloadApp();

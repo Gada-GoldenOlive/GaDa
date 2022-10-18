@@ -112,6 +112,7 @@ const HomeScreen = ({
   const { isRestart, restartWalkway, currentPosition, isCreate } = useSelector(
     state => state.status,
   );
+  const { isAuthenticated } = useSelector(state => state.user);
 
   // useEffect(() => {
   //   if (walkEnd && isCreate) {
@@ -145,6 +146,7 @@ const HomeScreen = ({
     const {
       nativeEvent: { data },
     } = event;
+    console.log(event);
 
     if (data !== 'undefined') {
       const msg = JSON.parse(data);
@@ -193,7 +195,9 @@ const HomeScreen = ({
   }, [nowPins]);
 
   useEffect(() => {
-    if (currentPos !== undefined) {
+    console.log(currentPos);
+
+    if (currentPos !== 'undefined') {
       if (currentPos.lat !== 0 && currentPos.lng !== 0) {
         if (!isCurrentPosClicked) {
           getWalkway(currentPos);
@@ -216,6 +220,9 @@ const HomeScreen = ({
     setIsCurrentPosClicked(true);
     handleConnection(ref, 'currentPos');
   };
+  useEffect(() => {
+    ref.current.reload();
+  }, []);
 
   // const shareModalBody = () => {
   //   return (
@@ -248,7 +255,7 @@ const HomeScreen = ({
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       <WebView
         source={{ uri: 'https://ga-da-goldenolive.vercel.app' }}
-        // source={{ uri: 'https://0ec9-110-8-134-126.jp.ngrok.io' }}
+        //source={{ uri: 'https://0ec9-110-8-134-126.jp.ngrok.io' }}
         injectedJavaScript={INJECTED_JAVASCRIPT}
         ref={ref}
         javaScriptEnabled
@@ -313,8 +320,8 @@ const HomeScreen = ({
         nowPath={nowPath}
         openStartModal={openStartModal} // 산책로 제작을 위해
       />
-
-      {!isWalking && !walkEnd && (
+      {console.log(isAuthenticated)}
+      {!isWalking && !walkEnd && isAuthenticated && (
         <CreateWalkwayButton openStartModal={openStartModal} />
       )}
       <WalkwayOverview
@@ -379,7 +386,7 @@ const HomeScreen = ({
         handleRestart={handleRestart}
       />
       {badges.length > 0 &&
-        badges.map((item, index) => {
+        badges.map(async (item, index) => {
           const { badge } = item;
           const { image } = badge;
           return <BadgeModal data={item} key={image} />;

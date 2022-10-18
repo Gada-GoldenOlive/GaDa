@@ -253,7 +253,6 @@ const CreateWalkwayScreen = ({
                 >
                   <Text style={styles.informationTitle}>시간</Text>
                   <Text style={styles.num}>{time}</Text>
-                  <Text style={styles.informationDescription}>(분)</Text>
                 </View>
               </View>
             </View>
