@@ -2,11 +2,13 @@ import React from 'react';
 import SettingPageScreen from '../screen/SettingPageScreen';
 import { removeInLocalStorage } from '../../../function';
 import RNRestart from 'react-native-restart';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { deleteUser } from '../../../APIs/user';
+import { setIsAuthenticated } from '../../../redux/modules/user';
 
 const SettingPageContainer = ({ navigation }) => {
   const { userId, loginId, pw, nickname} = useSelector(state => state.user);
+  const dispatch = useDispatch();
   const handleNaigateNickname = () => {
     navigation.navigate('ModifyNickname');
   };
@@ -22,6 +24,7 @@ const SettingPageContainer = ({ navigation }) => {
     removeInLocalStorage();
     console.log(userId)
     await deleteUser(userId);
+    dispatch(setIsAuthenticated(false));
     RNRestart.Restart();
     return null;
 ;

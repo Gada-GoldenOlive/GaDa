@@ -33,6 +33,7 @@ const RecordContainer = ({ navigation, route }) => {
   const dispatch = useDispatch();
 
   const fetchData = async () => {
+    console.log({userId})
     const res = await getUserDetail(userId);
     const { user = {} } = res;
     if (user) {

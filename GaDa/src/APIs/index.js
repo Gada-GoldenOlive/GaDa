@@ -1,8 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
-import { useDispatch } from 'react-redux';
-import { removeInLocalStorage, storeInLocalStorage } from '../function';
+import { removeInLocalStorage, setIdInLocalStorage, storeInLocalStorage } from '../function';
 import { reloadApp } from '../function/error';
 import { setIsAuthenticated, setUserId } from '../redux/modules/user';
 import { refreshToken } from './JWT';
@@ -15,7 +14,7 @@ export const handleNetworkError = async error => {
     // console.log(error.response);
     console.log('ERR', error.response.config.url);
     // 인증관련 에러
-    console.log(status);
+    console.log(error.response.data);
     if (status === 401 || status === 403) {
       const refresh_token = await AsyncStorage.getItem('refresh_token');
       console.log({refresh_token})
@@ -25,6 +24,7 @@ export const handleNetworkError = async error => {
         const { new_access_token = '', new_refresh_token = '' } =
           await refreshToken();
         console.log({ new_access_token });
+       
         if (new_access_token !== '' && new_refresh_token !== '') {
           defaultAxios.defaults.headers.common.Authorization = `Bearer ${new_access_token}`;
           await storeInLocalStorage(new_access_token, new_refresh_token);
