@@ -16,7 +16,7 @@ const CancelButton = () => {
     setIsVisible(false);
   };
   const handleCancle = () => {
-    navigation.navigate('BottomTabHome');
+    navigation.navigate('Home', {refresh: {}});
   };
   return (
     <TouchableWithoutFeedback onPress={openModal}>
