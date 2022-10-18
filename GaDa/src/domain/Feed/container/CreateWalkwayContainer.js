@@ -18,7 +18,7 @@ import { setBadges, setTempWalkwayData } from '../../../redux/modules/status';
 import CreateWalkwayScreen from '../screen/CreateWalkwayScreen';
 
 const CreateWalkwayContainer = ({ navigation, route }) => {
-  const { params = {} } = route;
+  const { params = {}, type = 'create' } = route;
   const { item = {} } = params;
   const { walkwayImages, imageFileList, thumbnailImage, thumbnailFile } =
     useSelector(state => state.images);
@@ -141,7 +141,7 @@ const CreateWalkwayContainer = ({ navigation, route }) => {
     console.log({ requestBody });
     const res = await createReview(requestBody);
     if (res) {
-      navigation.goBack();
+      navigation.navigate('Feed', {refresh: {}});
     }
   };
 
@@ -275,6 +275,7 @@ const CreateWalkwayContainer = ({ navigation, route }) => {
       address={isCreate ? walkData.address : null}
       thumbnailImage={thumbnailImage}
       thumbnailFile={thumbnailFile}
+      type={type}
     />
   );
 };

@@ -61,6 +61,7 @@ const WalkwayOverview = ({
       backdropColor="gray"
       backdropOpacity={0.5}
       coverScreen={false}
+      onBackButtonPress={() => closeModal()}
     >
       <TouchableWithoutFeedback onPress={handleOverview}>
         <View style={styles.modalWrapper}>

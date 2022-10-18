@@ -321,7 +321,7 @@ const RootNavigation = () => {
               headerShown: true,
               headerLeft: () => <BackButton />,
               headerTitle: type === 'create' ? '산책로 등록' : '리뷰',
-              headerRight: () => <CancelButton />
+              headerRight: type === 'create' ? () => <CancelButton /> : null,
             };
           }}
         />

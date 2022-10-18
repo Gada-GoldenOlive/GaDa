@@ -49,7 +49,6 @@ const CreatePinContainer = ({ navigation, route }) => {
   };
 
   const pinCreate = async () => {
-    console.log(type);
     if (type === 'create') {
       const pinData = {
         title: pinTitle,

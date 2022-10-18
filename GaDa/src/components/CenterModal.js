@@ -45,6 +45,7 @@ const CenterModal = ({
       deviceWidth={windowWidth}
       backdropColor="gray"
       backdropOpacity={0.5}
+      onBackButtonPress={() => closeModal()}
     >
       {renderMainBody ? (
         <View style={styles.modalWrapper}>{renderMainBody()}</View>
