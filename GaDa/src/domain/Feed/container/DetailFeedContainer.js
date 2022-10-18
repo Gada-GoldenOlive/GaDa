@@ -31,9 +31,9 @@ const DetailFeedContainer = ({ navigation, route }) => {
     }
   };
 
-  const handleNavigate = (images) => {
+  const handleNavigate = (images, index) => {
     navigation.navigate('DetailImage', {
-      idx: 0,
+      idx: index,
       images: images,
       ver: 'walkwayImages',
       // handlePress: {

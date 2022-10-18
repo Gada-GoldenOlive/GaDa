@@ -18,7 +18,7 @@ const FeedContainer = ({ navigation, route }) => {
   const [order, setOrder] = useState('LATEST');
 
   const fetchData = async () => {
-    const res = await getFeeds(order, 0, 0, 1);
+    const res = await getFeeds(1);
     if (res) {
       const { feeds, links } = res;
       const { next } = links;

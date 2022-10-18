@@ -119,9 +119,13 @@ const CreatePinContainer = ({ navigation, route }) => {
       setContent(prevContent);
       setImage(prevImage);
       setImageLink(prevImage);
-    }
+    } 
   }, []);
-
+  useEffect(() => {
+   if(type === 'create'){
+    refreshImages();
+   }
+  },[])
   return (
     <CreatePinScreen
       pinImage={pinImage}

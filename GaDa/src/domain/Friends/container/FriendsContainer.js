@@ -18,6 +18,7 @@ const FriendsContainer = ({ navigation, route }) => {
     const res = await getUserFriends();
     if (res) {
       const { friends, is_exist_unread_request: unread, achieves = [] } = res;
+      console.log(res);
       if (achieves.length > 0) {
         dispatch(setBadges(achieves));
       }

@@ -45,6 +45,7 @@ const RecordScreen = ({
   handleDetailFeed,
   handleLoadMore,
   badge,
+  handleNavigateHome
 }) => {
   const {
     id,
@@ -120,7 +121,7 @@ const RecordScreen = ({
         )}
         <View style={styles.myWalkContainer}>
           <View style={styles.recentTitleContainer}>
-            <Text style={styles.recentTitle}>작성한 산책로</Text>
+            <Text style={styles.recentTitle}>작성한 피드</Text>
           </View>
         </View>
       </View>
@@ -137,6 +138,7 @@ const RecordScreen = ({
         myWalks={myWalks}
         handleDetailFeed={handleDetailFeed}
         handleLoadMore={handleLoadMore}
+        handleNavigateHome={handleNavigateHome}
       />
       {badges.length > 0 &&
         badges.map((item, index) => {

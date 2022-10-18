@@ -39,61 +39,55 @@ const SignInScreen = ({
   }, []);
 
   return (
-    <KeyboardAvoidingView
-      style={{ flex: 1, backgroundColor: 'black' }}
-      // keyboardVerticalOffset={statusBarHeight}
-      behavior={Platform.OS === 'ios' && 'padding'}
-    >
-      <View style={styles.container}>
-        <CustomImage source={SignInBackground} style={styles.background} />
-        <View style={styles.liner} />
-        <View style={styles.topContainer}>
-          <View style={styles.titleWrapper}>
-            <Text style={styles.title}>장애물 없는</Text>
-            <Text style={styles.emphasis}>편안한 산책여정</Text>
-            <Text style={styles.title}>즐기기</Text>
-          </View>
-        </View>
-        <View style={styles.centerContainer}>
-          <MyTextInput
-            placeholder="아이디"
-            style={[
-              styles.textInput,
-              id.length >= 1 && { borderBottomColor: buttonColor },
-            ]}
-            onChangeText={setId}
-            value={id}
-          />
-          <MyTextInput
-            placeholder="비밀번호"
-            style={[
-              styles.textInput,
-              pw.length >= 1 && { borderBottomColor: buttonColor },
-            ]}
-            onChangeText={setPw}
-            value={pw}
-            secureTextEntry={true}
-          />
-        </View>
-        <View style={styles.bottomContainer}>
-          {isWrong && (
-            <Text style={styles.error}>
-              *존재하지 않는 아이디/비밀번호 입니다
-            </Text>
-          )}
-          <TouchableWithoutFeedback onPress={handleNavigate}>
-            <View style={styles.loginButton}>
-              <Text style={styles.loginText}>로그인</Text>
-            </View>
-          </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback onPress={handleNavigateSignUp}>
-            <View style={styles.signupButton}>
-              <Text style={styles.signupText}>회원가입</Text>
-            </View>
-          </TouchableWithoutFeedback>
+    <View style={styles.container}>
+      <CustomImage source={SignInBackground} style={styles.background} />
+      <View style={styles.liner} />
+      <View style={styles.topContainer}>
+        <View style={styles.titleWrapper}>
+          <Text style={styles.title}>장애물 없는</Text>
+          <Text style={styles.emphasis}>편안한 산책여정</Text>
+          <Text style={styles.title}>즐기기</Text>
         </View>
       </View>
-    </KeyboardAvoidingView>
+      <View style={styles.centerContainer}>
+        <MyTextInput
+          placeholder="아이디"
+          style={[
+            styles.textInput,
+            id.length >= 1 && { borderBottomColor: buttonColor },
+          ]}
+          onChangeText={setId}
+          value={id}
+        />
+        <MyTextInput
+          placeholder="비밀번호"
+          style={[
+            styles.textInput,
+            pw.length >= 1 && { borderBottomColor: buttonColor },
+          ]}
+          onChangeText={setPw}
+          value={pw}
+          secureTextEntry={true}
+        />
+      </View>
+      <View style={styles.bottomContainer}>
+        {isWrong && (
+          <Text style={styles.error}>
+            *존재하지 않는 아이디/비밀번호 입니다
+          </Text>
+        )}
+        <TouchableWithoutFeedback onPress={handleNavigate}>
+          <View style={styles.loginButton}>
+            <Text style={styles.loginText}>로그인</Text>
+          </View>
+        </TouchableWithoutFeedback>
+        <TouchableWithoutFeedback onPress={handleNavigateSignUp}>
+          <View style={styles.signupButton}>
+            <Text style={styles.signupText}>회원가입</Text>
+          </View>
+        </TouchableWithoutFeedback>
+      </View>
+    </View>
   );
 };
 
@@ -119,9 +113,8 @@ const styles = StyleSheet.create({
     //backgroundColor: 'red'
   },
   topContainer: {
-    flex: 1,
     paddingHorizontal: 16,
-    paddingTop: 40,
+    paddingTop: 48,
     justifyContent: 'center',
   },
   titleWrapper: {},
@@ -142,7 +135,6 @@ const styles = StyleSheet.create({
   centerContainer: {
     paddingHorizontal: 16,
     justifyContent: 'center',
-    flex: 1,
     paddingTop: 48,
     paddingBottom: 30,
   },
@@ -159,7 +151,7 @@ const styles = StyleSheet.create({
   },
   loginButton: {
     width: '100%',
-    paddingVertical: 13,
+    paddingVertical: 17,
     backgroundColor: buttonColor,
     borderRadius: 8,
     justifyContent: 'center',
@@ -173,7 +165,7 @@ const styles = StyleSheet.create({
   },
   signupButton: {
     width: '100%',
-    paddingVertical: 13,
+    paddingVertical: 17,
     backgroundColor: 'white',
     borderRadius: 8,
     justifyContent: 'center',

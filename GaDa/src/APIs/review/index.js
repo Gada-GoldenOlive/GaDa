@@ -55,10 +55,10 @@ export const getMyReviewList = async (userId, page = 1) => {
   return res;
 };
 
-export const getFeeds = async (order = 'LATEST', lat, lng, page) => {
+export const getFeeds = async (page) => {
   const res = await axios
     .get(
-      `/reviews/feeds?order=${order}&lat=${lat}&lng=${lng}&page=${page}&limit=10`,
+      `/reviews/feeds?page=${page}&limit=10`,
     )
     .then(({ data }) => data)
     .catch(handleNetworkError);
