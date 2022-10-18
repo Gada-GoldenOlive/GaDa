@@ -98,7 +98,11 @@ const FeedContainer = ({ navigation, route }) => {
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
     setFeedList([]);
-    await fetchData();
+    if(order === 'DISTANCE'){
+      geoLocation();
+    } else {
+      fetchData();
+    }
     setRefreshing(false);
   });
 
