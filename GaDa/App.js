@@ -5,6 +5,7 @@ import React, {
   BackHandler,
   useCallback,
 } from 'react';
+import Toast from 'react-native-toast-message';
 import { PermissionsAndroid, StyleSheet, useColorScheme } from 'react-native';
 import RNRestart from 'react-native-restart';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -167,7 +168,8 @@ const App = () => {
         {/* <SafeAreaView style={{ flex: 1 }} edges={['bottom']}> */}
         <RootNavigation />
         {/* </SafeAreaView> */}
-        {/*<Toast ref={ref => Toast.setRef(ref)} /> */}
+
+        <Toast ref={ref => Toast.setRef(ref)} position='top' />
       </NavigationContainer>
       {/* <Script
         src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f0257365c07b494e7d10e2420948411b&libraries=services,clusterer&autoload=false"

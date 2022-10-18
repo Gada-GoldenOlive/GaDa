@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import Modal from 'react-native-modal';
 import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
+import Toast from 'react-native-toast-message';
+import Clipboard from '@react-native-clipboard/clipboard';
 import Text from '../../../components/MyText';
 import { boldFontFamily, boldFontSize } from '../../../constant/fonts';
 import {
@@ -15,6 +17,7 @@ import { Sample } from '../../../constant/images/Temp';
 import StarIcon from '../../../constant/images/Star';
 import PinTabContainer from '../container/PinTabContainer';
 import CustomButton from '../../../components/CustomButton';
+import { GadaCheck } from '../../../constant/images/Check';
 
 const PinInformation = ({
   walkWay,
@@ -32,8 +35,23 @@ const PinInformation = ({
     id = -1,
     averageStar = 0,
     image = '',
+    address,
   } = walkWay;
   const min = Math.floor(time / 60);
+
+  const showToast = () => {
+    Toast.show({
+      type: 'success',
+      text1: '복사 성공',
+      text2: address,
+    });
+  };
+
+  const copyToClipboard = () => {
+    Clipboard.setString(address);
+    console.log(address)
+    showToast();
+  };
   return (
     <Modal
       style={styles.modalContainer}
@@ -51,11 +69,11 @@ const PinInformation = ({
         <View style={styles.bar} />
         <View style={styles.container}>
           <View style={styles.imageContainer}>
-          {image !== "undefined" ? (
-                <CustomImage source={{ uri: image }} style={styles.image} />
-              ) : (
-                <CustomImage source={Sample} style={styles.image} />
-              )}
+            {image !== 'undefined' ? (
+              <CustomImage source={{ uri: image }} style={styles.image} />
+            ) : (
+              <CustomImage source={Sample} style={styles.image} />
+            )}
             <View style={styles.imageGradient} />
             <View style={styles.imageWrapper}>
               <CustomImage source={StarIcon} style={styles.starIcon} />
@@ -64,27 +82,34 @@ const PinInformation = ({
           </View>
           <View style={styles.informationContainer}>
             <View style={styles.textContainer}>
-              <Text style={styles.name}>{creator}</Text>
+              {creator === '스마트서울맵' ? (
+                <View style={styles.creatorWrapper}>
+                  <Text style={styles.name}>GaDa 공식 산책로</Text>
+                  <CustomImage style={styles.star} source={GadaCheck} />
+                </View>
+              ) : (
+                <View style={styles.creatorWrapper}>
+                  <Text style={styles.name}>{creator}</Text>
+                </View>
+              )}
               <Text style={styles.title}>{title}</Text>
               <Text>
                 {time !== 0 && (
-                  <Text style={styles.description}>약 {min}분 / </Text>
+                  <Text style={styles.description}>약 {min}분/</Text>
                 )}
                 {distance !== 0 && (
-                  <Text style={styles.description}>
-                    {distance.toFixed(1)}m /{' '}
-                  </Text>
+                  <Text style={styles.description}>{distance.toFixed(1)}/</Text>
                 )}
                 <Text style={styles.description}>핀 {pinCount}개 </Text>
               </Text>
             </View>
-            <View style={styles.bottomContainer}>
-             {/* <TouchableWithoutFeedback>
-                <View style={styles.bottomWrapper}>
-                  <Text style={styles.bottomText}>주소복사</Text>
-                </View>
-                </TouchableWithoutFeedback>*/}
-            </View>
+          </View>
+          <View style={styles.bottomContainer}>
+            <TouchableWithoutFeedback onPress={() => copyToClipboard()}>
+              <View style={styles.bottomWrapper}>
+                <Text style={styles.bottomText}>주소복사</Text>
+              </View>
+            </TouchableWithoutFeedback>
           </View>
         </View>
         <PinTabContainer walkWay={walkWay} />
@@ -168,14 +193,17 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     flex: 1,
-    width: '100%',
   },
   name: {
     color: mainColor,
     fontFamily: boldFontFamily,
     fontSize: 13,
     letterSpacing: -0.26,
-    marginBottom: 4,
+  },
+  star: {
+    width: 16,
+    height: 16,
+    marginStart: 4,
   },
   title: {
     fontFamily: boldFontFamily,
@@ -186,6 +214,7 @@ const styles = StyleSheet.create({
   description: {
     letterSpacing: -0.28,
     color: 'rgb(137,137,137)',
+    flex: 1,
   },
   bottomContainer: {
     height: 30,
@@ -199,10 +228,18 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
     backgroundColor: 'rgb(248,248,248)',
     borderRadius: 3,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   starIcon: {
     width: 18,
     height: 18,
     marginRight: 5.7,
+  },
+  creatorWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+
+    marginBottom: 4,
   },
 });

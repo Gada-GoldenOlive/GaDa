@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
+import Toast from 'react-native-toast-message';
+import Clipboard from '@react-native-clipboard/clipboard';
 import Text from '../../../components/MyText';
 import Modal from 'react-native-modal';
 import { boldFontFamily, boldFontSize } from '../../../constant/fonts';
@@ -14,6 +16,7 @@ import CustomImage from '../../../components/CustomImage';
 import { Sample } from '../../../constant/images/Temp';
 import StarIcon from '../../../constant/images/Star';
 import PinInformation from './PinInformation';
+import { GadaCheck } from '../../../constant/images/Check';
 const WalkwayOverview = ({
   walkWay,
   handleOverview,
@@ -34,6 +37,18 @@ const WalkwayOverview = ({
     image = '',
   } = walkWay;
   const min = Math.floor(time / 60);
+  const showToast = () => {
+    Toast.show({
+      type: 'success',
+      text1: '복사 성공',
+      text2: address,
+    });
+  };
+
+  const copyToClipboard = () => {
+    Clipboard.setString(address);
+    showToast();
+  };
   return (
     <Modal
       style={styles.modalContainer}
@@ -65,7 +80,16 @@ const WalkwayOverview = ({
             </View>
             <View style={styles.informationContainer}>
               <View style={styles.textContainer}>
-                {creator !== '' && <Text style={styles.name}>{creator}</Text>}
+                {creator === '스마트서울맵' ? (
+                  <View style={styles.creatorWrapper}>
+                    <Text style={styles.name}>GaDa 공식 산책로</Text>
+                    <CustomImage style={styles.star} source={GadaCheck} />
+                  </View>
+                ) : (
+                  <View style={styles.creatorWrapper}>
+                    <Text style={styles.name}>{creator}</Text>
+                  </View>
+                )}
                 <Text style={styles.title}>{title}</Text>
                 <Text>
                   {time !== 0 && (
@@ -80,11 +104,11 @@ const WalkwayOverview = ({
                 </Text>
               </View>
               <View style={styles.bottomContainer}>
-                {/*<TouchableWithoutFeedback>
+                <TouchableWithoutFeedback onPress={() => copyToClipboard()}>
                   <View style={styles.bottomWrapper}>
                     <Text style={styles.bottomText}>주소복사</Text>
                   </View>
-                  </TouchableWithoutFeedback>*/}
+                </TouchableWithoutFeedback>
               </View>
             </View>
           </View>
@@ -172,7 +196,11 @@ const styles = StyleSheet.create({
     fontFamily: boldFontFamily,
     fontSize: 13,
     letterSpacing: -0.26,
-    marginBottom: 4,
+  },
+  star: {
+    width: 16,
+    height: 16,
+    marginStart: 4,
   },
   title: {
     fontFamily: boldFontFamily,
@@ -189,6 +217,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     alignItems: 'flex-end',
     justifyContent: 'flex-end',
+    zIndex: 999
   },
   bottomWrapper: {
     paddingHorizontal: 12,
@@ -196,6 +225,8 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
     backgroundColor: 'rgb(248,248,248)',
     borderRadius: 3,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   starIcon: {
     width: 18,
@@ -208,5 +239,11 @@ const styles = StyleSheet.create({
     bottom: 0,
     position: 'absolute',
     zIndex: 999,
+  },
+  creatorWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+
+    marginBottom: 4,
   },
 });

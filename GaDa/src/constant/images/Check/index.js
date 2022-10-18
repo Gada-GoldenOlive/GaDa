@@ -1,4 +1,4 @@
 import Check from './Check.png';
 import CheckClicked from './CheckClicked.png';
-
-export {Check, CheckClicked}
+import GadaCheck from './GadaCheck.png';
+export { Check, CheckClicked, GadaCheck };
