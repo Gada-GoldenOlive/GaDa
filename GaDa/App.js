@@ -139,7 +139,6 @@ const App = () => {
         RNRestart.Restart();
       }*/
       const { sub: user_id } = jwtDecode(access_token);
-      console.log(jwtDecode(access_token));
       await setIdInLocalStorage(user_id);
       dispatch(setUserId(user_id));
       console.log({ access_token, user_id });
