@@ -1,4 +1,4 @@
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import React from 'react';
 import CustomImage from '../../../components/CustomImage';
 import { Sample } from '../../../constant/images/Temp';
@@ -12,7 +12,7 @@ import {
 import Text from '../../../components/MyText';
 import { getDate } from '../../../function';
 
-const Review = ({ review }) => {
+const Review = ({ review, handleNavigateReview }) => {
   const {
     content,
     createdAt,
@@ -28,6 +28,7 @@ const Review = ({ review }) => {
     walkwayTitle,
   } = review;
   return (
+    <TouchableWithoutFeedback onPress={() => handleNavigateReview(id)}>
     <View style={styles.container}>
       <View style={styles.userContainer}>
         <CustomImage source={{ uri: userImage }} style={styles.image} />
@@ -49,6 +50,7 @@ const Review = ({ review }) => {
         <Text style={styles.date}>{getDate(createdAt)}</Text>
       </View>
     </View>
+    </TouchableWithoutFeedback>
   );
 };
 

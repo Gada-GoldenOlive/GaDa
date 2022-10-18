@@ -64,6 +64,7 @@ const PinInformation = ({
       backdropColor="gray"
       backdropOpacity={0.5}
       coverScreen={false}
+      onBackButtonPress={() => closeModal()}
     >
       <View style={styles.modalWrapper}>
         <View style={styles.bar} />

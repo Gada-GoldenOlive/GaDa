@@ -60,7 +60,6 @@ const RecordScreen = ({
     totalTime,
   } = userData;
   const profile = { loginId, image, name };
-  console.log(profile);
   const goal = { loginId, goalDistance, goalTime, totalDistance, totalTime };
   const header = () => {
     return (

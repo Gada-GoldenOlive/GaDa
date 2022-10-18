@@ -51,6 +51,7 @@ const CreateWalkwayScreen = ({
   address = null,
   thumbnailImage,
   thumbnail,
+  type,
 }) => {
   const { distance, image, time, title } = item;
   const { isCreate } = useSelector(state => state.status);
@@ -156,7 +157,10 @@ const CreateWalkwayScreen = ({
     setIsVisible(false);
   };
   const openThumbnailModal = () => {
-    setIsThumbnailVisible(true);
+    if(type === 'create'){
+      setIsThumbnailVisible(true);
+
+    }
   };
   const cancelThumbnailModal = () => {
     setIsThumbnailVisible(false);

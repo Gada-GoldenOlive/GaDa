@@ -1,4 +1,4 @@
-import { View, Image } from 'react-native';
+import { View, Image, Platform } from 'react-native';
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
@@ -36,7 +36,8 @@ const FeedContainer = ({ navigation, route }) => {
       error => {
         console.log(error.code, error.message);
       },
-      { enableHighAccuracy: false, timeout: 15000, maximumAge: 10000 },
+      
+     { enableHighAccuracy:Platform.OS === 'ios' ? true : false, accurace: {ios : 'best'}, timeout: 20000} 
     );
   };
   const fetchDistanceData = async () => {
@@ -100,6 +101,7 @@ const FeedContainer = ({ navigation, route }) => {
     setFeedList([]);
     if(order === 'DISTANCE'){
       geoLocation();
+      fetchDistanceData();
     } else {
       fetchData();
     }
@@ -108,7 +110,6 @@ const FeedContainer = ({ navigation, route }) => {
 
 
   useEffect(() => {
-    console.log(order)
     if(order === 'DISTANCE'){
       geoLocation();
     } else {
@@ -116,6 +117,15 @@ const FeedContainer = ({ navigation, route }) => {
     }
    
   }, [order]);
+
+  useEffect(() => {
+    if(order === 'DISTANCE'){
+      geoLocation();
+    } else {
+      fetchData();
+    }
+   
+  }, [route.params?.refresh]);
 
   useEffect(() =>{
     if(latitude !== 0 && longitude !== 0 && order === 'DISTANCE'){
