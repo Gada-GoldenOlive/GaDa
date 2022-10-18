@@ -1,4 +1,11 @@
-import { StyleSheet, View, TouchableWithoutFeedback } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  TouchableWithoutFeedback,
+  KeyboardAvoidingView,
+  NativeModules,
+  SafeAreaView,
+} from 'react-native';
 import React, { useState, useEffect } from 'react';
 import CustomImage from '../../../components/CustomImage';
 import { UploadArrow } from '../../../constant/images/Arrow';
@@ -13,6 +20,7 @@ import { windowWidth } from '../../../constant/styles';
 
 import moment from 'moment';
 import BadgeModal from '../../../components/BadgeModal';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 const DetailPinScreen = ({
   index,
   pinData,
@@ -24,7 +32,15 @@ const DetailPinScreen = ({
   handlePostComment,
 }) => {
   const { id, title, content, image, walkwayId, updatedAt } = pinData;
+  const { StatusBarManager } = NativeModules;
+  const [statusBarHeight, setStatusBarHeight] = useState(0);
 
+  useEffect(() => {
+    Platform.OS === 'ios' &&
+      StatusBarManager.getHeight(statusBarFrameData => {
+        setStatusBarHeight(statusBarFrameData.height);
+      });
+  }, []);
   const headerComponent = () => {
     return (
       <View style={styles.topContainer}>
@@ -53,32 +69,49 @@ const DetailPinScreen = ({
   };
 
   return (
-    <View style={styles.container}>
-      <CommentList
-        headerComponent={headerComponent}
-        pinComments={pinComments}
-        handleLoadMore={handleLoadMore}
-      />
-      <View style={styles.bottomContainer}>
-        <View style={styles.textInputWrapper}>
-          <MyTextInput
-            placeholder="댓글을 입력하세요"
-            style={styles.input}
-            onChangeText={commentChange}
-            value={comment}
+    <SafeAreaView style={{ flex: 1 }}>
+      <KeyboardAvoidingView
+        style={{ flex: 1, backgroundColor: 'white' }}
+        keyboardVerticalOffset={statusBarHeight + 44}
+        behavior={Platform.OS === 'ios' && 'padding'}
+      >
+        {/* <KeyboardAwareScrollView
+        style={{ flex: 1 }}
+        bounces={false}
+        scrollEnabled
+        enableOnAndroid
+        enableAutomaticScroll
+        extraScrollHeight={Platform.OS === 'android' ? 0 : -200}
+      > */}
+        <View style={styles.container}>
+          <CommentList
+            headerComponent={headerComponent}
+            pinComments={pinComments}
+            handleLoadMore={handleLoadMore}
           />
-          <TouchableWithoutFeedback onPress={handlePostComment}>
-            <View style={styles.imageWrapper}>
-              <CustomImage source={UploadArrow} style={styles.arrow} />
+          <View style={styles.bottomContainer}>
+            <View style={styles.textInputWrapper}>
+              <MyTextInput
+                placeholder="댓글을 입력하세요"
+                style={styles.input}
+                onChangeText={commentChange}
+                value={comment}
+              />
+              <TouchableWithoutFeedback onPress={handlePostComment}>
+                <View style={styles.imageWrapper}>
+                  <CustomImage source={UploadArrow} style={styles.arrow} />
+                </View>
+              </TouchableWithoutFeedback>
             </View>
-          </TouchableWithoutFeedback>
+          </View>
+          {badges.length > 0 &&
+            badges.map(item => {
+              return <BadgeModal data={item} key={item} />;
+            })}
         </View>
-      </View>
-      {badges.length > 0 &&
-        badges.map(item => {
-          return <BadgeModal data={item} key={item} />;
-        })}
-    </View>
+        {/* </KeyboardAwareScrollView> */}
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 };
 
@@ -144,8 +177,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     width: windowWidth,
-    paddingBottom: 44,
-    paddingTop: 7,
+    paddingVertical: 7,
     paddingHorizontal: 16,
     backgroundColor: 'white',
   },
