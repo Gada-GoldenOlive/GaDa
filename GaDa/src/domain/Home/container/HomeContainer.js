@@ -86,6 +86,7 @@ const HomeContainer = ({ navigation, route }) => {
   const [isWalkwayFocused, setIsWalkwayFocused] = useState(false);
   const [tmpNewRecord, setTmpNewRecord] = useState(null);
   const { userId } = useSelector(state => state.user);
+  const [isCurrentPosClicked, setIsCurrentPosClicked] = useState(false);
 
   // redux 정보
   const { pinNum, currentPosition, isRestart, isCreate, tempWalkwayData } =
@@ -135,6 +136,7 @@ const HomeContainer = ({ navigation, route }) => {
         setBeforeRecord(tmpNewRecord);
         setLocationList(locationList => [...locationList, tmpNewRecord]);
         dispatch(setCurrentPosition(tmpNewRecord));
+        // setCurrentPos(tmpNewRecord);
       }
     }
   }, [tmpNewRecord]);
@@ -156,7 +158,11 @@ const HomeContainer = ({ navigation, route }) => {
       err => {
         console.log(err.message);
       },
-     { enableHighAccuracy:Platform.OS === 'ios' ? true : false, accurace: {ios : 'best'}, timeout: 20000} 
+      {
+        enableHighAccuracy: Platform.OS === 'ios' ? true : false,
+        accurace: { ios: 'best' },
+        timeout: 20000,
+      },
     );
 
     setRecording(true);
@@ -166,6 +172,7 @@ const HomeContainer = ({ navigation, route }) => {
     var path = [];
     var pins = [];
     var start = {};
+    var nowPos = {};
     if (ver === 'selectWalkway') {
       path = nowPath;
       pins = nowPins;
@@ -179,8 +186,11 @@ const HomeContainer = ({ navigation, route }) => {
     } else if (ver === 'locationList') {
       path = locationList;
       start = locationList[0];
+      nowPos = currentPos;
+    } else if (ver === 'currentPos') {
+      setIsCurrentPosClicked(true);
+      // 적지는 않았지만 currentPos도 되고 있음 -> 변수 선언을 안 할뿐
     }
-    // 적지는 않았지만 currentPos도 되고 있음 -> 변수 선언을 안 할뿐
     const generateOnMessageFunction = data =>
       `(function() {
     window.dispatchEvent(new MessageEvent('message', {data: ${JSON.stringify(
@@ -466,6 +476,8 @@ const HomeContainer = ({ navigation, route }) => {
       badges={badges}
       handleShareButton={handleShareButton}
       locationList={locationList}
+      isCurrentPosClicked={isCurrentPosClicked}
+      setIsCurrentPosClicked={setIsCurrentPosClicked}
     />
   );
 };

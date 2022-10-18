@@ -143,19 +143,19 @@ const MapScreen = ({
     geoLocation();
   }, []);
 
-  useEffect(() => {
-    if (
-      currentState.center.lat !== null &&
-      currentState.center.lng !== null &&
-      isFirstRecording
-    ) {
-      // alert("hi");
-      setRecordPosition([
-        { lat: currentState.center.lat, lng: currentState.center.lng },
-      ]);
-      setIsFirstRecording(false);
-    }
-  }, [currentState]);
+  // useEffect(() => {
+  //   if (
+  //     currentState.center.lat !== null &&
+  //     currentState.center.lng !== null &&
+  //     isFirstRecording
+  //   ) {
+  //     // alert("hi");
+  //     setRecordPosition([
+  //       { lat: currentState.center.lat, lng: currentState.center.lng },
+  //     ]);
+  //     setIsFirstRecording(false);
+  //   }
+  // }, [currentState]);
 
   useEffect(() => {
     if (isGeolocation) {
@@ -164,11 +164,11 @@ const MapScreen = ({
     }
   }, [isGeolocation]);
 
-  useEffect(() => {
-    setInterval(() => {
-      geoLocation("watch");
-    }, 5000);
-  });
+  // useEffect(() => {
+  //   setInterval(() => {
+  //     geoLocation("watch");
+  //   }, 5000);
+  // });
 
   const handleReceiveMessage = async () => {
     await window.addEventListener("message", (event) => {
@@ -198,6 +198,7 @@ const MapScreen = ({
         setWalkwayPins(event.data.pins);
         setPathStartPoint(event.data.startPoint);
       } else if (event.data.type === "locationList") {
+        // alert(JSON.stringify(event.data.path.length));
         if (event.data.path.length === 0) {
           setWalkwayPath("null");
           setWalkwayPins("null");
@@ -205,6 +206,7 @@ const MapScreen = ({
         } else {
           setWalkwayPath(event.data.path);
           setPathStartPoint(event.data.startPoint);
+          // setCurrentState({ ...currentState, center: event.data.nowPos });
         }
       }
     });

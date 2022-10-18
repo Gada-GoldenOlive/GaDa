@@ -74,6 +74,8 @@ const HomeScreen = ({
   handleShareButton,
   badges,
   locationList,
+  isCurrentPosClicked,
+  setIsCurrentPosClicked,
 }) => {
   const ref = useRef();
   const dispatch = useDispatch();
@@ -198,7 +200,10 @@ const HomeScreen = ({
 
   useEffect(() => {
     if (currentPos.lat !== 0 && currentPos.lng !== 0) {
-      getWalkway(currentPos);
+      if (!isCurrentPosClicked) {
+        getWalkway(currentPos);
+      }
+      setIsCurrentPosClicked(false);
     }
   }, [currentPos]);
   useEffect(() => {
@@ -287,7 +292,10 @@ const HomeScreen = ({
       )}
       {isWalking && (
         <TouchableWithoutFeedback
-          onPress={() =>{console.log('click'); handleConnection(ref, 'currentPos')}}
+          onPress={() => {
+            console.log('click');
+            handleConnection(ref, 'currentPos');
+          }}
         >
           <View style={styles.currentPosIconWrapper}>
             <CustomImage
