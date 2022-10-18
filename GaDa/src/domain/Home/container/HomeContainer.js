@@ -176,6 +176,9 @@ const HomeContainer = ({ navigation, route }) => {
       pins = selectedItem.pinCount;
       start = selectedItem.startPoint;
       // console.log({ path, pins, start, name: selectedItem.title });
+    } else if (ver === 'createWalkway') {
+      path = locationList;
+      start = locationList[0];
     }
     const generateOnMessageFunction = data =>
       `(function() {
@@ -451,6 +454,7 @@ const HomeContainer = ({ navigation, route }) => {
       setDetailAddress={setDetailAddress}
       badges={badges}
       handleShareButton={handleShareButton}
+      locationList={locationList}
     />
   );
 };
