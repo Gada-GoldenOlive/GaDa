@@ -262,9 +262,9 @@ const HomeContainer = ({ navigation, route }) => {
   const handleNavigateCreate = () => {
     console.log(locationList);
     // openEndShareModal();
-    if(locationList.length < 1) {
-      resetData();
-    } else {
+    //if(locationList.length < 1) {
+      //resetData();
+    //} else {
       navigation.navigate('CreateWalkway', {
         item: {
           ...walkData,
@@ -274,7 +274,7 @@ const HomeContainer = ({ navigation, route }) => {
         },
       });
 
-    }
+    //}
 
   };
 

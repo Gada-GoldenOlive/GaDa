@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Platform,
   Pressable,
   StyleSheet,
   TouchableWithoutFeedback,
@@ -66,12 +67,14 @@ const CenterModal = ({
           <CustomButton
             title={buttonText}
             style={styles.button}
+            textStyle={{fontSize: 16, lineHeight: 31}}
             handlePress={handleConfirm}
           />
           {secondButtonText !== null && (
             <CustomButton
               title={secondButtonText}
               style={styles.button}
+              textStyle={{fontSize: 16, lineHeight: 31}}
               handlePress={secondHandleConfirm}
               backgroundColor={'#AAAAAA'}
             />
@@ -122,20 +125,6 @@ const styles = StyleSheet.create({
   content: {
     lineHeight: 20,
     color: descriptionColor,
-  },
-  button: {
-    position: 'relative',
-    width: '100%',
-    paddingBottom: 0,
-    paddingTop: 0,
-    paddingHorizontal: 0,
-    justifyContent: 'flex-start',
-    shadowColor: 'rgba(0,0,0,0)',
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    shadowOpacity: 0,
   },
   button: {
     position: 'relative',

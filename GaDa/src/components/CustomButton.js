@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
   wrapper: {
     backgroundColor: buttonColor,
     borderRadius: 8,
-    height: 55,
+    paddingVertical: 13,
     alignItems: 'center',
     justifyContent: 'center',
   },
