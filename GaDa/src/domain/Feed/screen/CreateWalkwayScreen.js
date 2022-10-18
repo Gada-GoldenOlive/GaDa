@@ -131,12 +131,12 @@ const CreateWalkwayScreen = ({
   const openImageLibraryForThumbnail = () => {
     ImageCropPicker.openPicker(
       Platform.OS === 'ios'
-        ? { ...baseImageLibraryOption, ...iosOptions }
-        : {...baseImageLibraryOption, multiple: false},
+        ? { ...baseImageLibraryOption, ...iosOptions, multiple: false }
+        : { ...baseImageLibraryOption, multiple: false },
     ).then(image => {
       const uri = `data:${image.mime};base64,${image.data}`;
       dispatch(setIsThumbnail(true));
-      
+
       const imageList = [];
       imageList.push({ imageData: image, image: image.path });
 
@@ -147,7 +147,6 @@ const CreateWalkwayScreen = ({
       });
       cancelThumbnailModal();
     });
-
   };
 
   const openModal = () => {
