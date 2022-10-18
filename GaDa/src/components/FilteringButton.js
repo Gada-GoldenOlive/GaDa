@@ -1,25 +1,33 @@
 import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import React from 'react';
 import { useState } from 'react';
+import Geolocation from '@react-native-community/geolocation';
 import CustomImage from './CustomImage';
 import Polygon from '../constant/images/Polygon';
 import { blackColor } from '../constant/colors';
 import BottomUpmodal from './BottomUpmodal';
 import Text from './MyText';
+import { useEffect } from 'react';
 
-const FilteringButton = ({ setOrder  }) => {
-  const itemList = [{title: '거리순', value: 'DISTANCE'}, {title: '최신순', value:'LATEST' }, {title: '좋아요순', value:  'LIKE'} ]
+const FilteringButton = ({ setOrder }) => {
+  const itemList = [
+    { title: '거리순', value: 'DISTANCE' },
+    { title: '최신순', value: 'LATEST' },
+    { title: '좋아요순', value: 'LIKE' },
+  ];
   const [clickedItem, setClickedItem] = useState(itemList[0]);
   const [modalVisible, setModalVisibile] = useState(false);
+
   const handleClick = item => {
-    const {title, value} = item;
-    setClickedItem(item);
-    setModalVisibile(false)
+    setClickedItem(item);    
+    setModalVisibile(false);
+    setOrder(item.value);
   };
 
   const handleOpenModal = () => {
     setModalVisibile(true);
   };
+
   return (
     <View style={styles.container}>
       <TouchableWithoutFeedback onPress={handleOpenModal}>

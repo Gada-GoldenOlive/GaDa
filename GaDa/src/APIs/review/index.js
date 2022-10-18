@@ -55,15 +55,25 @@ export const getMyReviewList = async (userId, page = 1) => {
   return res;
 };
 
-export const getFeeds = async (page) => {
+export const getFeeds = async (order) => {
+  console.log(order);
   const res = await axios
     .get(
-      `/reviews/feeds?page=${page}&limit=10`,
+      `/reviews/feeds?order=${order}&page=1&limit=10`,
     )
     .then(({ data }) => data)
     .catch(handleNetworkError);
   return res;
 };
+
+export const getFeedsOrderDistance = async (lat, lng) => {
+  console.log(lat, lng);
+  const res = await axios
+  .get(`/reviews/feeds?order=DISTANCE&lat=${lat}&lng=${lng}&page=1&limit=10`)
+  .then(({data}) => data)
+  .catch(handleNetworkError)
+  return res;
+}
 
 export const getDetailFeed = async reviewId => {
   const res = await axios
