@@ -23,6 +23,7 @@ const FeedScreen = ({
   handleGettingWalkway,
   handleDetailFeed,
   handleLoadMore,
+  setOrder,
 }) => {
   const navigaiton = useNavigation();
   useEffect(() => {
@@ -36,7 +37,7 @@ const FeedScreen = ({
       <SafeAreaView edges={['top']}>
         <View style={styles.topContainer}>
           <Text style={styles.title}>피드</Text>
-          {/* <FilteringButton />*/}
+          {feedList.length > 0 && <FilteringButton setOrder={setOrder} />}
           <TouchableWithoutFeedback onPress={handleGettingWalkway}>
             <View style={styles.writeWrapper}>
               <CustomImage

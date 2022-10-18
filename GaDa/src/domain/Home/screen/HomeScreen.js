@@ -287,7 +287,7 @@ const HomeScreen = ({
       )}
       {isWalking && (
         <TouchableWithoutFeedback
-          onPress={() => handleConnection(ref, 'currentPos')}
+          onPress={() =>{console.log('click'); handleConnection(ref, 'currentPos')}}
         >
           <View style={styles.currentPosIconWrapper}>
             <CustomImage

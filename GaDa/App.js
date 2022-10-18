@@ -28,7 +28,6 @@ import jwtDecode from 'jwt-decode';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import defaultAxios from './src/APIs';
 import { reloadApp } from './src/function/error';
-import { requestLocationAccuracy } from 'react-native-permissions';
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
@@ -72,6 +71,7 @@ const App = () => {
     try {
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
         {
           title: '위치 접근 권한 허용',
           message: 'GaDa가 위치 접근 권한을 요청합니다.',
