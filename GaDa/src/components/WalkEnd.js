@@ -32,7 +32,7 @@ const WalkEnd = ({
     }
   })
   const hourString = hour> 0 ? `${hour}시간 ` : '';
-  const minString = min > 9 ? `${min}분` : '';
+  const minString = min > 0 ? `${min}분` : '';
   const secString = `${sec}초`;
   const timeString = hourString + minString + secString;
   return (

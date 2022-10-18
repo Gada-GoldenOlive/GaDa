@@ -13,6 +13,7 @@ import { heartClicked } from '../../../constant/images/Heart';
 import FeedBookmark from '../../../components/FeedBookmark';
 import FeedItem from './FeedItem';
 import GettingWalkwayItem from './GettingWalkwayItem';
+import Text from '../../../components/MyText';
 
 const ItemSeparatorComponent = () => {
   return <View style={{ height: 1 }} />;
@@ -40,7 +41,7 @@ const FeedItemList = ({
       <FeedItem item={item} index={index} handleDetailFeed={handleDetailFeed} />
     );
   };
-  return (
+  return feedList.length > 0 ? (
     <View style={styles.container}>
       <FlatList
         scrollEventThrottle={16}
@@ -59,6 +60,10 @@ const FeedItemList = ({
         keyExtractor={(item, index) => `${item.id}-${index}`}
       />
     </View>
+  ) : (
+    <View style={styles.nullContainer}>
+      <Text>피드가 없습니다</Text>
+    </View>
   );
 };
 
@@ -67,5 +72,10 @@ export default FeedItemList;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  nullContainer: {
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

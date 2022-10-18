@@ -41,7 +41,7 @@ const SignInScreen = ({
   return (
     <KeyboardAvoidingView
       style={{ flex: 1, backgroundColor: 'black' }}
-      // keyboardVerticalOffset={statusBarHeight}
+      keyboardVerticalOffset={statusBarHeight}
       behavior={Platform.OS === 'ios' && 'padding'}
     >
       <View style={styles.container}>
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
   topContainer: {
     flex: 1,
     paddingHorizontal: 16,
-    paddingTop: 48,
+    paddingTop: 40,
     justifyContent: 'center',
   },
   titleWrapper: {},
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
   },
   loginButton: {
     width: '100%',
-    paddingVertical: 17,
+    paddingVertical: 13,
     backgroundColor: buttonColor,
     borderRadius: 8,
     justifyContent: 'center',
@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
   },
   signupButton: {
     width: '100%',
-    paddingVertical: 17,
+    paddingVertical: 13,
     backgroundColor: 'white',
     borderRadius: 8,
     justifyContent: 'center',

@@ -302,7 +302,6 @@ const HomeScreen = ({
         nowPath={nowPath}
         openStartModal={openStartModal} // 산책로 제작을 위해
       />
-      {console.log(isAuthenticated)}
       {!isWalking && !walkEnd && isAuthenticated && (
         <CreateWalkwayButton openStartModal={openStartModal} />
       )}
