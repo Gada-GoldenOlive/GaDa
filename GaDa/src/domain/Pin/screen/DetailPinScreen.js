@@ -156,6 +156,7 @@ const styles = StyleSheet.create({
   },
   content: {
     lineHeight: 22,
+    marginBottom: 9,
   },
   image: {
     width: windowWidth - 32,
