@@ -73,6 +73,7 @@ const HomeScreen = ({
   handleNavigateCreate,
   handleShareButton,
   badges,
+  locationList,
 }) => {
   const ref = useRef();
   const dispatch = useDispatch();
@@ -112,6 +113,14 @@ const HomeScreen = ({
   //     openEndShareModal();
   //   }
   // }, [walkEnd]);
+
+  useEffect(() => {
+    console.log({ locationList });
+
+    if (isCreate) {
+      handleConnection(ref, 'locationList');
+    }
+  }, [locationList]);
 
   const handleRestart = async () => {
     const res = await getWalkwayInfo({
@@ -234,8 +243,8 @@ const HomeScreen = ({
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       <WebView
-        source={{ uri: 'https://ga-da-goldenolive.vercel.app' }}
-        //source={{ uri: 'https://0ec9-110-8-134-126.jp.ngrok.io' }}
+        // source={{ uri: 'https://ga-da-goldenolive.vercel.app' }}
+        source={{ uri: 'https://0ec9-110-8-134-126.jp.ngrok.io' }}
         injectedJavaScript={INJECTED_JAVASCRIPT}
         ref={ref}
         javaScriptEnabled

@@ -197,10 +197,16 @@ const MapScreen = ({
         setWalkwayPath(event.data.path);
         setWalkwayPins(event.data.pins);
         setPathStartPoint(event.data.startPoint);
+      } else if (event.data.type === "locationList") {
+        if (event.data.path.length === 0) {
+          setWalkwayPath("null");
+          setWalkwayPins("null");
+          setPathStartPoint("null");
+        } else {
+          setWalkwayPath(event.data.path);
+          setPathStartPoint(event.data.startPoint);
+        }
       }
-      // else if (event.data.type === "detailAddress") {
-      //   searchAddrFromCoords(event.data.coords, handleAddress);
-      // }
     });
   };
   useEffect(() => {
@@ -308,9 +314,12 @@ const MapScreen = ({
         )}
         {/* <DrawPolyline
           path={[
-            { lat: 37.52808864250951, lng: 126.9664946472026 },
-            { lat: 37.528100946217506, lng: 126.96620814543589 },
-            { lat: 37.52810757753854, lng: 126.96644342188938 },
+            { lat: 37.52802718259114, lng: 126.9663244284965 },
+            { lat: 37.527091086504534, lng: 126.96605238032247 },
+            { lat: 37.527998586595615, lng: 126.96651324042868 },
+            { lat: 37.527641433097116, lng: 126.96630808416697 },
+            { lat: 37.525250275751866, lng: 126.96551819777198 },
+            { lat: 37.52796657180441, lng: 126.96649321977006 },
           ]}
         /> */}
         {/* </div> */}

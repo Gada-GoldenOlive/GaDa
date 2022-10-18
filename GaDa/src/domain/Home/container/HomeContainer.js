@@ -176,7 +176,11 @@ const HomeContainer = ({ navigation, route }) => {
       pins = selectedItem.pinCount;
       start = selectedItem.startPoint;
       // console.log({ path, pins, start, name: selectedItem.title });
+    } else if (ver === 'locationList') {
+      path = locationList;
+      start = locationList[0];
     }
+    // 적지는 않았지만 currentPos도 되고 있음 -> 변수 선언을 안 할뿐
     const generateOnMessageFunction = data =>
       `(function() {
     window.dispatchEvent(new MessageEvent('message', {data: ${JSON.stringify(
@@ -324,7 +328,7 @@ const HomeContainer = ({ navigation, route }) => {
       const res2 = await createWalk(nowWalk);
     }
 
-    setCurrentPos(currentPosition);
+    // setCurrentPos(currentPosition);
   };
 
   const resetData = () => {
@@ -461,6 +465,7 @@ const HomeContainer = ({ navigation, route }) => {
       setDetailAddress={setDetailAddress}
       badges={badges}
       handleShareButton={handleShareButton}
+      locationList={locationList}
     />
   );
 };
