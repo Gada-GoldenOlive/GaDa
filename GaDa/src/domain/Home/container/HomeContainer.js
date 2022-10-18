@@ -25,6 +25,7 @@ import { setStartTime } from '../../../redux/modules/status';
 import { get } from 'react-native/Libraries/Utilities/PixelRatio';
 import { createWalk } from '../../../APIs/walk';
 import { setUserId } from '../../../redux/modules/user';
+import Toast from 'react-native-toast-message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getWalkwayInfo, updateWalkway } from '../../../APIs/walkway';
 import { set } from 'react-native-reanimated';
@@ -161,7 +162,7 @@ const HomeContainer = ({ navigation, route }) => {
       {
         enableHighAccuracy: Platform.OS === 'ios' ? true : false,
         accurace: { ios: 'best' },
-        timeout: 20000,
+        timeout: 1000,
       },
     );
 
@@ -272,12 +273,20 @@ const HomeContainer = ({ navigation, route }) => {
     setEndShareModalVisible(false);
   };
 
+  
+  const showToast = () => {
+    Toast.show({
+      type: 'error',
+      text1: '산책로 생성 실패!',
+      text2: '거리가 짧아 산책로 생성에 실패하였습니다',
+    });
+  };
+
+
   const handleNavigateCreate = () => {
     console.log(locationList);
     // openEndShareModal();
-    if (locationList.length < 1) {
-      resetData();
-    } else {
+    if (walkData.distance >0 ) {
       navigation.navigate('CreateWalkway', {
         item: {
           ...walkData,
@@ -286,6 +295,10 @@ const HomeContainer = ({ navigation, route }) => {
           image: '',
         },
       });
+      
+    } else {
+      showToast();
+      resetData();
     }
   };
 
