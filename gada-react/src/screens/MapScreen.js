@@ -197,10 +197,10 @@ const MapScreen = ({
         setWalkwayPath(event.data.path);
         setWalkwayPins(event.data.pins);
         setPathStartPoint(event.data.startPoint);
+      } else if (event.data.type === "createWalkway") {
+        setWalkwayPath(event.path.path);
+        setPathStartPoint(event.data.startPoint);
       }
-      // else if (event.data.type === "detailAddress") {
-      //   searchAddrFromCoords(event.data.coords, handleAddress);
-      // }
     });
   };
   useEffect(() => {

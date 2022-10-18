@@ -177,6 +177,9 @@ const HomeContainer = ({ navigation, route }) => {
       pins = selectedItem.pinCount;
       start = selectedItem.startPoint;
       // console.log({ path, pins, start, name: selectedItem.title });
+    } else if (ver === 'createWalkway') {
+      path = locationList;
+      start = locationList[0];
     }
     const generateOnMessageFunction = data =>
       `(function() {
@@ -262,7 +265,7 @@ const HomeContainer = ({ navigation, route }) => {
   const handleNavigateCreate = () => {
     console.log(locationList);
     // openEndShareModal();
-    if(locationList.length < 1) {
+    if (locationList.length < 1) {
       resetData();
     } else {
       navigation.navigate('CreateWalkway', {
@@ -274,7 +277,6 @@ const HomeContainer = ({ navigation, route }) => {
         },
       });
     }
-
   };
 
   const handleShareButton = async () => {
@@ -404,7 +406,7 @@ const HomeContainer = ({ navigation, route }) => {
   }, [recording]);
 
   useEffect(() => {
-   reset();
+    reset();
     resetData();
   }, []);
 
@@ -463,6 +465,7 @@ const HomeContainer = ({ navigation, route }) => {
       setDetailAddress={setDetailAddress}
       badges={badges}
       handleShareButton={handleShareButton}
+      locationList={locationList}
     />
   );
 };
