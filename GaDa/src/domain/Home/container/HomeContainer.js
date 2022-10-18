@@ -91,11 +91,11 @@ const HomeContainer = ({ navigation, route }) => {
   const { pinNum, currentPosition, isRestart, isCreate, tempWalkwayData } =
     useSelector(state => state.status);
 
-  const geoLocation = ref => {
+  const geoLocation = () => {
     Geolocation.getCurrentPosition(
       position => {
-        const latitude = JSON.stringify(position.coords.latitude);
-        const longitude = JSON.stringify(position.coords.longitude);
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
 
         setLatitude(latitude);
         setLongitude(longitude);
@@ -103,7 +103,6 @@ const HomeContainer = ({ navigation, route }) => {
       error => {
         console.log(error.code, error.message);
       },
-      { enableHighAccuracy: false, timeout: 15000, maximumAge: 10000 },
     );
   };
 
@@ -262,7 +261,7 @@ const HomeContainer = ({ navigation, route }) => {
   const handleNavigateCreate = () => {
     console.log(locationList);
     // openEndShareModal();
-    if(locationList.length < 1) {
+    if (locationList.length < 1) {
       resetData();
     } else {
       navigation.navigate('CreateWalkway', {
@@ -274,7 +273,6 @@ const HomeContainer = ({ navigation, route }) => {
         },
       });
     }
-
   };
 
   const handleShareButton = async () => {
@@ -404,7 +402,7 @@ const HomeContainer = ({ navigation, route }) => {
   }, [recording]);
 
   useEffect(() => {
-   reset();
+    reset();
     resetData();
   }, []);
 
