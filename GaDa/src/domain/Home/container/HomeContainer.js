@@ -184,7 +184,6 @@ const HomeContainer = ({ navigation, route }) => {
       data,
     )}}));
   })()`;
-
     ref.current.injectJavaScript(
       generateOnMessageFunction({
         type: ver,

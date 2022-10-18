@@ -146,11 +146,11 @@ const HomeScreen = ({
     const {
       nativeEvent: { data },
     } = event;
-    console.log(event);
-
+    console.log({event});
     if (data !== 'undefined') {
       const msg = JSON.parse(data);
       if (msg.type === 'currentPos') {
+        console.log(msg.position);
         if (isRestart) {
           setCurrentPos(selectedItem.startPoint); // currentPos를 바꿔서 지도 focus 바꿀 수 있음 (화면 전환시)
         } else {
@@ -195,9 +195,8 @@ const HomeScreen = ({
   }, [nowPins]);
 
   useEffect(() => {
-    console.log(currentPos);
+    console.log({currentPos});
 
-    if (currentPos !== 'undefined') {
       if (currentPos.lat !== 0 && currentPos.lng !== 0) {
         if (!isCurrentPosClicked) {
           getWalkway(currentPos);
@@ -206,7 +205,7 @@ const HomeScreen = ({
           setIsCurrentPosClicked(false);
         }
       }
-    }
+    
   }, [currentPos]);
   useEffect(() => {
     if (isWalking) {
@@ -217,6 +216,7 @@ const HomeScreen = ({
   }, [isWalking]);
 
   const handleClickCurrentPosButton = () => {
+    console.log('click');
     setIsCurrentPosClicked(true);
     handleConnection(ref, 'currentPos');
   };
@@ -320,7 +320,6 @@ const HomeScreen = ({
         nowPath={nowPath}
         openStartModal={openStartModal} // 산책로 제작을 위해
       />
-      {console.log(isAuthenticated)}
       {!isWalking && !walkEnd && isAuthenticated && (
         <CreateWalkwayButton openStartModal={openStartModal} />
       )}
