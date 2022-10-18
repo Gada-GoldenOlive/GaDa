@@ -21,7 +21,7 @@ const SettingPageContainer = ({ navigation }) => {
     return null;
   }
   const handleSignOut = async () => {
-    removeInLocalStorage();
+    await removeInLocalStorage();
     console.log(userId)
     await deleteUser(userId);
     dispatch(setIsAuthenticated(false));

@@ -385,7 +385,7 @@ const HomeScreen = ({
         handleRestart={handleRestart}
       />
       {badges.length > 0 &&
-        badges.map((item, index) => {
+        badges.map(async (item, index) => {
           const { badge } = item;
           const { image } = badge;
           return <BadgeModal data={item} key={image} />;

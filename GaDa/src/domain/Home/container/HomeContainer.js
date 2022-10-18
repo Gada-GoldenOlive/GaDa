@@ -262,14 +262,20 @@ const HomeContainer = ({ navigation, route }) => {
   const handleNavigateCreate = () => {
     console.log(locationList);
     // openEndShareModal();
-    navigation.navigate('CreateWalkway', {
-      item: {
-        ...walkData,
-        path: locationList,
-        title: '',
-        image: '',
-      },
-    });
+    if(locationList.length < 1) {
+      resetData();
+    } else {
+      navigation.navigate('CreateWalkway', {
+        item: {
+          ...walkData,
+          path: locationList,
+          title: '',
+          image: '',
+        },
+      });
+
+    }
+
   };
 
   const handleShareButton = async () => {
@@ -399,7 +405,7 @@ const HomeContainer = ({ navigation, route }) => {
   }, [recording]);
 
   useEffect(() => {
-    reset();
+   reset();
     resetData();
   }, []);
 
