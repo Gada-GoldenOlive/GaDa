@@ -259,7 +259,7 @@ const RootNavigation = () => {
             return {
               headerShown: true,
               headerLeft: () => <BackButton />,
-              headerTitle: '친구 신청내역',
+              headerTitle: '받은 친구 신청내역',
 
               title: '배지',
             };
