@@ -31,7 +31,10 @@ const WalkEnd = ({
       setPinNum(prevNum);
     }
   })
-  const timeString = `${hour}:${min}:${sec}`;
+  const hourString = hour> 0 ? `${hour}시간 ` : '';
+  const minString = min > 0 ? `${min}분` : '';
+  const secString = `${sec}초`;
+  const timeString = hourString + minString + secString;
   return (
     isVisible && (
       <View style={styles.container}>
@@ -47,8 +50,8 @@ const WalkEnd = ({
           </View>
           <View style={styles.bottomContainer}>
             <View style={styles.bottomWrapper}>
-              <Text style={styles.description}>시간(분)</Text>
-              <Text style={styles.value}>{time}</Text>
+              <Text style={styles.description}>시간</Text>
+              <Text style={styles.value}>{timeString}</Text>
             </View>
             <View style={styles.bottomWrapper}>
               <Text style={styles.description}>제작 핀</Text>
@@ -73,6 +76,7 @@ const styles = StyleSheet.create({
     width: windowWidth,
     paddingStart: 24,
     paddingTop: Platform.OS === 'android' ? 33 : 133,
+    zIndex: 999
   },
   informationContainer: {},
   closeText: {

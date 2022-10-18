@@ -12,7 +12,7 @@ const RecentWalk = ({ recentWalks }) => {
     const { createdAt, distance, finishStatus, id, image, rate, title } = item;
 
     return (
-      <View style={[styles.itemContainer, index === 0 && {marginStart: 16}]}>
+      <View style={[styles.itemContainer, index === 0 && { marginStart: 16 }]}>
         <CustomImage source={{ uri: image }} style={styles.backgroundImage} />
         <View style={styles.gradient} />
         <View style={styles.titleContainer}>
@@ -25,7 +25,7 @@ const RecentWalk = ({ recentWalks }) => {
         </View>
         <View style={styles.bottomContainer}>
           <View style={styles.bottomWrapper}>
-            <Text style={styles.percent}>{rate}%</Text>
+            <Text style={styles.percent}>{rate!== null ? rate : 0}%</Text>
           </View>
         </View>
       </View>
@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
   },
   itemContainer: {
     width: 236,
+    height: 132,
     marginEnd: 16,
     justifyContent: 'space-between',
   },

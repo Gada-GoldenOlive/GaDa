@@ -71,6 +71,7 @@ const GoalSettingScreen = ({
               onChangeText={distanceChange}
               style={styles.textInput}
               keyboardType="numeric"
+              returnKeyType="done"
               placeholder={
                 distance === null
                   ? '목표 달성거리를 입력하세요'

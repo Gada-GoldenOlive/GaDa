@@ -27,6 +27,7 @@ const MyWalkwayList = ({
   myWalks = [],
   handleDetailFeed,
   handleLoadMore,
+  handleNavigateHome
 }) => {
   const renderItem = ({ item, index }) => {
     // image는 뭔아이디야
@@ -102,16 +103,16 @@ const MyWalkwayList = ({
           onEndReached={handleLoadMore}
         />
       ) : (
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.container}>
             <ListHeaderComponent />
             <View style={styles.nullContainer}>
               <CustomImage style={styles.nullImage} source={PinSample1} />
               <View style={styles.nullGradient} />
-              <Text style={styles.nullTitle}>산책로를 만들고 공유하세요!</Text>
-              <TouchableWithoutFeedback>
+              <Text style={styles.nullTitle}>산책을 공유하세요!</Text>
+              <TouchableWithoutFeedback onPress={handleNavigateHome}>
                 <View style={styles.nullButton}>
-                  <Text style={styles.null}>기록시작</Text>
+                  <Text style={styles.null}>산책시작</Text>
                 </View>
               </TouchableWithoutFeedback>
             </View>
@@ -127,6 +128,7 @@ export default MyWalkwayList;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    // paddingBottom: 20,
   },
   itemContainer: {
     height: 184,
@@ -184,6 +186,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     borderRadius: 20,
     alignItems: 'center',
+    marginBottom: 20,
   },
   nullTitle: {
     paddingTop: 48,

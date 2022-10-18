@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux';
 import { setIsAuthenticated, setUserId } from '../../../redux/modules/user';
 import jwtDecode from 'jwt-decode';
 import defaultAxios from '../../../APIs';
-import { storeInLocalStorage } from '../../../function';
+import { storeInLocalStorage, storeIdInLocalStorage } from '../../../function';
 const SignInContainer = ({ navigation }) => {
   const [userId, setId] = useState('');
   const [pw, setPw] = useState('');
@@ -36,10 +36,10 @@ const SignInContainer = ({ navigation }) => {
     else{
       setIsWrong(false);
       const { accessToken, refreshToken } = res;
-
+      console.log('signin', accessToken, refreshToken);
       if (accessToken !== null) {
-        saveTokenDataInLocalAndAxios(accessToken, refreshToken)
-        handleNavigate();
+        await saveTokenDataInLocalAndAxios(accessToken, refreshToken);
+
       } else {
         console.log(res);
       }
@@ -51,9 +51,12 @@ const SignInContainer = ({ navigation }) => {
   const saveTokenDataInLocalAndAxios = async (accessToken, refreshToken) => {
     await storeInLocalStorage(accessToken, refreshToken);
     dispatch(setIsAuthenticated(true));
-    const { sub: userId } = jwtDecode(accessToken);
+    const res = jwtDecode(accessToken);
+    const {sub: userId} = res;
+    console.log(userId)
     dispatch(setUserId(userId));
     defaultAxios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+    handleNavigate();
 
   };
 

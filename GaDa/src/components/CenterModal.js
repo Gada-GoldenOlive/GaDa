@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Platform,
   Pressable,
   StyleSheet,
   TouchableWithoutFeedback,
@@ -27,9 +28,11 @@ const CenterModal = ({
   isVisible = false,
   closeModal,
   handleConfirm,
+  secondHandleConfirm = null,
   version = 1,
   renderMainBody = null,
   buttonText = '기록 시작',
+  secondButtonText = null,
 }) => {
   return (
     <Modal
@@ -53,14 +56,29 @@ const CenterModal = ({
               <CustomImage source={CloseIcon} style={styles.close} />
             </TouchableWithoutFeedback>
           </View>
-          <View style={styles.middleContainer}>
+          <View
+            style={[
+              styles.middleContainer,
+              secondButtonText !== null && { marginBottom: 38 },
+            ]}
+          >
             <Text style={styles.content}>{content}</Text>
           </View>
           <CustomButton
             title={buttonText}
             style={styles.button}
+            textStyle={{fontSize: 16, lineHeight: 31}}
             handlePress={handleConfirm}
           />
+          {secondButtonText !== null && (
+            <CustomButton
+              title={secondButtonText}
+              style={styles.button}
+              textStyle={{fontSize: 16, lineHeight: 31}}
+              handlePress={secondHandleConfirm}
+              backgroundColor={'#AAAAAA'}
+            />
+          )}
         </View>
       )}
     </Modal>
@@ -111,6 +129,7 @@ const styles = StyleSheet.create({
   button: {
     position: 'relative',
     width: '100%',
+    marginTop: 13,
     paddingBottom: 0,
     paddingTop: 0,
     paddingHorizontal: 0,

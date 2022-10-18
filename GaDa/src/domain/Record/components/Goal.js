@@ -12,25 +12,27 @@ import Text from '../../../components/MyText';
 
 const Goal = ({ goal }) => {
   const { loginId, goalDistance, goalTime, totalDistance, totalTime } = goal;
+  const hour = getGoalHour(totalTime)[0];
+  const min = getGoalHour(totalTime)[1];
+
   return (
     <View style={styles.container}>
       <View style={styles.wrapper}>
         <Text style={styles.title}>시간</Text>
-
-        <Text style={styles.value}>
-          {getGoalHour(totalTime)[0] !== '' && (
-            <Text>
+        <View style={[styles.valueWrapper, hour > 99 && {flexDirection: 'column'}]}>
+          {hour !== '' && (
+            <Text >
               <Text style={styles.num}>{getGoalHour(totalTime)[0]}</Text>
               <Text style={styles.value}>시간 </Text>
             </Text>
           )}
-          {getGoalHour(totalTime)[1] !== '' && (
+          {min !== '' && (
             <Text style={{fontFamily: defaultFontFamily}}>
-              <Text style={styles.num}>{getGoalHour(totalTime)[1]}</Text>
+              <Text style={styles.num}>{min}</Text>
               <Text style={styles.value}>분</Text>
             </Text>
           )}
-        </Text>
+        </View>
         {goalTime === null ? (
           <Text style={styles.goal}>목표 미설정</Text>
         ) : (
@@ -39,12 +41,12 @@ const Goal = ({ goal }) => {
       </View>
       <View style={styles.wrapper}>
         <Text style={styles.title}>거리</Text>
-        <Text style={styles.value}>
+        <View style={styles.valueWrapper}>
           <Text style={styles.num}>
             {getDistance({ distance: totalDistance, unit: 'm' })}
           </Text>
           <Text style={styles.value}>m</Text>
-        </Text>
+        </View>
         {goalDistance === null ? (
           <Text style={styles.goal}>목표 미설정</Text>
         ) : (
@@ -86,6 +88,7 @@ const styles = StyleSheet.create({
     color: mainColor,
     fontFamily: boldFontFamily,
     fontSize: 20,
+    alignSelf: 'flex-end',
   },
   num: {
     color: mainColor,
@@ -96,4 +99,10 @@ const styles = StyleSheet.create({
     color: descriptionColorVer2,
     fontSize: 12,
   },
+  valueWrapper:{
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '100%',
+    justifyContent: 'center'
+  }
 });

@@ -54,6 +54,19 @@ const MapScreen = ({
 
   const [movingCurrentList, setMovingCurrentList] = useState();
 
+  // const [map, setMap] = useState();
+  // const [detailAddress, setDetailAddress] = useState();
+  // const geocoder = new window.kakao.maps.services.Geocoder();
+  // const handleAddress = () => {
+  //   handleSubmit("detailAddress", detailAddress);
+  // };
+  // const searchAddrFromCoords = (coords, handleAddress) => {
+  //   // 좌표로 행정동 주소 정보를 요청합니다
+  //   geocoder.coord2RegionCode(coords.lng, coords.lat, (res) =>
+  //     setDetailAddress(res)
+  //   );
+  // };
+
   const geoLocation = (ver = "null") => {
     if (navigator.geolocation) {
       // GeoLocation을 이용해서 접속 위치를 얻어옵니다
@@ -130,19 +143,19 @@ const MapScreen = ({
     geoLocation();
   }, []);
 
-  useEffect(() => {
-    if (
-      currentState.center.lat !== null &&
-      currentState.center.lng !== null &&
-      isFirstRecording
-    ) {
-      // alert("hi");
-      setRecordPosition([
-        { lat: currentState.center.lat, lng: currentState.center.lng },
-      ]);
-      setIsFirstRecording(false);
-    }
-  }, [currentState]);
+  // useEffect(() => {
+  //   if (
+  //     currentState.center.lat !== null &&
+  //     currentState.center.lng !== null &&
+  //     isFirstRecording
+  //   ) {
+  //     // alert("hi");
+  //     setRecordPosition([
+  //       { lat: currentState.center.lat, lng: currentState.center.lng },
+  //     ]);
+  //     setIsFirstRecording(false);
+  //   }
+  // }, [currentState]);
 
   useEffect(() => {
     if (isGeolocation) {
@@ -151,11 +164,11 @@ const MapScreen = ({
     }
   }, [isGeolocation]);
 
-  useEffect(() => {
-    setInterval(() => {
-      geoLocation("watch");
-    }, 5000);
-  });
+  // useEffect(() => {
+  //   setInterval(() => {
+  //     geoLocation("watch");
+  //   }, 5000);
+  // });
 
   const handleReceiveMessage = async () => {
     await window.addEventListener("message", (event) => {
@@ -184,6 +197,17 @@ const MapScreen = ({
         setWalkwayPath(event.data.path);
         setWalkwayPins(event.data.pins);
         setPathStartPoint(event.data.startPoint);
+      } else if (event.data.type === "locationList") {
+        // alert(JSON.stringify(event.data.path.length));
+        if (event.data.path.length === 0) {
+          setWalkwayPath("null");
+          setWalkwayPins("null");
+          setPathStartPoint("null");
+        } else {
+          setWalkwayPath(event.data.path);
+          setPathStartPoint(event.data.startPoint);
+          // setCurrentState({ ...currentState, center: event.data.nowPos });
+        }
       }
     });
   };
@@ -258,6 +282,7 @@ const MapScreen = ({
         // onTileLoaded={(map) => handlePolylineDrag(map)}
         onCenterChanged={(map) => handlePolylineDrag(map)}
         // onRightClick={(map) => <DrawPolylineFromKakao map={map} />}
+        // onCreate={setMap()}
       >
         {/* 현재 위치 */}
         {/* <GeoLocationMarker setCenter={setCenter} /> */}
@@ -291,9 +316,12 @@ const MapScreen = ({
         )}
         {/* <DrawPolyline
           path={[
-            { lat: 37.52808864250951, lng: 126.9664946472026 },
-            { lat: 37.528100946217506, lng: 126.96620814543589 },
-            { lat: 37.52810757753854, lng: 126.96644342188938 },
+            { lat: 37.52802718259114, lng: 126.9663244284965 },
+            { lat: 37.527091086504534, lng: 126.96605238032247 },
+            { lat: 37.527998586595615, lng: 126.96651324042868 },
+            { lat: 37.527641433097116, lng: 126.96630808416697 },
+            { lat: 37.525250275751866, lng: 126.96551819777198 },
+            { lat: 37.52796657180441, lng: 126.96649321977006 },
           ]}
         /> */}
         {/* </div> */}

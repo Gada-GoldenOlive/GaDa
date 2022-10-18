@@ -1,34 +1,108 @@
-import { ScrollView, StyleSheet, View } from 'react-native';
-import React from 'react';
+import {
+  StyleSheet,
+  View,
+  TouchableWithoutFeedback,
+  KeyboardAvoidingView,
+  NativeModules,
+  SafeAreaView,
+} from 'react-native';
+import React, { useState, useEffect } from 'react';
 import CustomImage from '../../../components/CustomImage';
-import { PinSample1 } from '../../../constant/images/PinSample';
+import { UploadArrow } from '../../../constant/images/Arrow';
 import { blackColor, borderColor, mainColor } from '../../../constant/colors';
 import { boldFontFamily, boldFontSize } from '../../../constant/fonts';
 import Text from '../../../components/MyText';
 import CommentList from '../components/CommentList';
-const DetailPinScreen = () => {
-  return (
-    <ScrollView bounce={false} showsHorizontalScrollIndicator={false}>
-      <View style={styles.container}>
-        <View style={styles.topContainer}>
-          <View style={styles.topWrapper}>
-            <View style={styles.pinWrapper}>
-              <Text style={styles.pin}>핀2</Text>
-            </View>
-            <Text style={styles.date}>2022.07.30 작성</Text>
+import { getDate } from '../../../function';
+import { thumbnail3 } from '../../../constant/images/Sample';
+import MyTextInput from '../../../components/MyTextInput';
+import { windowWidth } from '../../../constant/styles';
+
+import moment from 'moment';
+import BadgeModal from '../../../components/BadgeModal';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+const DetailPinScreen = ({
+  index,
+  pinData,
+  pinComments,
+  handleLoadMore,
+  comment,
+  badges,
+  commentChange,
+  handlePostComment,
+}) => {
+  const { id, title, content, image, walkwayId, updatedAt } = pinData;
+  const { StatusBarManager } = NativeModules;
+  const [statusBarHeight, setStatusBarHeight] = useState(0);
+
+  useEffect(() => {
+    Platform.OS === 'ios' &&
+      StatusBarManager.getHeight(statusBarFrameData => {
+        setStatusBarHeight(statusBarFrameData.height);
+      });
+  }, []);
+  const headerComponent = () => {
+    return (
+      <View style={styles.topContainer}>
+        <View style={styles.topWrapper}>
+          <View style={styles.pinWrapper}>
+            <Text style={styles.pin}>핀{index + 1}</Text>
           </View>
-          <View style={styles.contentWrapper}>
-            <Text style={styles.title}>여기 장애물 없어졌어요</Text>
-            <Text style={styles.content}>
-              방문할때 확인 바랍니다. 이번에 재개발 어쩌구 한다고 완전
-              깨끗해졌네요 ㅋㅋ
+          <Text style={styles.date}>{getDate(updatedAt)} 작성</Text>
+        </View>
+        <View style={styles.contentWrapper}>
+          <Text style={styles.title}>{title}</Text>
+          <Text style={styles.content}>{content}</Text>
+          {image !== '' && image !== null ? (
+            <CustomImage style={styles.image} source={{ uri: image }} />
+          ) : (
+            <CustomImage style={styles.image} source={thumbnail3} />
+          )}
+          <View style={styles.dateWrapper}>
+            <Text style={styles.photoDate}>
+              {moment(updatedAt).format('YY-MM-DD')}
             </Text>
-            <CustomImage style={styles.image} source={PinSample1} />
           </View>
         </View>
-        <CommentList />
       </View>
-    </ScrollView>
+    );
+  };
+
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
+      <KeyboardAvoidingView
+        style={{ flex: 1, backgroundColor: 'white' }}
+        keyboardVerticalOffset={statusBarHeight + 44}
+        behavior={Platform.OS === 'ios' && 'padding'}
+      >
+        <View style={styles.container}>
+          <CommentList
+            headerComponent={headerComponent}
+            pinComments={pinComments}
+            handleLoadMore={handleLoadMore}
+          />
+          <View style={styles.bottomContainer}>
+            <View style={styles.textInputWrapper}>
+              <MyTextInput
+                placeholder="댓글을 입력하세요"
+                style={styles.input}
+                onChangeText={commentChange}
+                value={comment}
+              />
+              <TouchableWithoutFeedback onPress={handlePostComment}>
+                <View style={styles.imageWrapper}>
+                  <CustomImage source={UploadArrow} style={styles.arrow} />
+                </View>
+              </TouchableWithoutFeedback>
+            </View>
+          </View>
+          {badges.length > 0 &&
+            badges.map(item => {
+              return <BadgeModal data={item} key={item} />;
+            })}
+        </View>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 };
 
@@ -73,9 +147,59 @@ const styles = StyleSheet.create({
   },
   content: {
     lineHeight: 22,
+    marginBottom: 9,
   },
   image: {
-    width: '100%',
+    width: windowWidth - 32,
     height: 173,
+  },
+  dateWrapper: {
+    position: 'absolute',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    right: 10,
+    bottom: 15,
+    paddingVertical: 2,
+    paddingHorizontal: 4,
+  },
+  photoDate: {
+    color: 'white',
+    fontSize: 12,
+  },
+  bottomContainer: {
+    position: 'absolute',
+    bottom: 0,
+    width: windowWidth,
+    paddingVertical: 7,
+    paddingHorizontal: 16,
+    backgroundColor: 'white',
+  },
+  textInputWrapper: {
+    backgroundColor: 'rgba(235,235,245,0.18)',
+    borderColor: 'rgba(116,116,128,0.28)',
+    borderRadius: 37,
+    borderWidth: 1,
+    paddingEnd: 5,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  input: {
+    borderBottomWidth: 0,
+    paddingTop: 11,
+    paddingBottom: 9,
+    paddingStart: 17,
+    fontSize: 14,
+    flex: 1,
+  },
+  imageWrapper: {
+    borderRadius: 100,
+    padding: 3,
+    alignItems: 'center',
+    backgroundColor: mainColor,
+    marginStart: 5,
+  },
+  arrow: {
+    width: 22,
+    height: 22,
   },
 });

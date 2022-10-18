@@ -5,13 +5,16 @@ import CustomImage from './CustomImage';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/core';
 
-const BackButton = () => {
+const BackButton = ({ handlePress = null }) => {
   const navigation = useNavigation();
+
   const handleClick = () => {
     navigation.goBack();
   };
   return (
-    <TouchableWithoutFeedback onPress={handleClick}>
+    <TouchableWithoutFeedback
+      onPress={handlePress !== null ? handlePress : handleClick}
+    >
       <View style={styles.backButton}>
         <CustomImage source={Back} />
       </View>

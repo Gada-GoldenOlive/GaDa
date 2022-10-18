@@ -131,7 +131,7 @@ const ModifyNicknameScreen = ({
         enableOnAndroid
         enableAutomaticScroll
         keyboardShouldPersistTaps
-        extraScrollHeight={Platform.OS === 'android' ? 100 : -100}
+        extraScrollHeight={Platform.OS === 'android' ? 0 : -100}
       >
         <View style={styles.container}>
           <View style={styles.topContainer}>

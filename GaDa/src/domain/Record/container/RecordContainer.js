@@ -7,10 +7,15 @@ import { getBadgeList } from '../../../APIs/badge';
 import { getMyWalkList } from '../../../APIs/walkway';
 import { getMyReviewList } from '../../../APIs/review';
 import { setUser } from '../../../redux/modules/user';
+import { getNextData } from '../../../APIs';
+import { badgePopup } from '../../../function';
+import { setBadges } from '../../../redux/modules/status';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const RecordContainer = ({ navigation, route }) => {
   const { params = {} } = route;
   const { userId, loginId } = useSelector(state => state.user);
+  const { badges } = useSelector(state => state.status);
   const [userData, setUserData] = useState({});
   //const [userId, setUserId] = useState('');
 
@@ -23,10 +28,12 @@ const RecordContainer = ({ navigation, route }) => {
   const [page, setPage] = useState(1);
   const [isDataLoading, setIsDataLoading] = useState(false);
   const [isLast, setIsLast] = useState(false);
+  const [nextUrl, setNextUrl] = useState('');
 
   const dispatch = useDispatch();
 
   const fetchData = async () => {
+    console.log({userId})
     const res = await getUserDetail(userId);
     const { user = {} } = res;
     if (user) {
@@ -74,18 +81,20 @@ const RecordContainer = ({ navigation, route }) => {
       if (next === '') setIsLast(true);
       setMyWalks(feeds);
       setPage(2);
+      setNextUrl(next);
     }
   };
+
   const handleLoadMore = async () => {
     if (!isDataLoading) {
       if (isLast) return null;
       setIsDataLoading(true);
-
-      const res = await getMyReviewList(userId, page);
+      const res = await getNextData(nextUrl);
       if (res) {
         const { feeds, links } = res;
         const { next } = links;
         if (next === '') setIsLast(true);
+        setNextUrl(next);
         setMyWalks(cur => cur.concat(feeds));
         setPage(page + 1);
       }
@@ -123,6 +132,9 @@ const RecordContainer = ({ navigation, route }) => {
     navigation.navigate('DetailFeed', { id });
   };
 
+  const handleNavigateHome = () => {
+    navigation.navigate('BottomTabHome')
+  }
   const fetchAllData = async () => {
     setLoading(true);
     await Promise.all([getBadge(), getMyWalks(), getRecentWalks()]);
@@ -144,13 +156,13 @@ const RecordContainer = ({ navigation, route }) => {
       fetchData();
     }
   }, [params]);
-  return (
+  return loading ? <Spinner visible /> : (
     <RecordScreen
-      loading={false}
       userData={userData}
       myWalks={myWalks}
       badgeList={badgeList}
       recentWalks={recentWalks}
+      badges={badges}
       handleNavigateLikeReviews={handleNavigateLikeReviews}
       handleNavigate={handleNavigate}
       handleNaivigateGoal={handleNaivigateGoal}
@@ -160,6 +172,7 @@ const RecordContainer = ({ navigation, route }) => {
       handleNavigateMyRecord={handleNavigateMyRecord}
       handleDetailFeed={handleDetailFeed}
       handleLoadMore={handleLoadMore}
+      handleNavigateHome={handleNavigateHome}
     />
   );
 };

@@ -12,7 +12,7 @@ import CustomImage from '../../../components/CustomImage';
 import CurrentPosition from '../../../constant/images/CurrentPosition';
 import NewPinButton from '../../../components/NewPinButton';
 import PinPosSubmitButton from '../components/PinPosSubmitButton';
-import { mediumFontFamily } from '../../../constant/fonts';
+import { boldFontFamily, mediumFontFamily } from '../../../constant/fonts';
 import LinearGradient from 'react-native-linear-gradient';
 import Pin from '../../../constant/images/Pin';
 import { bottomShadowStyle } from '../../../constant/styles';
@@ -28,6 +28,10 @@ import PinListModal from '../../../components/PinListModal';
 import { getDistanceFromLatLonInKm } from '../../../function';
 import Text from '../../../components/MyText';
 import { setCurrentPosition } from '../../../redux/modules/status';
+import BadgeModal from '../../../components/BadgeModal';
+import { descriptionColor } from '../../../constant/colors';
+import CloseIcon from '../../../constant/images/Close';
+import CreateWalkwayButton from '../components/CreateWalkwayButton';
 
 const HomeScreen = ({
   geoLocation,
@@ -63,6 +67,15 @@ const HomeScreen = ({
   setSelectedItem,
   setCurrentPos,
   currentPos,
+  endShareModalVisible,
+  openEndShareModal,
+  closeEndShareModal,
+  handleNavigateCreate,
+  handleShareButton,
+  badges,
+  locationList,
+  isCurrentPosClicked,
+  setIsCurrentPosClicked,
 }) => {
   const ref = useRef();
   const dispatch = useDispatch();
@@ -82,7 +95,6 @@ const HomeScreen = ({
   const closePinModal = () => {
     setPinModalIsVisible(false);
   };
-  const [isCurrentPosClicked, setIsCurrentPosClicked] = useState(false);
 
   const INJECTED_JAVASCRIPT = `(function() {
     window.postMessage(JSON.stringify({key : "value"}));true;
@@ -93,9 +105,24 @@ const HomeScreen = ({
   //   console.log(recordPosition);
   // };
 
-  const { isRestart, restartWalkway, currentPosition } = useSelector(
+  const { isRestart, restartWalkway, currentPosition, isCreate } = useSelector(
     state => state.status,
   );
+  const { isAuthenticated } = useSelector(state => state.user);
+
+  // useEffect(() => {
+  //   if (walkEnd && isCreate) {
+  //     openEndShareModal();
+  //   }
+  // }, [walkEnd]);
+
+  useEffect(() => {
+    console.log({ locationList });
+
+    if (isCreate) {
+      handleConnection(ref, 'locationList');
+    }
+  }, [locationList]);
 
   const handleRestart = async () => {
     const res = await getWalkwayInfo({
@@ -123,6 +150,7 @@ const HomeScreen = ({
     const {
       nativeEvent: { data },
     } = event;
+    console.log(event);
 
     if (data !== 'undefined') {
       const msg = JSON.parse(data);
@@ -174,9 +202,8 @@ const HomeScreen = ({
     if (currentPos.lat !== 0 && currentPos.lng !== 0) {
       if (!isCurrentPosClicked) {
         getWalkway(currentPos);
-      } else {
-        setIsCurrentPosClicked(false);
       }
+      setIsCurrentPosClicked(false);
     }
   }, [currentPos]);
   useEffect(() => {
@@ -187,19 +214,49 @@ const HomeScreen = ({
     }
   }, [isWalking]);
 
-  const handleClickCurrentPosButton = () => {
-    setIsCurrentPosClicked(true);
-    handleConnection(ref, 'currentPos');
-  };
+  useEffect(() => {
+    ref.current.reload();
+  }, []);
+
+  // const shareModalBody = () => {
+  //   return (
+  //     <View style={styles.modalWrapper}>
+  //       <View style={styles.topContainer}>
+  //         <Text style={styles.titleText}>산책을 공유하시겠어요?</Text>
+  //         <TouchableWithoutFeedback onPress={closeModal}>
+  //           <CustomImage source={CloseIcon} style={styles.close} />
+  //         </TouchableWithoutFeedback>
+  //       </View>
+  //       <View style={styles.middleContainer}>
+  //         <Text
+  //           style={styles.content}
+  //         >{`공유한 산책로는 피드 및 지도에\n등록되며, 다른 사용자들이 이 산책로를 \n체험할 수 있습니다.`}</Text>
+  //       </View>
+  //       <TouchableWithoutFeedback>
+  //         <View style={styles.share}>
+  //           <Text style={styles.buttonText}>공유하기</Text>
+  //         </View>
+  //       </TouchableWithoutFeedback>
+  //       <TouchableWithoutFeedback onPress={closeModal}>
+  //         <View style={styles.share}>
+  //           <Text style={styles.buttonText}>아니요</Text>
+  //         </View>
+  //       </TouchableWithoutFeedback>
+  //     </View>
+  //   );
+  // };
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       <WebView
-        // source={{ uri: 'https://ga-da-goldenolive.vercel.app' }}
-        source={{ uri: 'https://4bc6-110-8-134-126.jp.ngrok.io' }}
+        source={{ uri: 'https://ga-da-goldenolive.vercel.app' }}
+        // source={{ uri: 'https://0ec9-110-8-134-126.jp.ngrok.io' }}
         injectedJavaScript={INJECTED_JAVASCRIPT}
         ref={ref}
         javaScriptEnabled
         onMessage={handleReceive}
+        onContentProcessDidTerminate={() => {
+          ref.current?.reload();
+        }}
       />
       {/* <NewPinButton handleConnection={handleConnection} ref={ref} /> */}
       {isWalking && (
@@ -234,7 +291,12 @@ const HomeScreen = ({
         </TouchableWithoutFeedback>
       )}
       {isWalking && (
-        <TouchableWithoutFeedback onPress={handleClickCurrentPosButton}>
+        <TouchableWithoutFeedback
+          onPress={() => {
+            console.log('click');
+            handleConnection(ref, 'currentPos');
+          }}
+        >
           <View style={styles.currentPosIconWrapper}>
             <CustomImage
               style={styles.currentPosIcon}
@@ -243,6 +305,7 @@ const HomeScreen = ({
           </View>
         </TouchableWithoutFeedback>
       )}
+
       <WalkwayListComponent
         list={walkwayList}
         selectedItem={selectedItem}
@@ -254,7 +317,11 @@ const HomeScreen = ({
         setNowPins={setNowPins}
         setIsWalkwayFocused={setIsWalkwayFocused}
         nowPath={nowPath}
+        openStartModal={openStartModal} // 산책로 제작을 위해
       />
+      {!isWalking && !walkEnd && isAuthenticated && (
+        <CreateWalkwayButton openStartModal={openStartModal} />
+      )}
       <WalkwayOverview
         walkWay={selectedItem}
         isVisible={isVisible}
@@ -291,18 +358,37 @@ const HomeScreen = ({
       {walkEnd && (
         <WalkEnd
           isVisible={walkEnd}
-          onPress={resetData}
+          // onPress={resetData}
+          onPress={isCreate ? handleNavigateCreate : resetData}
           walkData={walkData}
           pinNum={pinNum}
         />
       )}
+      <CenterModal
+        isVisible={endShareModalVisible}
+        closeModal={closeEndShareModal}
+        handleConfirm={handleShareButton} // 공유하기
+        secondHandleConfirm={resetData}
+        // renderMainBody={shareModalBody}
+        mainText="산책을 공유하시겠어요?"
+        content={`공유한 산책로는 피드 및 지도에\n등록되며, 다른 사용자들이 이 산책로를\n체험할 수 있습니다.`}
+        buttonText="공유하기"
+        secondButtonText="아니요"
+      />
       <PinListModal
         dataList={nowPins}
         isVisible={pinModalIsVisible}
         closeModal={closePinModal}
         selectedIndex={pinIndex}
         address={selectedItem.address}
+        handleRestart={handleRestart}
       />
+      {badges.length > 0 &&
+        badges.map(async (item, index) => {
+          const { badge } = item;
+          const { image } = badge;
+          return <BadgeModal data={item} key={image} />;
+        })}
     </View>
   );
 };
@@ -387,5 +473,51 @@ const styles = StyleSheet.create({
     fontFamily: mediumFontFamily,
     fontSize: 16,
     color: 'white',
+  },
+  modalWrapper: {
+    backgroundColor: 'white',
+    width: '100%',
+    paddingTop: 30,
+    paddingBottom: 24,
+    paddingHorizontal: 18,
+    borderRadius: 15,
+    justifyContent: 'center',
+  },
+  topContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+  },
+  titleText: {
+    fontFamily: boldFontFamily,
+    fontSize: 20,
+    color: 'black',
+    lineHeight: 31,
+  },
+  close: {
+    width: 24,
+    height: 24,
+  },
+  middleContainer: {
+    marginTop: 10,
+    marginBottom: 60,
+  },
+  content: {
+    lineHeight: 20,
+    color: descriptionColor,
+  },
+  button: {
+    position: 'relative',
+    width: '100%',
+    paddingBottom: 0,
+    paddingTop: 0,
+    paddingHorizontal: 0,
+    justifyContent: 'flex-start',
+    shadowColor: 'rgba(0,0,0,0)',
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 0,
   },
 });

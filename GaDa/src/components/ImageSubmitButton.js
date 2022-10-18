@@ -9,8 +9,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   setImageFile,
   setImageFileList,
+  setIsThumbnail,
   setPinImage,
   setProfileImage,
+  setThumbnailFile,
+  setThumbnailImage,
   setUploadImagesChanged,
   setWalkwayImages,
 } from '../redux/modules/images';
@@ -22,7 +25,10 @@ import { s3 } from '../constant/setting';
 const HeaderImageSubmitButton = props => {
   const { imageList, ver, body } = props;
   const [eachUrl, setEachUrl] = useState('');
-  const {walkwayImages, imageFileList} = useSelector(state => state.images);
+  const { walkwayImages, imageFileList, isThumbnail } = useSelector(
+    state => state.images,
+  );
+  const { isCreate } = useSelector(state => state.status);
 
   const navigation = useNavigation();
 
@@ -30,19 +36,8 @@ const HeaderImageSubmitButton = props => {
 
   const handleClick = async () => {
     if (ver === 'pin') {
-      // pin
       imageList.forEach(async item => {
-        const param = await getParam(item);
-
-        s3.upload(param, (err, data) => {
-          if (err) {
-            console.log('image upload err: ' + err);
-            return;
-          }
-          const imgTag = `${data.Location}`;
-          dispatch(setPinImage(imgTag));
-          dispatch(setUploadImagesChanged(true));
-        });
+        dispatch(setImageFile(item.imageData));
       });
       navigation.pop();
     } else if (ver === 'profile') {
@@ -56,12 +51,22 @@ const HeaderImageSubmitButton = props => {
 
       imageList.forEach(async image => {
         const uri = `data:${image.imageData.mime};base64,${image.imageData.data}`;
-        list.push({url: uri})
+        list.push({ url: uri });
         fileList.push(image.imageData);
+        if (isThumbnail) {
+          console.log(uri);
+
+          dispatch(setThumbnailImage(uri));
+          dispatch(setThumbnailFile(image.imageData));
+        }
       });
-      
-      dispatch(setWalkwayImages([...walkwayImages, ...list]));
-      dispatch(setImageFileList([...imageFileList, ...fileList]));
+      if (!isThumbnail) {
+        dispatch(setWalkwayImages([...walkwayImages, ...list]));
+        dispatch(setImageFileList([...imageFileList, ...fileList]));
+      } else {
+        dispatch(setIsThumbnail(false));
+      }
+
       navigation.pop();
     }
   };

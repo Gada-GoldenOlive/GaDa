@@ -7,6 +7,7 @@ import { useNavigation } from '@react-navigation/core';
 import BottomTab from './BottomTab';
 import CreatePinContainer from '../domain/Pin/container/CreatePinContainer';
 import BackButton from '../components/BackButton';
+import CancelButton from '../components/CancelButton';
 import DetailImage from '../domain/Image/DetailImage';
 // IMAGE EDIT
 import ImageSubmitButton from '../components/ImageSubmitButton';
@@ -141,6 +142,7 @@ const RootNavigation = () => {
         ...createPinScreen,
       }).map(([name, component]) => (
         <RootStack.Screen
+          key={name}
           name={name}
           component={component}
           options={{
@@ -168,7 +170,6 @@ const RootNavigation = () => {
                 ),
               };
             } else {
-             
               return {
                 title: '상세 이미지',
                 headerShown: true,
@@ -258,7 +259,7 @@ const RootNavigation = () => {
             return {
               headerShown: true,
               headerLeft: () => <BackButton />,
-              headerTitle: '친구 신청내역',
+              headerTitle: '받은 친구 신청내역',
 
               title: '배지',
             };
@@ -314,10 +315,13 @@ const RootNavigation = () => {
           name={name}
           component={component}
           options={({ route }) => {
+            const { params = {} } = route;
+            const { type = 'create' } = params;
             return {
               headerShown: true,
               headerLeft: () => <BackButton />,
-              headerTitle: '산책로 등록',
+              headerTitle: type === 'create' ? '산책로 등록' : '리뷰',
+              headerRight: () => <CancelButton />
             };
           }}
         />

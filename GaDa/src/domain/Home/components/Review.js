@@ -4,15 +4,33 @@ import CustomImage from '../../../components/CustomImage';
 import { Sample } from '../../../constant/images/Temp';
 import CustomRating from '../../../components/CustomRating';
 import { boldFontFamily } from '../../../constant/fonts';
-import { buttonColor, defaultColor } from '../../../constant/colors';
+import {
+  buttonColor,
+  defaultColor,
+  descriptionColorVer2,
+} from '../../../constant/colors';
 import Text from '../../../components/MyText';
+import { getDate } from '../../../function';
 
 const Review = ({ review }) => {
-  const { content, id, image, star, title, userId, userName, vehicle } = review;
+  const {
+    content,
+    createdAt,
+    id,
+    star,
+    title,
+    updatedAt,
+    userId,
+    userImage,
+    userName,
+    vehicle,
+    walkwayId,
+    walkwayTitle,
+  } = review;
   return (
     <View style={styles.container}>
       <View style={styles.userContainer}>
-        <CustomImage source={Sample} style={styles.image} />
+        <CustomImage source={{ uri: userImage }} style={styles.image} />
         <View style={styles.informationWrapper}>
           <Text style={styles.name}>{userName}</Text>
           <CustomRating
@@ -28,6 +46,7 @@ const Review = ({ review }) => {
         <Text style={styles.content} numberOfLines={3}>
           {content}
         </Text>
+        <Text style={styles.date}>{getDate(createdAt)}</Text>
       </View>
     </View>
   );
@@ -65,5 +84,13 @@ const styles = StyleSheet.create({
   content: {
     lineHeight: 22,
     letterSpacing: -0.28,
+    
+    marginBottom: 13, 
+  },
+  textWrapper: {
+  },
+  date: {
+    fontSize: 12,
+    color: descriptionColorVer2,
   },
 });

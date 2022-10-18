@@ -61,8 +61,6 @@ export default FeedItem;
 
 const styles = StyleSheet.create({
   itemContainer: {
-    backgroundColor: 'pink',
-
     height: 270,
     justifyContent: 'space-between',
   },

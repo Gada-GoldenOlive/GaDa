@@ -1,6 +1,8 @@
 import { StyleSheet, View } from 'react-native';
 import React from 'react';
 import {
+  BG1,
+  BG2,
   finishedBackground,
   unfinishedBackground,
 } from '../../../constant/images/BackgroundImage';
@@ -18,8 +20,7 @@ const RestartWalksScreen = ({ walkRate, walkInfo }) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const backgroundImage =
-    walkRate > 50 ? finishedBackground : unfinishedBackground;
+  const backgroundImage = walkRate < 33 ? BG1 : walkRate < 66 ? BG2 : BG3;
   const {
     createdAt,
     distance,

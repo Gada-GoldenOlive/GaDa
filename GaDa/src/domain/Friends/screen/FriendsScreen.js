@@ -1,5 +1,6 @@
 import {
   FlatList,
+  SafeAreaView,
   ScrollView,
   StyleSheet,
   TouchableWithoutFeedback,
@@ -26,15 +27,46 @@ import {
 import { AddComma } from '../../../function';
 import { useSelector } from 'react-redux';
 import MyTag from '../components/MyTag';
+import BadgeModal from '../../../components/BadgeModal';
+import { useNavigation } from '@react-navigation/core';
+import { useEffect } from 'react';
 
 const FriendsScreen = ({
   friendList = [],
   unreadExist,
+  badges,
   handleNavigateAddFriends,
   handleNavigateFriendsAlarm,
   handleNavigate,
 }) => {
   const { userId: id } = useSelector(state => state.user);
+  console.log(unreadExist)
+  const navigation = useNavigation();
+  useEffect(() => {
+    navigation.setOptions({
+      header: () => (
+        <SafeAreaView edges={['top']}>
+          <View style={styles.header}>
+            <Text style={styles.headerTitle}>이번주 랭킹</Text>
+            <View style={{ flexDirection: 'row' }}>
+              <View style={styles.alarmWrapper}>
+                {unreadExist && <View style={styles.dot} />}
+                <TouchableWithoutFeedback onPress={handleNavigateFriendsAlarm}>
+                  <CustomImage source={Alarm} style={styles.addFriendButton} />
+                </TouchableWithoutFeedback>
+              </View>
+              <TouchableWithoutFeedback onPress={handleNavigateAddFriends}>
+                <CustomImage
+                  source={AddFriends}
+                  style={styles.addFriendButton}
+                />
+              </TouchableWithoutFeedback>
+            </View>
+          </View>
+        </SafeAreaView>
+      ),
+    });
+  }, []);
 
   return (
     <ScrollView
@@ -43,20 +75,6 @@ const FriendsScreen = ({
       showsVerticalScrollIndicator={false}
     >
       <View style={styles.topContainer}>
-        <View style={styles.header}>
-          <Text style={styles.headerTitle}>이번주 랭킹</Text>
-          <View style={{ flexDirection: 'row' }}>
-            <View style={styles.alarmWrapper}>
-              {unreadExist && <View style={styles.dot} />}
-              <TouchableWithoutFeedback onPress={handleNavigateFriendsAlarm}>
-                <CustomImage source={Alarm} style={styles.addFriendButton} />
-              </TouchableWithoutFeedback>
-            </View>
-            <TouchableWithoutFeedback onPress={handleNavigateAddFriends}>
-              <CustomImage source={AddFriends} style={styles.addFriendButton} />
-            </TouchableWithoutFeedback>
-          </View>
-        </View>
         {friendList.length > 0 && (
           <View style={styles.top3Container}>
             {friendList.map(
@@ -158,6 +176,12 @@ const FriendsScreen = ({
           </View>
         </View>
       )}
+      {badges.length > 0 &&
+        badges.map((item, index) => {
+          const { badge } = item;
+          const { image } = badge;
+          return <BadgeModal data={item} key={image} />;
+        })}
     </ScrollView>
   );
 };
@@ -174,8 +198,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   header: {
-    marginTop: 20,
-
+    paddingTop: 20,
+    paddingBottom: 21,
+    paddingHorizontal: 16,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',

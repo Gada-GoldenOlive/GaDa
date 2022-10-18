@@ -5,7 +5,9 @@ import React, {
   BackHandler,
   useCallback,
 } from 'react';
+import Toast from 'react-native-toast-message';
 import { PermissionsAndroid, StyleSheet, useColorScheme } from 'react-native';
+import RNRestart from 'react-native-restart';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import RootNavigation from './src/navigation/RootNavigation';
@@ -16,7 +18,11 @@ import store from './src/redux/store';
 // SplashScreen 추가
 import SplashScreen from 'react-native-splash-screen';
 import { setIsAuthenticated, setUserId } from './src/redux/modules/user';
-import { setIdInLocalStorage, storeInLocalStorage } from './src/function';
+import {
+  removeInLocalStorage,
+  setIdInLocalStorage,
+  storeInLocalStorage,
+} from './src/function';
 import { refreshToken, verifyToken } from './src/APIs/JWT';
 import jwtDecode from 'jwt-decode';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -38,6 +44,7 @@ const App = () => {
   useEffect(() => {
     if (Platform.OS === 'android') {
       requestCameraPermission();
+      requestLocationAccuracy();
     }
   }, []);
   const requestCameraPermission = async () => {
@@ -46,7 +53,28 @@ const App = () => {
         PermissionsAndroid.PERMISSIONS.CAMERA,
         {
           title: '카메라 접근 권한 허용',
-          message: 'StyleRecipe가 카메라 접근 권한을 요청합니다.',
+          message: 'GaDa가 카메라 접근 권한을 요청합니다.',
+          buttonNegative: '취소',
+          buttonPositive: '확인',
+        },
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        // console.log('You can use the camera');
+      } else {
+        // console.log('Camera permission denied');
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+  const requestLocationAccuracy = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
+        {
+          title: '위치 접근 권한 허용',
+          message: 'GaDa가 위치 접근 권한을 요청합니다.',
           buttonNegative: '취소',
           buttonPositive: '확인',
         },
@@ -88,59 +116,37 @@ const App = () => {
   };
 
   const loadEssentialData = async () => {
-    const state = await getNetworkState();
-    if (state.isConnected !== true) {
-      Alert.alert('네트워크 확인', '네트워크를 연결하고 다시 시도해주세요.', [
-        {
-          text: '확인',
-          onPress: () => BackHandler.exitApp(),
-        },
-      ]);
-      return null;
-    }
-
     const { access_token = '', refresh_token = '' } = await getTokens();
-    if (access_token !== '') {
-      defaultAxios.defaults.headers.common.Authorization = `Bearer ${refresh_token}`;
-      const { new_access_token = '', new_refresh_token = '' } =
-      await refreshToken(access_token);
 
-      if (new_access_token && new_refresh_token) {
+    defaultAxios.defaults.headers.common.Authorization = `Bearer ${access_token}`;
+
+    if (access_token !== '') {
+      /*
+      defaultAxios.defaults.headers.common.Authorization = `Bearer ${access_token}`;
+      
+      const { new_access_token, new_refresh_token } = await refreshToken();
+      console.log({ new_access_token, new_refresh_token });
+      if (new_access_token !== '' && new_refresh_token != '') {
         const { sub: user_id } = jwtDecode(new_access_token);
         await setIdInLocalStorage(user_id);
         dispatch(setUserId(user_id));
-        console.log({new_access_token, user_id})
+        console.log({ new_access_token, user_id });
         dispatch(setIsAuthenticated(true));
         defaultAxios.defaults.headers.common.Authorization = `Bearer ${new_access_token}`;
         await storeInLocalStorage(new_access_token, new_refresh_token);
       } else {
-        //reloadApp();
-      }
+        delete defaultAxios.defaults.headers.common.Authorization;
+        removeInLocalStorage();
+        RNRestart.Restart();
+      }*/
+      const { sub: user_id } = jwtDecode(access_token);
+      await setIdInLocalStorage(user_id);
+      dispatch(setUserId(user_id));
+      console.log({ access_token, user_id });
+      dispatch(setIsAuthenticated(true));
     } else {
-      
       reloadApp();
     }
-    /*
-    if (access_token) {
-      defaultAxios.defaults.headers.common.Authorization = `Bearer ${access_token}`;
-      const { new_access_token = '', new_refresh_token = '' } =
-        await refreshToken(access_token);
-      if (new_access_token && new_refresh_token) {
-        const { sub: user_id } = jwtDecode(new_access_token);
-        dispatch(setUserId(user_id));
-        console.log({user_id})
-        dispatch(setIsAuthenticated(true));
-        defaultAxios.defaults.headers.common.Authorization = `Bearer ${new_access_token}`;
-        await storeInLocalStorage(new_access_token, new_refresh_token);
-      } else {
-        //reloadApp();
-      }
-    } else {
-      setLoading(false);
-      reloadApp();
-
-    }
-    */
     SplashScreen.hide();
   }; // getNetworkState
 
@@ -162,7 +168,8 @@ const App = () => {
         {/* <SafeAreaView style={{ flex: 1 }} edges={['bottom']}> */}
         <RootNavigation />
         {/* </SafeAreaView> */}
-        {/*<Toast ref={ref => Toast.setRef(ref)} /> */}
+
+        <Toast ref={ref => Toast.setRef(ref)} position='top' />
       </NavigationContainer>
       {/* <Script
         src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f0257365c07b494e7d10e2420948411b&libraries=services,clusterer&autoload=false"

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import NicknameScreen from '../screen/NicknameScreen';
 import { useDispatch, useSelector } from 'react-redux';
-import { setIsAuthenticated, setNickname } from '../../../redux/modules/user';
+import { setIsAuthenticated, setNickname, setUserId } from '../../../redux/modules/user';
 import {
   getNicknameIsNotValid,
   setIdInLocalStorage,
@@ -59,8 +59,11 @@ const NicknameContainer = ({ navigation }) => {
       const { accessToken, refreshToken } = res;
       if (loginId !== null) {
         await storeInLocalStorage(accessToken, refreshToken);
-        const { sub: user_id } = jwtDecode(accessToken);
-        await setIdInLocalStorage(user_id);
+        
+        const res = jwtDecode(accessToken);
+        const {sub: userId} = res;
+        await setIdInLocalStorage(userId);
+        dispatch(setUserId(userId));
         dispatch(setIsAuthenticated(true));
         reloadApp();
       }

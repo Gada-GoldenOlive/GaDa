@@ -5,7 +5,6 @@ import {
   View,
 } from 'react-native';
 import React from 'react';
-import WritingFrame from '../../../components/WritingFrame';
 import MyTextInput from '../../../components/MyTextInput';
 import CustomImage from '../../../components/CustomImage';
 import Writing from '../../../constant/images/Writing';
@@ -23,6 +22,9 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   setImageFileList,
+  setIsThumbnail,
+  setThumbnailFile,
+  setThumbnailImage,
   setWalkwayImages,
 } from '../../../redux/modules/images';
 import Camera from '../../../constant/images/Camera';
@@ -32,6 +34,7 @@ import { getDistance } from '../../../function';
 import { boldFontFamily, mediumFontFamily } from '../../../constant/fonts';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import ReviewImageList from '../components/ReviewImageList';
+import Upload from '../../../constant/images/Upload';
 const CreateWalkwayScreen = ({
   navigation,
   walkwayTitle = '',
@@ -45,8 +48,12 @@ const CreateWalkwayScreen = ({
   setRate,
   imageFileList,
   handlePress,
+  address = null,
+  thumbnailImage,
+  thumbnail,
 }) => {
   const { distance, image, time, title } = item;
+  const { isCreate } = useSelector(state => state.status);
 
   const dispatch = useDispatch();
 
@@ -74,6 +81,7 @@ const CreateWalkwayScreen = ({
   };
 
   const [isVisible, setIsVisible] = useState(false);
+  const [isThumbnailVisible, setIsThumbnailVisible] = useState(false);
   const [temp, setTemp] = useState([]);
   const openCamera = () => {
     ImageCropPicker.openCamera(
@@ -106,11 +114,52 @@ const CreateWalkwayScreen = ({
     });
   };
 
+  const openCameraForThumbnail = () => {
+    ImageCropPicker.openCamera(
+      Platform.OS === 'ios'
+        ? { ...baseCameraOption, ...iosOptions }
+        : baseCameraOption,
+    ).then(async image => {
+      const uri = `data:${image.mime};base64,${image.data}`;
+      setTemp(prev => [...prev, { url: uri }]);
+      dispatch(setThumbnailImage(uri));
+      dispatch(setThumbnailFile(image));
+
+      cancelThumbnailModal();
+    });
+  };
+  const openImageLibraryForThumbnail = () => {
+    ImageCropPicker.openPicker(
+      Platform.OS === 'ios'
+        ? { ...baseImageLibraryOption, ...iosOptions, multiple: false }
+        : { ...baseImageLibraryOption, multiple: false },
+    ).then(image => {
+      const uri = `data:${image.mime};base64,${image.data}`;
+      dispatch(setIsThumbnail(true));
+
+      const imageList = [];
+      imageList.push({ imageData: image, image: image.path });
+
+      navigation.navigate('DetailImage', {
+        idx: 0,
+        images: imageList,
+        ver: 'review',
+      });
+      cancelThumbnailModal();
+    });
+  };
+
   const openModal = () => {
     setIsVisible(true);
   };
   const cancelModal = () => {
     setIsVisible(false);
+  };
+  const openThumbnailModal = () => {
+    setIsThumbnailVisible(true);
+  };
+  const cancelThumbnailModal = () => {
+    setIsThumbnailVisible(false);
   };
 
   return (
@@ -121,96 +170,118 @@ const CreateWalkwayScreen = ({
         showsVerticalScrollIndicator={false}
       >
         <View>
-          <TouchableWithoutFeedback onPress={openModal}>
+          <TouchableWithoutFeedback onPress={openThumbnailModal}>
             <View style={styles.imageContainer}>
-              <CustomImage source={{ uri: image }} style={styles.image} />
               {image === '' && (
                 <CustomImage source={Upload} style={styles.upload} />
               )}
-            </View>
-          </TouchableWithoutFeedback>
-          <View style={styles.writingContainer}>
-            <View style={styles.titleWrapper}>
-              <MyTextInput
-                placeholder="제목"
-                style={styles.title}
-                onChangeText={titleTextChange}
-                value={walkwayTitle}
+              <CustomImage
+                source={isCreate ? { uri: thumbnailImage } : { uri: image }}
+                style={styles.image}
               />
             </View>
-            <CustomImage source={Writing} style={styles.writing} />
+          </TouchableWithoutFeedback>
+        </View>
+        <View style={styles.writingContainer}>
+          <View style={styles.titleWrapper}>
             <MyTextInput
-              placeholder={'본문'}
-              style={[
-                styles.multiLine,
-                { borderBottomWidth: 0, multiLine: 114 },
-              ]}
+              placeholder="제목"
+              style={styles.title}
+              onChangeText={titleTextChange}
+              value={walkwayTitle}
+            />
+          </View>
+          <CustomImage source={Writing} style={styles.writing} />
+          <View
+            style={{
+              minHeight: 200,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'flex-start',
+            }}
+          >
+            <MyTextInput
+              placeholder={'산책로에 대해 설명해주세요'}
+              style={[styles.multiLine, { borderBottomWidth: 0 }]}
+              multiline
               onChangeText={contentTextChange}
               value={content}
             />
-            <View style={styles.cameraContainer}>
-              <TouchableWithoutFeedback onPress={openModal}>
-                <View style={styles.cameraWrapper}>
-                  <CustomImage style={styles.camera} source={Camera} />
+          </View>
+          <View style={styles.cameraContainer}>
+            <TouchableWithoutFeedback onPress={openModal}>
+              <View style={styles.cameraWrapper}>
+                <CustomImage style={styles.camera} source={Camera} />
+              </View>
+            </TouchableWithoutFeedback>
+            <ReviewImageList images={walkwayImages} handleNavigate={null} />
+          </View>
+          <View style={styles.bottomContainer}>
+            <View style={styles.informationContainer}>
+              <CustomRating
+                style={styles.rating}
+                size={40}
+                score={rate}
+                onPress={setRate}
+                starMargin={(windowWidth - 34 - 34 - 200) / 5}
+                tintColor={buttonColor}
+              />
+              <View style={styles.informationWrapper}>
+                <View
+                  style={[
+                    styles.information,
+                    {
+                      borderEndColor: descriptionColorVer2,
+                      borderEndWidth: 0.4,
+                    },
+                  ]}
+                >
+                  <Text style={styles.informationTitle}>거리</Text>
+                  <Text style={styles.num}>
+                    {getDistance({ distance: distance, unit: 'm' })}
+                  </Text>
+                  <Text style={styles.informationDescription}>(m)</Text>
                 </View>
-              </TouchableWithoutFeedback>
-              <ReviewImageList images={walkwayImages} handleNavigate={null} />
+                <View
+                  style={[
+                    styles.information,
+                    {
+                      borderStartColor: descriptionColorVer2,
+                      borderStartWidth: 0.6,
+                    },
+                  ]}
+                >
+                  <Text style={styles.informationTitle}>시간</Text>
+                  <Text style={styles.num}>{time}</Text>
+                </View>
+              </View>
             </View>
-            <View style={styles.bottomContainer}>
-              <View style={styles.informationContainer}>
-                <CustomRating
-                  style={styles.rating}
-                  size={40}
-                  score={rate}
-                  onPress={setRate}
-                  starMargin={(windowWidth - 34 - 34 - 200) / 5}
-                  tintColor={buttonColor}
-                />
-                <View style={styles.informationWrapper}>
-                  <View
-                    style={[
-                      styles.information,
-                      {
-                        borderEndColor: descriptionColorVer2,
-                        borderEndWidth: 0.4,
-                      },
-                    ]}
-                  >
-                    <Text style={styles.informationTitle}>거리</Text>
-                    <Text style={styles.num}>
-                      {getDistance({ distance: distance, unit: 'm' })}
-                    </Text>
-                    <Text style={styles.informationDescription}>(m)</Text>
-                  </View>
-                  <View
-                    style={[
-                      styles.information,
-                      {
-                        borderStartColor: descriptionColorVer2,
-                        borderStartWidth: 0.6,
-                      },
-                    ]}
-                  >
-                    <Text style={styles.informationTitle}>시간</Text>
-                    <Text style={styles.num}>{time}</Text>
-                    <Text style={styles.informationDescription}>(분)</Text>
-                  </View>
-                </View>
-              </View>
-              <View style={styles.locateWrapper}>
-                <CustomImage source={Locate} style={styles.locate} />
-                <Text style={styles.location}>{title}</Text>
-              </View>
+            <View style={styles.locateWrapper}>
+              <CustomImage source={Locate} style={styles.locate} />
+              <Text style={styles.location}>
+                {address === null ? title : address}
+              </Text>
             </View>
           </View>
         </View>
+        {/* </View> */}
       </ScrollView>
-      <CustomButton title="등록하기" clickable={clickable} handlePress={handlePress}/>
+      <CustomButton
+        title="작성완료"
+        clickable={clickable}
+        handlePress={handlePress}
+      />
       <CameraSelectModal
         isVisible={isVisible}
         openCamera={openCamera}
         openImageLibrary={openImageLibrary}
         cancelModal={cancelModal}
+      />
+      <CameraSelectModal
+        isVisible={isThumbnailVisible}
+        openCamera={openCameraForThumbnail}
+        openImageLibrary={openImageLibraryForThumbnail}
+        cancelModal={cancelThumbnailModal}
       />
     </View>
   );

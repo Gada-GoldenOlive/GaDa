@@ -1,4 +1,4 @@
-import { StyleSheet, View, ScrollView } from 'react-native';
+import { StyleSheet, View, ScrollView, SafeAreaView } from 'react-native';
 import React from 'react';
 import PinInformation from '../../Home/components/PinInformation';
 import WalkwayOverview from '../../Home/components/WalkwayOverview';
@@ -13,6 +13,8 @@ import { boldFontFamily, montBoldFontFamily } from '../../../constant/fonts';
 import { blackColor } from '../../../constant/colors';
 import FilteringButton from '../../../components/FilteringButton';
 import FeedItemList from '../components/FeedItemList';
+import { useNavigation } from '@react-navigation/core';
+import { useEffect } from 'react';
 
 const FeedScreen = ({
   feedList,
@@ -21,28 +23,38 @@ const FeedScreen = ({
   handleGettingWalkway,
   handleDetailFeed,
   handleLoadMore,
+  setOrder,
 }) => {
+  const navigaiton = useNavigation();
+  useEffect(() => {
+    navigaiton.setOptions({
+      header: () => headerComponent(),
+    });
+  }, []);
+
   const headerComponent = () => {
     return (
-      <View style={styles.topContainer}>
-        <Text style={styles.title}>피드</Text>
-        {/* <FilteringButton />*/}
-        <TouchableWithoutFeedback onPress={handleGettingWalkway}>
-          <View style={styles.writeWrapper}>
-            <CustomImage
-              style={styles.writing}
-              source={Writing}
-              tintColor="white"
-            />
-          </View>
-        </TouchableWithoutFeedback>
-      </View>
+      <SafeAreaView edges={['top']}>
+        <View style={styles.topContainer}>
+          <Text style={styles.title}>피드</Text>
+          {feedList.length > 0 && <FilteringButton setOrder={setOrder} />}
+          <TouchableWithoutFeedback onPress={handleGettingWalkway}>
+            <View style={styles.writeWrapper}>
+              <CustomImage
+                style={styles.writing}
+                source={Writing}
+                tintColor="white"
+              />
+            </View>
+          </TouchableWithoutFeedback>
+        </View>
+      </SafeAreaView>
     );
   };
   return (
     <View style={styles.container}>
       <FeedItemList
-        headerComponent={headerComponent}
+        // headerComponent={headerComponent}
         handleDetailFeed={handleDetailFeed}
         feedList={feedList}
         refreshing={refreshing}
@@ -66,7 +78,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingBottom: 21,
-    paddingTop: 3,
+    paddingTop: 20,
   },
   title: {
     fontFamily: boldFontFamily,

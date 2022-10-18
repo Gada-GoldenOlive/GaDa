@@ -3,9 +3,7 @@ import axios, { handleNetworkError } from '../index';
 export const createWalk = async walkData => {
   const res = await axios
     .post(`/walkways/walks`, { ...walkData })
-    .then(({ data }) => {
-      data;
-    })
+    .then(({ data }) => data)
     .catch(e => console.log(e.response.data));
   return res;
 };

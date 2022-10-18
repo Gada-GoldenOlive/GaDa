@@ -13,7 +13,11 @@ import { boldFontFamily, boldFontSize } from '../../../constant/fonts';
 import { getDate, getDistance } from '../../../function';
 import Text from '../../../components/MyText';
 
-const RecentScreen = ({ handleNavigateRestart, recentWalks, handleLoadMore }) => {
+const RecentScreen = ({
+  handleNavigateRestart,
+  recentWalks,
+  handleLoadMore,
+}) => {
   const renderItem = ({ item, index }) => {
     const {
       distance,
@@ -39,7 +43,7 @@ const RecentScreen = ({ handleNavigateRestart, recentWalks, handleLoadMore }) =>
             <View style={styles.gradient} />
             <View style={styles.bottomWrapper}>
               <View style={styles.percentWrapper}>
-                <Text style={styles.percent}>{rate}%</Text>
+                <Text style={styles.percent}>{rate !== null ? rate : 0}%</Text>
               </View>
               <Text style={styles.distance}>
                 {getDistance({ distance, unit: 'm' })}m
@@ -51,48 +55,6 @@ const RecentScreen = ({ handleNavigateRestart, recentWalks, handleLoadMore }) =>
       </TouchableWithoutFeedback>
     );
   };
-  const dataList = [
-    {
-      user: { image: null, name: '부산 갈매기' },
-      score: 5,
-      liked: false,
-      image: null,
-      name: '수영구 광안해변로 산책길',
-      time: 60,
-      distance: 125,
-      date: '2022.04.23',
-    },
-    {
-      user: { image: null, name: '부산 갈매기' },
-      score: 5,
-      liked: false,
-      image: null,
-      name: '수영구 광안해변로 산책길',
-      time: 60,
-      distance: 125,
-      date: '2022.04.23',
-    },
-    {
-      user: { image: null, name: '부산 갈매기' },
-      score: 5,
-      liked: false,
-      image: null,
-      name: '수영구 광안해변로 산책길',
-      time: 60,
-      distance: 125,
-      date: '2022.04.23',
-    },
-    {
-      user: { image: null, name: '부산 갈매기' },
-      score: 5,
-      liked: false,
-      image: null,
-      name: '수영구 광안해변로 산책길',
-      time: 60,
-      distance: 125,
-      date: '2022.04.23',
-    },
-  ];
   return (
     <View style={styles.container}>
       <FlatList
@@ -106,6 +68,7 @@ const RecentScreen = ({ handleNavigateRestart, recentWalks, handleLoadMore }) =>
         renderItem={({ item, index }) => renderItem({ item, index })}
         onEndReachedThreshold={0.7}
         keyExtractor={(item, index) => `${item}-${index}`}
+        contentContainerStyle={{ paddingBottom: 40 }}
       />
     </View>
   );
@@ -165,6 +128,7 @@ const styles = StyleSheet.create({
     fontFamily: boldFontFamily,
   },
   name: {
+    marginTop: 9,
     color: blackColor,
     fontSize: boldFontSize,
     fontFamily: boldFontFamily,

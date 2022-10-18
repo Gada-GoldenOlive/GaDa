@@ -21,8 +21,8 @@ const BottomUpmodal = ({
         }}
         key={item.title}
       >
-        <View>           
-          {index !== 0 &&<View style={styles.view} />}
+        <View>
+          {index !== 0 && <View style={styles.view} />}
           <View style={styles.itemContainer}>
             <Text
               style={[
@@ -33,7 +33,7 @@ const BottomUpmodal = ({
                 },
               ]}
             >
-              {item}
+              {item.title}
             </Text>
           </View>
         </View>
@@ -83,7 +83,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     borderTopEndRadius: 10,
     borderTopStartRadius: 10,
-    
   },
   view: {
     width: '100%',
