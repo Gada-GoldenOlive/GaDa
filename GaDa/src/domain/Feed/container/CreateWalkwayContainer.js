@@ -1,6 +1,7 @@
 import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import Spinner from 'react-native-loading-spinner-overlay/lib';
 import { useDispatch, useSelector } from 'react-redux';
 import { createReview } from '../../../APIs/review';
 import { createWalk } from '../../../APIs/walk';
@@ -27,6 +28,7 @@ const CreateWalkwayContainer = ({ navigation, route }) => {
   const [content, setContent] = useState('');
   const [rate, setRate] = useState(0);
   const [clickable, setClickable] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
   const [imageList, setImageList] = useState([]);
@@ -159,14 +161,14 @@ const CreateWalkwayContainer = ({ navigation, route }) => {
         finishStatus: 'UNFINISHED',
         walkwayId: res.id,
       });
-  
+
       if (resWalk) {
         const { achieves = [] } = resWalk;
         if (achieves.length > 0) {
           dispatch(setBadges(achieves));
         }
       }
-  
+
       const walkwayforUpdate = {
         ...walkData,
         id: res.id,
@@ -185,6 +187,7 @@ const CreateWalkwayContainer = ({ navigation, route }) => {
     navigation.navigate('Home', { refresh: {}, endShareModal: true });
   };
   const handlePress = () => {
+    setLoading(true);
     if (thumbnailFile !== '') {
       createThumbnailImages();
     }
@@ -197,6 +200,7 @@ const CreateWalkwayContainer = ({ navigation, route }) => {
         handleCreateReview();
       }
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -254,7 +258,7 @@ const CreateWalkwayContainer = ({ navigation, route }) => {
     fetchAddress();
   }, []);
 
-  return (
+  return loading ? <Spinner visible /> : (
     <CreateWalkwayScreen
       navigation={navigation}
       item={item}

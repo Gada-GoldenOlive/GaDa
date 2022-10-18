@@ -61,7 +61,6 @@ const FriendRecordScreen = ({
   } = userData;
   const goal = { loginId, goalDistance, goalTime, totalDistance, totalTime };
   const { userId: myId } = useSelector(state => state.user);
-
   const RenderUserInfo = () => {
     return (
       <>
@@ -162,7 +161,7 @@ const FriendRecordScreen = ({
     return (
       <View style={styles.walkwaysContainer}>
         <View style={styles.recentTitleContainer}>
-          <Text style={styles.recentTitle}>작성한 산책로</Text>
+          <Text style={styles.recentTitle}>작성한 피드</Text>
         </View>
       </View>
     );
@@ -179,12 +178,20 @@ const FriendRecordScreen = ({
     );
   };
 
-  return (
+  return myWalks.length > 0 ? (
     <MyWalkwayList
       ListHeaderComponent={ListHeaderComponent}
       myWalks={myWalks}
       handleLoadMore={handleLoadMore}
     />
+  ) : (
+    <View style={{flex: 1}}>
+      {ListHeaderComponent()}
+      <View style={styles.nullContainer}>
+      <Text style={styles.nullText}>작성한 피드가 없습니다</Text>
+
+      </View>
+    </View>
   );
 };
 
@@ -305,4 +312,9 @@ const styles = StyleSheet.create({
     fontSize: boldFontSize,
     fontFamily: boldFontFamily,
   },
+  nullContainer:{
+   paddingHorizontal: 16,
+   alignItems: 'center',
+   justifyContent: 'center'
+  }
 });

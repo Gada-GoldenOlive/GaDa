@@ -40,7 +40,7 @@ const FriendsScreen = ({
   handleNavigate,
 }) => {
   const { userId: id } = useSelector(state => state.user);
-
+  console.log(unreadExist)
   const navigation = useNavigation();
   useEffect(() => {
     navigation.setOptions({
