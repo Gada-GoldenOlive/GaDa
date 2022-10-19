@@ -206,14 +206,12 @@ const HomeScreen = ({
     ref.current.reload();
   }, []);
 
-  const test = () => {
-
-  }
+  const url = 'https://ga-da-goldenolive.vercel.app'
 
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       <WebView
-        source={{ uri: 'https://ga-da-goldenolive.vercel.app' }}
+        source={{ uri: url }}
         // source={{ uri: 'https://0ec9-110-8-134-126.jp.ngrok.io' }}
         injectedJavaScript={INJECTED_JAVASCRIPT}
         ref={ref}
@@ -222,8 +220,6 @@ const HomeScreen = ({
         onContentProcessDidTerminate={() => {
           ref.current?.reload();
         }}     
-        onShouldStartLoadWithRequest={this.onShouldStartLoadWithRequest} 
-        onNavigationStateChange={this.onShouldStartLoadWithRequest}
       />
       
       {/* <NewPinButton handleConnection={handleConnection} ref={ref} /> */}
