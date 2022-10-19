@@ -18,8 +18,8 @@ import { setBadges, setTempWalkwayData } from '../../../redux/modules/status';
 import CreateWalkwayScreen from '../screen/CreateWalkwayScreen';
 
 const CreateWalkwayContainer = ({ navigation, route }) => {
-  const { params = {}, type = 'create' } = route;
-  const { item = {} } = params;
+  const { params = {}, } = route;
+  const { item = {},  type = 'create' } = params;
   const { walkwayImages, imageFileList, thumbnailImage, thumbnailFile } =
     useSelector(state => state.images);
   const { isCreate } = useSelector(state => state.status);
