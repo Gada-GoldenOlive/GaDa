@@ -148,7 +148,7 @@ const HomeScreen = ({
     const {
       nativeEvent: { data },
     } = event;
-    
+
     if (data !== 'undefined') {
       const msg = JSON.parse(data);
       if (msg.type === 'currentPos') {
