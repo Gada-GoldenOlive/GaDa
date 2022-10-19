@@ -7,12 +7,14 @@ import { getUserFriends } from '../../../APIs/user';
 import { useDispatch, useSelector } from 'react-redux';
 import { setBadges } from '../../../redux/modules/status';
 import Spinner from 'react-native-loading-spinner-overlay';
+import { useCallback } from 'react';
 
 const FriendsContainer = ({ navigation, route }) => {
   const [friendList, setFriendList] = useState([]);
   const [unreadExist, setUnreadExist] = useState(false);
   const { badges } = useSelector(state => state.status);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -41,6 +43,12 @@ const FriendsContainer = ({ navigation, route }) => {
     navigation.navigate('FriendRecord', { id, rank: idx + 1, friendId });
   };
 
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    fetchData();
+    setRefreshing(false);
+  });
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -49,7 +57,9 @@ const FriendsContainer = ({ navigation, route }) => {
     fetchData();
   }, [route.params?.refresh]);
 
-  return loading ? <Spinner visible /> : (
+  return loading ? (
+    <Spinner visible />
+  ) : (
     <FriendsScreen
       badges={badges}
       friendList={friendList}
@@ -57,6 +67,8 @@ const FriendsContainer = ({ navigation, route }) => {
       handleNavigateAddFriends={handleNavigateAddFriends}
       handleNavigateFriendsAlarm={handleNavigateFriendsAlarm}
       handleNavigate={handleNavigate}
+      onRefresh={onRefresh}
+      refreshing={refreshing}
     />
   );
 };

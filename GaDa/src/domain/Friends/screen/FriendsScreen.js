@@ -1,5 +1,6 @@
 import {
   FlatList,
+  RefreshControl,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -39,9 +40,11 @@ const FriendsScreen = ({
   handleNavigateFriendsAlarm,
   handleNavigate,
   handleDetailFeed,
+  onRefresh,
+  refreshing,
 }) => {
   const { userId: id } = useSelector(state => state.user);
-  console.log({unreadExist})
+  console.log({ unreadExist });
   const navigation = useNavigation();
   useEffect(() => {
     navigation.setOptions({
@@ -72,8 +75,11 @@ const FriendsScreen = ({
   return (
     <ScrollView
       style={styles.container}
-      bounces={false}
+      // bounces={false}
       showsVerticalScrollIndicator={false}
+      refreshControl={
+        <RefreshControl onRefresh={onRefresh} refreshing={refreshing} />
+      }
     >
       <View style={styles.topContainer}>
         {friendList.length > 0 && (
