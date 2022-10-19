@@ -148,7 +148,7 @@ const HomeScreen = ({
     const {
       nativeEvent: { data },
     } = event;
-
+    
     if (data !== 'undefined') {
       const msg = JSON.parse(data);
       if (msg.type === 'currentPos') {
@@ -375,7 +375,7 @@ const HomeScreen = ({
         handleRestart={handleRestart}
       />
       {badges.length > 0 &&
-        badges.map(async (item, index) => {
+        badges.map((item, index) => {
           const { badge } = item;
           const { image } = badge;
           return <BadgeModal data={item} key={image} />;

@@ -20,7 +20,7 @@ const CameraSelectModal = props => {
       backdropColor="gray"
       backdropOpacity={0.6}
       isVisible={isVisible}
-      onBackButtonPress={() => closeModal()}
+      onBackButtonPress={() => cancelModal()}
     >
       <View style={styles.modalButtonContainer}>
         <Pressable
