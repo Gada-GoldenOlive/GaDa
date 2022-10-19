@@ -46,8 +46,8 @@ const App = () => {
   // permission 관리
   useEffect(() => {
     if (Platform.OS === 'android') {
-      requestCameraPermission();
       requestLocationAccuracy();
+      requestCameraPermission();
     }
   }, []);
   const requestCameraPermission = async () => {
