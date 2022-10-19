@@ -144,7 +144,7 @@ const WritingFrame = ({
               onChangeText={contentTextChange}
               value={content}
             />
-            {type === 'create' && (
+            {type === 'modify' && (
               <View style={styles.bottomContainer}>
                 <View style={styles.locateWrapper}>
                   <CustomImage source={Locate} style={styles.locate} />
