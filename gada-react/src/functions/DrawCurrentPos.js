@@ -16,8 +16,8 @@ export default function DrawCurrentPos({ state }) {
             }, // 마커이미지의 크기입니다
             options: {
               offset: {
-                x: 27,
-                y: 69,
+                x: 25,
+                y: 30,
               }, // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
             },
           }}

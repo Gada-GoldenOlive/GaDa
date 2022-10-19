@@ -429,7 +429,7 @@ const HomeContainer = ({ navigation, route }) => {
       if (recording && !loading) {
         recordPosition();
       }
-    }, 5000);
+    }, 2000);
     // if (!recording) clearInterval(interval);
   }, [recording]);
 

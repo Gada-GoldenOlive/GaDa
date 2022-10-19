@@ -176,7 +176,7 @@ const MapScreen = ({
   useEffect(() => {
     setInterval(() => {
       geoLocation("watch");
-    }, 5000);
+    }, 2000);
   });
 
   const handleReceiveMessage = async () => {
