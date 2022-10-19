@@ -107,10 +107,14 @@ const MapScreen = ({
               isLoading: false,
             }));
             setIsGeolocation(true);
-            handleSubmit("currentPos", {
-              lat: position.coords.latitude, // 위도
-              lng: position.coords.longitude, // 경도
-            });
+            if (!isCurrentPosClicked) {
+              handleSubmit("currentPos", {
+                lat: position.coords.latitude, // 위도
+                lng: position.coords.longitude, // 경도
+              });
+            } else {
+              setIsCurrentPosClicked(false);
+            }
           }
         },
         (err) => {
@@ -237,7 +241,9 @@ const MapScreen = ({
     ) {
       setState((prev) => ({ ...prev, center: pathStartPoint }));
     }
-    setIsCurrentPosClicked(false);
+    if (isCurrentPosClicked) {
+      setIsCurrentPosClicked(false);
+    }
   }, [walkwayPath, pathStartPoint]);
   useEffect(() => {
     if (isStartWalkClicked === true) {
