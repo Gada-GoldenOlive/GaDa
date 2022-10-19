@@ -43,7 +43,7 @@ const FeedContainer = ({ navigation, route }) => {
   const fetchDistanceData = async () => {
     
     setLoading(true);
-    const res = await getFeedsOrderDistance(latitude, longitude);
+    const res = await getFeedsOrderDistance(latitude, longitude, 1);
     if (res) {
       const { feeds, links } = res;
       const { next } = links;
@@ -75,15 +75,30 @@ const FeedContainer = ({ navigation, route }) => {
     if (!isDataLoading) {
       if (isLast) return null;
       setIsDataLoading(true);
-      const res = await getNextData(nextUrl);
-      if (res) {
-        const { feeds, links } = res;
-        const { next } = links;
-        if (next === '') setIsLast(true);
-        setNextUrl(next);
-        setFeedList(cur => cur.concat(feeds));
-        setPage(page + 1);
+      if(order !== 'DISTANCE'){
+        const res = await getFeeds(order, page);
+        if (res) {
+          const { feeds, links } = res;
+          const { next } = links;
+          if (next === '') setIsLast(true);
+          setNextUrl(next);
+          setFeedList(cur => cur.concat(feeds));
+          setPage(page + 1);
+        }
+ 
+      } else {
+        const res = await getFeedsOrderDistance(latitude, longitude,page);
+
+        if (res) {
+          const { feeds, links } = res;
+          const { next } = links;
+          if (next === '') setIsLast(true);
+          setNextUrl(next);
+          setFeedList(cur => cur.concat(feeds));
+          setPage(page + 1);
+        }
       }
+
       setIsDataLoading(false);
       return null;
     }

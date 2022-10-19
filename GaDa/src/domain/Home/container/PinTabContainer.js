@@ -38,13 +38,13 @@ const PinTabContainer = ({ walkWay, avg }) => {
     if (!isDataLoading) {
       if (isLast) return null;
       setIsDataLoading(true);
-      const res = await getNextData(nextUrl);
+      const res = await getWalkwayReviewList(id, page);
       if (res) {
         const { reviews, links } = res;
         const { next } = links;
         if (next === '') setIsLast(true);
         setNextUrl(next);
-        setReviewList(cur => cur.concat(feeds));
+        setReviewList(cur => cur.concat(reviews));
         setPage(page + 1);
       }
       setIsDataLoading(false);

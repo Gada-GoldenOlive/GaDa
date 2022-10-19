@@ -57,7 +57,7 @@ const DetailPinContainer = ({ navigation, route }) => {
     if (!isDataLoading) {
       if (isLast) return null;
       setIsDataLoading(true);
-      const res = await getNextData(nextUrl);
+      const res = await getPinComments(pinId, page);
       if (res) {
         const { comments, links } = res;
         const { next } = links;

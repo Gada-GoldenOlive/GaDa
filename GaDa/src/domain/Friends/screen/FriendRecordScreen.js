@@ -45,7 +45,8 @@ const FriendRecordScreen = ({
   userId,
   myWalks,
   goalInfo,
-  handleLoadMore
+  handleLoadMore,
+  handleDetailFeed
 }) => {
   // const { id, name, image, totalTime, totalDistance } = dataList;
   const {
@@ -183,6 +184,7 @@ const FriendRecordScreen = ({
       ListHeaderComponent={ListHeaderComponent}
       myWalks={myWalks}
       handleLoadMore={handleLoadMore}
+      handleDetailFeed={handleDetailFeed}
     />
   ) : (
     <View style={{flex: 1}}>

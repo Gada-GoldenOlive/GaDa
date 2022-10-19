@@ -48,6 +48,7 @@ export const deleteReview = async id => {
 };
 
 export const getMyReviewList = async (userId, page = 1) => {
+  console.log(userId)
   const res = await axios
     .get(`/reviews/feeds/${userId}?page=${page}&limit=10`)
     .then(({ data }) => data)
@@ -55,21 +56,21 @@ export const getMyReviewList = async (userId, page = 1) => {
   return res;
 };
 
-export const getFeeds = async (order) => {
+export const getFeeds = async (order, page = 1) => {
   console.log(order);
   const res = await axios
     .get(
-      `/reviews/feeds?order=${order}&page=1&limit=10`,
+      `/reviews/feeds?order=${order}&page=${page}&limit=10`,
     )
     .then(({ data }) => data)
     .catch(handleNetworkError);
   return res;
 };
 
-export const getFeedsOrderDistance = async (lat, lng) => {
+export const getFeedsOrderDistance = async (lat, lng, page) => {
   console.log(lat, lng);
   const res = await axios
-  .get(`/reviews/feeds?order=DISTANCE&lat=${lat}&lng=${lng}&page=1&limit=10`)
+  .get(`/reviews/feeds?order=DISTANCE&lat=${lat}&lng=${lng}&page=${page}&limit=10`)
   .then(({data}) => data)
   .catch(handleNetworkError)
   return res;

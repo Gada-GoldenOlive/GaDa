@@ -94,11 +94,12 @@ export const getPWIsNotValid = pw => {
 };
 
 export const getDistance = ({ distance = 0, unit = 'm' }) => {
+  const fixed = distance > 0 ? distance.toFixed(1) : distance
   if (unit === 'm') {
     const regexp = /\B(?=(\d{3})+(?!\d))/g;
-    return distance.toString().replace(regexp, ',');
+    return fixed.toString().replace(regexp, ',');
   } else {
-    const str = String(distance / 1000);
+    const str = String(distance > 0 ? (distance / 1000).toFixed(3) : 0);
     return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
   }
 };

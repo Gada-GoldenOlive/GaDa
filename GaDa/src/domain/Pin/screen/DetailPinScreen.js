@@ -96,10 +96,6 @@ const DetailPinScreen = ({
               </TouchableWithoutFeedback>
             </View>
           </View>
-          {badges.length > 0 &&
-            badges.map(item => {
-              return <BadgeModal data={item} key={item} />;
-            })}
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
