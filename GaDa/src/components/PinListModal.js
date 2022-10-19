@@ -48,9 +48,14 @@ const PinListModal = ({
   const { userId: myId } = useSelector(state => state.user);
 
   const handlePress = (id, index) => {
-    setSelectIndex(index);
-    closeModal();
-    navigation.navigate('DetailPin', { id: id, index: index });
+    console.log(index, selectedIndex);
+    if (selectIndex === index) {
+      navigation.navigate('DetailPin', { id: id, index: index });
+      closeModal();
+    } else {
+      setSelectIndex(index);
+      console.log(index);
+    }
   };
 
   const modifyPin = async (item, index) => {
