@@ -425,11 +425,12 @@ const HomeContainer = ({ navigation, route }) => {
   }, [walkEnd, isInformationVisible]);
 
   useEffect(() => {
+    // recordPosition();
     setInterval(() => {
       if (recording && !loading) {
         recordPosition();
       }
-    }, 2000);
+    }, 3000);
     // if (!recording) clearInterval(interval);
   }, [recording]);
 

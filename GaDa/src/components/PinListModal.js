@@ -165,6 +165,12 @@ const PinListModal = ({
       </TouchableWithoutFeedback>
     );
   };
+  const PINHEIGHT = 286;
+  const getItemLayout = (data, index) => ({
+    length: PINHEIGHT + 8,
+    offset: (PINHEIGHT + 8) * index,
+    index,
+  });
   return (
     <Modal
       style={styles.modalContainer}
@@ -194,6 +200,7 @@ const PinListModal = ({
               onEndReachedThreshold={0.7}
               contentContainerStyle={styles.pinListContainer}
               keyExtractor={(item, index) => `${item.id}-${index}`}
+              getItemLayout={getItemLayout}
             />
           ) : (
             <View style={styles.nullContainer}>
