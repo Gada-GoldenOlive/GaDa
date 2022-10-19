@@ -48,7 +48,6 @@ export const deleteReview = async id => {
 };
 
 export const getMyReviewList = async (userId, page = 1) => {
-  console.log(userId)
   const res = await axios
     .get(`/reviews/feeds/${userId}?page=${page}&limit=10`)
     .then(({ data }) => data)

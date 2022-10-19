@@ -25,13 +25,12 @@ import CustomButton from '../../../components/CustomButton';
 import { getDistance, getHour } from '../../../function';
 import Text from '../../../components/MyText';
 
-const DetailFeedScreen = ({ feedInfo, feedLike, feedId, handleNavigate, onPress }) => {
+const DetailFeedScreen = ({ feedInfo, feedLike, feedId, feedImages, handleNavigate, onPress }) => {
   const {
     address,
     content,
     distance,
     id,
-    images = [],
     like,
     star,
     time,
@@ -93,7 +92,7 @@ const DetailFeedScreen = ({ feedInfo, feedLike, feedId, handleNavigate, onPress 
           </View>
         </View>
         <View style={styles.bottomContainer}>
-          <ReviewImageList images={images} handleNavigate={handleNavigate}/>
+          <ReviewImageList images={feedImages} handleNavigate={handleNavigate}/>
           <View style={styles.contentContainer}>
             <Text style={styles.content}>{content}</Text>
             <View style={styles.locationWrapper}>
