@@ -49,7 +49,7 @@ const PinInformation = ({
 
   const copyToClipboard = () => {
     Clipboard.setString(address);
-    console.log(address)
+    console.log(address);
     showToast();
   };
   return (
@@ -95,12 +95,12 @@ const PinInformation = ({
               )}
               <Text style={styles.title}>{title}</Text>
               <Text>
-                {time !== 0 && (
-                  <Text style={styles.description}>약 {min}분/</Text>
-                )}
-                {distance !== 0 && (
-                  <Text style={styles.description}>{distance.toFixed(1)}/</Text>
-                )}
+                <Text style={styles.description}>
+                  약 {time > 0 ? min : 0}분/
+                </Text>
+                <Text style={styles.description}>
+                  {distance > 0 ? distance.toFixed(1) : 0.0}/
+                </Text>
                 <Text style={styles.description}>핀 {pinCount}개 </Text>
               </Text>
             </View>

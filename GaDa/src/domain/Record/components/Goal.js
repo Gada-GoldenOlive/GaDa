@@ -1,42 +1,61 @@
 import { StyleSheet, View } from 'react-native';
 import React from 'react';
 import { windowWidth } from '../../../constant/styles';
-import { boldFontFamily, defaultFontFamily, mediumFontFamily } from '../../../constant/fonts';
+import {
+  boldFontFamily,
+  defaultFontFamily,
+  mediumFontFamily,
+} from '../../../constant/fonts';
 import {
   buttonColor,
   descriptionColorVer2,
   mainColor,
 } from '../../../constant/colors';
-import { getDistance, getGoalHour, getHour } from '../../../function';
+import { getDistance, getGoalHour, getHour, getHourWithMin } from '../../../function';
 import Text from '../../../components/MyText';
+import { useState } from 'react';
 
 const Goal = ({ goal }) => {
   const { loginId, goalDistance, goalTime, totalDistance, totalTime } = goal;
+  console.log(totalTime);
   const hour = getGoalHour(totalTime)[0];
   const min = getGoalHour(totalTime)[1];
+  const sec = hour === '' || min === '' ? getGoalHour(totalTime)[2] : ''
+  const res = hour.toString() + min.toString() + sec.toString();
 
   return (
     <View style={styles.container}>
       <View style={styles.wrapper}>
         <Text style={styles.title}>시간</Text>
-        <View style={[styles.valueWrapper, hour > 99 && {flexDirection: 'column'}]}>
+        <View
+          style={[
+            styles.valueWrapper,
+            res.length > 4 && { flexDirection: 'column' },
+          ]}
+        >
           {hour !== '' && (
-            <Text >
-              <Text style={styles.num}>{getGoalHour(totalTime)[0]}</Text>
+            <Text>
+              <Text style={styles.num}>{hour}</Text>
               <Text style={styles.value}>시간 </Text>
             </Text>
           )}
           {min !== '' && (
-            <Text style={{fontFamily: defaultFontFamily}}>
+            <Text style={{ fontFamily: defaultFontFamily }}>
               <Text style={styles.num}>{min}</Text>
               <Text style={styles.value}>분</Text>
+            </Text>
+          )}
+          {sec !== '' && (
+            <Text style={{ fontFamily: defaultFontFamily }}>
+              <Text style={styles.num}>{sec}</Text>
+              <Text style={styles.value}>초</Text>
             </Text>
           )}
         </View>
         {goalTime === null ? (
           <Text style={styles.goal}>목표 미설정</Text>
         ) : (
-          <Text style={styles.goal}>목표 : {getHour(goalTime)}</Text>
+          <Text style={styles.goal}>목표 : {getHourWithMin(goalTime)}</Text>
         )}
       </View>
       <View style={styles.wrapper}>
@@ -99,10 +118,10 @@ const styles = StyleSheet.create({
     color: descriptionColorVer2,
     fontSize: 12,
   },
-  valueWrapper:{
+  valueWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
     width: '100%',
-    justifyContent: 'center'
-  }
+    justifyContent: 'center',
+  },
 });

@@ -23,7 +23,7 @@ const PopupModal = ({
       deviceWidth={windowWidth}
       backdropColor={'black'}
       backdropOpacity={0.5}
-      onBackButtonPress={() => closeModal()}
+      onBackButtonPress={() => closePopup()}
     >
       <View style={styles.popUpWrapper}>
         <View style={styles.popUpTitleWrapper}>

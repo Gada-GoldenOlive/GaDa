@@ -102,28 +102,43 @@ export const getDistance = ({ distance = 0, unit = 'm' }) => {
     return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
   }
 };
-
-export const getHour = (time = 0) => {
+export const getHourWithMin = (time = 0) => {
   if (time === 0) {
     return '0분';
   }
-  var h = Math.floor(time / 60);
-  var m = Math.floor(time % 60);
+  const h = Math.floor(time / 60);
+  const m = Math.floor(time % 60);
 
   var hDisplay = h > 0 ? h + '시간' : '';
   var mDisplay = m > 0 ? m + '분' : '';
   return hDisplay + mDisplay;
+
+}
+export const getHour = (time = 0) => {
+  if (time === 0) {
+    return '0초';
+  }
+  const h = Math.floor(time / 3600);
+  const m = Math.floor((time - h * 3600) / 60);
+  const s = Math.floor(time - h * 3600 - m * 60);
+
+  var hDisplay = h > 0 ? h + '시간' : '';
+  var mDisplay = m > 0 ? m + '분' : '';
+  var sDisplay = s > 0 ? s + '초' : '';
+  return hDisplay + mDisplay + sDisplay;
 };
 export const getGoalHour = (time = 0) => {
   if (time === 0) {
-    return [0, 0];
+    return [0, 0, 0];
   }
-  var h = Math.floor(time / 60);
-  var m = Math.floor(time % 60);
-
+  const h = Math.floor(time / 3600);
+  const m = Math.floor((time - h * 3600) / 60);
+  const s = Math.floor(time - h * 3600 - m * 60);
+  
   var hDisplay = h > 0 ? h : '';
   var mDisplay = m > 0 ? m : '';
-  return [hDisplay, mDisplay];
+  var sDisplay = s > 0 ? s : '';
+  return [hDisplay, mDisplay, sDisplay];
 };
 
 export const getDistanceFromLatLonInKm = ({ lat1, lng1, lat2, lng2 }) => {
@@ -147,4 +162,17 @@ export const getDistanceFromLatLonInKm = ({ lat1, lng1, lat2, lng2 }) => {
 
 export const getDate = time => {
   return moment(time).format('YYYY.MM.DD');
+};
+
+export const getTimeFromSec = time => {
+  console.log(time)
+  const hour = Math.floor(time / 3600);
+  const min = Math.floor((time - hour * 3600) / 60);
+  const sec = Math.floor(time - hour * 3600 - min * 60);
+
+  const hourString = hour > 0 ? `${hour}: ` : '';
+  const minString = min > 0 ? `${min}:` : '';
+  const secString = (min > 0 || hour > 0) ? `${sec}초` : `${sec}`
+  const timeString = hourString + minString + secString;
+  return timeString;
 };
