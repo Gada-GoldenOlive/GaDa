@@ -18,6 +18,7 @@ import { getMyReviewList } from '../../../APIs/review';
 const FriendRecordContainer = ({ navigation, route }) => {
   const { params } = route;
   const { id, rank, friendId } = params;
+  console.log(id);
 
   const [loading, setLoading] = useState(false);
   const [dataList, setDataList] = useState([]);
@@ -48,8 +49,8 @@ const FriendRecordContainer = ({ navigation, route }) => {
   const fetchRecordData = async () => {
     setLoading(true);
     const res = await getUserDetail(id);
-    console.log(res);
     const { user } = res;
+    console.log(user);
     if (user) {
       setUserData(user);
       setUserId(user.id);
@@ -58,12 +59,14 @@ const FriendRecordContainer = ({ navigation, route }) => {
     setLoading(false);
 
     setLoading(true);
-    const res_walk = await getMyReviewList(id);
+    console.log(userId)
+    const res_walk = await getMyReviewList(userId, 1);
     if (res_walk) {
       const { feeds, links } = res_walk;
       const {next} = links;
       if(next === '') setIsLast(true);
-      setMyWalks(feeds);
+      console.log(feeds);
+      setMyWalks(feeds.filter(x => x.userId === id));
       setPage(2);
       setNextUrl(next);
     }
@@ -80,7 +83,7 @@ const FriendRecordContainer = ({ navigation, route }) => {
         const { next } = links;
         if (next === '') setIsLast(true);
         setNextUrl(next);
-        setMyWalks(cur => cur.concat(feeds));
+        setMyWalks(cur => cur.concat(feeds.filter(x => x.userId === id)));
         setPage(page + 1);
       }
       setIsDataLoading(false);
@@ -88,7 +91,9 @@ const FriendRecordContainer = ({ navigation, route }) => {
     }
     return null;
   };
-
+  const handleDetailFeed = id => {
+    navigation.navigate('DetailFeed', { id });
+  };
 
 
 
@@ -134,6 +139,7 @@ const FriendRecordContainer = ({ navigation, route }) => {
         myWalks={myWalks}
         goalInfo={goalInfo}
         handleLoadMore={handleLoadMore}
+        handleDetailFeed={handleDetailFeed}
       />
     )
   );

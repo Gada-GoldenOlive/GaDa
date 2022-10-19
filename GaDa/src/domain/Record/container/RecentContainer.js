@@ -39,7 +39,7 @@ const RecentContainer = ({ navigation, route }) => {
     if (!isDataLoading) {
       if (isLast) return null;
       setIsDataLoading(true);
-      const res = await getNextData(nextUrl);
+      const res = await getMyWalkList(page);
       if (res) {
         const { walks, links } = res;
         const { next } = links;

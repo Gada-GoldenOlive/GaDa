@@ -127,7 +127,7 @@ const HomeContainer = ({ navigation, route }) => {
         });
 
         // console.log(dist * 1000);
-        if (dist * 1000 < 30) {
+        if (dist * 1000 < 20) {
           updateFlag = false;
         }
       }
@@ -171,6 +171,7 @@ const HomeContainer = ({ navigation, route }) => {
     var path = [];
     var pins = [];
     var start = {};
+    var nowPos = {};
     if (ver === 'selectWalkway') {
       path = nowPath;
       pins = nowPins;
@@ -184,6 +185,7 @@ const HomeContainer = ({ navigation, route }) => {
     } else if (ver === 'locationList') {
       path = locationList;
       start = locationList[0];
+      nowPos = locationList[locationList.length - 1];
     }
     // 적지는 않았지만 currentPos도 되고 있음 -> 변수 선언을 안 할뿐
     const generateOnMessageFunction = data =>
@@ -200,6 +202,7 @@ const HomeContainer = ({ navigation, route }) => {
         pins: pins,
         startPoint: start,
         name: selectedItem.title,
+        nowPos,
       }),
     );
   };
@@ -283,7 +286,6 @@ const HomeContainer = ({ navigation, route }) => {
     });
   };
 
-
   const handleNavigateCreate = () => {
     console.log(locationList);
     // openEndShareModal();
@@ -311,7 +313,7 @@ const HomeContainer = ({ navigation, route }) => {
     if (res) {
       await createReview(feed);
     } else {
-      showToast2()
+      showToast2();
     }
     closeEndShareModal();
   };
@@ -427,7 +429,7 @@ const HomeContainer = ({ navigation, route }) => {
       if (recording && !loading) {
         recordPosition();
       }
-    }, 5000);
+    }, 2000);
     // if (!recording) clearInterval(interval);
   }, [recording]);
 

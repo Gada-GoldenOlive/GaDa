@@ -85,8 +85,8 @@ const MapScreen = ({
                 lat2: center.lat,
                 lng2: center.lng,
               }) *
-                1000 <
-              10
+                1000 >
+              9
             )
               setCurrentState((prev) => ({
                 ...prev,
@@ -131,6 +131,11 @@ const MapScreen = ({
               isLoading: false,
             }));
           }
+        },
+        {
+          enableHighAccuracy: true,
+          accurace: { ios: "best" },
+          timeout: 1000,
         }
       );
     } else {
@@ -168,11 +173,11 @@ const MapScreen = ({
     }
   }, [isGeolocation]);
 
-  // useEffect(() => {
-  //   setInterval(() => {
-  //     geoLocation("watch");
-  //   }, 5000);
-  // });
+  useEffect(() => {
+    setInterval(() => {
+      geoLocation("watch");
+    }, 2000);
+  });
 
   const handleReceiveMessage = async () => {
     await window.addEventListener("message", (event) => {
@@ -210,7 +215,11 @@ const MapScreen = ({
         } else {
           setWalkwayPath(event.data.path);
           setPathStartPoint(event.data.startPoint);
-          // setCurrentState({ ...currentState, center: event.data.nowPos });
+          // setCurrentState({
+          //   ...currentState,
+          //   center: event.data.nowPos,
+          //   isLoading: false,
+          // });
         }
       }
     });

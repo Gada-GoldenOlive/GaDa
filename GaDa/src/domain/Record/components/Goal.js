@@ -62,7 +62,7 @@ const Goal = ({ goal }) => {
         <Text style={styles.title}>거리</Text>
         <View style={styles.valueWrapper}>
           <Text style={styles.num}>
-            {getDistance({ distance: totalDistance, unit: 'm' })}
+          {Number(getDistance({ distance: totalDistance, unit: 'm' })).toFixed(0)}
           </Text>
           <Text style={styles.value}>m</Text>
         </View>

@@ -30,7 +30,7 @@ const LikeReviewsContainer = ({ navigation, route }) => {
     if (!isDataLoading) {
       if (isLast) return null;
       setIsDataLoading(true);
-      const res = await getNextData(nextUrl);
+      const res = await getLikeReviews(page);
       if (res) {
         const { feeds, links } = res;
         const { next } = links;

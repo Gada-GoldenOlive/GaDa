@@ -38,6 +38,7 @@ const FriendsScreen = ({
   handleNavigateAddFriends,
   handleNavigateFriendsAlarm,
   handleNavigate,
+  handleDetailFeed,
 }) => {
   const { userId: id } = useSelector(state => state.user);
   console.log({unreadExist})

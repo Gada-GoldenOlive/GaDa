@@ -88,7 +88,7 @@ const RecordContainer = ({ navigation, route }) => {
     if (!isDataLoading) {
       if (isLast) return null;
       setIsDataLoading(true);
-      const res = await getNextData(nextUrl);
+      const res = await getMyReviewList(userId, page);
       if (res) {
         const { feeds, links } = res;
         const { next } = links;

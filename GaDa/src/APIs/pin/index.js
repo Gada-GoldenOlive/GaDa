@@ -56,7 +56,7 @@ export const createPinComments = async body => {
 };
 export const getPinComments = async (pinId, page = 1) => {
   const res = await axios
-    .get(`/pins/comments?pinId=${pinId}&page=1&limit=10`)
+    .get(`/pins/comments?pinId=${pinId}&page=${page}&limit=10`)
     .then(({ data }) => data)
     .catch(handleNetworkError);
   return res;

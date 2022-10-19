@@ -23,7 +23,7 @@ const CommentList = ({ headerComponent, pinComments, handleLoadMore }) => {
   const renderItem = ({ item, index }) => {
     const { id, content, creator, creatorId, createdAt, updatedAt } = item;
     return (
-      <View style={styles.itemContainer} key={id}>
+      <View style={styles.itemContainer} key={`${id}-${index}`}>
         <View style={styles.topWrapper}>
           <Text style={styles.name}>{creator}</Text>
           <Text style={styles.date}>{getDate(createdAt)}</Text>
