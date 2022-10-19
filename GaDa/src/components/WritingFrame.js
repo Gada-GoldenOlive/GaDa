@@ -144,7 +144,7 @@ const WritingFrame = ({
               onChangeText={contentTextChange}
               value={content}
             />
-            {type === 'create' && (
+            {type === 'modify' && address !== '' && (
               <View style={styles.bottomContainer}>
                 <View style={styles.locateWrapper}>
                   <CustomImage source={Locate} style={styles.locate} />
@@ -155,7 +155,11 @@ const WritingFrame = ({
           </View>
         </View>
       </ScrollView>
-      <CustomButton title={buttonTitle} handlePress={handlePress} clickable={clickable}/>
+      <CustomButton
+        title={buttonTitle}
+        handlePress={handlePress}
+        clickable={clickable}
+      />
       <CameraSelectModal
         isVisible={isVisible}
         openCamera={openCamera}

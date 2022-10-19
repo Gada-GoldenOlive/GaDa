@@ -176,7 +176,7 @@ const MapScreen = ({
   useEffect(() => {
     setInterval(() => {
       geoLocation("watch");
-    }, 2000);
+    }, 3000);
   });
 
   const handleReceiveMessage = async () => {
@@ -214,6 +214,7 @@ const MapScreen = ({
           setPathStartPoint("null");
         } else {
           setWalkwayPath(event.data.path);
+          setWalkwayPins("null");
           setPathStartPoint(event.data.startPoint);
           // setCurrentState({
           //   ...currentState,
@@ -221,6 +222,10 @@ const MapScreen = ({
           //   isLoading: false,
           // });
         }
+      } else if (event.data.type === "isCreate") {
+        setWalkwayPath("null");
+        setWalkwayPins("null");
+        setPathStartPoint("null");
       }
     });
   };

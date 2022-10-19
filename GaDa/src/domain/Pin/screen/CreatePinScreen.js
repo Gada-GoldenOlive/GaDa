@@ -18,8 +18,8 @@ const CreatePinScreen = ({
 }) => {
   return (
     <WritingFrame
-      titlePlaceHolder="제목"
-      contentPlaceholder="내용"
+      titlePlaceHolder="핀 제목"
+      contentPlaceholder="불편사항이나 특이사항을 설명해주세요"
       buttonTitle="작성완료"
       image={pinImage}
       title={pinTitle}
@@ -27,7 +27,7 @@ const CreatePinScreen = ({
       titleTextChange={titleTextChange}
       contentTextChange={contentTextChange}
       handlePress={handlePress}
-      address={address}
+      // address={address}
       setImage={setImage}
       badges={badges}
       type={type}

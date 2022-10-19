@@ -21,6 +21,9 @@ import { windowWidth } from '../../../constant/styles';
 import moment from 'moment';
 import BadgeModal from '../../../components/BadgeModal';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { useSelector } from 'react-redux';
+import Writing from '../../../constant/images/Writing';
+import Delete from '../../../constant/images/Delete';
 const DetailPinScreen = ({
   index,
   pinData,
@@ -30,8 +33,11 @@ const DetailPinScreen = ({
   badges,
   commentChange,
   handlePostComment,
+  modifyPin,
+  handleDeletePin
 }) => {
-  const { id, title, content, image, walkwayId, updatedAt } = pinData;
+  const { userId: myId } = useSelector(state => state.user);
+  const { id, title, content, image, walkwayId, updatedAt, userId } = pinData;
   const { StatusBarManager } = NativeModules;
   const [statusBarHeight, setStatusBarHeight] = useState(0);
 
@@ -45,10 +51,26 @@ const DetailPinScreen = ({
     return (
       <View style={styles.topContainer}>
         <View style={styles.topWrapper}>
-          <View style={styles.pinWrapper}>
-            <Text style={styles.pin}>핀{index + 1}</Text>
-          </View>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start' }}>
+            <View style={styles.pinWrapper}>
+              <Text style={styles.pin}>핀{index + 1}</Text>
+            </View>
           <Text style={styles.date}>{getDate(updatedAt)} 작성</Text>
+          </View>
+          {userId === myId && (
+            <View style={styles.iconContainer}>
+              <TouchableWithoutFeedback onPress={() => modifyPin(pinData, index)}>
+                <CustomImage
+                  source={Writing}
+                  style={[styles.icon, { marginEnd: 20 }]}
+                />
+              </TouchableWithoutFeedback>
+
+              <TouchableWithoutFeedback onPress={() => handleDeletePin(id)}>
+                <CustomImage source={Delete} style={styles.icon} />
+              </TouchableWithoutFeedback>
+            </View>
+          )}
         </View>
         <View style={styles.contentWrapper}>
           <Text style={styles.title}>{title}</Text>
@@ -117,6 +139,7 @@ const styles = StyleSheet.create({
   topWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between'
   },
   pinWrapper: {
     backgroundColor: mainColor,
@@ -197,5 +220,13 @@ const styles = StyleSheet.create({
   arrow: {
     width: 22,
     height: 22,
+  },
+  iconContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  icon: {
+    width: 24,
+    height: 24,
   },
 });

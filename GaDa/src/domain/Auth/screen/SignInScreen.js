@@ -39,55 +39,57 @@ const SignInScreen = ({
   }, []);
 
   return (
-    <View style={styles.container}>
-      <CustomImage source={SignInBackground} style={styles.background} />
-      <View style={styles.liner} />
-      <View style={styles.topContainer}>
-        <View style={styles.titleWrapper}>
-          <Text style={styles.title}>장애물 없는</Text>
-          <Text style={styles.emphasis}>편안한 산책여정</Text>
-          <Text style={styles.title}>즐기기</Text>
+    <SafeAreaView edges={['top']} style={{ flex: 1, backgroundColor: 'black' }}>
+      <View style={styles.container}>
+        <CustomImage source={SignInBackground} style={styles.background} />
+        <View style={styles.liner} />
+        <View style={styles.topContainer}>
+          <View style={styles.titleWrapper}>
+            <Text style={styles.title}>장애물 없는</Text>
+            <Text style={styles.emphasis}>편안한 산책여정</Text>
+            <Text style={styles.title}>즐기기</Text>
+          </View>
+        </View>
+        <View style={styles.centerContainer}>
+          <MyTextInput
+            placeholder="아이디"
+            style={[
+              styles.textInput,
+              id.length >= 1 && { borderBottomColor: buttonColor },
+            ]}
+            onChangeText={setId}
+            value={id}
+          />
+          <MyTextInput
+            placeholder="비밀번호"
+            style={[
+              styles.textInput,
+              pw.length >= 1 && { borderBottomColor: buttonColor },
+            ]}
+            onChangeText={setPw}
+            value={pw}
+            secureTextEntry={true}
+          />
+        </View>
+        <View style={styles.bottomContainer}>
+          {isWrong && (
+            <Text style={styles.error}>
+              *존재하지 않는 아이디/비밀번호 입니다
+            </Text>
+          )}
+          <TouchableWithoutFeedback onPress={handleNavigate}>
+            <View style={styles.loginButton}>
+              <Text style={styles.loginText}>로그인</Text>
+            </View>
+          </TouchableWithoutFeedback>
+          <TouchableWithoutFeedback onPress={handleNavigateSignUp}>
+            <View style={styles.signupButton}>
+              <Text style={styles.signupText}>회원가입</Text>
+            </View>
+          </TouchableWithoutFeedback>
         </View>
       </View>
-      <View style={styles.centerContainer}>
-        <MyTextInput
-          placeholder="아이디"
-          style={[
-            styles.textInput,
-            id.length >= 1 && { borderBottomColor: buttonColor },
-          ]}
-          onChangeText={setId}
-          value={id}
-        />
-        <MyTextInput
-          placeholder="비밀번호"
-          style={[
-            styles.textInput,
-            pw.length >= 1 && { borderBottomColor: buttonColor },
-          ]}
-          onChangeText={setPw}
-          value={pw}
-          secureTextEntry={true}
-        />
-      </View>
-      <View style={styles.bottomContainer}>
-        {isWrong && (
-          <Text style={styles.error}>
-            *존재하지 않는 아이디/비밀번호 입니다
-          </Text>
-        )}
-        <TouchableWithoutFeedback onPress={handleNavigate}>
-          <View style={styles.loginButton}>
-            <Text style={styles.loginText}>로그인</Text>
-          </View>
-        </TouchableWithoutFeedback>
-        <TouchableWithoutFeedback onPress={handleNavigateSignUp}>
-          <View style={styles.signupButton}>
-            <Text style={styles.signupText}>회원가입</Text>
-          </View>
-        </TouchableWithoutFeedback>
-      </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
