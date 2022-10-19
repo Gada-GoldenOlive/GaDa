@@ -99,7 +99,7 @@ const FriendsAlarmContainer = ({ navigation, route }) => {
   }, []);
 
   const handleNavigate = () => {
-    navigation.navigate('Friends', { refresh: {} });
+    navigation.navigate('Friends');
   };
 
   useEffect(() => {

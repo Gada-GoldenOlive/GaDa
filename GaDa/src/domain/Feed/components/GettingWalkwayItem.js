@@ -67,7 +67,7 @@ const GettingWalkwayItem = ({ item, index, clickItem, selectedItem }) => {
             <Text style={styles.name}>{title}</Text>
             <Text style={styles.description}>
               소요시간: {time}분 / 거리 {getDistance({ distance, unit: 'm' })}m
-              / 핀 5개
+              / 핀 {pinCount}개
             </Text>
           </View>
         </View>

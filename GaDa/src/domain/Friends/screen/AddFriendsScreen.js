@@ -102,6 +102,7 @@ const AddFriendsScreen = ({
               fontFamily: defaultFontFamily,
               flex: 1,
               alignItems: 'center',
+              color:'#535353'
             }}
             ref={ref}
           />

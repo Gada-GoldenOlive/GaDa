@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { getWalkwayPinList } from '../../../APIs/pin';
 import { getWalkwayReviewList } from '../../../APIs/review';
 import { useState } from 'react';
+import { useNavigation } from '@react-navigation/core';
 const PinTabContainer = ({ walkWay, avg }) => {
   const [pinList, setPinList] = useState([]);
   const [reviewList, setReviewList] = useState([]);
@@ -13,7 +14,8 @@ const PinTabContainer = ({ walkWay, avg }) => {
   const [isDataLoading, setIsDataLoading] = useState(false);
   const [isLast, setIsLast] = useState(false);
   const [nextUrl, setNextUrl] = useState('');
-
+  const navigation = useNavigation();
+  
   const id = walkWay?.id ? walkWay.id : 0;
   const fetchData = async () => {
     const pin = await getWalkwayPinList(id);
@@ -51,6 +53,10 @@ const PinTabContainer = ({ walkWay, avg }) => {
     return null;
   };
 
+  const handleNavigateReview = id => {
+    navigation.navigate('DetailFeed', {id})
+  }
+
   useEffect(() => {
     if (id !== 0) {
       fetchData();
@@ -62,6 +68,7 @@ const PinTabContainer = ({ walkWay, avg }) => {
       reviewList={reviewList}
       average={average}
       handleLoadMore={handleLoadMore}
+      handleNavigateReview={handleNavigateReview}
     />
   );
 };

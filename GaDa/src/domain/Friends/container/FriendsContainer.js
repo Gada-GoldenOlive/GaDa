@@ -6,15 +6,18 @@ import { useState } from 'react';
 import { getUserFriends } from '../../../APIs/user';
 import { useDispatch, useSelector } from 'react-redux';
 import { setBadges } from '../../../redux/modules/status';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const FriendsContainer = ({ navigation, route }) => {
   const [friendList, setFriendList] = useState([]);
   const [unreadExist, setUnreadExist] = useState(false);
   const { badges } = useSelector(state => state.status);
+  const [loading, setLoading] = useState(true);
 
   const dispatch = useDispatch();
 
   const fetchData = async () => {
+    setLoading(true);
     const res = await getUserFriends();
     if (res) {
       const { friends, is_exist_unread_request: unread, achieves = [] } = res;
@@ -25,6 +28,7 @@ const FriendsContainer = ({ navigation, route }) => {
       setFriendList(friends);
       setUnreadExist(unread);
     }
+    setLoading(false);
   };
 
   const handleNavigateAddFriends = () => {
@@ -45,7 +49,7 @@ const FriendsContainer = ({ navigation, route }) => {
     fetchData();
   }, [route.params?.refresh]);
 
-  return (
+  return loading ? <Spinner visible /> : (
     <FriendsScreen
       badges={badges}
       friendList={friendList}

@@ -27,7 +27,7 @@ const BottomUpmodal = ({
             <Text
               style={[
                 styles.itemText,
-                clickedItem === item && {
+                clickedItem.title === item.title && {
                   color: blackColor,
                   fontFamily: boldFontFamily,
                 },
@@ -51,6 +51,7 @@ const BottomUpmodal = ({
       deviceWidth={windowWidth}
       backdropColor="gray"
       backdropOpacity={0.5}
+      onBackButtonPress={() => closeModal()}
     >
       <View style={styles.modalWrapper}>
         <View style={styles.listContainer}>
@@ -106,7 +107,6 @@ const styles = StyleSheet.create({
     left: 0,
   },
   itemText: {
-    fontFamily: boldFontFamily,
     lineHeight: 22,
     color: defaultColor,
   },

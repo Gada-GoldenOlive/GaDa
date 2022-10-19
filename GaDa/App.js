@@ -5,7 +5,7 @@ import React, {
   BackHandler,
   useCallback,
 } from 'react';
-import Toast from 'react-native-toast-message';
+import Toast, { BaseToast, ErrorToast } from 'react-native-toast-message';
 import { PermissionsAndroid, StyleSheet, useColorScheme } from 'react-native';
 import RNRestart from 'react-native-restart';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -28,6 +28,9 @@ import jwtDecode from 'jwt-decode';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import defaultAxios from './src/APIs';
 import { reloadApp } from './src/function/error';
+import { boldFontFamily, defaultFontFamily, thinFontFamily } from './src/constant/fonts';
+import { mainColor } from './src/constant/colors';
+import Text from './src/components/MyText';
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
@@ -62,6 +65,7 @@ const App = () => {
         // console.log('You can use the camera');
       } else {
         // console.log('Camera permission denied');
+        // RNRestart.Restart();
       }
     } catch (err) {
       console.warn(err);
@@ -83,6 +87,7 @@ const App = () => {
         // console.log('You can use the camera');
       } else {
         // console.log('Camera permission denied');
+        //RNRestart.Restart();
       }
     } catch (err) {
       console.warn(err);
@@ -103,6 +108,7 @@ const App = () => {
   useEffect(() => {
     loadEssentialData();
   }, [loadEssentialData]);
+
 
   const getNetworkState = useCallback(async () => {
     const state = await NetInfo.fetch();
@@ -150,6 +156,30 @@ const App = () => {
     SplashScreen.hide();
   }; // getNetworkState
 
+  const toastConfig= {
+    success: (props) => (
+      <BaseToast
+        {...props}
+        style={{ borderLeftColor: mainColor }}
+        contentContainerStyle={{ paddingHorizontal: 15 }}
+        text2Style={{
+          fontSize: 12,
+          fontFamily: thinFontFamily,
+        }}
+      />
+    ),
+    error: (props) => (
+      <ErrorToast
+        {...props}
+        contentContainerStyle={{ paddingHorizontal: 15 }}
+        text2Style={{
+          fontSize: 8,
+          fontFamily: thinFontFamily,
+        }}
+      />
+    ),
+  }
+
   return (
     <SafeAreaProvider>
       {/* <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} /> */}
@@ -169,7 +199,7 @@ const App = () => {
         <RootNavigation />
         {/* </SafeAreaView> */}
 
-        <Toast ref={ref => Toast.setRef(ref)} position='top' />
+        <Toast ref={ref => Toast.setRef(ref)} position='top' config={toastConfig}/>
       </NavigationContainer>
       {/* <Script
         src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f0257365c07b494e7d10e2420948411b&libraries=services,clusterer&autoload=false"
@@ -203,6 +233,10 @@ const styles = StyleSheet.create({
   highlight: {
     fontWeight: '700',
   },
+  text1:{
+    fontFamily: defaultFontFamily,
+    fontSize: 16,
+  }
 });
 
 export default AppWrapper;

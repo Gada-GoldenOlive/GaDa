@@ -20,7 +20,7 @@ const ListFooterComponent = () => {
   return <View style={styles.footer} />;
 };
 
-const PinTabScreen = ({ pinList, reviewList, average, handleLoadMore }) => {
+const PinTabScreen = ({ pinList, reviewList, average, handleLoadMore, handleNavigateReview }) => {
   const titles = ['핀', '후기'];
   const ref = React.useRef(PagerView);
   const handlePage = p => {
@@ -61,7 +61,7 @@ const PinTabScreen = ({ pinList, reviewList, average, handleLoadMore }) => {
     );
   };
   const renderReview = ({ item, index }) => {
-    return <Review review={item} />;
+    return <Review review={item} handleNavigateReview={handleNavigateReview}/>;
   };
 
   return (
