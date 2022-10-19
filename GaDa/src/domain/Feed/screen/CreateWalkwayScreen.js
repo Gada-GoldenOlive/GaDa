@@ -30,7 +30,7 @@ import {
 import Camera from '../../../constant/images/Camera';
 import CustomRating from '../../../components/CustomRating';
 import { windowHeight, windowWidth } from '../../../constant/styles';
-import { getDistance } from '../../../function';
+import { getDistance, getTimeFromSec } from '../../../function';
 import { boldFontFamily, mediumFontFamily } from '../../../constant/fonts';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import ReviewImageList from '../components/ReviewImageList';
@@ -256,7 +256,7 @@ const CreateWalkwayScreen = ({
                   ]}
                 >
                   <Text style={styles.informationTitle}>시간</Text>
-                  <Text style={styles.num}>{time}</Text>
+                  <Text style={styles.num}>{getTimeFromSec(time)}</Text>
                 </View>
               </View>
             </View>

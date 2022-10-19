@@ -157,7 +157,11 @@ const HomeContainer = ({ navigation, route }) => {
       err => {
         console.log(err.message);
       },
-     { enableHighAccuracy:Platform.OS === 'ios' ? true : false, accurace: {ios : 'best'}, timeout: 1000} 
+      {
+        enableHighAccuracy: Platform.OS === 'ios' ? true : false,
+        accurace: { ios: 'best' },
+        timeout: 1000,
+      },
     );
 
     setRecording(true);
@@ -263,12 +267,19 @@ const HomeContainer = ({ navigation, route }) => {
     setEndShareModalVisible(false);
   };
 
-  
   const showToast = () => {
     Toast.show({
       type: 'error',
       text1: '산책로 생성 실패!',
       text2: '거리가 짧아 산책로 생성에 실패하였습니다',
+    });
+  };
+
+  const showToast2 = () => {
+    Toast.show({
+      type: 'error',
+      text1: '산책로 생성 실패!',
+      text2: '오류로 인해 산책로 생성에 실패하였습니다',
     });
   };
 
@@ -295,10 +306,13 @@ const HomeContainer = ({ navigation, route }) => {
     const walkway = tempWalkwayData.walkwayforUpdate;
     const feed = tempWalkwayData.forFeed;
     const id = walkway.id;
-
     console.log({ ...walkway, status: 'NORMAL' });
-    await updateWalkway(id, { ...walkway, status: 'NORMAL' });
-    await createReview(feed);
+    const res = await updateWalkway(id, { ...walkway, status: 'NORMAL' });
+    if (res) {
+      await createReview(feed);
+    } else {
+      showToast2()
+    }
     closeEndShareModal();
   };
 

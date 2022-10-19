@@ -6,7 +6,7 @@ import { MapImage } from '../../../constant/images/Temp';
 import { Check, CheckClicked } from '../../../constant/images/Check';
 import { windowHeight, windowWidth } from '../../../constant/styles';
 import { boldFontFamily, boldFontSize } from '../../../constant/fonts';
-import { getDistance } from '../../../function';
+import { getDistance, getHour, getTimeFromSec } from '../../../function';
 import Text from '../../../components/MyText';
 import { useEffect } from 'react';
 import { getDetailWalk } from '../../../APIs/walk';
@@ -66,7 +66,7 @@ const GettingWalkwayItem = ({ item, index, clickItem, selectedItem }) => {
           <View style={styles.bottomContainer}>
             <Text style={styles.name}>{title}</Text>
             <Text style={styles.description}>
-              소요시간: {time}분 / 거리 {getDistance({ distance, unit: 'm' })}m
+              소요시간: {getHour(time)} / 거리 {getDistance({ distance, unit: 'm' })}m
               / 핀 {pinCount}개
             </Text>
           </View>

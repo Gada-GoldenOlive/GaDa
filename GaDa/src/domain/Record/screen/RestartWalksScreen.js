@@ -3,6 +3,7 @@ import React from 'react';
 import {
   BG1,
   BG2,
+  BG3,
   finishedBackground,
   unfinishedBackground,
 } from '../../../constant/images/BackgroundImage';
