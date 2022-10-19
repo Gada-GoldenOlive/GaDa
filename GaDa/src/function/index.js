@@ -102,7 +102,18 @@ export const getDistance = ({ distance = 0, unit = 'm' }) => {
     return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
   }
 };
+export const getHourWithMin = (time = 0) => {
+  if (time === 0) {
+    return '0분';
+  }
+  const h = Math.floor(time / 60);
+  const m = Math.floor(time % 60);
 
+  var hDisplay = h > 0 ? h + '시간' : '';
+  var mDisplay = m > 0 ? m + '분' : '';
+  return hDisplay + mDisplay;
+
+}
 export const getHour = (time = 0) => {
   if (time === 0) {
     return '0초';
@@ -118,14 +129,16 @@ export const getHour = (time = 0) => {
 };
 export const getGoalHour = (time = 0) => {
   if (time === 0) {
-    return [0, 0];
+    return [0, 0, 0];
   }
-  var h = Math.floor(time / 60);
-  var m = Math.floor(time % 60);
-
+  const h = Math.floor(time / 3600);
+  const m = Math.floor((time - h * 3600) / 60);
+  const s = Math.floor(time - h * 3600 - m * 60);
+  
   var hDisplay = h > 0 ? h : '';
   var mDisplay = m > 0 ? m : '';
-  return [hDisplay, mDisplay];
+  var sDisplay = s > 0 ? s : '';
+  return [hDisplay, mDisplay, sDisplay];
 };
 
 export const getDistanceFromLatLonInKm = ({ lat1, lng1, lat2, lng2 }) => {
