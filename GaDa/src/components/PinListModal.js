@@ -125,7 +125,7 @@ const PinListModal = ({
               </View>
             </View>
 
-            {
+            {userId === myId && (
               <View style={styles.iconContainer}>
                 <TouchableWithoutFeedback
                   onPress={() => modifyPin(item, index)}
@@ -135,13 +135,12 @@ const PinListModal = ({
                     style={[styles.icon, { marginEnd: 20 }]}
                   />
                 </TouchableWithoutFeedback>
-                {userId === myId && (
-                  <TouchableWithoutFeedback onPress={() => handleDeletePin(id)}>
-                    <CustomImage source={Delete} style={styles.icon} />
-                  </TouchableWithoutFeedback>
-                )}
+
+                <TouchableWithoutFeedback onPress={() => handleDeletePin(id)}>
+                  <CustomImage source={Delete} style={styles.icon} />
+                </TouchableWithoutFeedback>
               </View>
-            }
+            )}
           </View>
           <View style={styles.contentContainer}>
             <Text style={styles.title}>{title}</Text>

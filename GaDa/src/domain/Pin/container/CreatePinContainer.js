@@ -32,6 +32,7 @@ const CreatePinContainer = ({ navigation, route }) => {
   const dispatch = useDispatch();
 
   const handlePress = async () => {
+    console.log(type);
     if (imageFile !== null) {
       const param = await getParam(imageFile);
       s3.upload(param, async (err, data) => {
@@ -60,7 +61,6 @@ const CreatePinContainer = ({ navigation, route }) => {
         },
         walkwayId: id,
       };
-
       const res = await createPin(pinData);
       if (res) {
         const { achieves = [] } = res;
@@ -81,9 +81,9 @@ const CreatePinContainer = ({ navigation, route }) => {
       const { pinId } = prevData;
       const res = await updatePin(pinId, pinData);
 
-      if(res !== null){
+      if (res !== null) {
         navigation.pop();
-      navigation.goBack();
+        navigation.goBack();
       }
     }
   };
@@ -119,21 +119,25 @@ const CreatePinContainer = ({ navigation, route }) => {
       setContent(prevContent);
       setImage(prevImage);
       setImageLink(prevImage);
-    } 
+    }
   }, []);
   useEffect(() => {
-   if(type === 'create'){
-    refreshImages();
-   }
-  },[]);
+    if (type === 'create') {
+      dispatch(refreshImages());
+    }
+  }, []);
 
   useEffect(() => {
-    if(pinTitle !== '' && content !== '' && (imageLink !== '' || imageFile !== null)){
+    if (
+      pinTitle !== '' &&
+      content !== '' &&
+      (imageLink !== '' || imageFile !== null)
+    ) {
       setClickable(true);
     } else {
       setClickable(false);
     }
-  }, [pinTitle, imageLink, content, imageFile])
+  }, [pinTitle, imageLink, content, imageFile]);
   return (
     <CreatePinScreen
       pinImage={pinImage}

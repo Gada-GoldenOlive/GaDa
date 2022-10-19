@@ -9,6 +9,7 @@ import {
   getPinComments,
   getPinInfo,
   createPinComments,
+  deletePin,
 } from '../../../APIs/pin';
 import { setBadges } from '../../../redux/modules/status';
 import DetailPinScreen from '../screen/DetailPinScreen';
@@ -16,6 +17,7 @@ import DetailPinScreen from '../screen/DetailPinScreen';
 const DetailPinContainer = ({ navigation, route }) => {
   const { params = {} } = route;
   const { id: pinId, index } = params;
+  const { userId: myId } = useSelector(state => state.user);
   const { badges } = useSelector(state => state.status);
   const [pinComments, setPinComments] = useState([]);
 
@@ -51,6 +53,32 @@ const DetailPinContainer = ({ navigation, route }) => {
       setPinComments(comments);
       setPage(2);
     }
+  };
+  const modifyPin = async (item, index) => {
+    const {
+      content,
+      createdAt,
+      id,
+      image,
+      location,
+      title,
+      updatedAt,
+      userId,
+      walkwayId,
+    } = item;
+    if (userId !== myId) {
+      navigation.navigate('DetailPin', { id, id, index, index });
+    } else {
+      navigation.navigate('CreatePin', {
+        prevData: { pinId: id, title, content, image },
+        type: 'modify',
+      });
+    }
+  };
+
+  const handleDeletePin = async id => {
+    await deletePin(id);
+    navigation.navigate('Home', {refresh:{}})
   };
 
   const handleLoadMore = async () => {
@@ -111,6 +139,8 @@ const DetailPinContainer = ({ navigation, route }) => {
       commentChange={commentChange}
       handleLoadMore={handleLoadMore}
       handlePostComment={handlePostComment}
+      modifyPin={modifyPin}
+      handleDeletePin={handleDeletePin}
     />
   );
 };
