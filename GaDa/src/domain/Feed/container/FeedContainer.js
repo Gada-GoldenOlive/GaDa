@@ -37,7 +37,7 @@ const FeedContainer = ({ navigation, route }) => {
         console.log(error.code, error.message);
       },
       
-     { enableHighAccuracy:Platform.OS === 'ios' ? true : false, accurace: {ios : 'best'}, timeout: 20000} 
+     { enableHighAccuracy:Platform.OS === 'ios' ? true : false, accurace: {ios : 'best'}, timeout: 1000} 
     );
   };
   const fetchDistanceData = async () => {

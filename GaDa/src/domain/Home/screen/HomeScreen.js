@@ -74,8 +74,6 @@ const HomeScreen = ({
   handleShareButton,
   badges,
   locationList,
-  isCurrentPosClicked,
-  setIsCurrentPosClicked,
 }) => {
   const ref = useRef();
   const dispatch = useDispatch();
@@ -199,10 +197,7 @@ const HomeScreen = ({
 
   useEffect(() => {
     if (currentPos.lat !== 0 && currentPos.lng !== 0) {
-      if (!isCurrentPosClicked) {
-        getWalkway(currentPos);
-      }
-      setIsCurrentPosClicked(false);
+      getWalkway(currentPos);
     }
   }, [currentPos]);
   useEffect(() => {
@@ -247,8 +242,8 @@ const HomeScreen = ({
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       <WebView
-        source={{ uri: 'https://ga-da-goldenolive.vercel.app' }}
-        //source={{ uri: 'https://0ec9-110-8-134-126.jp.ngrok.io' }}
+        // source={{ uri: 'https://ga-da-goldenolive.vercel.app' }}
+        source={{ uri: 'https://0ec9-110-8-134-126.jp.ngrok.io' }}
         injectedJavaScript={INJECTED_JAVASCRIPT}
         ref={ref}
         javaScriptEnabled
@@ -292,7 +287,6 @@ const HomeScreen = ({
       {isWalking && (
         <TouchableWithoutFeedback
           onPress={() => {
-            console.log('click');
             handleConnection(ref, 'currentPos');
           }}
         >
