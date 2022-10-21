@@ -392,9 +392,7 @@ const HomeContainer = ({ navigation, route }) => {
   };
 
   const getAccess = async () => {
-    const access_token = await AsyncStorage.getItem('access_token');
-    console.log({ access_token, isAuthenticated });
-    if (access_token === null) {
+    if (!isAuthenticated) {
       navigation.reset({
         index: 0,
         routes: [{ name: 'SignIn' }],
