@@ -427,7 +427,9 @@ const HomeContainer = ({ navigation, route }) => {
   useEffect(() => {
     // recordPosition();
     // console.log('hi');
+
     if (recording && !loading) {
+      recordPosition();
       pathRef.current = setInterval(() => {
         recordPosition();
       }, 3000);
