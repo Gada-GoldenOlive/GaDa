@@ -36,9 +36,14 @@ import { reloadApp } from './src/function/error';
 import {
   boldFontFamily,
   defaultFontFamily,
+  mediumFontFamily,
   thinFontFamily,
 } from './src/constant/fonts';
-import { descriptionColorVer2, mainColor } from './src/constant/colors';
+import {
+  defaultColor,
+  descriptionColorVer2,
+  mainColor,
+} from './src/constant/colors';
 import Text from './src/components/MyText';
 import axios from 'axios';
 const App = () => {
@@ -195,11 +200,11 @@ const App = () => {
       <BaseToast
         {...props}
         style={{ borderLeftColor: 'pink' }}
-        contentContainerStyle={{ paddingHorizontal: 15 }}
+        contentContainerStyle={{ paddingHorizontal: 15, marginTop: 5 }}
         text2Style={{
           fontSize: 8,
-          fontFamily: thinFontFamily,
-          color: descriptionColorVer2,
+          fontFamily: defaultFontFamily,
+          color: defaultColor,
         }}
       />
     ),
