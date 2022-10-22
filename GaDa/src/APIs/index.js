@@ -22,22 +22,10 @@ export const handleNetworkError = async error => {
     // 인증관련 에러
     console.log(error.response.data);
     if (status === 401 || status === 403) {
-      const refresh_token = await AsyncStorage.getItem('refresh_token');
-      console.log({ refresh_token });
-      if (refresh_token !== null) {
-        defaultAxios.defaults.headers.common.Authorization = `Bearer ${refresh_token}`;
+      delete axios.defaults.headers.common.Authorization;
+      removeInLocalStorage();
+      reloadApp();
 
-        const { new_access_token = '', new_refresh_token = '' } =
-          await refreshToken();
-        console.log({ new_access_token });
-
-        if (new_access_token !== '' && new_refresh_token !== '') {
-          defaultAxios.defaults.headers.common.Authorization = `Bearer ${new_access_token}`;
-          await storeInLocalStorage(new_access_token, new_refresh_token);
-          dispatch(setIsAuthenticated(true));
-          //await storeAccessToken(new_access_token);
-        }
-      }
     }
   } else {
     reloadApp();
