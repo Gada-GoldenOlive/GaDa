@@ -126,11 +126,12 @@ export default PinInformation;
 const styles = StyleSheet.create({
   modalContainer: {
     position: 'absolute',
-    left: -18,
+    left: -19,
     bottom: -20,
     justifyContent: 'flex-end',
     flex: 1,
     height: '80%',
+    width: windowWidth,
   },
   modalWrapper: {
     width: windowWidth,
