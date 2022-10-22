@@ -406,6 +406,7 @@ const HomeContainer = ({ navigation, route }) => {
     if (accessToken !== null) {
       const res = jwtDecode(accessToken);
       const { sub: userId } = res;
+      console.log(sub);
       dispatch(setUserId(userId));
       await AsyncStorage.setItem('id', userId);
     }
@@ -423,7 +424,7 @@ const HomeContainer = ({ navigation, route }) => {
   }, [walkEnd, isInformationVisible]);
 
   useEffect(() => {
-    recordPosition();
+    // recordPosition();
     setInterval(() => {
       if (recording && !loading) {
         recordPosition();
