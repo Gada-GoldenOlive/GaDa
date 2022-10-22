@@ -1,4 +1,5 @@
 import {
+  NativeModules,
   ScrollView,
   StyleSheet,
   TouchableWithoutFeedback,
@@ -28,6 +29,7 @@ import MyWalkwayList from '../components/MyWalkwayList';
 import Text from '../../../components/MyText';
 import CenterModal from '../../../components/CenterModal';
 import BadgeModal from '../../../components/BadgeModal';
+import WebView from 'react-native-webview';
 
 const RecordScreen = ({
   userData,
@@ -45,7 +47,7 @@ const RecordScreen = ({
   handleDetailFeed,
   handleLoadMore,
   badge,
-  handleNavigateHome
+  handleNavigateHome,
 }) => {
   const {
     id,
@@ -62,6 +64,12 @@ const RecordScreen = ({
   const profile = { loginId, image, name };
   const goal = { loginId, goalDistance, goalTime, totalDistance, totalTime };
   const header = () => {
+    const { RNCWebView } = NativeModules;
+    const test = () => {
+     //RNCWebView.test();
+      //console.log(RNCWebView)
+      console.log(RNCWebView)
+    }
     return (
       <View style={styles.container}>
         <View style={styles.profileContainer}>
@@ -75,7 +83,7 @@ const RecordScreen = ({
           <View style={styles.goalTitleContainer}>
             <View style={styles.goalTitleWrapper}>
               <Text style={styles.goalTitle}>이번 주 목표</Text>
-              <TouchableWithoutFeedback onPress={handleNaivigateGoal}>
+              <TouchableWithoutFeedback onPress={test}>
                 <CustomImage source={Writing} style={styles.goalWriting} />
               </TouchableWithoutFeedback>
             </View>
