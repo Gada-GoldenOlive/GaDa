@@ -206,46 +206,22 @@ const HomeScreen = ({
     ref.current.reload();
   }, []);
 
-  // const shareModalBody = () => {
-  //   return (
-  //     <View style={styles.modalWrapper}>
-  //       <View style={styles.topContainer}>
-  //         <Text style={styles.titleText}>산책을 공유하시겠어요?</Text>
-  //         <TouchableWithoutFeedback onPress={closeModal}>
-  //           <CustomImage source={CloseIcon} style={styles.close} />
-  //         </TouchableWithoutFeedback>
-  //       </View>
-  //       <View style={styles.middleContainer}>
-  //         <Text
-  //           style={styles.content}
-  //         >{`공유한 산책로는 피드 및 지도에\n등록되며, 다른 사용자들이 이 산책로를 \n체험할 수 있습니다.`}</Text>
-  //       </View>
-  //       <TouchableWithoutFeedback>
-  //         <View style={styles.share}>
-  //           <Text style={styles.buttonText}>공유하기</Text>
-  //         </View>
-  //       </TouchableWithoutFeedback>
-  //       <TouchableWithoutFeedback onPress={closeModal}>
-  //         <View style={styles.share}>
-  //           <Text style={styles.buttonText}>아니요</Text>
-  //         </View>
-  //       </TouchableWithoutFeedback>
-  //     </View>
-  //   );
-  // };
+  const url = 'https://ga-da-goldenolive.vercel.app'
+
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       <WebView
-         source={{ uri: 'https://ga-da-goldenolive.vercel.app' }}
-        //source={{ uri: 'https://0ec9-110-8-134-126.jp.ngrok.io' }}
+        source={{ uri: url }}
+        // source={{ uri: 'https://0ec9-110-8-134-126.jp.ngrok.io' }}
         injectedJavaScript={INJECTED_JAVASCRIPT}
         ref={ref}
         javaScriptEnabled
         onMessage={handleReceive}
         onContentProcessDidTerminate={() => {
           ref.current?.reload();
-        }}
+        }}     
       />
+      
       {/* <NewPinButton handleConnection={handleConnection} ref={ref} /> */}
       {isWalking && (
         <TouchableWithoutFeedback

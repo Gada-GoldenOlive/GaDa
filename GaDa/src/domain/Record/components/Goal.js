@@ -22,7 +22,7 @@ import { useState } from 'react';
 
 const Goal = ({ goal }) => {
   const { loginId, goalDistance, goalTime, totalDistance, totalTime } = goal;
-  console.log(totalTime);
+
   const hour = getGoalHour(totalTime)[0];
   const min = getGoalHour(totalTime)[1];
   const sec = hour === '' || min === '' ? getGoalHour(totalTime)[2] : '';

@@ -8,7 +8,7 @@ import { getMyWalkList } from '../../../APIs/walkway';
 import { getMyReviewList } from '../../../APIs/review';
 import { setUser } from '../../../redux/modules/user';
 import { getNextData } from '../../../APIs';
-import { badgePopup } from '../../../function';
+import { badgePopup, removeInLocalStorage } from '../../../function';
 import { setBadges } from '../../../redux/modules/status';
 import Spinner from 'react-native-loading-spinner-overlay';
 
@@ -34,8 +34,8 @@ const RecordContainer = ({ navigation, route }) => {
 
   const fetchData = async () => {
     const res = await getUserDetail(userId);
-    const { user = {} } = res;
-    if (user) {
+    const { user = {}} = res;
+    if (user !== {}) {
       setUserData(user);
       setGoalInfo({ goalTime: user.goalTime, goalDistance: user.goalDistance });
       dispatch(
@@ -46,6 +46,9 @@ const RecordContainer = ({ navigation, route }) => {
           image: user.image,
         }),
       );
+    } else {
+      await removeInLocalStorage();
+      navigation.navigate();
     }
   };
 
@@ -145,8 +148,10 @@ const RecordContainer = ({ navigation, route }) => {
   }, []);
 
   useEffect(() => {
-    if (userId !== '') {
+    if (userId !== '' && userId !== null ) {
       fetchAllData();
+    } else {
+      handleNavigate();
     }
   }, [userId]);
 
