@@ -38,7 +38,7 @@ import {
   defaultFontFamily,
   thinFontFamily,
 } from './src/constant/fonts';
-import { mainColor } from './src/constant/colors';
+import { descriptionColorVer2, mainColor } from './src/constant/colors';
 import Text from './src/components/MyText';
 import axios from 'axios';
 const App = () => {
@@ -187,6 +187,7 @@ const App = () => {
         text2Style={{
           fontSize: 12,
           fontFamily: thinFontFamily,
+          color: 'black',
         }}
       />
     ),
@@ -198,6 +199,7 @@ const App = () => {
         text2Style={{
           fontSize: 8,
           fontFamily: thinFontFamily,
+          color: descriptionColorVer2,
         }}
       />
     ),

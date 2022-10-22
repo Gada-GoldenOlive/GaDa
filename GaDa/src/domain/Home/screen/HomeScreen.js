@@ -114,6 +114,10 @@ const HomeScreen = ({
     if (isCreate) {
       handleConnection(ref, 'locationList');
     }
+
+    if (locationList.length === 0) {
+      handleConnection(ref, 'selectWalkway');
+    }
   }, [locationList]);
 
   const handleRestart = async () => {
@@ -206,7 +210,7 @@ const HomeScreen = ({
     ref.current.reload();
   }, []);
 
-  const url = 'https://ga-da-goldenolive.vercel.app'
+  const url = 'https://ga-da-goldenolive.vercel.app';
 
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
@@ -219,9 +223,9 @@ const HomeScreen = ({
         onMessage={handleReceive}
         onContentProcessDidTerminate={() => {
           ref.current?.reload();
-        }}     
+        }}
       />
-      
+
       {/* <NewPinButton handleConnection={handleConnection} ref={ref} /> */}
       {isWalking && (
         <TouchableWithoutFeedback
