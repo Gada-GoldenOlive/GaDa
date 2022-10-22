@@ -17,6 +17,7 @@ import { Sample } from '../../../constant/images/Temp';
 import StarIcon from '../../../constant/images/Star';
 import PinInformation from './PinInformation';
 import { GadaCheck } from '../../../constant/images/Check';
+import { getDistance } from '../../../function';
 const WalkwayOverview = ({
   walkWay,
   handleOverview,
@@ -93,12 +94,13 @@ const WalkwayOverview = ({
                 )}
                 <Text style={styles.title}>{title}</Text>
                 <Text>
-                <Text style={styles.description}>
-                  약 {time > 0 ? min : 0}분/
-                </Text>
-                <Text style={styles.description}>
-                  {distance > 0 ? distance.toFixed(1) : 0.0}/
-                </Text>
+                  <Text style={styles.description}>
+                    약 {time > 0 ? min : 0}분/
+                  </Text>
+                  <Text style={styles.description}>
+                    {distance > 0 ? getDistance({ distance, unit: 'km' }) : 0.0}
+                    km/
+                  </Text>
                   <Text style={styles.description}>핀 {pinCount}개 </Text>
                 </Text>
               </View>
@@ -216,7 +218,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     alignItems: 'flex-end',
     justifyContent: 'flex-end',
-    zIndex: 999
+    zIndex: 999,
   },
   bottomWrapper: {
     paddingHorizontal: 12,

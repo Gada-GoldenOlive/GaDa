@@ -18,6 +18,7 @@ import StarIcon from '../../../constant/images/Star';
 import PinTabContainer from '../container/PinTabContainer';
 import CustomButton from '../../../components/CustomButton';
 import { GadaCheck } from '../../../constant/images/Check';
+import { getDistance } from '../../../function';
 
 const PinInformation = ({
   walkWay,
@@ -99,7 +100,8 @@ const PinInformation = ({
                   약 {time > 0 ? min : 0}분/
                 </Text>
                 <Text style={styles.description}>
-                  {distance > 0 ? distance.toFixed(1) : 0.0}/
+                  {distance > 0 ? getDistance({ distance, unit: 'km' }) : 0.0}
+                  km/
                 </Text>
                 <Text style={styles.description}>핀 {pinCount}개 </Text>
               </Text>
