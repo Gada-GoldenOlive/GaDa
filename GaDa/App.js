@@ -6,7 +6,12 @@ import React, {
   useCallback,
 } from 'react';
 import Toast, { BaseToast, ErrorToast } from 'react-native-toast-message';
-import { PermissionsAndroid, StyleSheet, useColorScheme } from 'react-native';
+import {
+  PermissionsAndroid,
+  StatusBar,
+  StyleSheet,
+  useColorScheme,
+} from 'react-native';
 import RNRestart from 'react-native-restart';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
@@ -128,33 +133,29 @@ const App = () => {
   const loadEssentialData = async () => {
     setLoading(true);
     const { access_token = '', refresh_token = '' } = await getTokens();
-    
 
     if (access_token) {
       const { isValid: isAccessTokenValid } = await verifyToken(access_token);
-      console.log({isAccessTokenValid});
+      console.log({ isAccessTokenValid });
       if (isAccessTokenValid) {
         const { new_access_token = '', new_refresh_token = '' } =
           await refreshToken(refresh_token);
-          if(new_access_token){
-            const { sub: user_Id } = jwtDecode(new_access_token);
-            console.log({ user_Id });
-            dispatch(setUserId(user_Id));
-            dispatch(setIsAuthenticated(true));
-    
-            axios.defaults.headers.common.Authorization = `Bearer ${new_access_token}`;
-            await storeInLocalStorage(new_access_token, new_refresh_token);
+        if (new_access_token) {
+          const { sub: user_Id } = jwtDecode(new_access_token);
+          console.log({ user_Id });
+          dispatch(setUserId(user_Id));
+          dispatch(setIsAuthenticated(true));
 
-          } else {
-            removeInLocalStorage();
-            
-          }
-
+          axios.defaults.headers.common.Authorization = `Bearer ${new_access_token}`;
+          await storeInLocalStorage(new_access_token, new_refresh_token);
+        } else {
+          removeInLocalStorage();
+        }
       } else {
         const { isValid: isRefreshTokenValid } = await verifyToken(
           refresh_token,
         );
-        console.log({isRefreshTokenValid})
+        console.log({ isRefreshTokenValid });
         if (isRefreshTokenValid) {
           const { new_access_token = '', new_refresh_token = '' } =
             await refreshToken(refresh_token);
@@ -192,7 +193,7 @@ const App = () => {
     error: props => (
       <BaseToast
         {...props}
-        style={{borderLeftColor: 'pink'}}
+        style={{ borderLeftColor: 'pink' }}
         contentContainerStyle={{ paddingHorizontal: 15 }}
         text2Style={{
           fontSize: 8,
@@ -220,10 +221,13 @@ const App = () => {
           }}
         >
           {/* <SafeAreaView style={{ flex: 1 }} edges={['bottom']}> */}
+          <StatusBar backgroundColor="white" barStyle={'dark-content'} />
           <RootNavigation />
+
           {/* </SafeAreaView> */}
 
-          <Toast ref={ref => Toast.setRef(ref)}
+          <Toast
+            ref={ref => Toast.setRef(ref)}
             position="top"
             config={toastConfig}
           />
