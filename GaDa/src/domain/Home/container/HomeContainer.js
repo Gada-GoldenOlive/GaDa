@@ -406,7 +406,6 @@ const HomeContainer = ({ navigation, route }) => {
     if (accessToken !== null) {
       const res = jwtDecode(accessToken);
       const { sub: userId } = res;
-      console.log(sub);
       dispatch(setUserId(userId));
       await AsyncStorage.setItem('id', userId);
     }
