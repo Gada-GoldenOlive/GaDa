@@ -208,7 +208,7 @@ const HomeScreen = ({
 
   useEffect(() => {
     ref.current.reload();
-  }, [selectedItem]);
+  }, []);
 
   const url = 'https://ga-da-goldenolive.vercel.app';
 
