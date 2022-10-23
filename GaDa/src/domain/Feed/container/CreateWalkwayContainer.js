@@ -6,12 +6,14 @@ import { createReview } from '../../../APIs/review';
 import { createWalk } from '../../../APIs/walk';
 import { createWalkway, getAddressByCoords } from '../../../APIs/walkway';
 import { s3 } from '../../../constant/setting';
+import { showErrorToastMessage } from '../../../function/error';
 import { getParam } from '../../../function/image';
 import {
   setImageFileList,
   setWalkwayImages,
   setThumbnailImage,
   setThumbnailFile,
+  refreshImages,
 } from '../../../redux/modules/images';
 import { setBadges, setTempWalkwayData } from '../../../redux/modules/status';
 import CreateWalkwayScreen from '../screen/CreateWalkwayScreen';
@@ -104,7 +106,6 @@ const CreateWalkwayContainer = ({ navigation, route }) => {
     if (imageFileList !== [] && imageFileList !== null) {
       imageFileList.map(async imageFile => {
         const param = await getParam(imageFile);
-        console.log(params);
         s3.upload(param, async (err, data) => {
           if (err) {
             console.log('image upload err: ' + err);
@@ -132,6 +133,7 @@ const CreateWalkwayContainer = ({ navigation, route }) => {
       });
       // });
     } else {
+
     }
   };
   const handleCreateReview = async () => {
@@ -142,9 +144,7 @@ const CreateWalkwayContainer = ({ navigation, route }) => {
   };
 
   const handleCreateWalkway = async () => {
-    console.log({ walkData });
     const res = await createWalkway(walkData);
-
     if (res) {
       const { achieves = [] } = res;
       if (achieves.length > 0) {
@@ -157,7 +157,7 @@ const CreateWalkwayContainer = ({ navigation, route }) => {
         finishStatus: 'UNFINISHED',
         walkwayId: res.id,
       });
-  
+      console.log({resWalk});
       if (resWalk) {
         const { achieves = [] } = resWalk;
         if (achieves.length > 0) {
@@ -178,6 +178,8 @@ const CreateWalkwayContainer = ({ navigation, route }) => {
         walkId: resWalk.id,
       };
       dispatch(setTempWalkwayData({ walkwayforUpdate, forFeed }));
+    } else {
+      showErrorToastMessage();
     }
 
     navigation.navigate('Home', { refresh: {}, endShareModal: true });
@@ -244,11 +246,8 @@ const CreateWalkwayContainer = ({ navigation, route }) => {
     }
   }, [walkwayTitle, content, rate, thumbnailFile]);
 
-  useEffect(() => {
-    dispatch(setWalkwayImages([]));
-    dispatch(setImageFileList([]));
-    dispatch(setThumbnailImage(''));
-    dispatch(setThumbnailFile(''));
+  useEffect(async () => {
+    dispatch(await refreshImages());
     fetchAddress();
   }, []);
 

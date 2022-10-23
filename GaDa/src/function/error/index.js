@@ -8,7 +8,7 @@ export const showErrorToastMessage = (
 ) => {
   Toast.show({
     type: 'error',
-    position: 'bottom',
+    position: 'top',
     text1: title,
     text2: err,
     autoHide: true,

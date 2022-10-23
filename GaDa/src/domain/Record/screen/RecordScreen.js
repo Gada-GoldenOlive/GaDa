@@ -45,7 +45,8 @@ const RecordScreen = ({
   handleDetailFeed,
   handleLoadMore,
   badge,
-  handleNavigateHome
+  handleNavigateHome,
+  handleNavigateFeedMore
 }) => {
   const {
     id,

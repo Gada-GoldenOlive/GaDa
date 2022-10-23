@@ -208,7 +208,7 @@ const HomeScreen = ({
 
   useEffect(() => {
     ref.current.reload();
-  }, []);
+  }, [selectedItem]);
 
   const url = 'https://ga-da-goldenolive.vercel.app';
 
@@ -222,8 +222,11 @@ const HomeScreen = ({
         javaScriptEnabled
         onMessage={handleReceive}
         onContentProcessDidTerminate={() => {
+          console.log('언제돼')
           ref.current?.reload();
         }}
+        onLoadProgress={() =>  console.log('haha')}
+        onLoadEnd={() => { console.log('end'); getWalkway(currentPos)}}
       />
 
       {/* <NewPinButton handleConnection={handleConnection} ref={ref} /> */}

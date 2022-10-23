@@ -36,6 +36,7 @@ const AddFriendsScreen = ({
   searchId,
   setSearchId,
   badges,
+  isSearch,
 }) => {
   const ref = useRef();
 
@@ -44,7 +45,6 @@ const AddFriendsScreen = ({
   //   }
   // }, [isPopupVisible]);
 
-  console.log(isCheckPopupVisible);
   const renderItem = ({ item, index }) => {
     return (
       <View style={styles.itemContainer}>
@@ -102,7 +102,7 @@ const AddFriendsScreen = ({
               fontFamily: defaultFontFamily,
               flex: 1,
               alignItems: 'center',
-              color:'#535353'
+              color: '#535353',
             }}
             ref={ref}
           />
@@ -112,13 +112,19 @@ const AddFriendsScreen = ({
             <CustomImage source={Search} style={styles.searchIcon} />
           </TouchableWithoutFeedback>
         </View>
-        <FlatList
-          data={searchList}
-          renderItem={(item, index) => renderItem(item, index)}
-          bounces={false}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingBottom: 100 }}
-        />
+        {isSearch && searchList.length === 0 ? (
+          <View style={styles.nullContainer}>
+            <Text>검색 목록이 없습니다</Text>
+          </View>
+        ) : (
+          <FlatList
+            data={searchList}
+            renderItem={(item, index) => renderItem(item, index)}
+            bounces={false}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{ paddingBottom: 100 }}
+          />
+        )}
         {badges.length > 0 &&
           badges.map((item, index) => {
             const { badge } = item;
@@ -190,5 +196,9 @@ const styles = StyleSheet.create({
   addButtonText: {
     color: 'white',
     fontFamily: boldFontFamily,
+  },
+  nullContainer: {
+    paddingTop: 24,
+    alignItems: 'center',
   },
 });

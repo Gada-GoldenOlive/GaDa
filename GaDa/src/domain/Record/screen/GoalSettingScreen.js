@@ -60,7 +60,7 @@ const GoalSettingScreen = ({
               style={styles.textInput}
               keyboardType="numeric"
               placeholder={
-                time === null ? '목표 달성시간을 입력하세요' : time.toString()
+                time.length === 0 ? '목표 달성시간을 입력하세요' : time.toString()
               }
             />
             <Text style={styles.description}>(분)</Text>
@@ -73,7 +73,7 @@ const GoalSettingScreen = ({
               keyboardType="numeric"
               returnKeyType="done"
               placeholder={
-                distance === null
+                distance.length === 0
                   ? '목표 달성거리를 입력하세요'
                   : distance.toString()
               }
@@ -82,7 +82,7 @@ const GoalSettingScreen = ({
           </View>
         </View>
       </KeyboardAwareScrollView>
-      {time && distance && (
+      {time.length > 0 && distance.length > 0 && (
         <CustomButton
           style={styles.button}
           handlePress={updateGoal}

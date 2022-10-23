@@ -11,12 +11,14 @@ import {
 import { addFriend, getUserList } from '../../../APIs/user';
 import { useDispatch, useSelector } from 'react-redux';
 import { setBadges } from '../../../redux/modules/status';
+import user from '../../../redux/modules/user';
 
 const AddFriendsContainer = ({ navigation }) => {
   const [searchList, setSearchList] = useState();
   const [searchId, setSearchId] = useState();
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [isCheckPopupVisible, setIsCheckPopupVisible] = useState(false);
+  const [isSearch, setIsSearch] = useState(false);
   const [addUser, setAddUser] = useState({ id: -1, name: '' });
   const { badges } = useSelector(state => state.status);
   const dispatch = useDispatch();
@@ -26,6 +28,7 @@ const AddFriendsContainer = ({ navigation }) => {
     // console.log(res.users);
     const { users } = res;
     setSearchList(users);
+    setIsSearch(true);
   };
   const handleSearchButton = searchId => {
     fetchSearchResults(searchId);
@@ -50,6 +53,11 @@ const AddFriendsContainer = ({ navigation }) => {
     openPopup();
     setAddUser({ id, name });
   };
+
+  const handleSearchId = text => {
+    setSearchId(text);
+    setIsSearch(false);
+  };
   const openPopup = () => {
     setIsPopupVisible(true);
   };
@@ -65,7 +73,7 @@ const AddFriendsContainer = ({ navigation }) => {
   };
 
   useEffect(() => {
-    fetchSearchResults();
+    //fetchSearchResults();
   }, []);
 
   return (
@@ -82,7 +90,8 @@ const AddFriendsContainer = ({ navigation }) => {
       addUser={addUser}
       searchId={searchId}
       badges={badges}
-      setSearchId={setSearchId}
+      setSearchId={handleSearchId}
+      isSearch={isSearch}
     />
   );
 };
