@@ -15,6 +15,7 @@ const DetailFeedContainer = ({ navigation, route }) => {
 
   const [walkwayId, setWalkwayId] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [feedImages, setFeedImages] = useState([]);
   const dispatch = useDispatch();
 
   const fetchData = async () => {
@@ -25,8 +26,8 @@ const DetailFeedContainer = ({ navigation, route }) => {
       setFeedInfo(feed);
       setFeedLike(feed.like);
       setFeedId(feed.id);
-      setWalkwayId(feed.walkwayId)
-      console.log(res);
+      setWalkwayId(feed.walkwayId);
+      setFeedImages(feed.images);
       setLoading(false);
     }
   };
@@ -53,16 +54,15 @@ const DetailFeedContainer = ({ navigation, route }) => {
   };
 
 
-  return (
-    !loading && (
-      <DetailFeedScreen
-        feedInfo={feedInfo}
-        feedLike={feedLike}
-        feedId={feedId}
-        handleNavigate={handleNavigate}
-        onPress={onPress}
-      />
-    )
+  return !loading && (
+    <DetailFeedScreen
+      feedInfo={feedInfo}
+      feedLike={feedLike}
+      feedId={feedId}
+      feedImages={feedImages}
+      handleNavigate={handleNavigate}
+      onPress={onPress}
+    />
   );
 };
 

@@ -53,7 +53,7 @@ const SignInContainer = ({ navigation }) => {
     dispatch(setIsAuthenticated(true));
     const res = jwtDecode(accessToken);
     const {sub: userId} = res;
-    console.log(userId)
+    console.log({accessToken, refreshToken})
     dispatch(setUserId(userId));
     defaultAxios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
     handleNavigate();

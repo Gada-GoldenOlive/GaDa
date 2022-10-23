@@ -9,33 +9,33 @@ import SignInFrame from '../components/SignInFrame';
 
 const IDContainer = ({ navigation }) => {
   const [isWrong, setIsWrong] = useState(true);
- const [id, setId] = useState('');
+  const [id, setId] = useState('');
   const [first, setFirst] = useState(true);
   const [changed, setChanged] = useState(false);
   const [isNotValid, setIsNotValid] = useState(true);
 
   const dispatch = useDispatch();
   const handleIdChange = idText => {
-    setId(idText)
-    if(getIDIsNotValid(idText)){
+    setId(idText);
+    if (getIDIsNotValid(idText)) {
       setIsNotValid(true);
-    }else {
+    } else {
       setIsNotValid(false);
     }
     setChanged(true);
   };
   const handleNavigate = () => {
     if (!isWrong) {
-      dispatch(setLoginId(id))
+      dispatch(setLoginId(id));
       navigation.navigate('PW');
     }
   };
 
   const checkId = async () => {
     const res = await getUsersCheckedId(id);
-    console.log(res, id)
-    if(res){
-      const {isValid} = res;
+    console.log(res, id);
+    if (res) {
+      const { isValid } = res;
       setIsWrong(!isValid);
     }
     setChanged(false);
@@ -47,7 +47,7 @@ const IDContainer = ({ navigation }) => {
 
   useEffect(() => {
     console.log(id);
-  }, [id])
+  }, [id]);
 
   return (
     <IDScreen
@@ -61,8 +61,6 @@ const IDContainer = ({ navigation }) => {
       handleIdChange={handleIdChange}
     />
   );
-  
-
 };
 
 export default IDContainer;

@@ -11,16 +11,21 @@ import {
   descriptionColorVer2,
   mainColor,
 } from '../../../constant/colors';
-import { getDistance, getGoalHour, getHour, getHourWithMin } from '../../../function';
+import {
+  getDistance,
+  getGoalHour,
+  getHour,
+  getHourWithMin,
+} from '../../../function';
 import Text from '../../../components/MyText';
 import { useState } from 'react';
 
 const Goal = ({ goal }) => {
   const { loginId, goalDistance, goalTime, totalDistance, totalTime } = goal;
-  console.log(totalTime);
+
   const hour = getGoalHour(totalTime)[0];
   const min = getGoalHour(totalTime)[1];
-  const sec = hour === '' || min === '' ? getGoalHour(totalTime)[2] : ''
+  const sec = hour === '' || min === '' ? getGoalHour(totalTime)[2] : '';
   const res = hour.toString() + min.toString() + sec.toString();
 
   return (
@@ -62,7 +67,10 @@ const Goal = ({ goal }) => {
         <Text style={styles.title}>거리</Text>
         <View style={styles.valueWrapper}>
           <Text style={styles.num}>
-          {Number(getDistance({ distance: totalDistance, unit: 'm' })).toFixed(0)}
+            {getDistance({
+              distance: totalDistance,
+              unit: 'm',
+            })}
           </Text>
           <Text style={styles.value}>m</Text>
         </View>
@@ -70,7 +78,7 @@ const Goal = ({ goal }) => {
           <Text style={styles.goal}>목표 미설정</Text>
         ) : (
           <Text style={styles.goal}>
-            목표 : {getDistance({ distance: goalDistance, unit: 'm' })}m
+            목표 :{getDistance({ distance: goalDistance, unit: 'm' })}m
           </Text>
         )}
       </View>

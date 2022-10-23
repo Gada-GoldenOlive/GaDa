@@ -3,6 +3,7 @@ import {
   createStackNavigator,
 } from '@react-navigation/stack';
 import React from 'react';
+import { SafeAreaView } from 'react-native';
 import FeedBookmark from '../components/FeedBookmark';
 import HeaderComponent from '../components/HeaderComponent';
 import Text from '../components/MyText';
@@ -35,6 +36,7 @@ const FeedNavigator = () => {
         title: {},
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         headerTitleAlign: 'center',
+        header: () => <SafeAreaView edges={['top']}></SafeAreaView>,
       }}
     >
       {Object.entries({ ...feedScreen }).map(([name, component]) => (

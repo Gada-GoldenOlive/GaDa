@@ -134,8 +134,9 @@ const MapScreen = ({
         },
         {
           enableHighAccuracy: true,
-          accurace: { ios: "best" },
+          accuracy: { ios: "best" },
           timeout: 1000,
+          maximumAge: 10000,
         }
       );
     } else {
@@ -176,8 +177,8 @@ const MapScreen = ({
   useEffect(() => {
     setInterval(() => {
       geoLocation("watch");
-    }, 3000);
-  });
+    }, 2000);
+  }, []);
 
   const handleReceiveMessage = async () => {
     await window.addEventListener("message", (event) => {
@@ -215,7 +216,9 @@ const MapScreen = ({
         } else {
           setWalkwayPath(event.data.path);
           setWalkwayPins("null");
-          setPathStartPoint(event.data.startPoint);
+          if (event.data.path.length === 1) {
+            setPathStartPoint(event.data.startPoint);
+          }
           // setCurrentState({
           //   ...currentState,
           //   center: event.data.nowPos,
@@ -229,9 +232,6 @@ const MapScreen = ({
       }
     });
   };
-  useEffect(() => {
-    // alert(JSON.stringify(walkwayPath));
-  }, [walkwayPath]);
 
   // 각 버튼 클릭시 실행할 것들
   useEffect(() => {
@@ -258,7 +258,7 @@ const MapScreen = ({
     if (isCurrentPosClicked) {
       setIsCurrentPosClicked(false);
     }
-  }, [walkwayPath, pathStartPoint]);
+  }, [pathStartPoint]);
   useEffect(() => {
     if (isStartWalkClicked === true) {
       setState((prev) => ({ ...prev, center: pathStartPoint }));

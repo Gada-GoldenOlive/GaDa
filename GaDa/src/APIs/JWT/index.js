@@ -3,25 +3,29 @@ import axios from '../index';
 
 // return is_valid
 export const verifyToken = async token => {
+  
+  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
   const res = await axios
-    .post('/auth/token/verify/', {
-      token,
-    })
+    .get('/users/check-token', { headers: { Authorization: `Bearer ${token}` } })
     .then(({ data }) => {
-      return data;
+     return data;
     })
-    .catch(() => {
+    .catch(e => {
+      console.log(e.response.data);
       return {
-        is_valid: false,
+        isValid: false,
       };
     });
   return res;
 };
 
 // new_access_token, new_refresh_token
-export const refreshToken = async () => {
+export const refreshToken = async token => {
+  console.log({token});
+  
+  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
   const res = await axios
-    .post('/users/refresh/')
+    .post('/users/refresh', { headers: { Authorization: `Bearer ${token}` } })
     .then(({ data }) => {
       const { accessToken = null, refreshToken = null } = data;
       return {
@@ -30,7 +34,7 @@ export const refreshToken = async () => {
       };
     })
     .catch(e => {
-      console.log('refresh error', e)
+      console.log('refresh error', e.response.data);
       return {
         new_access_token: '',
         new_refresh_token: '',

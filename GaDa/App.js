@@ -6,13 +6,18 @@ import React, {
   useCallback,
 } from 'react';
 import Toast, { BaseToast, ErrorToast } from 'react-native-toast-message';
-import { PermissionsAndroid, StyleSheet, useColorScheme } from 'react-native';
+import {
+  PermissionsAndroid,
+  StatusBar,
+  StyleSheet,
+  useColorScheme,
+} from 'react-native';
 import RNRestart from 'react-native-restart';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import RootNavigation from './src/navigation/RootNavigation';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
-import NetInfo from '@react-native-community/netinfo';
+import NetInfo, { refresh } from '@react-native-community/netinfo';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import store from './src/redux/store';
 // SplashScreen 추가
@@ -28,11 +33,22 @@ import jwtDecode from 'jwt-decode';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import defaultAxios from './src/APIs';
 import { reloadApp } from './src/function/error';
-import { boldFontFamily, defaultFontFamily, thinFontFamily } from './src/constant/fonts';
-import { mainColor } from './src/constant/colors';
+import {
+  boldFontFamily,
+  defaultFontFamily,
+  mediumFontFamily,
+  thinFontFamily,
+} from './src/constant/fonts';
+import {
+  defaultColor,
+  descriptionColorVer2,
+  mainColor,
+} from './src/constant/colors';
 import Text from './src/components/MyText';
+import axios from 'axios';
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
+  const [loading, setLoading] = useState(true);
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
@@ -108,7 +124,6 @@ const App = () => {
     loadEssentialData();
   }, [loadEssentialData]);
 
-
   const getNetworkState = useCallback(async () => {
     const state = await NetInfo.fetch();
     return state;
@@ -121,42 +136,55 @@ const App = () => {
   };
 
   const loadEssentialData = async () => {
+    setLoading(true);
     const { access_token = '', refresh_token = '' } = await getTokens();
 
-    defaultAxios.defaults.headers.common.Authorization = `Bearer ${access_token}`;
+    if (access_token) {
+      const { isValid: isAccessTokenValid } = await verifyToken(access_token);
+      console.log({ isAccessTokenValid });
+      if (isAccessTokenValid) {
+        const { new_access_token = '', new_refresh_token = '' } =
+          await refreshToken(refresh_token);
+        if (new_access_token) {
+          const { sub: user_Id } = jwtDecode(new_access_token);
+          console.log({ user_Id });
+          dispatch(setUserId(user_Id));
+          dispatch(setIsAuthenticated(true));
 
-    if (access_token !== '') {
-      /*
-      defaultAxios.defaults.headers.common.Authorization = `Bearer ${access_token}`;
-      
-      const { new_access_token, new_refresh_token } = await refreshToken();
-      console.log({ new_access_token, new_refresh_token });
-      if (new_access_token !== '' && new_refresh_token != '') {
-        const { sub: user_id } = jwtDecode(new_access_token);
-        await setIdInLocalStorage(user_id);
-        dispatch(setUserId(user_id));
-        console.log({ new_access_token, user_id });
-        dispatch(setIsAuthenticated(true));
-        defaultAxios.defaults.headers.common.Authorization = `Bearer ${new_access_token}`;
-        await storeInLocalStorage(new_access_token, new_refresh_token);
+          axios.defaults.headers.common.Authorization = `Bearer ${new_access_token}`;
+          await storeInLocalStorage(new_access_token, new_refresh_token);
+        } else {
+          removeInLocalStorage();
+        }
       } else {
-        delete defaultAxios.defaults.headers.common.Authorization;
-        removeInLocalStorage();
-        RNRestart.Restart();
-      }*/
-      const { sub: user_id } = jwtDecode(access_token);
-      await setIdInLocalStorage(user_id);
-      dispatch(setUserId(user_id));
-      console.log({ access_token, user_id });
-      dispatch(setIsAuthenticated(true));
+        const { isValid: isRefreshTokenValid } = await verifyToken(
+          refresh_token,
+        );
+        console.log({ isRefreshTokenValid });
+        if (isRefreshTokenValid) {
+          const { new_access_token = '', new_refresh_token = '' } =
+            await refreshToken(refresh_token);
+          console.log({ new_access_token, new_refresh_token });
+          if (new_access_token && new_refresh_token) {
+            const { sub: user_id } = jwtDecode(new_access_token);
+            dispatch(setUserId(user_id));
+            dispatch(setIsAuthenticated(true));
+            axios.defaults.headers.common.Authorization = `Bearer ${new_access_token}`;
+            await storeInLocalStorage(new_access_token, new_refresh_token);
+          } else {
+            removeInLocalStorage();
+          }
+        }
+      }
+      setLoading(false);
     } else {
-      reloadApp();
+      setLoading(false);
     }
     SplashScreen.hide();
   }; // getNetworkState
 
-  const toastConfig= {
-    success: (props) => (
+  const toastConfig = {
+    success: props => (
       <BaseToast
         {...props}
         style={{ borderLeftColor: mainColor }}
@@ -164,46 +192,54 @@ const App = () => {
         text2Style={{
           fontSize: 12,
           fontFamily: thinFontFamily,
+          color: 'black',
         }}
       />
     ),
-    error: (props) => (
-      <ErrorToast
+    error: props => (
+      <BaseToast
         {...props}
-        contentContainerStyle={{ paddingHorizontal: 15 }}
+        style={{ borderLeftColor: 'pink' }}
+        contentContainerStyle={{ paddingHorizontal: 15, marginTop: 5 }}
         text2Style={{
           fontSize: 8,
-          fontFamily: thinFontFamily,
+          fontFamily: defaultFontFamily,
+          color: defaultColor,
         }}
       />
     ),
-  }
+  };
 
   return (
     <SafeAreaProvider>
       {/* <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} /> */}
-      <NavigationContainer
-        ref={navigationRef}
-        onReady={() => {
-          routeNameRef.current = navigationRef.current.getCurrentRoute().name;
-        }}
-        onStateChange={async () => {
-          const previousRouteName = routeNameRef.current;
-          const currentRouteName = navigationRef.current.getCurrentRoute().name;
+      {!loading && (
+        <NavigationContainer
+          ref={navigationRef}
+          onReady={() => {
+            routeNameRef.current = navigationRef.current.getCurrentRoute().name;
+          }}
+          onStateChange={async () => {
+            const previousRouteName = routeNameRef.current;
+            const currentRouteName =
+              navigationRef.current.getCurrentRoute().name;
 
-          routeNameRef.current = currentRouteName;
-        }}
-      >
-        {/* <SafeAreaView style={{ flex: 1 }} edges={['bottom']}> */}
-        <RootNavigation />
-        {/* </SafeAreaView> */}
+            routeNameRef.current = currentRouteName;
+          }}
+        >
+          {/* <SafeAreaView style={{ flex: 1 }} edges={['bottom']}> */}
+          <StatusBar backgroundColor="white" barStyle={'dark-content'} />
+          <RootNavigation />
 
-        <Toast ref={ref => Toast.setRef(ref)} position='top' config={toastConfig}/>
-      </NavigationContainer>
-      {/* <Script
-        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f0257365c07b494e7d10e2420948411b&libraries=services,clusterer&autoload=false"
-        strategy="beforeInteractive"
-      /> */}
+          {/* </SafeAreaView> */}
+
+          <Toast
+            ref={ref => Toast.setRef(ref)}
+            position="top"
+            config={toastConfig}
+          />
+        </NavigationContainer>
+      )}
     </SafeAreaProvider>
   );
 };
@@ -232,10 +268,10 @@ const styles = StyleSheet.create({
   highlight: {
     fontWeight: '700',
   },
-  text1:{
+  text1: {
     fontFamily: defaultFontFamily,
     fontSize: 16,
-  }
+  },
 });
 
 export default AppWrapper;

@@ -77,7 +77,7 @@ const WritingFrame = ({
     ).then(images => {
       const uri = `data:${images.mime};base64,${images.data}`;
       setImage(uri);
-      dispatch(setImageFile(image));
+      dispatch(setImageFile(images));
       cancelModal();
     });
   };
