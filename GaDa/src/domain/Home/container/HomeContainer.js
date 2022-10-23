@@ -392,9 +392,7 @@ const HomeContainer = ({ navigation, route }) => {
   };
 
   const getAccess = async () => {
-    const access_token = await AsyncStorage.getItem('access_token');
-    console.log({ access_token, isAuthenticated });
-    if (access_token === null) {
+    if (!isAuthenticated) {
       navigation.reset({
         index: 0,
         routes: [{ name: 'SignIn' }],
@@ -408,7 +406,6 @@ const HomeContainer = ({ navigation, route }) => {
     if (accessToken !== null) {
       const res = jwtDecode(accessToken);
       const { sub: userId } = res;
-      console.log(sub);
       dispatch(setUserId(userId));
       await AsyncStorage.setItem('id', userId);
     }
@@ -425,13 +422,20 @@ const HomeContainer = ({ navigation, route }) => {
     dispatch(setBottomTabVisible(tabVisible));
   }, [walkEnd, isInformationVisible]);
 
+  const pathRef = useRef();
   useEffect(() => {
     // recordPosition();
-    setInterval(() => {
-      if (recording && !loading) {
+    // console.log('hi');
+
+    if (recording && !loading) {
+      recordPosition();
+      pathRef.current = setInterval(() => {
         recordPosition();
-      }
-    }, 3000);
+      }, 3000);
+    } else {
+      clearInterval(pathRef.current);
+      pathRef.current = null;
+    }
     // if (!recording) clearInterval(interval);
   }, [recording]);
 

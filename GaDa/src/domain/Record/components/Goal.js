@@ -67,12 +67,10 @@ const Goal = ({ goal }) => {
         <Text style={styles.title}>거리</Text>
         <View style={styles.valueWrapper}>
           <Text style={styles.num}>
-            {parseInt(
-              getDistance({
-                distance: totalDistance,
-                unit: 'm',
-              }),
-            )}
+            {getDistance({
+              distance: totalDistance,
+              unit: 'm',
+            })}
           </Text>
           <Text style={styles.value}>m</Text>
         </View>
@@ -80,8 +78,7 @@ const Goal = ({ goal }) => {
           <Text style={styles.goal}>목표 미설정</Text>
         ) : (
           <Text style={styles.goal}>
-            목표 :{parseInt(getDistance({ distance: goalDistance, unit: 'm' }))}
-            m
+            목표 :{getDistance({ distance: goalDistance, unit: 'm' })}m
           </Text>
         )}
       </View>

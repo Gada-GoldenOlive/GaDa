@@ -3,6 +3,7 @@ import {
   createStackNavigator,
 } from '@react-navigation/stack';
 import React from 'react';
+import { SafeAreaView } from 'react-native';
 import HeaderComponent from '../components/HeaderComponent';
 import { boldFontFamily } from '../constant/fonts';
 import FriendsContainer from '../domain/Friends/container/FriendsContainer';
@@ -32,6 +33,7 @@ const FriendsNavigator = () => {
         title: {},
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         headerTitleAlign: 'center',
+        header: () => <SafeAreaView edges={['top']}></SafeAreaView>,
       }}
     >
       {Object.entries({ ...friendsScreen }).map(([name, component]) => (
