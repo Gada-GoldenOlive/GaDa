@@ -208,7 +208,9 @@ const HomeScreen = ({
   }, [isWalking]);
 
   useEffect(() => {
-    ref.current.reload();
+    if(Platform.OS === 'android'){
+      ref.current.reload();
+    }
   }, [selectedItem]);
 
   const url = 'https://ga-da-goldenolive.vercel.app';
