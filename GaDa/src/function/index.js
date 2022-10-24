@@ -142,7 +142,7 @@ export const getGoalHour = (time = 0) => {
 };
 
 export const getDistanceFromLatLonInKm = ({ lat1, lng1, lat2, lng2 }) => {
-  console.log({ lat1, lng1, lat2, lng2 });
+  // console.log({ lat1, lng1, lat2, lng2 });
   const deg2rad = deg => {
     return deg * (Math.PI / 180);
   };

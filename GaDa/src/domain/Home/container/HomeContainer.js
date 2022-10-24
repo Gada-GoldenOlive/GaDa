@@ -98,14 +98,17 @@ const HomeContainer = ({ navigation, route }) => {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
 
-        setLatitude(latitude);
-        setLongitude(longitude);
+        setCurrentPos({ lat: latitude, lng: longitude });
       },
       error => {
         console.log(error.code, error.message);
       },
     );
   };
+
+  useEffect(() => {
+    geoLocation();
+  }, []);
 
   useEffect(() => {
     // console.log({ beforeRecord, tmpNewRecord });
