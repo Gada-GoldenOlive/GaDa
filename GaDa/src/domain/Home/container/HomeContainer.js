@@ -230,7 +230,7 @@ const HomeContainer = ({ navigation, route }) => {
       setCurrentPos(currentPosition);
       dispatch(setIsRestart(false));
     }
-    
+
     setIsInformationVisible(false);
   };
   const handleClickWalkway = () => {
@@ -333,12 +333,15 @@ const HomeContainer = ({ navigation, route }) => {
     console.log({ locationList });
     if (locationList.length >= 1) {
       setGetDetailAddress(true);
-      return getDistanceFromLatLonInKm({
-        lat1: locationList[0].lat,
-        lng1: locationList[0].lng,
-        lat2: locationList[locationList.length - 1].lat,
-        lng2: locationList[locationList.length - 1].lng,
-      });
+      return (
+        1000 *
+        getDistanceFromLatLonInKm({
+          lat1: locationList[0].lat,
+          lng1: locationList[0].lng,
+          lat2: locationList[locationList.length - 1].lat,
+          lng2: locationList[locationList.length - 1].lng,
+        })
+      );
     }
     return 0;
   };
