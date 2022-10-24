@@ -224,6 +224,11 @@ const HomeContainer = ({ navigation, route }) => {
   };
 
   const closeInformation = () => {
+    if (isRestart) {
+      setCurrentPos(currentPosition);
+      dispatch(setIsRestart(false));
+    }
+    
     setIsInformationVisible(false);
   };
   const handleClickWalkway = () => {
