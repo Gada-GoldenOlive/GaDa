@@ -161,6 +161,7 @@ const HomeContainer = ({ navigation, route }) => {
         enableHighAccuracy: Platform.OS === 'ios' ? true : false,
         accurace: { ios: 'best' },
         timeout: 1000,
+        maximumAge: 10000,
       },
     );
 
