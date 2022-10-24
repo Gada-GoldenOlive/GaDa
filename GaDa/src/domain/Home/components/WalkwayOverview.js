@@ -110,7 +110,7 @@ const WalkwayOverview = ({
               <View style={styles.bottomContainer}>
                 <TouchableWithoutFeedback onPress={() => copyToClipboard()}>
                   <View style={styles.bottomWrapper}>
-                    <Text style={styles.bottomText}>주소복사임</Text>
+                    <Text style={styles.bottomText}>주소복사</Text>
                   </View>
                 </TouchableWithoutFeedback>
               </View>
