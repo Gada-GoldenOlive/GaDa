@@ -34,7 +34,7 @@ const DetailPinScreen = ({
   commentChange,
   handlePostComment,
   modifyPin,
-  handleDeletePin
+  handleDeletePin,
 }) => {
   const { userId: myId } = useSelector(state => state.user);
   const { id, title, content, image, walkwayId, updatedAt, userId } = pinData;
@@ -51,15 +51,23 @@ const DetailPinScreen = ({
     return (
       <View style={styles.topContainer}>
         <View style={styles.topWrapper}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start' }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'flex-start',
+            }}
+          >
             <View style={styles.pinWrapper}>
               <Text style={styles.pin}>핀{index + 1}</Text>
             </View>
-          <Text style={styles.date}>{getDate(updatedAt)} 작성</Text>
+            <Text style={styles.date}>{getDate(updatedAt)} 작성</Text>
           </View>
           {userId === myId && (
             <View style={styles.iconContainer}>
-              <TouchableWithoutFeedback onPress={() => modifyPin(pinData, index)}>
+              <TouchableWithoutFeedback
+                onPress={() => modifyPin(pinData, index)}
+              >
                 <CustomImage
                   source={Writing}
                   style={[styles.icon, { marginEnd: 20 }]}
@@ -110,6 +118,8 @@ const DetailPinScreen = ({
                 style={styles.input}
                 onChangeText={commentChange}
                 value={comment}
+                multiline
+                returnKeyType="default"
               />
               <TouchableWithoutFeedback onPress={handlePostComment}>
                 <View style={styles.imageWrapper}>
@@ -139,7 +149,7 @@ const styles = StyleSheet.create({
   topWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   pinWrapper: {
     backgroundColor: mainColor,

@@ -15,9 +15,9 @@ const MyTextInput = forwardRef((props, ref) => {
       textAlignVertical="top"
       placeholder={placeholder}
       placeholderTextColor={descriptionColorVer2}
-      {...restProps}
       ref={ref}
       returnKeyType="done"
+      {...restProps}
     />
   );
 });
