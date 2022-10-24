@@ -9,6 +9,7 @@ const SET_IS_RESTART = 'status/SET_IS_RESTART';
 const SET_RESTART_WALKWAY = 'status/SET_RESTART_WALKWAY';
 const SET_IS_CREATE = 'status/SET_IS_CREATE';
 const SET_TEMP_WALKWAY_DATA = 'status/SET_TEMP_WALKWAY_DATA';
+const SET_PIN_LIST = 'status/SET_PIN_LIST';
 
 const SET_BADGES = 'status/SET_BADGES';
 
@@ -68,6 +69,11 @@ export const setBadges = value => ({
   value,
 });
 
+export const setPinList = value => ({
+  type: SET_PIN_LIST,
+  value,
+})
+
 // reducer initial state
 const initialState = {
   bottomTabVisible: true,
@@ -81,6 +87,7 @@ const initialState = {
   isCreate: false,
   tempWalkwayData: {},
   badges: [],
+  pinList: [],
 };
 
 // reducer
@@ -140,6 +147,11 @@ export default function status(state = initialState, action) {
       return {
         ...state,
         badges: action.value,
+      };
+    case SET_PIN_LIST:
+      return {
+        ...state,
+        pinList: action.value,
       };
     default:
       return state;

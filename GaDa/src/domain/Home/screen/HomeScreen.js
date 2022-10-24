@@ -208,10 +208,14 @@ const HomeScreen = ({
   }, [isWalking]);
 
   useEffect(() => {
-    if (Platform.OS === 'android') {
+    if (Platform.OS === 'android' && isRestart) {
       ref.current.reload();
     }
   }, [selectedItem]);
+  useEffect(() => {
+    ref.current.reload();
+    geoLocation();
+  },[]);
 
   const url = 'https://ga-da-goldenolive.vercel.app';
 
@@ -219,7 +223,7 @@ const HomeScreen = ({
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       <WebView
         source={{ uri: url }}
-        //source={{ uri: 'https://6a5b-221-146-182-190.jp.ngrok.io' }}
+        //source={{ uri: ' https://6a5b-221-146-182-190.jp.ngrok.io/' }}
         injectedJavaScript={INJECTED_JAVASCRIPT}
         ref={ref}
         javaScriptEnabled

@@ -28,7 +28,7 @@ const ReviewImageList = ({ images = [], handleNavigate = null }) => {
           handleClick(index);
         }}
       >
-        <View style={styles.imageList}>
+        <View style={[styles.imageList, index === images.length - 1 && {marginEnd: 16}]}>
           <CustomImage
             style={styles.smallImage}
             source={{ uri: url }}
@@ -65,13 +65,16 @@ export default ReviewImageList;
 
 const styles = StyleSheet.create({
   container: {
+    flex:1,
     paddingTop: 25,
     paddingBottom: 25,
   },
-  imageList: {},
+  imageList: {
+    flex: 1,
+    marginStart: 16,
+  },
   smallImage: {
     width: 97,
     height: 97,
-    marginStart: 16,
   },
 });

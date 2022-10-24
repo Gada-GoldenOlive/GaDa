@@ -32,6 +32,7 @@ import LikeReviewsContainer from '../domain/Record/container/LikeReviewsContaine
 import GettingWalkwayContainer from '../domain/Feed/container/GettingWalkwayContainer';
 import DetailFeedContainer from '../domain/Feed/container/DetailFeedContainer';
 import CreateWalkwayContainer from '../domain/Feed/container/CreateWalkwayContainer';
+import CreateReviewContainer from '../domain/Feed/container/CreateReviewContainer';
 import ModifyPWContainer from '../domain/Auth/container/ModifyPWContainer';
 import MyRecordContainer from '../domain/Record/container/MyRecordContainer';
 import DetailPinContainer from '../domain/Pin/container/DetailPinContainer';
@@ -107,9 +108,14 @@ const detailFeedScreens = [
   { name: 'DetailPin', screen: DetailPinContainer },
 ];
 
-const createWalkwayScreen = {
-  CreateWalkway: CreateWalkwayContainer,
-};
+const createWalkwayScreens = [
+  {
+    name: 'CreateWalkway',
+    title: '산책로 등록',
+    screen: CreateWalkwayContainer,
+  },
+  { name: 'CreateReview', title: '리뷰', screen: CreateReviewContainer },
+];
 
 const RootStack = createStackNavigator();
 const RootNavigation = () => {
@@ -309,24 +315,21 @@ const RootNavigation = () => {
           />
         );
       })}
-      {Object.entries({ ...createWalkwayScreen }).map(([name, component]) => (
-        <RootStack.Screen
-          key={name}
-          name={name}
-          component={component}
-          options={({ route }) => {
-            const { params = {} } = route;
-            const { type = 'create' } = params;
-            return {
+      {createWalkwayScreens.map(({ name, title, screen }) => {
+        return (
+          <RootStack.Screen
+            key={name}
+            name={name}
+            component={screen}
+            options={{
+              headerTitle: title,
               headerShown: true,
               headerLeft: () => <BackButton />,
-              headerTitle: type === 'create' ? '산책로 등록' : '리뷰',
-              headerRight: type === 'create' ? () => <CancelButton /> : null,
-            };
-          }}
-        />
-      ))}
-
+              headerRight: name === 'CreateWalkway' ? () => <CancelButton /> : null,
+            }}
+          />
+        );
+      })}
       <RootStack.Screen name="BottomTab" component={BottomTab} />
     </RootStack.Navigator>
   );
