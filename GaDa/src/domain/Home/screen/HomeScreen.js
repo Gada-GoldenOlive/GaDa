@@ -216,17 +216,14 @@ const HomeScreen = ({
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       <WebView
         source={{ uri: url }}
-        // source={{ uri: 'https://0ec9-110-8-134-126.jp.ngrok.io' }}
+        //source={{ uri: 'https://6a5b-221-146-182-190.jp.ngrok.io' }}
         injectedJavaScript={INJECTED_JAVASCRIPT}
         ref={ref}
         javaScriptEnabled
         onMessage={handleReceive}
         onContentProcessDidTerminate={() => {
-          console.log('언제돼')
           ref.current?.reload();
         }}
-        onLoadProgress={() =>  console.log('haha')}
-        onLoadEnd={() => { console.log('end'); getWalkway(currentPos)}}
       />
 
       {/* <NewPinButton handleConnection={handleConnection} ref={ref} /> */}

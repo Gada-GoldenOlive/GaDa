@@ -17,7 +17,7 @@ const FeedContainer = ({ navigation, route }) => {
   const [isDataLoading, setIsDataLoading] = useState(false);
   const [isLast, setIsLast] = useState(false);
   const [nextUrl, setNextUrl] = useState('');
-  const [order, setOrder] = useState('DISTANCE');
+  const [order, setOrder] = useState('LATEST');
   const [latitude, setLatitude] = useState(0);
   const [longitude, setLongitude] = useState(0);
 
