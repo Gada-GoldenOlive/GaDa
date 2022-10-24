@@ -54,6 +54,8 @@ const MapScreen = ({
 
   const [movingCurrentList, setMovingCurrentList] = useState();
 
+  const [phoneType, setPhoneType] = useState();
+
   // const [map, setMap] = useState();
   // const [detailAddress, setDetailAddress] = useState();
   // const geocoder = new window.kakao.maps.services.Geocoder();
@@ -66,6 +68,18 @@ const MapScreen = ({
   //     setDetailAddress(res)
   //   );
   // };
+
+  useEffect(() => {
+    var IorA = navigator.userAgent.toLowerCase();
+
+    if (IorA.indexOf("android") !== -1) {
+      // android 일 때
+      setPhoneType("android");
+    } else if (IorA.indexOf("iphone") !== -1) {
+      // iphone 일 때
+      setPhoneType("ios");
+    }
+  }, []);
 
   const geoLocation = (ver = "null") => {
     if (navigator.geolocation) {
@@ -133,9 +147,10 @@ const MapScreen = ({
           }
         },
         {
-          enableHighAccuracy: true,
-          accurace: { ios: "best" },
+          enableHighAccuracy: phoneType === "ios" ? true : false,
+          accuracy: { ios: "best" },
           timeout: 1000,
+          maximumAge: 10000,
         }
       );
     } else {
@@ -176,8 +191,8 @@ const MapScreen = ({
   useEffect(() => {
     setInterval(() => {
       geoLocation("watch");
-    }, 3000);
-  });
+    }, 1000);
+  }, []);
 
   const handleReceiveMessage = async () => {
     await window.addEventListener("message", (event) => {
@@ -215,7 +230,9 @@ const MapScreen = ({
         } else {
           setWalkwayPath(event.data.path);
           setWalkwayPins("null");
-          setPathStartPoint(event.data.startPoint);
+          if (event.data.path.length === 1) {
+            setPathStartPoint(event.data.startPoint);
+          }
           // setCurrentState({
           //   ...currentState,
           //   center: event.data.nowPos,
@@ -229,9 +246,6 @@ const MapScreen = ({
       }
     });
   };
-  useEffect(() => {
-    // alert(JSON.stringify(walkwayPath));
-  }, [walkwayPath]);
 
   // 각 버튼 클릭시 실행할 것들
   useEffect(() => {
@@ -258,7 +272,7 @@ const MapScreen = ({
     if (isCurrentPosClicked) {
       setIsCurrentPosClicked(false);
     }
-  }, [walkwayPath, pathStartPoint]);
+  }, [pathStartPoint]);
   useEffect(() => {
     if (isStartWalkClicked === true) {
       setState((prev) => ({ ...prev, center: pathStartPoint }));
