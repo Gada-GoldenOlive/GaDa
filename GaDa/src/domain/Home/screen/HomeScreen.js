@@ -208,7 +208,7 @@ const HomeScreen = ({
   }, [isWalking]);
 
   useEffect(() => {
-    if(Platform.OS === 'android'){
+    if (Platform.OS === 'android') {
       ref.current.reload();
     }
   }, [selectedItem]);
@@ -227,6 +227,7 @@ const HomeScreen = ({
         onContentProcessDidTerminate={() => {
           ref.current?.reload();
         }}
+        geolocationEnabled={true}
       />
 
       {/* <NewPinButton handleConnection={handleConnection} ref={ref} /> */}
