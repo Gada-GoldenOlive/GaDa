@@ -99,7 +99,7 @@ export const getDistance = ({ distance = 0, unit = 'm' }) => {
     const regexp = /\B(?=(\d{3})+(?!\d))/g;
     return fixed.toString().replace(regexp, ',');
   } else {
-    const str = String(distance > 0 ? (distance / 1000).toFixed(3) : 0);
+    const str = String(distance > 0 ? (distance / 1000).toFixed(2) : 0);
     return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
   }
 };
