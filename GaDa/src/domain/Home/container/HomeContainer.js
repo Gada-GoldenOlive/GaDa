@@ -106,9 +106,9 @@ const HomeContainer = ({ navigation, route }) => {
     );
   };
 
-  useEffect(() => {
-    geoLocation();
-  }, []);
+  // useEffect(() => {
+  //   geoLocation();
+  // }, []);
 
   useEffect(() => {
     // console.log({ beforeRecord, tmpNewRecord });
