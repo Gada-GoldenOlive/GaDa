@@ -15,7 +15,7 @@ const FilteringButton = ({ setOrder }) => {
     { title: '최신순', value: 'LATEST' },
     { title: '좋아요순', value: 'LIKE' },
   ];
-  const [clickedItem, setClickedItem] = useState(itemList[0]);
+  const [clickedItem, setClickedItem] = useState(itemList[1]);
   const [modalVisible, setModalVisibile] = useState(false);
 
   const handleClick = item => {

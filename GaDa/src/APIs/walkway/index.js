@@ -7,7 +7,7 @@ export const createWalkway = async walkwayData => {
       console.log({ data });
       return data;
     })
-    .catch(e => console.log(e.response.data));
+    .catch(handleNetworkError);
   return res;
 };
 

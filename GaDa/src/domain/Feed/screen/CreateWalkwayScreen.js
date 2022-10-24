@@ -119,7 +119,7 @@ const CreateWalkwayScreen = ({
     ImageCropPicker.openCamera(
       Platform.OS === 'ios'
         ? { ...baseCameraOption, ...iosOptions }
-        : baseCameraOption,
+        : { ...baseCameraOption, multiple: false },
     ).then(async image => {
       const uri = `data:${image.mime};base64,${image.data}`;
       setTemp(prev => [...prev, { url: uri }]);
@@ -157,9 +157,8 @@ const CreateWalkwayScreen = ({
     setIsVisible(false);
   };
   const openThumbnailModal = () => {
-    if(type === 'create'){
+    if (type === 'create') {
       setIsThumbnailVisible(true);
-
     }
   };
   const cancelThumbnailModal = () => {
@@ -210,6 +209,7 @@ const CreateWalkwayScreen = ({
               multiline
               onChangeText={contentTextChange}
               value={content}
+              returnKeyType="default"
             />
           </View>
           <View style={styles.cameraContainer}>

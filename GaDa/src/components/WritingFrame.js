@@ -117,7 +117,7 @@ const WritingFrame = ({
         bounces={false}
         showsVerticalScrollIndicator={false}
       >
-        <View>
+        <View style={{ paddingBottom: 300 }}>
           <TouchableWithoutFeedback onPress={openModal}>
             <View style={styles.imageContainer}>
               {/* <View style={styles.graient} /> */}
@@ -143,6 +143,7 @@ const WritingFrame = ({
               multiline
               onChangeText={contentTextChange}
               value={content}
+              returnKeyType="default"
             />
             {type === 'modify' && address !== '' && (
               <View style={styles.bottomContainer}>

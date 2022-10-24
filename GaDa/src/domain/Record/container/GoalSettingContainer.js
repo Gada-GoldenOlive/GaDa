@@ -9,8 +9,9 @@ const GoalSettingContainer = ({ route, navigation }) => {
   const { params = {} } = route;
   const { goalInfo = {}, userId } = params;
   const { goalTime, goalDistance } = goalInfo;
-  const [time, setTime] = useState(goalTime);
-  const [distance, setDistance] = useState(goalDistance);
+  const [time, setTime] = useState(goalTime? goalTime : '');
+  const [distance, setDistance] = useState(goalDistance ?  goalDistance : '');
+  const [clickable, setClickable] = useState(false);
   const dispatch = useDispatch();
 
   const timeChange = text => {
@@ -33,6 +34,8 @@ const GoalSettingContainer = ({ route, navigation }) => {
     }
     navigation.navigate('Record', {refresh: {}});
   };
+
+  
   return (
     <GoalSettingScreen
       time={time}
