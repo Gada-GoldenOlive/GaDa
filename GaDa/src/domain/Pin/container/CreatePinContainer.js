@@ -68,7 +68,7 @@ const CreatePinContainer = ({ navigation, route }) => {
           dispatch(setBadges(achieves));
         }
         dispatch(setPinNum(pinNum + 1));
-        dispatch(refreshImages());
+        dispatch(await refreshImages());
         navigation.pop();
         navigation.goBack();
       }
@@ -121,9 +121,9 @@ const CreatePinContainer = ({ navigation, route }) => {
       setImageLink(prevImage);
     }
   }, []);
-  useEffect(() => {
+  useEffect(async () => {
     if (type === 'create') {
-      dispatch(refreshImages());
+      dispatch(await refreshImages());
     }
   }, []);
 

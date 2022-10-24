@@ -62,7 +62,7 @@ const RecordContainer = ({ navigation, route }) => {
 
   const getRecentWalks = async () => {
     const res = await getMyWalkList(1);
-
+    console.log(res);
     /*
     {"walks": [{"createdAt": "2022-10-12T17:55:14.461Z", "distance": 160, "finishStatus": "FINISHED", 
     "id": "36040ddd-b16a-47f0-99b0-9a5368dcba76", "image": "https://picsum.photos/400/250/?image=481", 
@@ -136,7 +136,7 @@ const RecordContainer = ({ navigation, route }) => {
 
   const handleNavigateHome = () => {
     navigation.navigate('BottomTabHome')
-  }
+  };
   const fetchAllData = async () => {
     setLoading(true);
     await Promise.all([getBadge(), getMyWalks(), getRecentWalks()]);

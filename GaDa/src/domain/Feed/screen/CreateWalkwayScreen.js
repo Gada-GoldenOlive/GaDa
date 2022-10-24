@@ -119,7 +119,7 @@ const CreateWalkwayScreen = ({
     ImageCropPicker.openCamera(
       Platform.OS === 'ios'
         ? { ...baseCameraOption, ...iosOptions }
-        : baseCameraOption,
+        : {...baseCameraOption, multiple: false},
     ).then(async image => {
       const uri = `data:${image.mime};base64,${image.data}`;
       setTemp(prev => [...prev, { url: uri }]);

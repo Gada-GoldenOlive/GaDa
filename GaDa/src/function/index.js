@@ -142,6 +142,7 @@ export const getGoalHour = (time = 0) => {
 };
 
 export const getDistanceFromLatLonInKm = ({ lat1, lng1, lat2, lng2 }) => {
+  console.log({ lat1, lng1, lat2, lng2 });
   const deg2rad = deg => {
     return deg * (Math.PI / 180);
   };
@@ -170,9 +171,13 @@ export const getTimeFromSec = time => {
   const min = Math.floor((time - hour * 3600) / 60);
   const sec = Math.floor(time - hour * 3600 - min * 60);
 
-  const hourString = hour > 0 ? `${hour}: ` : '';
-  const minString = min > 0 ? `${min}:` : '';
-  const secString = min > 0 || hour > 0 ? `${sec}초` : `${sec}`;
+  const hourString = hour > 0 ? `${hour}시: ` : '';
+  const minString = min > 0 ? `${min}분:` : '';
+  const secString = sec > 0 ? `${sec}초` : `0초`;
   const timeString = hourString + minString + secString;
-  return timeString;
+  if (hour > 0) {
+    return `${hour}:${min}:${sec}`;
+  } else {
+    return timeString;
+  }
 };

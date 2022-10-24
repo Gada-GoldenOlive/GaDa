@@ -224,6 +224,13 @@ const HomeContainer = ({ navigation, route }) => {
   };
 
   const closeInformation = () => {
+    console.log('closeinfo');
+    if (isRestart) {
+      console.log(isRestart);
+      setCurrentPos(currentPosition);
+      dispatch(setIsRestart(false));
+    }
+    
     setIsInformationVisible(false);
   };
   const handleClickWalkway = () => {
@@ -326,11 +333,12 @@ const HomeContainer = ({ navigation, route }) => {
     console.log({ locationList });
     if (locationList.length >= 1) {
       setGetDetailAddress(true);
-      return getDistance(
-        locationList[0],
-        locationList[locationList.length - 1],
-        0.1,
-      );
+      return getDistanceFromLatLonInKm({
+        lat1: locationList[0].lat,
+        lng1: locationList[0].lng,
+        lat2: locationList[locationList.length - 1].lat,
+        lng2: locationList[locationList.length - 1].lng,
+      });
     }
     return 0;
   };
@@ -341,11 +349,11 @@ const HomeContainer = ({ navigation, route }) => {
     dispatch(setEndTime(res));
     dispatch(setIsWalking(false));
     const time = getDuringTime();
-    const dis = finishRecord().toFixed(2);
+    const dis = finishRecord();
     console.log(dis);
     const nowWalk = {
       time: time,
-      distance: dis / 10,
+      distance: dis,
       pinCount: pinNum,
       finishStatus: status,
       walkwayId: selectedItem.id,
