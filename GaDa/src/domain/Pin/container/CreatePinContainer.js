@@ -130,7 +130,7 @@ const CreatePinContainer = ({ navigation, route }) => {
   }, []);
   useEffect(async () => {
     if (type === 'create') {
-      dispatch(await refreshImages());
+      dispatch(refreshImages());
     }
   }, []);
 

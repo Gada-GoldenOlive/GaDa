@@ -1,124 +1,73 @@
+import { View, Text } from 'react-native';
 import React from 'react';
-import { useEffect } from 'react';
-import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createReview } from '../../../APIs/review';
-import { createWalk } from '../../../APIs/walk';
 import { createWalkway, getAddressByCoords } from '../../../APIs/walkway';
-import { s3 } from '../../../constant/setting';
-import { showErrorToastMessage } from '../../../function/error';
 import { getParam } from '../../../function/image';
+import { s3 } from '../../../constant/setting';
 import {
-  setImageFileList,
-  setWalkwayImages,
-  setThumbnailImage,
-  setThumbnailFile,
+  setBadges,
+  setPinList,
+  setTempWalkwayData,
+} from '../../../redux/modules/status';
+import { createPin } from '../../../APIs/pin';
+import { useEffect } from 'react';
+import {
   refreshImages,
+  setThumbnailImage,
 } from '../../../redux/modules/images';
-import { setBadges, setTempWalkwayData } from '../../../redux/modules/status';
 import CreateWalkwayScreen from '../screen/CreateWalkwayScreen';
+import { useState } from 'react';
+import { createWalk } from '../../../APIs/walk';
 
 const CreateWalkwayContainer = ({ navigation, route }) => {
+  // 산책로 제작
+  // 제목, 시간, 거리, 썸네일
   const { params = {} } = route;
-  const { item = {}, type = 'create' } = params;
-  const { walkwayImages, imageFileList, thumbnailImage, thumbnailFile } =
-    useSelector(state => state.images);
-  const { isCreate } = useSelector(state => state.status);
+  const { item = {} } = params;
+  const dispatch = useDispatch();
+
+  const { thumbnailImage, thumbnailFile } = useSelector(state => state.images);
+  const { pinList, badges } = useSelector(state => state.status);
+
+  const [clickable, setClickable] = useState(false);
 
   const [walkwayTitle, setTitle] = useState(item.title);
-  const [content, setContent] = useState('');
-  const [rate, setRate] = useState(0);
-  const [clickable, setClickable] = useState(false);
-  const dispatch = useDispatch();
-  const [imageList, setImageList] = useState([]);
+  const [thumbnail, setThumbnail] = useState('');
+  const [walkwayAddress, setWalkwayAddress] = useState('');
   const [requestBody, setRequestBody] = useState(() => {
     return {
       title: '',
-      star: 0,
-      content: '',
-      images: [],
-      walkId: 'cd031c7d-e69f-4bd2-bbd9-f6a14a13ed74',
+      address: walkwayAddress,
+      distance: item?.distance,
+      time: item?.time,
+      path: item?.path,
+      image: '',
+      status: 'PRIVATE',
     };
   });
   const [walkData, setWalkData] = useState({
-    title: '',
-    address: '서울',
-    distance: item?.distance,
-    time: item?.time,
-    path: item?.path,
-    image: '',
+    time: item.time,
+    distance: item.distance,
+    pinCount: item.pinCount,
+    finishStatus: 'UNFINISHED',
   });
-  const [thumbnail, setThumbnail] = useState();
-
-  const titleTextChange = text => {
-    setTitle(text);
-  };
-  const contentTextChange = text => {
-    setContent(text);
-  };
-
   const fetchAddress = async () => {
     const res = await getAddressByCoords({
       x: item.path[0].lng,
       y: item.path[0].lat,
     });
-
     const data = res.documents[0];
     const { address, road_address: roadAddress } = data;
-
     if (roadAddress === null) {
-      setWalkData(prev => ({
-        ...prev,
-        address: address.address_name,
-      }));
+      setWalkwayAddress(address.address_name);
     } else {
-      setWalkData(prev => ({
-        ...prev,
-        address: roadAddress.address_name,
-      }));
-    }
-  };
-  const changeBody = () => {
-    if (isCreate) {
-      setWalkData(prev => ({
-        ...prev,
-        title: walkwayTitle,
-        distance: item.distance,
-        time: item.time,
-        path: item.path,
-        image: thumbnailImage,
-        status: 'PRIVATE',
-      }));
-    } else {
-      setRequestBody(prev => {
-        const res = { ...prev };
-        res.title = walkwayTitle;
-        res.star = rate;
-        res.images = imageList;
-        res.content = content;
-        res.walkId = item.id;
-        return res;
-      });
+      setWalkwayAddress(roadAddress.address_name);
     }
   };
 
-  const createImages = async () => {
-    if (imageFileList !== [] && imageFileList !== null) {
-      imageFileList.map(async imageFile => {
-        const param = await getParam(imageFile);
-        s3.upload(param, async (err, data) => {
-          if (err) {
-            console.log('image upload err: ' + err);
-            return;
-          }
-          const imgTag = `${data.Location}`;
-          setImageList(prev => [...prev, imgTag]);
-        });
-      });
-    } else {
-    }
+  const titleTextChange = text => {
+    setTitle(text);
   };
-
   const createThumbnailImages = async () => {
     if (thumbnailFile !== '' && thumbnailFile !== null) {
       // imageFileList.map(async imageFile => {
@@ -129,27 +78,20 @@ const CreateWalkwayContainer = ({ navigation, route }) => {
           return;
         }
         const imgTag = `${data.Location}`;
+        dispatch(setThumbnailImage(imgTag));
         setThumbnail(imgTag);
       });
-      // });
-    } else {
-
-    }
-  };
-  const handleCreateReview = async () => {
-    const res = await createReview(requestBody);
-    if (res) {
-      navigation.navigate('Feed', {refresh: {}});
     }
   };
 
   const handleCreateWalkway = async () => {
-    const res = await createWalkway(walkData);
+    const res = await createWalkway(requestBody);
     if (res) {
       const { achieves = [] } = res;
       if (achieves.length > 0) {
-        dispatch(setBadges(achieves));
+        dispatch(setBadges([...badges, ...achieves]));
       }
+
       const resWalk = await createWalk({
         time: walkData.time,
         distance: walkData.distance,
@@ -157,98 +99,94 @@ const CreateWalkwayContainer = ({ navigation, route }) => {
         finishStatus: 'UNFINISHED',
         walkwayId: res.id,
       });
-      console.log({resWalk});
+
       if (resWalk) {
         const { achieves = [] } = resWalk;
         if (achieves.length > 0) {
-          dispatch(setBadges(achieves));
+          dispatch(setBadges([...badges, ...achieves]));
         }
       }
-  
+
+      if (pinList.length > 0) {
+        pinList.map(async pinData => {
+          const pinRes = await createPin({ ...pinData, walkwayId: res.id });
+          if (pinRes) {
+            const { achieves = [] } = pinRes;
+            if (achieves.length > 0) {
+              dispatch(setBadges([...badges, ...achieves]));
+            }
+          }
+        });
+      }
       const walkwayforUpdate = {
-        ...walkData,
+        ...requestBody,
         id: res.id,
+        walkId: resWalk.id
       };
       const forFeed = {
-        title: walkData.title,
-        // vehicle: 'walk',
-        star: rate,
-        content,
-        images: imageList,
-        walkId: resWalk.id,
-      };
+        ...requestBody,
+        id: resWalk.id,
+      }
       dispatch(setTempWalkwayData({ walkwayforUpdate, forFeed }));
+      dispatch(setPinList([]));
+      navigation.navigate('Home', { refresh: {}, endShareModal: true });
     } else {
       showErrorToastMessage();
+      dispatch(setPinList([]));
+      navigation.navigate('Home', { refresh: {}, endShareModal: false });
     }
-
-    navigation.navigate('Home', { refresh: {}, endShareModal: true });
   };
+
+  const changeBody = () => {
+    setRequestBody(prev => ({
+      ...prev,
+      title: walkwayTitle,
+      distance: item.distance,
+      time: item.time,
+      path: item.path,
+      image: thumbnail,
+      status: 'PRIVATE',
+      address: walkwayAddress,
+    }));
+    setWalkData(prev => ({
+      ...prev,
+      title: walkwayTitle,
+      distance: item.distance,
+      time: item.time,
+      path: item.path,
+      image: thumbnailImage,
+      status: 'PRIVATE',
+    }));
+  };
+
   const handlePress = () => {
-    if (thumbnailFile !== '') {
-      createThumbnailImages();
-    }
-    if (imageFileList.length > 0) {
-      createImages();
-    } else {
-      if (isCreate) {
-        handleCreateWalkway();
-      } else {
-        handleCreateReview();
-      }
-    }
+    createThumbnailImages();
   };
-
   useEffect(() => {
     changeBody();
-  }, [walkwayTitle, rate, imageList, item, content, thumbnailImage]);
+  }, [walkwayTitle, thumbnailImage, thumbnail, item, walkwayAddress]);
 
   useEffect(() => {
-    dispatch(setWalkwayImages(imageList));
-  }, [imageList]);
-  useEffect(() => {
-    dispatch(setThumbnailImage(thumbnail));
-  }, [thumbnail]);
-
-  useEffect(() => {
-    // console.log(
-    //   imageList.length,
-    //   imageFileList.length,
-    //   requestBody.images.length,
-    // );
-    if (
-      requestBody.images.length === imageFileList.length &&
-      clickable &&
-      imageList.length > 0
-    ) {
-      handleCreateReview();
-    }
-  }, [requestBody.images]);
-  useEffect(() => {
-    if (thumbnailFile !== '' && walkData.image !== '' && clickable) {
-      handleCreateWalkway();
-    }
-  }, [walkData.image]);
-
-  useEffect(() => {
-    if (walkwayTitle.length > 0 && content.length > 0 && rate > 0) {
-      if (isCreate) {
-        if (thumbnailFile !== '') {
-          setClickable(true);
-        } else {
-          setClickable(false);
-        }
-      } else {
-        setClickable(true);
-      }
+    if (walkwayTitle.length > 0 && thumbnailFile !== null) {
+      setClickable(true);
     } else {
       setClickable(false);
     }
-  }, [walkwayTitle, content, rate, thumbnailFile]);
+  }, [walkwayTitle, thumbnailFile]);
 
-  useEffect(async () => {
-    dispatch(await refreshImages());
+  useEffect(() => {
+    if (requestBody.image !== '' && clickable && thumbnailFile !== null) {
+      handleCreateWalkway();
+    }
+  }, [requestBody]);
+
+  useEffect(() => {
+    dispatch(refreshImages());
     fetchAddress();
+  }, []);
+
+  useEffect(() => {
+    refreshImages();
   }, []);
 
   return (
@@ -256,19 +194,12 @@ const CreateWalkwayContainer = ({ navigation, route }) => {
       navigation={navigation}
       item={item}
       walkwayTitle={walkwayTitle}
-      content={content}
-      rate={rate}
       clickable={clickable}
-      imageFileList={imageFileList}
-      walkwayImages={walkwayImages}
-      setRate={setRate}
       titleTextChange={titleTextChange}
-      contentTextChange={contentTextChange}
       handlePress={handlePress}
-      address={isCreate ? walkData.address : null}
+      address={walkwayAddress}
       thumbnailImage={thumbnailImage}
       thumbnailFile={thumbnailFile}
-      type={type}
     />
   );
 };

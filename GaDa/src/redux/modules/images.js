@@ -19,7 +19,7 @@ export const setUploadImagesChanged = boolean => ({
   type: SET_UPLOAD_IMAGES_CHANGED,
   boolean,
 });
-export const refreshImages = async () => ({
+export const refreshImages = () => ({
   type: REFRESH_IMAGES,
 });
 

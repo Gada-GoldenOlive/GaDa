@@ -18,7 +18,7 @@ const GettingWalkwayContainer = ({ navigation, route }) => {
   };
 
   const handleClick = () => {
-    navigation.navigate('CreateWalkway', {item: selectedItem, type: 'review'});
+    navigation.navigate('CreateReview', {item: selectedItem, type: 'review'});
   };
 
   const clickItem = item => {
