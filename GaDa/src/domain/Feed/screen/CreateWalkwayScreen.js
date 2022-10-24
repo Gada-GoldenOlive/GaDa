@@ -91,7 +91,7 @@ const CreateWalkwayScreen = ({
     ).then(image => {
       const uri = `data:${image.mime};base64,${image.data}`;
       dispatch(setIsThumbnail(true));
-      
+
       const imageList = [];
       imageList.push({ imageData: image, image: image.path });
 
@@ -111,10 +111,7 @@ const CreateWalkwayScreen = ({
     setIsVisible(false);
   };
 
-  const hour = getGoalHour(time)[0];
-  const min = getGoalHour(time)[1];
-  const sec = hour === '' || min === '' ? getGoalHour(time)[2] : '';
-  const res = hour.toString() + min.toString() + sec.toString();
+  const timeToMin = (time / 60).toFixed(2);
 
   return (
     <View style={styles.contianer}>
@@ -140,7 +137,10 @@ const CreateWalkwayScreen = ({
                   </Text>
                 </View>
               )}
-              <CustomImage source={{uri:thumbnailImage}} style={styles.image} />
+              <CustomImage
+                source={{ uri: thumbnailImage }}
+                style={styles.image}
+              />
             </View>
           </TouchableWithoutFeedback>
         </View>
@@ -159,18 +159,26 @@ const CreateWalkwayScreen = ({
               <View style={styles.informationWrapper}>
                 <View style={styles.information}>
                   <Text style={styles.informationTitle}>거리</Text>
-     
-                  <Text style={styles.num}>
-                    {getDistance({ distance: distance, unit: 'm' })}
-                  </Text>
-                  <Text style={styles.informationDescription}>(m)</Text>
-          
-                </View>
-                <View style={{height: '100%', backgroundColor: descriptionColorVer2, width: 1}}/>
+                    <Text style={styles.num}>
+                      {getDistance({ distance: distance, unit: 'm' })}
+                    </Text>
+                    <Text style={styles.informationDescription}>(m)</Text>
+                  </View>
+                <View
+                  style={{
+                    height: '100%',
+                    backgroundColor: descriptionColorVer2,
+                    width: 1,
+                  }}
+                />
                 <View style={styles.information}>
                   <Text style={styles.informationTitle}>시간</Text>
-                  <Text style={styles.num}>{time}</Text>
-                  <Text style={styles.informationDescription}>분</Text>
+                    <Text style={styles.num}>
+                      {timeToMin > 0 ? timeToMin : time}
+                    </Text>
+                    <Text style={styles.informationDescription}>
+                      {time < 1 ? '(초)' : '(분)'}
+                    </Text>
                 </View>
               </View>
             </View>
@@ -265,9 +273,9 @@ const styles = StyleSheet.create({
   information: {
     flexDirection: 'row',
     flex: 1,
-    paddingHorizontal: 38,
     justifyContent: 'space-between',
     alignItems: 'center',
+    paddingHorizontal: 16,
   },
   informationTitle: {
     color: 'rgb(215,215,215)',
@@ -276,6 +284,8 @@ const styles = StyleSheet.create({
     fontFamily: boldFontFamily,
     fontSize: 22,
     color: 'white',
+    flex: 1,
+    textAlign: 'center'
   },
   informationDescription: {
     color: 'white',
@@ -315,13 +325,6 @@ const styles = StyleSheet.create({
   camera: {
     width: 34,
     height: 34,
-  },
-  valueWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: 'pink',
-    flex: 1,
   },
   value: {
     color: 'white',
