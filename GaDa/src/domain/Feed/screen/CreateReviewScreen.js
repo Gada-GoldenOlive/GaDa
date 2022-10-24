@@ -50,11 +50,9 @@ const CreateReviewScreen = ({
   handlePress,
   address = null,
   thumbnailImage,
-  thumbnail,
   type,
 }) => {
   const { distance, image, time, title } = item;
-  const { isCreate } = useSelector(state => state.status);
 
   const dispatch = useDispatch();
 
@@ -82,8 +80,6 @@ const CreateReviewScreen = ({
   };
 
   const [isVisible, setIsVisible] = useState(false);
-  const [isThumbnailVisible, setIsThumbnailVisible] = useState(false);
-  const [temp, setTemp] = useState([]);
   const openCamera = () => {
     ImageCropPicker.openCamera(
       Platform.OS === 'ios'
@@ -91,7 +87,6 @@ const CreateReviewScreen = ({
         : baseCameraOption,
     ).then(async image => {
       const uri = `data:${image.mime};base64,${image.data}`;
-      setTemp(prev => [...prev, { url: uri }]);
       dispatch(setWalkwayImages([...walkwayImages, { url: uri }]));
       dispatch(setImageFileList([...imageFileList, image]));
       cancelModal();
@@ -115,54 +110,13 @@ const CreateReviewScreen = ({
     });
   };
 
-  const openCameraForThumbnail = () => {
-    ImageCropPicker.openCamera(
-      Platform.OS === 'ios'
-        ? { ...baseCameraOption, ...iosOptions }
-        : { ...baseCameraOption, multiple: false },
-    ).then(async image => {
-      const uri = `data:${image.mime};base64,${image.data}`;
-      setTemp(prev => [...prev, { url: uri }]);
-      dispatch(setThumbnailImage(uri));
-      dispatch(setThumbnailFile(image));
 
-      cancelThumbnailModal();
-    });
-  };
-  const openImageLibraryForThumbnail = () => {
-    ImageCropPicker.openPicker(
-      Platform.OS === 'ios'
-        ? { ...baseImageLibraryOption, ...iosOptions, multiple: false }
-        : { ...baseImageLibraryOption, multiple: false },
-    ).then(image => {
-      const uri = `data:${image.mime};base64,${image.data}`;
-      dispatch(setIsThumbnail(true));
-
-      const imageList = [];
-      imageList.push({ imageData: image, image: image.path });
-
-      navigation.navigate('DetailImage', {
-        idx: 0,
-        images: imageList,
-        ver: 'review',
-      });
-      cancelThumbnailModal();
-    });
-  };
-
+ 
   const openModal = () => {
     setIsVisible(true);
   };
   const cancelModal = () => {
     setIsVisible(false);
-  };
-  const openThumbnailModal = () => {
-    if (type === 'create') {
-      setIsThumbnailVisible(true);
-    }
-  };
-  const cancelThumbnailModal = () => {
-    setIsThumbnailVisible(false);
   };
 
   return (
@@ -173,13 +127,13 @@ const CreateReviewScreen = ({
         showsVerticalScrollIndicator={false}
       >
         <View>
-          <TouchableWithoutFeedback onPress={openThumbnailModal}>
+          <TouchableWithoutFeedback >
             <View style={styles.imageContainer}>
               {image === '' && (
                 <CustomImage source={Upload} style={styles.upload} />
               )}
               <CustomImage
-                source={isCreate ? { uri: thumbnailImage } : { uri: image }}
+                source={{ uri: thumbnailImage }}
                 style={styles.image}
               />
             </View>
@@ -281,12 +235,6 @@ const CreateReviewScreen = ({
         openCamera={openCamera}
         openImageLibrary={openImageLibrary}
         cancelModal={cancelModal}
-      />
-      <CameraSelectModal
-        isVisible={isThumbnailVisible}
-        openCamera={openCameraForThumbnail}
-        openImageLibrary={openImageLibraryForThumbnail}
-        cancelModal={cancelThumbnailModal}
       />
     </View>
   );

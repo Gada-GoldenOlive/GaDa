@@ -18,6 +18,7 @@ import {
 import CreateWalkwayScreen from '../screen/CreateWalkwayScreen';
 import { useState } from 'react';
 import { createWalk } from '../../../APIs/walk';
+import { showErrorToastMessage } from '../../../function/error';
 
 const CreateWalkwayContainer = ({ navigation, route }) => {
   // 산책로 제작

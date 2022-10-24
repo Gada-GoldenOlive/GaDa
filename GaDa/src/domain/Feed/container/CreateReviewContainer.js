@@ -28,7 +28,6 @@ const CreateWalkwayContainer = ({ navigation, route }) => {
   // item : address, distance, id, image, path, status, time, title만생각하기
   const { walkwayImages, imageFileList, thumbnailImage, thumbnailFile } =
     useSelector(state => state.images);
-  const { isCreate, pinList, badges } = useSelector(state => state.status);
 
   const [walkwayTitle, setTitle] = useState(item.title);
   const [content, setContent] = useState('');
@@ -87,7 +86,7 @@ const CreateWalkwayContainer = ({ navigation, route }) => {
     if (res) {
       navigation.navigate('BottomTabFeed', { refresh: {} });
     } else {
-      showErrorToastMessage('리뷰 생성')
+      showErrorToastMessage();
     }
   };
 

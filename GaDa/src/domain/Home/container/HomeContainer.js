@@ -302,7 +302,7 @@ const HomeContainer = ({ navigation, route }) => {
   const handleNavigateCreate = () => {
     console.log(locationList);
     // openEndShareModal();
-    if (walkData.distance < 0 || locationList.length < 1) {
+    if (walkData.distance < 10 || locationList.length < 1) {
       showToast();
       resetData();
     } else {
