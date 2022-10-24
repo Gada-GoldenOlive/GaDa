@@ -3,6 +3,7 @@ import {
   StyleSheet,
   TouchableWithoutFeedback,
   View,
+  Platform
 } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import CenterModal from '../../../components/CenterModal';
@@ -207,8 +208,11 @@ const HomeScreen = ({
   }, [isWalking]);
 
   useEffect(() => {
-    ref.current.reload();
-  }, []);
+    if(Platform.OS === 'android'){
+      ref.current.reload();
+
+    }
+  }, [selectedItem]);
 
   const url = 'https://ga-da-goldenolive.vercel.app';
 

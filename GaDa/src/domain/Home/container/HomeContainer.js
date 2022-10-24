@@ -224,7 +224,9 @@ const HomeContainer = ({ navigation, route }) => {
   };
 
   const closeInformation = () => {
+    console.log('closeinfo');
     if (isRestart) {
+      console.log(isRestart);
       setCurrentPos(currentPosition);
       dispatch(setIsRestart(false));
     }
