@@ -100,7 +100,7 @@ const MapScreen = ({
                 lng2: center.lng,
               }) *
                 1000 >
-              9
+              5
             )
               setCurrentState((prev) => ({
                 ...prev,
