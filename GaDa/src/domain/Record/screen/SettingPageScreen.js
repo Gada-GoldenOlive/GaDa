@@ -10,9 +10,21 @@ import {
 import { boldFontFamily, boldFontSize } from '../../../constant/fonts';
 import Text from '../../../components/MyText';
 
-const SettingPageScreen = ({handleNaigateNickname, handleNavigatePW, handleLogout, handleSignOut}) => {
+const SettingPageScreen = ({
+  handleNaigateNickname,
+  handleNavigatePW,
+  handleLogout,
+  handleSignOut,
+  handleNaivgateGuide,
+}) => {
   return (
     <View style={styles.container}>
+      <TouchableWithoutFeedback onPress={handleNaivgateGuide}>
+        <View style={styles.buttonContainer}>
+          <Text style={styles.buttonTitle}>앱 사용 설명서</Text>
+          <CustomImage style={styles.arrow} source={ArrowBlack} />
+        </View>
+      </TouchableWithoutFeedback>
       <TouchableWithoutFeedback onPress={handleNaigateNickname}>
         <View style={styles.buttonContainer}>
           <Text style={styles.buttonTitle}>프로필 수정</Text>

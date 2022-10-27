@@ -33,6 +33,7 @@ import { set } from 'react-native-reanimated';
 import { createReview } from '../../../APIs/review';
 import jwtDecode from 'jwt-decode';
 import { createPin } from '../../../APIs/pin';
+import UserGuideLineScreen from '../screen/UserGuideLineScreen';
 
 // * 현재위치
 // 일정 시간 후 주기적으로 반복해서 geoLocation 해주기!
@@ -451,6 +452,7 @@ const HomeContainer = ({ navigation, route }) => {
 
   useEffect(() => {
     getAccess();
+    //navigation.navigate('UserGuide');
   }, [isAuthenticated]);
 
   useEffect(() => {
@@ -492,6 +494,7 @@ const HomeContainer = ({ navigation, route }) => {
       openEndShareModal();
     }
   }, [route.params?.endShareModal]);
+
 
   return (
     <HomeScreen

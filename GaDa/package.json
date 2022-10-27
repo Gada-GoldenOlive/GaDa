@@ -33,6 +33,7 @@
     "react-dom": "^17.0.2",
     "react-freeze": "^1.0.0",
     "react-native": "0.68.2",
+    "react-native-animated-pagination-dots": "^0.1.73",
     "react-native-avoid-softinput": "^3.0.2",
     "react-native-aws3": "^0.0.9",
     "react-native-fast-image": "^8.5.11",
