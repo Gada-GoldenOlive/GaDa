@@ -215,7 +215,7 @@ const HomeScreen = ({
   useEffect(() => {
     ref.current.reload();
     geoLocation();
-  },[]);
+  }, []);
 
   const url = 'https://ga-da-goldenolive.vercel.app';
 
@@ -275,6 +275,21 @@ const HomeScreen = ({
           <View style={styles.currentPosIconWrapper}>
             <CustomImage
               style={styles.currentPosIcon}
+              source={CurrentPosition}
+            />
+          </View>
+        </TouchableWithoutFeedback>
+      )}
+      {!isWalking && (
+        <TouchableWithoutFeedback
+          onPress={() => {
+            handleConnection(ref, 'currentPos');
+            geoLocation();
+          }}
+        >
+          <View style={styles.currentPosSmallIconWrapper}>
+            <CustomImage
+              style={styles.currentPosSmallIcon}
               source={CurrentPosition}
             />
           </View>
@@ -393,6 +408,30 @@ const styles = StyleSheet.create({
     color: 'black',
   },
 
+  currentPosSmallIconWrapper: {
+    width: 42,
+    height: 42,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    position: 'absolute',
+    bottom: 220,
+    right: 18,
+    borderRadius: 50,
+
+    shadowColor: 'rgba(0,0,0,0.25)',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 1,
+    shadowRadius: 5,
+    elevation: 4,
+  },
+  currentPosSmallIcon: {
+    width: 22.71,
+    height: 22.71,
+  },
   addPinContainer: {
     flex: 1,
     position: 'absolute',

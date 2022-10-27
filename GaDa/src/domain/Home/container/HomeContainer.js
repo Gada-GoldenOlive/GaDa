@@ -91,8 +91,14 @@ const HomeContainer = ({ navigation, route }) => {
   const { userId } = useSelector(state => state.user);
 
   // redux 정보
-  const { pinNum, currentPosition, isRestart, isCreate, tempWalkwayData, pinList } =
-    useSelector(state => state.status);
+  const {
+    pinNum,
+    currentPosition,
+    isRestart,
+    isCreate,
+    tempWalkwayData,
+    pinList,
+  } = useSelector(state => state.status);
 
   const geoLocation = () => {
     Geolocation.getCurrentPosition(
@@ -215,7 +221,7 @@ const HomeContainer = ({ navigation, route }) => {
 
   const closeModal = () => {
     if (isRestart) {
-      setCurrentPos(currentPosition);
+      // setCurrentPos(currentPosition);
       dispatch(setIsRestart(false));
     }
     setIsVisible(false);
@@ -232,8 +238,7 @@ const HomeContainer = ({ navigation, route }) => {
   const closeInformation = () => {
     console.log('closeinfo');
     if (isRestart) {
-      console.log(isRestart);
-      setCurrentPos(currentPosition);
+      // setCurrentPos(currentPosition);
       dispatch(setIsRestart(false));
     }
 
@@ -318,13 +323,12 @@ const HomeContainer = ({ navigation, route }) => {
   };
 
   const handleShareButton = async () => {
-
     const walkway = tempWalkwayData.walkwayforUpdate;
     const forFeed = tempWalkwayData.forFeed;
     const id = walkway.id;
-    const res = await updateWalkway(id, { ...walkway, status: 'NORMAL'});
+    const res = await updateWalkway(id, { ...walkway, status: 'NORMAL' });
     if (res) {
-      navigation.navigate('CreateReview', {item: {...forFeed}});
+      navigation.navigate('CreateReview', { item: { ...forFeed } });
     } else {
       showToast2();
     }
@@ -373,7 +377,10 @@ const HomeContainer = ({ navigation, route }) => {
       const res2 = await createWalk(nowWalk);
       if (pinList.length > 0) {
         pinList.map(async pinData => {
-          const pinRes = await createPin({ ...pinData, walkwayId: selectedItem.id });
+          const pinRes = await createPin({
+            ...pinData,
+            walkwayId: selectedItem.id,
+          });
           if (pinRes) {
             const { achieves = [] } = pinRes;
             if (achieves.length > 0) {

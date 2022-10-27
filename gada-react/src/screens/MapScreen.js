@@ -100,7 +100,7 @@ const MapScreen = ({
                 lng2: center.lng,
               }) *
                 1000 >
-              9
+              3
             )
               setCurrentState((prev) => ({
                 ...prev,
@@ -189,10 +189,10 @@ const MapScreen = ({
   }, [isGeolocation]);
 
   useEffect(() => {
-    setInterval(() => {
-      geoLocation("watch");
-    }, 1000);
-  }, []);
+    // setInterval(() => {
+    geoLocation("watch");
+    // }, 1000);
+  });
 
   const handleReceiveMessage = async () => {
     await window.addEventListener("message", (event) => {
