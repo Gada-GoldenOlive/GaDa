@@ -16,7 +16,7 @@ import PinPosSubmitButton from '../components/PinPosSubmitButton';
 import { boldFontFamily, mediumFontFamily } from '../../../constant/fonts';
 import LinearGradient from 'react-native-linear-gradient';
 import Pin from '../../../constant/images/Pin';
-import { bottomShadowStyle } from '../../../constant/styles';
+import { bottomShadowStyle, windowWidth } from '../../../constant/styles';
 import { useNavigation } from '@react-navigation/core';
 import { getWalkwayInfo, getWalkwayList } from '../../../APIs/walkway';
 import WalkwayListComponent from '../components/WalkwayListComponent';
@@ -33,6 +33,7 @@ import BadgeModal from '../../../components/BadgeModal';
 import { descriptionColor } from '../../../constant/colors';
 import CloseIcon from '../../../constant/images/Close';
 import CreateWalkwayButton from '../components/CreateWalkwayButton';
+import { SearchThisPos } from '../../../constant/images/Map';
 
 const HomeScreen = ({
   geoLocation,
@@ -164,9 +165,9 @@ const HomeScreen = ({
         setCheckPin(checkPin * -1);
       }
       if (msg.type === 'read') console.log({ position: msg.position });
-      // if (msg.type === 'recordPosition') {
-      //   handleRecordPosition(recordPosition);
-      // }
+      if (msg.type === 'searchThisPos') {
+        setCurrentPos(msg.position);
+      }
     }
   };
 
@@ -222,8 +223,8 @@ const HomeScreen = ({
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       <WebView
-        source={{ uri: url }}
-        //source={{ uri: ' https://6a5b-221-146-182-190.jp.ngrok.io/' }}
+        // source={{ uri: url }}
+        source={{ uri: 'https://bddf-211-202-112-159.jp.ngrok.io' }}
         injectedJavaScript={INJECTED_JAVASCRIPT}
         ref={ref}
         javaScriptEnabled
@@ -295,20 +296,50 @@ const HomeScreen = ({
           </View>
         </TouchableWithoutFeedback>
       )}
+      {!isWalking && (
+        <TouchableWithoutFeedback
+          onPress={() => {
+            handleConnection(ref, 'searchThisPos');
+            console.log('click');
+          }}
+        >
+          <View style={styles.searchThisPosIconWrapper}>
+            <CustomImage
+              style={styles.searchThisPosIcon}
+              source={SearchThisPos}
+            />
+          </View>
+        </TouchableWithoutFeedback>
+      )}
 
-      <WalkwayListComponent
-        list={walkwayList}
-        selectedItem={selectedItem}
-        closeModal={closeModal}
-        handleClickItem={handleClickItem}
-        isVisible={listIsVisible}
-        setNowPath={setNowPath}
-        setStartPoint={setStartPoint}
-        setNowPins={setNowPins}
-        setIsWalkwayFocused={setIsWalkwayFocused}
-        nowPath={nowPath}
-        openStartModal={openStartModal} // 산책로 제작을 위해
-      />
+      {walkwayList.length > 0 ? (
+        <WalkwayListComponent
+          list={walkwayList}
+          selectedItem={selectedItem}
+          closeModal={closeModal}
+          handleClickItem={handleClickItem}
+          isVisible={listIsVisible}
+          setNowPath={setNowPath}
+          setStartPoint={setStartPoint}
+          setNowPins={setNowPins}
+          setIsWalkwayFocused={setIsWalkwayFocused}
+          nowPath={nowPath}
+          openStartModal={openStartModal} // 산책로 제작을 위해
+        />
+      ) : (
+        <View
+          style={{
+            backgroundColor: 'red',
+            marginHorizontal: 40,
+            justifyContent: 'center',
+            alignItems: 'center',
+            position: 'absolute',
+            bottom: 20,
+          }}
+        >
+          {/* <Text>현재 위치에는 산책로가 없습니다</Text> */}
+        </View>
+      )}
       {!isWalking && !walkEnd && isAuthenticated && (
         <CreateWalkwayButton openStartModal={openStartModal} />
       )}
@@ -533,5 +564,14 @@ const styles = StyleSheet.create({
       height: 0,
     },
     shadowOpacity: 0,
+  },
+  searchThisPosIconWrapper: {
+    position: 'absolute',
+    top: 61,
+    right: windowWidth / 2 - 70,
+  },
+  searchThisPosIcon: {
+    width: 140,
+    height: 50,
   },
 });

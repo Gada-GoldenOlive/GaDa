@@ -198,6 +198,8 @@ const HomeContainer = ({ navigation, route }) => {
       path = locationList;
       start = locationList[0];
       nowPos = locationList[locationList.length - 1];
+    } else if (ver === 'searchThisPos') {
+      // console.log('hi');
     }
     // 적지는 않았지만 currentPos도 되고 있음 -> 변수 선언을 안 할뿐
     const generateOnMessageFunction = data =>

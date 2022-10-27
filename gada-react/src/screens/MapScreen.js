@@ -51,6 +51,7 @@ const MapScreen = ({
   const [walkwayPins, setWalkwayPins] = useState("null");
   const [pathStartPoint, setPathStartPoint] = useState("null");
   const [isFirstRecording, setIsFirstRecording] = useState(true);
+  const [isSearchThisPosClicked, setIsSearchThisPosClicked] = useState(false);
 
   const [movingCurrentList, setMovingCurrentList] = useState();
 
@@ -243,11 +244,19 @@ const MapScreen = ({
         setWalkwayPath("null");
         setWalkwayPins("null");
         setPathStartPoint("null");
+      } else if (event.data.type === "searchThisPos") {
+        setIsSearchThisPosClicked(true);
       }
     });
   };
 
   // 각 버튼 클릭시 실행할 것들
+  useEffect(() => {
+    if (isSearchThisPosClicked) {
+      handleSubmit("searchThisPos", position);
+    }
+    setIsSearchThisPosClicked(false);
+  }, [isSearchThisPosClicked]);
   useEffect(() => {
     if (isCurrentPosClicked === true) {
       geoLocation();
