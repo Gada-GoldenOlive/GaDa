@@ -300,7 +300,7 @@ const HomeScreen = ({
         <TouchableWithoutFeedback
           onPress={() => {
             handleConnection(ref, 'searchThisPos');
-            console.log('click');
+            // console.log('click');
           }}
         >
           <View style={styles.searchThisPosIconWrapper}>
@@ -329,15 +329,27 @@ const HomeScreen = ({
       ) : (
         <View
           style={{
-            backgroundColor: 'red',
-            marginHorizontal: 40,
+            backgroundColor: 'rgba(149, 149, 149, 0.9)',
+            marginHorizontal: 16,
             justifyContent: 'center',
             alignItems: 'center',
             position: 'absolute',
-            bottom: 20,
+            bottom: 32,
+            paddingVertical: 36,
+            paddingHorizontal: 80,
+            borderRadius: 9,
           }}
         >
-          {/* <Text>현재 위치에는 산책로가 없습니다</Text> */}
+          <Text
+            style={{
+              color: 'white',
+              fontFamily: mediumFontFamily,
+              fontSize: 16,
+              lineHeight: 22,
+              letterSpacing: -0.32,
+              textAlign: 'center',
+            }}
+          >{`해당 지역에 산책로가 없습니다\n다른 지역으로 검색해 주세요`}</Text>
         </View>
       )}
       {!isWalking && !walkEnd && isAuthenticated && (
