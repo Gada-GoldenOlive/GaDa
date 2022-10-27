@@ -21,6 +21,8 @@ import {
   getDistanceFromLatLonInKm,
   getDuringTime,
   getIdInLocalStorage,
+  getIsFirstStart,
+  setIsFirstStart,
 } from '../../../function';
 import { setStartTime } from '../../../redux/modules/status';
 import { get } from 'react-native/Libraries/Utilities/PixelRatio';
@@ -436,6 +438,14 @@ const HomeContainer = ({ navigation, route }) => {
         index: 0,
         routes: [{ name: 'SignIn' }],
       });
+    } else {
+      // 제일 처음 어플을 실행하면 가이드라인 보여지도록 구현
+      getIsFirstStart().then(value => {
+        if (value) {
+          setIsFirstStart('1');
+          navigation.navigate('UserGuide');
+        }
+      });
     }
   };
 
@@ -494,7 +504,6 @@ const HomeContainer = ({ navigation, route }) => {
       openEndShareModal();
     }
   }, [route.params?.endShareModal]);
-
 
   return (
     <HomeScreen
