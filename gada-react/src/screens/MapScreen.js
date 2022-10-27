@@ -246,6 +246,9 @@ const MapScreen = ({
         setPathStartPoint("null");
       } else if (event.data.type === "searchThisPos") {
         setIsSearchThisPosClicked(true);
+        setWalkwayPath("null");
+        setWalkwayPins("null");
+        setPathStartPoint("null");
       }
     });
   };
