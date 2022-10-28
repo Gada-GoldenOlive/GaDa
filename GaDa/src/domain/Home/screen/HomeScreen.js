@@ -276,7 +276,8 @@ const HomeScreen = ({
       {isWalking && (
         <TouchableWithoutFeedback
           onPress={() => {
-            handleConnection(ref, 'currentPos');
+            // handleConnection(ref, 'currentPos');
+            geoLocation(ref);
             setIsCurrentPosClicked(true);
           }}
         >
