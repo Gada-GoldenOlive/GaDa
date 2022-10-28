@@ -229,8 +229,8 @@ const HomeScreen = ({
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       <WebView
-        // source={{ uri: url }}
-        source={{ uri: 'https://bddf-211-202-112-159.jp.ngrok.io' }}
+        source={{ uri: url }}
+        // source={{ uri: 'https://bddf-211-202-112-159.jp.ngrok.io' }}
         injectedJavaScript={INJECTED_JAVASCRIPT}
         ref={ref}
         javaScriptEnabled
@@ -345,7 +345,7 @@ const HomeScreen = ({
             position: 'absolute',
             bottom: 32,
             paddingVertical: 36,
-            paddingHorizontal: 80,
+            width: windowWidth - 32,
             borderRadius: 9,
           }}
         >
