@@ -103,13 +103,15 @@ const HomeContainer = ({ navigation, route }) => {
     pinList,
   } = useSelector(state => state.status);
 
-  const geoLocation = () => {
+  const geoLocation = ref => {
     Geolocation.getCurrentPosition(
       position => {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
 
         setCurrentPos({ lat: latitude, lng: longitude });
+        dispatch(setCurrentPosition({ lat: latitude, lng: longitude }));
+        handleConnection(ref, 'currentPos');
       },
       error => {
         console.log(error.code, error.message);
@@ -203,6 +205,9 @@ const HomeContainer = ({ navigation, route }) => {
       nowPos = locationList[locationList.length - 1];
     } else if (ver === 'searchThisPos') {
       // console.log('hi');
+    } else if (ver === 'currentPos') {
+      nowPos = currentPos;
+      console.log({ currentPosition });
     }
     // 적지는 않았지만 currentPos도 되고 있음 -> 변수 선언을 안 할뿐
     const generateOnMessageFunction = data =>
@@ -219,7 +224,7 @@ const HomeContainer = ({ navigation, route }) => {
         pins: pins,
         startPoint: start,
         name: selectedItem.title,
-        nowPos,
+        nowPos: currentPosition,
       }),
     );
   };

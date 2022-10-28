@@ -195,11 +195,30 @@ const MapScreen = ({
     // }, 1000);
   });
 
+  const handleCurrentPos = (nowPos) => {
+    setState((prev) => ({
+      ...prev,
+      center: {
+        lat: nowPos.lat, // 위도
+        lng: nowPos.lng, // 경도
+      },
+      isLoading: false,
+    }));
+    setCurrentState((prev) => ({
+      ...prev,
+      center: {
+        lat: nowPos.lat, // 위도
+        lng: nowPos.lng, // 경도
+      },
+      isLoading: false,
+    }));
+  };
   const handleReceiveMessage = async () => {
     await window.addEventListener("message", (event) => {
       if (event.data.type === "currentPos") {
-        setIsCurrentPosClicked(true);
+        // setIsCurrentPosClicked(true);
 
+        handleCurrentPos(event.data.nowPos);
         // alert(JSON.stringify(event.data));
         // alert("message received: " + event.data);
       } else if (event.data.type === "addPin") {
@@ -305,6 +324,7 @@ const MapScreen = ({
         center={
           // 지도의 중심좌표
           state.center
+
           // {
           //   lat: 33.452344169439975,
           //   lng: 126.56878163224233,
@@ -329,6 +349,13 @@ const MapScreen = ({
         onCenterChanged={(map) => handlePolylineDrag(map)}
         // onRightClick={(map) => <DrawPolylineFromKakao map={map} />}
         // onCreate={setMap()}
+        onDragEnd={(map) =>
+          setState((prev) => ({
+            ...prev,
+            center: position,
+            isLoading: false,
+          }))
+        }
       >
         {/* 현재 위치 */}
         {/* <GeoLocationMarker setCenter={setCenter} /> */}

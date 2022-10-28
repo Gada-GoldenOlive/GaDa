@@ -91,6 +91,7 @@ const HomeScreen = ({
   const [checkPin, setCheckPin] = useState(-1);
   const navigation = useNavigation();
   const { isWalking } = useSelector(state => state.status);
+  const [isCurrentPosClicked, setIsCurrentPosClicked] = useState(false);
   const [checkFirst, setCheckFirst] = useState(true);
   const closePinModal = () => {
     setPinModalIsVisible(false);
@@ -158,6 +159,7 @@ const HomeScreen = ({
           setCurrentPos(msg.position);
         }
         dispatch(setCurrentPosition(msg.position));
+        handleConnection(ref, 'done');
       }
       if (msg.type === 'pinPos') setMarkerPos(msg.position);
       if (msg.type === 'clickPin') {
@@ -192,7 +194,11 @@ const HomeScreen = ({
   }, [pinIndex, checkPin]);
 
   useEffect(() => {
-    handleConnection(ref, 'selectWalkway');
+    if (!isCurrentPosClicked) {
+      handleConnection(ref, 'selectWalkway');
+    } else {
+      setIsCurrentPosClicked(false);
+    }
   }, [nowPins]);
 
   useEffect(() => {
@@ -215,7 +221,7 @@ const HomeScreen = ({
   }, [selectedItem]);
   useEffect(() => {
     ref.current.reload();
-    geoLocation();
+    geoLocation(ref);
   }, []);
 
   const url = 'https://ga-da-goldenolive.vercel.app';
@@ -271,6 +277,7 @@ const HomeScreen = ({
         <TouchableWithoutFeedback
           onPress={() => {
             handleConnection(ref, 'currentPos');
+            setIsCurrentPosClicked(true);
           }}
         >
           <View style={styles.currentPosIconWrapper}>
@@ -284,8 +291,9 @@ const HomeScreen = ({
       {!isWalking && (
         <TouchableWithoutFeedback
           onPress={() => {
-            handleConnection(ref, 'currentPos');
-            geoLocation();
+            // handleConnection(ref, 'currentPos');
+            geoLocation(ref);
+            setIsCurrentPosClicked(true);
           }}
         >
           <View style={styles.currentPosSmallIconWrapper}>
