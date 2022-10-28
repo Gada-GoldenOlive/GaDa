@@ -204,7 +204,7 @@ const HomeContainer = ({ navigation, route }) => {
       // console.log('hi');
     } else if (ver === 'currentPos') {
       nowPos = currentPos;
-      console.log({ currentPosition });
+      // console.log({ currentPosition });
     }
     // 적지는 않았지만 currentPos도 되고 있음 -> 변수 선언을 안 할뿐
     const generateOnMessageFunction = data =>
