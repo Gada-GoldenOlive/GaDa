@@ -12,6 +12,7 @@ import {
   setIsCreate,
   setIsRestart,
   setIsWalking,
+  setPinList,
   setPinNum,
 } from '../../../redux/modules/status';
 import { useEffect } from 'react';
@@ -20,6 +21,8 @@ import {
   getDistanceFromLatLonInKm,
   getDuringTime,
   getIdInLocalStorage,
+  getIsFirstStart,
+  setIsFirstStart,
 } from '../../../function';
 import { setStartTime } from '../../../redux/modules/status';
 import { get } from 'react-native/Libraries/Utilities/PixelRatio';
@@ -31,6 +34,8 @@ import { getWalkwayInfo, updateWalkway } from '../../../APIs/walkway';
 import { set } from 'react-native-reanimated';
 import { createReview } from '../../../APIs/review';
 import jwtDecode from 'jwt-decode';
+import { createPin } from '../../../APIs/pin';
+import UserGuideLineScreen from '../screen/UserGuideLineScreen';
 
 // * 현재위치
 // 일정 시간 후 주기적으로 반복해서 geoLocation 해주기!
@@ -89,23 +94,34 @@ const HomeContainer = ({ navigation, route }) => {
   const { userId } = useSelector(state => state.user);
 
   // redux 정보
-  const { pinNum, currentPosition, isRestart, isCreate, tempWalkwayData } =
-    useSelector(state => state.status);
+  const {
+    pinNum,
+    currentPosition,
+    isRestart,
+    isCreate,
+    tempWalkwayData,
+    pinList,
+  } = useSelector(state => state.status);
 
-  const geoLocation = () => {
+  const geoLocation = ref => {
     Geolocation.getCurrentPosition(
       position => {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
 
-        setLatitude(latitude);
-        setLongitude(longitude);
+        setCurrentPos({ lat: latitude, lng: longitude });
+        dispatch(setCurrentPosition({ lat: latitude, lng: longitude }));
+        handleConnection(ref, 'currentPos');
       },
       error => {
         console.log(error.code, error.message);
       },
     );
   };
+
+  // useEffect(() => {
+  //   geoLocation();
+  // }, []);
 
   useEffect(() => {
     // console.log({ beforeRecord, tmpNewRecord });
@@ -187,6 +203,11 @@ const HomeContainer = ({ navigation, route }) => {
       path = locationList;
       start = locationList[0];
       nowPos = locationList[locationList.length - 1];
+    } else if (ver === 'searchThisPos') {
+      // console.log('hi');
+    } else if (ver === 'currentPos') {
+      nowPos = currentPos;
+      // console.log({ currentPosition });
     }
     // 적지는 않았지만 currentPos도 되고 있음 -> 변수 선언을 안 할뿐
     const generateOnMessageFunction = data =>
@@ -196,21 +217,21 @@ const HomeContainer = ({ navigation, route }) => {
     )}}));
   })()`;
 
-    ref.current.injectJavaScript(
+    ref.current?.injectJavaScript(
       generateOnMessageFunction({
         type: ver,
         path: path,
         pins: pins,
         startPoint: start,
         name: selectedItem.title,
-        nowPos,
+        nowPos: currentPosition,
       }),
     );
   };
 
   const closeModal = () => {
     if (isRestart) {
-      setCurrentPos(currentPosition);
+      // setCurrentPos(currentPosition);
       dispatch(setIsRestart(false));
     }
     setIsVisible(false);
@@ -225,6 +246,12 @@ const HomeContainer = ({ navigation, route }) => {
   };
 
   const closeInformation = () => {
+    console.log('closeinfo');
+    if (isRestart) {
+      // setCurrentPos(currentPosition);
+      dispatch(setIsRestart(false));
+    }
+
     setIsInformationVisible(false);
   };
   const handleClickWalkway = () => {
@@ -307,12 +334,11 @@ const HomeContainer = ({ navigation, route }) => {
 
   const handleShareButton = async () => {
     const walkway = tempWalkwayData.walkwayforUpdate;
-    const feed = tempWalkwayData.forFeed;
+    const forFeed = tempWalkwayData.forFeed;
     const id = walkway.id;
-    console.log({ ...walkway, status: 'NORMAL' });
     const res = await updateWalkway(id, { ...walkway, status: 'NORMAL' });
     if (res) {
-      await createReview(feed);
+      navigation.navigate('CreateReview', { item: { ...forFeed } });
     } else {
       showToast2();
     }
@@ -327,10 +353,14 @@ const HomeContainer = ({ navigation, route }) => {
     console.log({ locationList });
     if (locationList.length >= 1) {
       setGetDetailAddress(true);
-      return getDistance(
-        locationList[0],
-        locationList[locationList.length - 1],
-        0.1,
+      return (
+        1000 *
+        getDistanceFromLatLonInKm({
+          lat1: locationList[0].lat,
+          lng1: locationList[0].lng,
+          lat2: locationList[locationList.length - 1].lat,
+          lng2: locationList[locationList.length - 1].lng,
+        })
       );
     }
     return 0;
@@ -342,11 +372,11 @@ const HomeContainer = ({ navigation, route }) => {
     dispatch(setEndTime(res));
     dispatch(setIsWalking(false));
     const time = getDuringTime();
-    const dis = finishRecord().toFixed(2);
+    const dis = finishRecord();
     console.log(dis);
     const nowWalk = {
       time: time,
-      distance: dis / 10,
+      distance: dis,
       pinCount: pinNum,
       finishStatus: status,
       walkwayId: selectedItem.id,
@@ -355,6 +385,21 @@ const HomeContainer = ({ navigation, route }) => {
 
     if (!isCreate) {
       const res2 = await createWalk(nowWalk);
+      if (pinList.length > 0) {
+        pinList.map(async pinData => {
+          const pinRes = await createPin({
+            ...pinData,
+            walkwayId: selectedItem.id,
+          });
+          if (pinRes) {
+            const { achieves = [] } = pinRes;
+            if (achieves.length > 0) {
+              dispatch(setBadges([...badges, ...achieves]));
+            }
+          }
+        });
+      }
+      dispatch(setPinList([]));
     }
 
     // setCurrentPos(currentPosition);
@@ -398,6 +443,14 @@ const HomeContainer = ({ navigation, route }) => {
         index: 0,
         routes: [{ name: 'SignIn' }],
       });
+    } else {
+      // 제일 처음 어플을 실행하면 가이드라인 보여지도록 구현
+      getIsFirstStart().then(value => {
+        if (value) {
+          setIsFirstStart('1');
+          navigation.navigate('UserGuide');
+        }
+      });
     }
   };
 
@@ -414,6 +467,7 @@ const HomeContainer = ({ navigation, route }) => {
 
   useEffect(() => {
     getAccess();
+    //navigation.navigate('UserGuide');
   }, [isAuthenticated]);
 
   useEffect(() => {

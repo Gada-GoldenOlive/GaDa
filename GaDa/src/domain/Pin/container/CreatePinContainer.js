@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import CreatePinScreen from '../screen/CreatePinScreen';
 import { useDispatch, useSelector } from 'react-redux';
 import { createPin, updatePin } from '../../../APIs/pin';
-import { setBadges, setPinNum } from '../../../redux/modules/status';
+import { setBadges, setPinList, setPinNum } from '../../../redux/modules/status';
 import {
   refreshImages,
   setImageFile,
@@ -23,7 +23,7 @@ const CreatePinContainer = ({ navigation, route }) => {
   const { lat, lng } = markerPos;
   const [pinTitle, setPinTitle] = useState(title);
   const [content, setContent] = useState('');
-  const { pinNum } = useSelector(state => state.status);
+  const { pinNum, pinList } = useSelector(state => state.status);
   const { imageFile } = useSelector(state => state.images);
   const [pinImage, setImage] = useState('');
   const [imageLink, setImageLink] = useState('');
@@ -61,6 +61,12 @@ const CreatePinContainer = ({ navigation, route }) => {
         },
         walkwayId: id,
       };
+      dispatch(setPinList([...pinList, pinData]));
+      dispatch(setPinNum(pinNum + 1));
+      dispatch(await refreshImages());
+      navigation.pop();
+      navigation.goBack();
+      /*
       const res = await createPin(pinData);
       if (res) {
         const { achieves = [] } = res;
@@ -68,10 +74,11 @@ const CreatePinContainer = ({ navigation, route }) => {
           dispatch(setBadges(achieves));
         }
         dispatch(setPinNum(pinNum + 1));
-        dispatch(refreshImages());
+        dispatch(await refreshImages());
         navigation.pop();
         navigation.goBack();
       }
+      */
     } else if (type === 'modify') {
       const pinData = {
         title: pinTitle,
@@ -121,7 +128,7 @@ const CreatePinContainer = ({ navigation, route }) => {
       setImageLink(prevImage);
     }
   }, []);
-  useEffect(() => {
+  useEffect(async () => {
     if (type === 'create') {
       dispatch(refreshImages());
     }

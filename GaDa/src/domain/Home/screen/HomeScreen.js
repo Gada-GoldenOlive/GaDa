@@ -3,6 +3,7 @@ import {
   StyleSheet,
   TouchableWithoutFeedback,
   View,
+  Platform,
 } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import CenterModal from '../../../components/CenterModal';
@@ -15,7 +16,7 @@ import PinPosSubmitButton from '../components/PinPosSubmitButton';
 import { boldFontFamily, mediumFontFamily } from '../../../constant/fonts';
 import LinearGradient from 'react-native-linear-gradient';
 import Pin from '../../../constant/images/Pin';
-import { bottomShadowStyle } from '../../../constant/styles';
+import { bottomShadowStyle, windowWidth } from '../../../constant/styles';
 import { useNavigation } from '@react-navigation/core';
 import { getWalkwayInfo, getWalkwayList } from '../../../APIs/walkway';
 import WalkwayListComponent from '../components/WalkwayListComponent';
@@ -32,6 +33,7 @@ import BadgeModal from '../../../components/BadgeModal';
 import { descriptionColor } from '../../../constant/colors';
 import CloseIcon from '../../../constant/images/Close';
 import CreateWalkwayButton from '../components/CreateWalkwayButton';
+import { SearchThisPos } from '../../../constant/images/Map';
 
 const HomeScreen = ({
   geoLocation,
@@ -89,6 +91,7 @@ const HomeScreen = ({
   const [checkPin, setCheckPin] = useState(-1);
   const navigation = useNavigation();
   const { isWalking } = useSelector(state => state.status);
+  const [isCurrentPosClicked, setIsCurrentPosClicked] = useState(false);
   const [checkFirst, setCheckFirst] = useState(true);
   const closePinModal = () => {
     setPinModalIsVisible(false);
@@ -156,6 +159,7 @@ const HomeScreen = ({
           setCurrentPos(msg.position);
         }
         dispatch(setCurrentPosition(msg.position));
+        handleConnection(ref, 'done');
       }
       if (msg.type === 'pinPos') setMarkerPos(msg.position);
       if (msg.type === 'clickPin') {
@@ -163,9 +167,9 @@ const HomeScreen = ({
         setCheckPin(checkPin * -1);
       }
       if (msg.type === 'read') console.log({ position: msg.position });
-      // if (msg.type === 'recordPosition') {
-      //   handleRecordPosition(recordPosition);
-      // }
+      if (msg.type === 'searchThisPos') {
+        setCurrentPos(msg.position);
+      }
     }
   };
 
@@ -190,7 +194,11 @@ const HomeScreen = ({
   }, [pinIndex, checkPin]);
 
   useEffect(() => {
-    handleConnection(ref, 'selectWalkway');
+    if (!isCurrentPosClicked) {
+      handleConnection(ref, 'selectWalkway');
+    } else {
+      setIsCurrentPosClicked(false);
+    }
   }, [nowPins]);
 
   useEffect(() => {
@@ -207,7 +215,13 @@ const HomeScreen = ({
   }, [isWalking]);
 
   useEffect(() => {
+    if (Platform.OS === 'android' && isRestart) {
+      ref.current.reload();
+    }
+  }, [selectedItem]);
+  useEffect(() => {
     ref.current.reload();
+    geoLocation(ref);
   }, []);
 
   const url = 'https://ga-da-goldenolive.vercel.app';
@@ -216,7 +230,7 @@ const HomeScreen = ({
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       <WebView
         source={{ uri: url }}
-        // source={{ uri: 'https://4d43-211-202-112-159.jp.ngrok.io' }}
+        // source={{ uri: 'https://bddf-211-202-112-159.jp.ngrok.io' }}
         injectedJavaScript={INJECTED_JAVASCRIPT}
         ref={ref}
         javaScriptEnabled
@@ -224,6 +238,7 @@ const HomeScreen = ({
         onContentProcessDidTerminate={() => {
           ref.current?.reload();
         }}
+        geolocationEnabled={true}
       />
 
       {/* <NewPinButton handleConnection={handleConnection} ref={ref} /> */}
@@ -261,7 +276,9 @@ const HomeScreen = ({
       {isWalking && (
         <TouchableWithoutFeedback
           onPress={() => {
-            handleConnection(ref, 'currentPos');
+            // handleConnection(ref, 'currentPos');
+            geoLocation(ref);
+            setIsCurrentPosClicked(true);
           }}
         >
           <View style={styles.currentPosIconWrapper}>
@@ -272,20 +289,78 @@ const HomeScreen = ({
           </View>
         </TouchableWithoutFeedback>
       )}
+      {!isWalking && (
+        <TouchableWithoutFeedback
+          onPress={() => {
+            // handleConnection(ref, 'currentPos');
+            geoLocation(ref);
+            setIsCurrentPosClicked(true);
+          }}
+        >
+          <View style={styles.currentPosSmallIconWrapper}>
+            <CustomImage
+              style={styles.currentPosSmallIcon}
+              source={CurrentPosition}
+            />
+          </View>
+        </TouchableWithoutFeedback>
+      )}
+      {!isWalking && (
+        <TouchableWithoutFeedback
+          onPress={() => {
+            handleConnection(ref, 'searchThisPos');
+            // console.log('click');
+          }}
+        >
+          <View style={styles.searchThisPosIconWrapper}>
+            <CustomImage
+              style={styles.searchThisPosIcon}
+              source={SearchThisPos}
+            />
+          </View>
+        </TouchableWithoutFeedback>
+      )}
 
-      <WalkwayListComponent
-        list={walkwayList}
-        selectedItem={selectedItem}
-        closeModal={closeModal}
-        handleClickItem={handleClickItem}
-        isVisible={listIsVisible}
-        setNowPath={setNowPath}
-        setStartPoint={setStartPoint}
-        setNowPins={setNowPins}
-        setIsWalkwayFocused={setIsWalkwayFocused}
-        nowPath={nowPath}
-        openStartModal={openStartModal} // 산책로 제작을 위해
-      />
+      {walkwayList.length > 0 ? (
+        <WalkwayListComponent
+          list={walkwayList}
+          selectedItem={selectedItem}
+          closeModal={closeModal}
+          handleClickItem={handleClickItem}
+          isVisible={listIsVisible}
+          setNowPath={setNowPath}
+          setStartPoint={setStartPoint}
+          setNowPins={setNowPins}
+          setIsWalkwayFocused={setIsWalkwayFocused}
+          nowPath={nowPath}
+          openStartModal={openStartModal} // 산책로 제작을 위해
+        />
+      ) : (
+        <View
+          style={{
+            backgroundColor: 'rgba(149, 149, 149, 0.9)',
+            marginHorizontal: 16,
+            justifyContent: 'center',
+            alignItems: 'center',
+            position: 'absolute',
+            bottom: 32,
+            paddingVertical: 36,
+            width: windowWidth - 32,
+            borderRadius: 9,
+          }}
+        >
+          <Text
+            style={{
+              color: 'white',
+              fontFamily: mediumFontFamily,
+              fontSize: 16,
+              lineHeight: 22,
+              letterSpacing: -0.32,
+              textAlign: 'center',
+            }}
+          >{`해당 지역에 산책로가 없습니다\n다른 지역으로 검색해 주세요`}</Text>
+        </View>
+      )}
       {!isWalking && !walkEnd && isAuthenticated && (
         <CreateWalkwayButton openStartModal={openStartModal} />
       )}
@@ -385,6 +460,30 @@ const styles = StyleSheet.create({
     color: 'black',
   },
 
+  currentPosSmallIconWrapper: {
+    width: 42,
+    height: 42,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    position: 'absolute',
+    bottom: 220,
+    right: 18,
+    borderRadius: 50,
+
+    shadowColor: 'rgba(0,0,0,0.25)',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 1,
+    shadowRadius: 5,
+    elevation: 4,
+  },
+  currentPosSmallIcon: {
+    width: 22.71,
+    height: 22.71,
+  },
   addPinContainer: {
     flex: 1,
     position: 'absolute',
@@ -486,5 +585,14 @@ const styles = StyleSheet.create({
       height: 0,
     },
     shadowOpacity: 0,
+  },
+  searchThisPosIconWrapper: {
+    position: 'absolute',
+    top: 61,
+    right: windowWidth / 2 - 70,
+  },
+  searchThisPosIcon: {
+    width: 140,
+    height: 50,
   },
 });

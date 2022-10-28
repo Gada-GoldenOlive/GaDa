@@ -1,63 +1,53 @@
 import {
+  Platform,
   ScrollView,
   StyleSheet,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
 import React from 'react';
-import MyTextInput from '../../../components/MyTextInput';
-import CustomImage from '../../../components/CustomImage';
-import Writing from '../../../constant/images/Writing';
-import Text from '../../../components/MyText';
-import {
-  borderColorVer2,
-  buttonColor,
-  defaultColor,
-  descriptionColorVer2,
-} from '../../../constant/colors';
-import Locate from '../../../constant/images/Locate';
-import CustomButton from '../../../components/CustomButton';
-import CameraSelectModal from '../../../components/CameraSelectModal';
+import { useDispatch } from 'react-redux';
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import ImageCropPicker from 'react-native-image-crop-picker';
 import {
-  setImageFileList,
   setIsThumbnail,
   setThumbnailFile,
   setThumbnailImage,
-  setWalkwayImages,
 } from '../../../redux/modules/images';
-import Camera from '../../../constant/images/Camera';
-import CustomRating from '../../../components/CustomRating';
-import { windowHeight, windowWidth } from '../../../constant/styles';
-import { getDistance, getTimeFromSec } from '../../../function';
-import { boldFontFamily, mediumFontFamily } from '../../../constant/fonts';
-import ImageCropPicker from 'react-native-image-crop-picker';
-import ReviewImageList from '../components/ReviewImageList';
 import Upload from '../../../constant/images/Upload';
+import { getDistance, getGoalHour, getTimeFromSec } from '../../../function';
+import {
+  boldFontFamily,
+  defaultFontFamily,
+  mediumFontFamily,
+} from '../../../constant/fonts';
+import {
+  borderColorVer2,
+  defaultColor,
+  descriptionColorVer2,
+  mainColor,
+} from '../../../constant/colors';
+import { windowHeight, windowWidth } from '../../../constant/styles';
+import CustomImage from '../../../components/CustomImage';
+import Writing from '../../../constant/images/Writing';
+import MyTextInput from '../../../components/MyTextInput';
+import Locate from '../../../constant/images/Locate';
+import CustomButton from '../../../components/CustomButton';
+import CameraSelectModal from '../../../components/CameraSelectModal';
+import Text from '../../../components/MyText';
+
 const CreateWalkwayScreen = ({
   navigation,
-  walkwayTitle = '',
-  content = '',
-  titleTextChange,
-  contentTextChange,
   item,
-  rate,
+  walkwayTitle,
   clickable,
-  walkwayImages,
-  setRate,
-  imageFileList,
+  titleTextChange,
   handlePress,
-  address = null,
+  address,
   thumbnailImage,
-  thumbnail,
-  type,
 }) => {
   const { distance, image, time, title } = item;
-  const { isCreate } = useSelector(state => state.status);
-
   const dispatch = useDispatch();
-
   const baseCameraOption = {
     mediaType: 'photo',
     includeBase64: true,
@@ -70,8 +60,6 @@ const CreateWalkwayScreen = ({
   const baseImageLibraryOption = {
     mediaType: 'photo',
     includeBase64: true,
-    multiple: true,
-    // maxFiles: 10,
     forceJpg: true,
     loadingLabelText: '',
   };
@@ -82,39 +70,6 @@ const CreateWalkwayScreen = ({
   };
 
   const [isVisible, setIsVisible] = useState(false);
-  const [isThumbnailVisible, setIsThumbnailVisible] = useState(false);
-  const [temp, setTemp] = useState([]);
-  const openCamera = () => {
-    ImageCropPicker.openCamera(
-      Platform.OS === 'ios'
-        ? { ...baseCameraOption, ...iosOptions }
-        : baseCameraOption,
-    ).then(async image => {
-      const uri = `data:${image.mime};base64,${image.data}`;
-      setTemp(prev => [...prev, { url: uri }]);
-      dispatch(setWalkwayImages([...walkwayImages, { url: uri }]));
-      dispatch(setImageFileList([...imageFileList, image]));
-      cancelModal();
-    });
-  };
-
-  const openImageLibrary = () => {
-    ImageCropPicker.openPicker(
-      Platform.OS === 'ios'
-        ? { ...baseImageLibraryOption, ...iosOptions }
-        : baseImageLibraryOption,
-    ).then(images => {
-      let imageList = [];
-      images.map(item => imageList.push({ imageData: item, image: item.path }));
-      navigation.navigate('DetailImage', {
-        idx: 0,
-        images: imageList,
-        ver: 'review',
-      });
-      cancelModal();
-    });
-  };
-
   const openCameraForThumbnail = () => {
     ImageCropPicker.openCamera(
       Platform.OS === 'ios'
@@ -122,18 +77,17 @@ const CreateWalkwayScreen = ({
         : baseCameraOption,
     ).then(async image => {
       const uri = `data:${image.mime};base64,${image.data}`;
-      setTemp(prev => [...prev, { url: uri }]);
       dispatch(setThumbnailImage(uri));
       dispatch(setThumbnailFile(image));
 
-      cancelThumbnailModal();
+      cancelModal();
     });
   };
   const openImageLibraryForThumbnail = () => {
     ImageCropPicker.openPicker(
       Platform.OS === 'ios'
         ? { ...baseImageLibraryOption, ...iosOptions, multiple: false }
-        : { ...baseImageLibraryOption, multiple: false },
+        : baseImageLibraryOption,
     ).then(image => {
       const uri = `data:${image.mime};base64,${image.data}`;
       dispatch(setIsThumbnail(true));
@@ -146,7 +100,7 @@ const CreateWalkwayScreen = ({
         images: imageList,
         ver: 'review',
       });
-      cancelThumbnailModal();
+      cancelModal();
     });
   };
 
@@ -156,15 +110,8 @@ const CreateWalkwayScreen = ({
   const cancelModal = () => {
     setIsVisible(false);
   };
-  const openThumbnailModal = () => {
-    if(type === 'create'){
-      setIsThumbnailVisible(true);
 
-    }
-  };
-  const cancelThumbnailModal = () => {
-    setIsThumbnailVisible(false);
-  };
+  const timeToMin = (time / 60).toFixed(2);
 
   return (
     <View style={styles.contianer}>
@@ -174,13 +121,24 @@ const CreateWalkwayScreen = ({
         showsVerticalScrollIndicator={false}
       >
         <View>
-          <TouchableWithoutFeedback onPress={openThumbnailModal}>
+          <TouchableWithoutFeedback onPress={openModal}>
             <View style={styles.imageContainer}>
               {image === '' && (
-                <CustomImage source={Upload} style={styles.upload} />
+                <View
+                  style={{
+                    position: 'absolute',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <CustomImage source={Upload} style={styles.upload} />
+                  <Text style={{ color: 'white', marginTop: 16 }}>
+                    이미지 가져오기
+                  </Text>
+                </View>
               )}
               <CustomImage
-                source={isCreate ? { uri: thumbnailImage } : { uri: image }}
+                source={{ uri: thumbnailImage }}
                 style={styles.image}
               />
             </View>
@@ -196,67 +154,31 @@ const CreateWalkwayScreen = ({
             />
           </View>
           <CustomImage source={Writing} style={styles.writing} />
-          <View
-            style={{
-              minHeight: 200,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'flex-start',
-            }}
-          >
-            <MyTextInput
-              placeholder={'산책로에 대해 설명해주세요'}
-              style={[styles.multiLine, { borderBottomWidth: 0 }]}
-              multiline
-              onChangeText={contentTextChange}
-              value={content}
-            />
-          </View>
-          <View style={styles.cameraContainer}>
-            <TouchableWithoutFeedback onPress={openModal}>
-              <View style={styles.cameraWrapper}>
-                <CustomImage style={styles.camera} source={Camera} />
-              </View>
-            </TouchableWithoutFeedback>
-            <ReviewImageList images={walkwayImages} handleNavigate={null} />
-          </View>
           <View style={styles.bottomContainer}>
             <View style={styles.informationContainer}>
-              <CustomRating
-                style={styles.rating}
-                size={40}
-                score={rate}
-                onPress={setRate}
-                starMargin={(windowWidth - 34 - 34 - 200) / 5}
-                tintColor={buttonColor}
-              />
               <View style={styles.informationWrapper}>
-                <View
-                  style={[
-                    styles.information,
-                    {
-                      borderEndColor: descriptionColorVer2,
-                      borderEndWidth: 0.4,
-                    },
-                  ]}
-                >
+                <View style={styles.information}>
                   <Text style={styles.informationTitle}>거리</Text>
-                  <Text style={styles.num}>
-                    {getDistance({ distance: distance, unit: 'm' })}
-                  </Text>
-                  <Text style={styles.informationDescription}>(m)</Text>
-                </View>
+                    <Text style={styles.num}>
+                      {getDistance({ distance: distance, unit: 'm' })}
+                    </Text>
+                    <Text style={styles.informationDescription}>(m)</Text>
+                  </View>
                 <View
-                  style={[
-                    styles.information,
-                    {
-                      borderStartColor: descriptionColorVer2,
-                      borderStartWidth: 0.6,
-                    },
-                  ]}
-                >
+                  style={{
+                    height: '100%',
+                    backgroundColor: descriptionColorVer2,
+                    width: 1,
+                  }}
+                />
+                <View style={styles.information}>
                   <Text style={styles.informationTitle}>시간</Text>
-                  <Text style={styles.num}>{getTimeFromSec(time)}</Text>
+                    <Text style={styles.num}>
+                      {timeToMin > 0 ? timeToMin : time}
+                    </Text>
+                    <Text style={styles.informationDescription}>
+                      {time < 1 ? '(초)' : '(분)'}
+                    </Text>
                 </View>
               </View>
             </View>
@@ -268,7 +190,6 @@ const CreateWalkwayScreen = ({
             </View>
           </View>
         </View>
-        {/* </View> */}
       </ScrollView>
       <CustomButton
         title="작성완료"
@@ -277,15 +198,9 @@ const CreateWalkwayScreen = ({
       />
       <CameraSelectModal
         isVisible={isVisible}
-        openCamera={openCamera}
-        openImageLibrary={openImageLibrary}
-        cancelModal={cancelModal}
-      />
-      <CameraSelectModal
-        isVisible={isThumbnailVisible}
         openCamera={openCameraForThumbnail}
         openImageLibrary={openImageLibraryForThumbnail}
-        cancelModal={cancelThumbnailModal}
+        cancelModal={cancelModal}
       />
     </View>
   );
@@ -304,7 +219,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     width: windowWidth,
     height: 188,
-    backgroundColor: defaultColor,
+    backgroundColor: 'rgba(0,0,0,0.3)',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -343,8 +258,6 @@ const styles = StyleSheet.create({
   informationContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    borderTopColor: borderColorVer2,
-    borderTopWidth: 1,
   },
   rating: {
     marginStart: 18,
@@ -353,16 +266,16 @@ const styles = StyleSheet.create({
   informationWrapper: {
     flexDirection: 'row',
     backgroundColor: 'rgb(90,90,90)',
-    paddingVertical: 8,
+    paddingVertical: 9,
     flex: 1,
     marginVertical: 27,
   },
   information: {
     flexDirection: 'row',
     flex: 1,
-    paddingHorizontal: 38,
     justifyContent: 'space-between',
     alignItems: 'center',
+    paddingHorizontal: 16,
   },
   informationTitle: {
     color: 'rgb(215,215,215)',
@@ -371,11 +284,14 @@ const styles = StyleSheet.create({
     fontFamily: boldFontFamily,
     fontSize: 22,
     color: 'white',
+    flex: 1,
+    textAlign: 'center'
   },
   informationDescription: {
     color: 'white',
     fontSize: 10,
     fontFamily: mediumFontFamily,
+    alignSelf: 'flex-end',
   },
   locateWrapper: {
     flexDirection: 'row',
@@ -388,8 +304,10 @@ const styles = StyleSheet.create({
     height: 24,
     marginRight: 6,
   },
+  location: {
+    color: defaultColor,
+  },
   upload: {
-    position: 'absolute',
     width: 32,
     height: 37,
   },
@@ -407,5 +325,11 @@ const styles = StyleSheet.create({
   camera: {
     width: 34,
     height: 34,
+  },
+  value: {
+    color: 'white',
+    fontFamily: boldFontFamily,
+    fontSize: 12,
+    alignSelf: 'flex-end',
   },
 });

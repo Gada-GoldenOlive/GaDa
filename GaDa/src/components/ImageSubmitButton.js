@@ -54,7 +54,6 @@ const HeaderImageSubmitButton = props => {
         list.push({ url: uri });
         fileList.push(image.imageData);
         if (isThumbnail) {
-          console.log(uri);
 
           dispatch(setThumbnailImage(uri));
           dispatch(setThumbnailFile(image.imageData));

@@ -1,7 +1,7 @@
 import axios, { handleNetworkError } from '../index';
 
 export const createReview = async reviewData => {
-  console.log({ reviewData });
+  console.log({reviewData});
   const res = await axios
     .post(`/reviews`, { ...reviewData })
     .then(({ data }) => {

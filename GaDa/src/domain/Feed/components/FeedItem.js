@@ -25,6 +25,7 @@ const FeedItem = ({ item, index, handleDetailFeed }) => {
   return (
     <TouchableWithoutFeedback onPress={() => handleDetailFeed(id)}>
       <View style={styles.itemContainer}>
+      <View style={styles.radient} />
         <View style={styles.topContainer}>
           <View style={styles.userContainer}>
             <View style={styles.userWrapper}>
@@ -35,8 +36,7 @@ const FeedItem = ({ item, index, handleDetailFeed }) => {
                   style={styles.rating}
                   readonly
                   size={11}
-                  score={item.score}
-                  starMargin={star}
+                  score={star}
                   tintColor="white"
                 />
               </View>
@@ -45,7 +45,6 @@ const FeedItem = ({ item, index, handleDetailFeed }) => {
           </View>
         </View>
         <CustomImage source={{uri: walkwayImage}} style={styles.headerImage} />
-        <View style={styles.radient} />
         <View style={styles.bottomContainer}>
           <Text style={styles.title}>{title}</Text>
           <View style={styles.bottomWrapper}>

@@ -269,12 +269,12 @@ const WalkwayListComponent = ({
   };
 
   useEffect(() => {
-    setNowPath(list[focusedIndex].path);
-    setStartPoint(list[focusedIndex].startPoint);
+    setNowPath(list[focusedIndex]?.path);
+    setStartPoint(list[focusedIndex]?.startPoint);
   }, [focusedIndex, list]);
 
   useEffect(() => {
-    if(list.length > 2) {
+    if (list.length > 2) {
       getPinList(list[focusedIndex].id);
     }
   }, [nowPath]);

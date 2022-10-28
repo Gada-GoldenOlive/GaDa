@@ -1,6 +1,6 @@
 import React from 'react';
 import SettingPageScreen from '../screen/SettingPageScreen';
-import { removeInLocalStorage } from '../../../function';
+import { removeInLocalStorage, setIsFirstStart } from '../../../function';
 import RNRestart from 'react-native-restart';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteUser } from '../../../APIs/user';
@@ -15,6 +15,10 @@ const SettingPageContainer = ({ navigation }) => {
   const handleNavigatePW = () => {
     navigation.navigate('ModifyPW');
   };
+
+  const handleNaivgateGuide = () => {
+    navigation.navigate('UserGuide');
+  }
   const handleLogout = async () => {
     await removeInLocalStorage();
     dispatch(setIsAuthenticated(false));
@@ -25,6 +29,7 @@ const SettingPageContainer = ({ navigation }) => {
     await removeInLocalStorage();
     await deleteUser(userId);
     dispatch(setIsAuthenticated(false));
+    await setIsFirstStart('0');
     RNRestart.Restart();
     return null;
   };
@@ -34,6 +39,7 @@ const SettingPageContainer = ({ navigation }) => {
       handleNavigatePW={handleNavigatePW}
       handleLogout={handleLogout}
       handleSignOut={handleSignOut}
+      handleNaivgateGuide={handleNaivgateGuide}
     />
   );
 };

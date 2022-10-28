@@ -18,6 +18,8 @@ import StarIcon from '../../../constant/images/Star';
 import PinInformation from './PinInformation';
 import { GadaCheck } from '../../../constant/images/Check';
 import { getDistance } from '../../../function';
+import { deleteWalkway } from '../../../APIs/walkway';
+import { useSelector } from 'react-redux';
 const WalkwayOverview = ({
   walkWay,
   handleOverview,
@@ -46,9 +48,10 @@ const WalkwayOverview = ({
     });
   };
 
-  const copyToClipboard = () => {
+  const copyToClipboard = async () => {
     Clipboard.setString(address);
     showToast();
+
   };
   return (
     <Modal

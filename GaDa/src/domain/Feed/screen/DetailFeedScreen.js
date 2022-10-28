@@ -43,7 +43,6 @@ const DetailFeedScreen = ({ feedInfo, feedLike, feedId, feedImages, handleNaviga
     walkwayImage,
     walkwayTitle,
   } = feedInfo;
-  console.log(address);
   return (
     <View style={styles.container}>
       <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
@@ -91,8 +90,8 @@ const DetailFeedScreen = ({ feedInfo, feedLike, feedId, feedImages, handleNaviga
             </View>
           </View>
         </View>
+        <ReviewImageList images={feedImages} handleNavigate={handleNavigate}/>
         <View style={styles.bottomContainer}>
-          <ReviewImageList images={feedImages} handleNavigate={handleNavigate}/>
           <View style={styles.contentContainer}>
             <Text style={styles.content}>{content}</Text>
             <View style={styles.locationWrapper}>
