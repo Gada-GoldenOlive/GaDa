@@ -5,6 +5,8 @@ import {
   StyleSheet,
   View,
   TouchableWithoutFeedback,
+  SafeAreaView,
+  Platform,
 } from 'react-native';
 import ExpandingDot from '../../../components/ExpandingDots';
 import { useNavigation } from '@react-navigation/core';
@@ -25,6 +27,10 @@ import { windowHeight, windowWidth } from '../../../constant/styles';
 import { boldFontFamily, extraBoldFontFamily } from '../../../constant/fonts';
 import HeaderBackButton from '../../../components/BackButton';
 import CustomButton from '../../../components/CustomButton';
+
+import DeviceInfo from 'react-native-device-info';
+
+const hasNotch = DeviceInfo.hasNotch();
 
 const UserGuideLineScreen = () => {
   const SLIDER_DATA = [
@@ -119,6 +125,10 @@ const UserGuideLineScreen = () => {
     );
   };
   return (
+    // <SafeAreaView
+    //   edges={['bottom']}
+    //   style={{ flex: 1, backgroundColor: 'rgb(40,40,40)' }}
+    // >
     <View style={{ flex: 1 }}>
       <FlatList
         data={SLIDER_DATA}
@@ -159,6 +169,7 @@ const UserGuideLineScreen = () => {
         </View>
       )}
     </View>
+    // </SafeAreaView>
   );
 };
 
@@ -180,7 +191,7 @@ const styles = StyleSheet.create({
   bottomContainer: {
     width: windowWidth,
     position: 'absolute',
-    bottom: 20,
+    bottom: Platform.OS === 'ios' && hasNotch ? 20 : 0,
   },
   iconContainer: {
     width: windowWidth,

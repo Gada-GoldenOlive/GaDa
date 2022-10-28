@@ -36,6 +36,7 @@
     "react-native-animated-pagination-dots": "^0.1.73",
     "react-native-avoid-softinput": "^3.0.2",
     "react-native-aws3": "^0.0.9",
+    "react-native-device-info": "^10.3.0",
     "react-native-fast-image": "^8.5.11",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-get-random-values": "^1.8.0",
