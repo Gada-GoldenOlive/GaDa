@@ -102,6 +102,7 @@ const MapScreen = ({
               }) *
                 1000 >
               3
+
             )
               setCurrentState((prev) => ({
                 ...prev,
@@ -165,6 +166,15 @@ const MapScreen = ({
   };
 
   useEffect(() => {
+    // navigator.permissions.query({ name: "geolocation" }).then((result) => {
+    //   alert("hi");
+    //   if (result.state === "granted") {
+    //     geoLocation();
+    //   } else if (result.state === "prompt") {
+    //     alert("지도를 사용하기 위해서는 위치 권한 허용이 필요합니다.");
+    //   }
+    //   // Don't do anything if the permission was denied.
+    // });
     geoLocation();
   }, []);
 
@@ -194,6 +204,7 @@ const MapScreen = ({
     geoLocation("watch");
     // }, 1000);
   });
+
 
   const handleCurrentPos = (nowPos) => {
     setState((prev) => ({
