@@ -18,7 +18,7 @@ import IDContainer from '../domain/Auth/container/IDContainer';
 import PWContainer from '../domain/Auth/container/PWContainer';
 import NicknameContainer from '../domain/Auth/container/NicknameContainer';
 import ModifyNicknameContainer from '../domain/Auth/container/ModifyNicknameContainer';
-
+import UserGuideLineScreen from '../domain/Home/screen/UserGuideLineScreen';
 // FRIENDS
 import AddFriendsContainer from '../domain/Friends/container/AddFriendsContainer';
 import FriendsAlarmContainer from '../domain/Friends/container/FriendsAlarmContainer';
@@ -116,6 +116,10 @@ const createWalkwayScreens = [
   },
   { name: 'CreateReview', title: '리뷰', screen: CreateReviewContainer },
 ];
+
+const userGuideLineScreen = {
+  UserGuide: UserGuideLineScreen,
+};
 
 const RootStack = createStackNavigator();
 const RootNavigation = () => {
@@ -330,6 +334,20 @@ const RootNavigation = () => {
           />
         );
       })}
+      {Object.entries({
+        ...userGuideLineScreen,
+      }).map(([name, component]) => (
+        <RootStack.Screen
+          key={name}
+          name={name}
+          component={component}
+          options={{
+            headerShown: false,
+            title: '',
+            headerLeft: () => <BackButton />,
+          }}
+        />
+      ))}
       <RootStack.Screen name="BottomTab" component={BottomTab} />
     </RootStack.Navigator>
   );

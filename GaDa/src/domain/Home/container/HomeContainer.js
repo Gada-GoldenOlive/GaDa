@@ -21,6 +21,8 @@ import {
   getDistanceFromLatLonInKm,
   getDuringTime,
   getIdInLocalStorage,
+  getIsFirstStart,
+  setIsFirstStart,
 } from '../../../function';
 import { setStartTime } from '../../../redux/modules/status';
 import { get } from 'react-native/Libraries/Utilities/PixelRatio';
@@ -33,6 +35,7 @@ import { set } from 'react-native-reanimated';
 import { createReview } from '../../../APIs/review';
 import jwtDecode from 'jwt-decode';
 import { createPin } from '../../../APIs/pin';
+import UserGuideLineScreen from '../screen/UserGuideLineScreen';
 
 // * 현재위치
 // 일정 시간 후 주기적으로 반복해서 geoLocation 해주기!
@@ -91,16 +94,24 @@ const HomeContainer = ({ navigation, route }) => {
   const { userId } = useSelector(state => state.user);
 
   // redux 정보
-  const { pinNum, currentPosition, isRestart, isCreate, tempWalkwayData, pinList } =
-    useSelector(state => state.status);
+  const {
+    pinNum,
+    currentPosition,
+    isRestart,
+    isCreate,
+    tempWalkwayData,
+    pinList,
+  } = useSelector(state => state.status);
 
-  const geoLocation = () => {
+  const geoLocation = ref => {
     Geolocation.getCurrentPosition(
       position => {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
 
         setCurrentPos({ lat: latitude, lng: longitude });
+        dispatch(setCurrentPosition({ lat: latitude, lng: longitude }));
+        handleConnection(ref, 'currentPos');
       },
       error => {
         console.log(error.code, error.message);
@@ -192,6 +203,11 @@ const HomeContainer = ({ navigation, route }) => {
       path = locationList;
       start = locationList[0];
       nowPos = locationList[locationList.length - 1];
+    } else if (ver === 'searchThisPos') {
+      // console.log('hi');
+    } else if (ver === 'currentPos') {
+      nowPos = currentPos;
+      // console.log({ currentPosition });
     }
     // 적지는 않았지만 currentPos도 되고 있음 -> 변수 선언을 안 할뿐
     const generateOnMessageFunction = data =>
@@ -208,14 +224,14 @@ const HomeContainer = ({ navigation, route }) => {
         pins: pins,
         startPoint: start,
         name: selectedItem.title,
-        nowPos,
+        nowPos: currentPosition,
       }),
     );
   };
 
   const closeModal = () => {
     if (isRestart) {
-      setCurrentPos(currentPosition);
+      // setCurrentPos(currentPosition);
       dispatch(setIsRestart(false));
     }
     setIsVisible(false);
@@ -232,8 +248,7 @@ const HomeContainer = ({ navigation, route }) => {
   const closeInformation = () => {
     console.log('closeinfo');
     if (isRestart) {
-      console.log(isRestart);
-      setCurrentPos(currentPosition);
+      // setCurrentPos(currentPosition);
       dispatch(setIsRestart(false));
     }
 
@@ -318,13 +333,12 @@ const HomeContainer = ({ navigation, route }) => {
   };
 
   const handleShareButton = async () => {
-
     const walkway = tempWalkwayData.walkwayforUpdate;
     const forFeed = tempWalkwayData.forFeed;
     const id = walkway.id;
-    const res = await updateWalkway(id, { ...walkway, status: 'NORMAL'});
+    const res = await updateWalkway(id, { ...walkway, status: 'NORMAL' });
     if (res) {
-      navigation.navigate('CreateReview', {item: {...forFeed}});
+      navigation.navigate('CreateReview', { item: { ...forFeed } });
     } else {
       showToast2();
     }
@@ -373,7 +387,10 @@ const HomeContainer = ({ navigation, route }) => {
       const res2 = await createWalk(nowWalk);
       if (pinList.length > 0) {
         pinList.map(async pinData => {
-          const pinRes = await createPin({ ...pinData, walkwayId: selectedItem.id });
+          const pinRes = await createPin({
+            ...pinData,
+            walkwayId: selectedItem.id,
+          });
           if (pinRes) {
             const { achieves = [] } = pinRes;
             if (achieves.length > 0) {
@@ -426,6 +443,14 @@ const HomeContainer = ({ navigation, route }) => {
         index: 0,
         routes: [{ name: 'SignIn' }],
       });
+    } else {
+      // 제일 처음 어플을 실행하면 가이드라인 보여지도록 구현
+      getIsFirstStart().then(value => {
+        if (value) {
+          setIsFirstStart('1');
+          navigation.navigate('UserGuide');
+        }
+      });
     }
   };
 
@@ -442,6 +467,7 @@ const HomeContainer = ({ navigation, route }) => {
 
   useEffect(() => {
     getAccess();
+    //navigation.navigate('UserGuide');
   }, [isAuthenticated]);
 
   useEffect(() => {

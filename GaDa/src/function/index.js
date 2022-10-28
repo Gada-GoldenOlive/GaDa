@@ -19,6 +19,15 @@ export const removeInLocalStorage = async () => {
     reloadApp();
   }
 };
+export const setIsFirstStart = async status => {
+  await AsyncStorage.setItem('isFirstStart', status);
+};
+
+export const getIsFirstStart = async () => {
+  const isFirstStart = await AsyncStorage.getItem('isFirstStart');
+  return isFirstStart !== '1';
+};
+
 
 export const setIdInLocalStorage = async id => {
   await AsyncStorage.setItem('id', id);

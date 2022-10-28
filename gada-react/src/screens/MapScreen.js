@@ -51,6 +51,7 @@ const MapScreen = ({
   const [walkwayPins, setWalkwayPins] = useState("null");
   const [pathStartPoint, setPathStartPoint] = useState("null");
   const [isFirstRecording, setIsFirstRecording] = useState(true);
+  const [isSearchThisPosClicked, setIsSearchThisPosClicked] = useState(false);
 
   const [movingCurrentList, setMovingCurrentList] = useState();
 
@@ -100,7 +101,7 @@ const MapScreen = ({
                 lng2: center.lng,
               }) *
                 1000 >
-              9
+              3
             )
               setCurrentState((prev) => ({
                 ...prev,
@@ -189,16 +190,35 @@ const MapScreen = ({
   }, [isGeolocation]);
 
   useEffect(() => {
-    setInterval(() => {
-      geoLocation("watch");
-    }, 1000);
-  }, []);
+    // setInterval(() => {
+    geoLocation("watch");
+    // }, 1000);
+  });
 
+  const handleCurrentPos = (nowPos) => {
+    setState((prev) => ({
+      ...prev,
+      center: {
+        lat: nowPos.lat, // 위도
+        lng: nowPos.lng, // 경도
+      },
+      isLoading: false,
+    }));
+    setCurrentState((prev) => ({
+      ...prev,
+      center: {
+        lat: nowPos.lat, // 위도
+        lng: nowPos.lng, // 경도
+      },
+      isLoading: false,
+    }));
+  };
   const handleReceiveMessage = async () => {
     await window.addEventListener("message", (event) => {
       if (event.data.type === "currentPos") {
-        setIsCurrentPosClicked(true);
+        // setIsCurrentPosClicked(true);
 
+        handleCurrentPos(event.data.nowPos);
         // alert(JSON.stringify(event.data));
         // alert("message received: " + event.data);
       } else if (event.data.type === "addPin") {
@@ -243,11 +263,22 @@ const MapScreen = ({
         setWalkwayPath("null");
         setWalkwayPins("null");
         setPathStartPoint("null");
+      } else if (event.data.type === "searchThisPos") {
+        setIsSearchThisPosClicked(true);
+        setWalkwayPath("null");
+        setWalkwayPins("null");
+        setPathStartPoint("null");
       }
     });
   };
 
   // 각 버튼 클릭시 실행할 것들
+  useEffect(() => {
+    if (isSearchThisPosClicked) {
+      handleSubmit("searchThisPos", position);
+    }
+    setIsSearchThisPosClicked(false);
+  }, [isSearchThisPosClicked]);
   useEffect(() => {
     if (isCurrentPosClicked === true) {
       geoLocation();
@@ -293,6 +324,7 @@ const MapScreen = ({
         center={
           // 지도의 중심좌표
           state.center
+
           // {
           //   lat: 33.452344169439975,
           //   lng: 126.56878163224233,
@@ -317,6 +349,13 @@ const MapScreen = ({
         onCenterChanged={(map) => handlePolylineDrag(map)}
         // onRightClick={(map) => <DrawPolylineFromKakao map={map} />}
         // onCreate={setMap()}
+        onDragEnd={(map) =>
+          setState((prev) => ({
+            ...prev,
+            center: position,
+            isLoading: false,
+          }))
+        }
       >
         {/* 현재 위치 */}
         {/* <GeoLocationMarker setCenter={setCenter} /> */}
