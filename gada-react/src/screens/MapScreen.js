@@ -102,7 +102,6 @@ const MapScreen = ({
               }) *
                 1000 >
               3
-
             )
               setCurrentState((prev) => ({
                 ...prev,
@@ -205,7 +204,6 @@ const MapScreen = ({
     // }, 1000);
   });
 
-
   const handleCurrentPos = (nowPos) => {
     setState((prev) => ({
       ...prev,
@@ -227,9 +225,9 @@ const MapScreen = ({
   const handleReceiveMessage = async () => {
     await window.addEventListener("message", (event) => {
       if (event.data.type === "currentPos") {
-        // setIsCurrentPosClicked(true);
-
-        handleCurrentPos(event.data.nowPos);
+        phoneType === "ios"
+          ? setIsCurrentPosClicked(true)
+          : handleCurrentPos(event.data.nowPos);
         // alert(JSON.stringify(event.data));
         // alert("message received: " + event.data);
       } else if (event.data.type === "addPin") {
