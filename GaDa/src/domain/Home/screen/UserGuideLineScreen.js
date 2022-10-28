@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
   bottomContainer: {
     width: windowWidth,
     position: 'absolute',
-    bottom: 0,
+    bottom: 20,
   },
   iconContainer: {
     width: windowWidth,
@@ -200,10 +200,10 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: '35%',
   },
-  buttonText:{
+  buttonText: {
     fontFamily: boldFontFamily,
     fontSize: 18,
-    color: 'white'
+    color: 'white',
   },
   right: {
     //backgroundColor: 'red',
