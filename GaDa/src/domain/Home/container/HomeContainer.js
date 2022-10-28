@@ -217,7 +217,7 @@ const HomeContainer = ({ navigation, route }) => {
     )}}));
   })()`;
 
-    ref.current.injectJavaScript(
+    ref.current?.injectJavaScript(
       generateOnMessageFunction({
         type: ver,
         path: path,
