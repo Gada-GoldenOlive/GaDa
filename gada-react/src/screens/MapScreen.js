@@ -221,6 +221,10 @@ const MapScreen = ({
       },
       isLoading: false,
     }));
+    setPosition({
+      lat: nowPos.lat, // 위도
+      lng: nowPos.lng, // 경도
+    });
   };
   const handleReceiveMessage = async () => {
     await window.addEventListener("message", (event) => {
