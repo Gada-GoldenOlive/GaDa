@@ -225,9 +225,9 @@ const MapScreen = ({
   const handleReceiveMessage = async () => {
     await window.addEventListener("message", (event) => {
       if (event.data.type === "currentPos") {
-        setIsCurrentPosClicked(true);
+        // setIsCurrentPosClicked(true);
 
-        // handleCurrentPos(event.data.nowPos);
+        handleCurrentPos(event.data.nowPos);
 
         // alert(JSON.stringify(event.data));
         // alert("message received: " + event.data);
