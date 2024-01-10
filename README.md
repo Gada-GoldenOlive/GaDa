@@ -15,9 +15,6 @@
 
 [앱스토어]
 [‎GaDa - 가다](https://apps.apple.com/kr/app/gada-가다/id6443927440)
-
-[플레이스토어]
-[GaDa - Apps on Google Play](https://play.google.com/store/apps/details?id=com.gada)
 <br/>
 <br/>
 
